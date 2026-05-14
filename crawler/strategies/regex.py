@@ -25,23 +25,45 @@ def _parse_deadline_date(text: str) -> str | None:
     Handles formats like:
       - "Tuesday, August 26, 2025, 11:59 pm AoE"
       - "Thursday, February 5, 2026"
+      - "Jan 7, 2026"
+      - "Wed, 23 April 2025"
+      - "June 5, 2025"
     """
     text = text.strip()
-    # Remove day-of-week prefix if present (e.g. "Tuesday, ")
-    text = re.sub(r"^[A-Z][a-z]+day,\s*", "", text)
+    # Remove day-of-week prefix if present (e.g. "Tuesday, " or "Wed, ")
+    text = re.sub(r"^[A-Z][a-z]+(?:day)?,\s*", "", text)
+    # Normalize non-standard abbreviations (e.g. "Sept" → "Sep")
+    text = re.sub(r"\bSept\b", "Sep", text)
 
-    # Try with time + timezone: "August 26, 2025, 11:59 pm AoE"
-    # Extract and strip timezone suffix after am/pm
+    # Strip trailing qualifier words (mandatory, etc.)
+    text = re.sub(r"\s+(?:mandatory|optional)\b.*$", "", text, flags=re.IGNORECASE)
+
+    # Strip timezone suffix after am/pm or at end
+    cleaned = re.sub(r"\s+(?:AoE|UTC|EST|PST|PT|ET|AOE)\s*$", "", text.strip())
+
+    # Try formats with explicit time first
     for fmt in (
         "%B %d, %Y, %I:%M %p",
         "%B %d, %Y, %I:%M%p",
-        "%B %d, %Y",
+        "%b %d, %Y, %I:%M %p",
+        "%b %d, %Y, %I:%M%p",
     ):
-        # Strip known timezone suffixes
-        cleaned = re.sub(r"\s+(?:AoE|UTC|EST|PST|PT|ET|AOE)\s*$", "", text.strip())
         try:
             dt = datetime.strptime(cleaned.strip(), fmt)
             return dt.strftime("%Y-%m-%d %H:%M")
+        except ValueError:
+            continue
+
+    # Date-only formats — default to 23:59 (end of day, AoE convention)
+    for fmt in (
+        "%B %d, %Y",     # August 26, 2025
+        "%b %d, %Y",     # Aug 26, 2025
+        "%d %B %Y",      # 23 April 2025
+        "%d %b %Y",      # 23 Apr 2025
+    ):
+        try:
+            dt = datetime.strptime(cleaned.strip(), fmt)
+            return dt.replace(hour=23, minute=59).strftime("%Y-%m-%d %H:%M")
         except ValueError:
             continue
 
@@ -119,17 +141,31 @@ class RegexStrategy(BaseStrategy):
         return date, place
 
     @staticmethod
-    def _extract_deadlines(selectors: dict, html: str) -> list[str]:
-        pattern = selectors.get("deadline")
-        if not pattern:
+    def _extract_deadlines(selectors: dict, html: str) -> list[dict]:
+        # Optionally narrow HTML to a section first
+        section_pattern = selectors.get("section")
+        if section_pattern:
+            m = re.search(section_pattern, html, re.DOTALL | re.IGNORECASE)
+            if m:
+                html = m.group(0)
+            else:
+                return []
+
+        deadline_specs = selectors.get("deadlines", [])
+        if not deadline_specs:
             return []
 
-        matches = re.findall(pattern, html, re.DOTALL | re.IGNORECASE)
         deadlines = []
-        for match in matches:
-            parsed = _parse_deadline_date(match)
-            if parsed and parsed not in deadlines:
-                deadlines.append(parsed)
+        seen_dates = set()
+        for spec in deadline_specs:
+            label = spec["label"]
+            pattern = spec["pattern"]
+            matches = re.findall(pattern, html, re.DOTALL | re.IGNORECASE)
+            for match in matches:
+                parsed = _parse_deadline_date(match)
+                if parsed and parsed not in seen_dates:
+                    seen_dates.add(parsed)
+                    deadlines.append({"label": label, "date": parsed})
         return deadlines
 
     @staticmethod

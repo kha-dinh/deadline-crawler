@@ -2,10 +2,14 @@
 test:
     uv run pytest tests/ -v
 
-# Crawl a specific conference live (e.g. just crawl "USENIX Security")
-crawl name:
-    uv run python -c "from crawler.strategy import crawl_conference; from crawler.config import load_conferences; confs = load_conferences('conferences.yaml'); matches = [c for c in confs if c['name'].lower() == '{{name}}'.lower()]; assert matches, 'Conference not found: {{name}}'; results = crawl_conference(matches[0], 2026); [print(f'--- {r.cycle or r.name} ---\n  Deadlines: {r.deadlines}\n  Date: {r.date}\n  Place: {r.place}\n  Description: {r.description}\n  Tags: {r.tags}\n') for r in results]"
+# Crawl a specific conference and export
+crawl name format="json":
+    uv run python main.py crawl --conf "{{name}}" --format {{format}}
 
-# Crawl all configured conferences live
-crawl-all:
-    uv run python -c "from crawler.strategy import crawl_all; results = crawl_all(year=2026); [print(f'{r.name} ({r.cycle or \"single\"}): {r.deadlines}') for r in results]"
+# Crawl all conferences and export
+crawl-all format="json":
+    uv run python main.py crawl --format {{format}}
+
+# Crawl and export to specific file
+crawl-to name output format="json":
+    uv run python main.py crawl --conf "{{name}}" --output {{output}} --format {{format}}

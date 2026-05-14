@@ -10,7 +10,7 @@ class CrawlResult:
     name: str
     year: int
     link: str
-    deadlines: list[str] = field(default_factory=list)
+    deadlines: list[dict] = field(default_factory=list)  # [{label: str, date: str}]
     cycle: str | None = None
     date: str | None = None
     place: str | None = None

@@ -64,14 +64,18 @@ def crawl_conference(conf: dict, year: int) -> list[CrawlResult]:
 
 def crawl_all(
     config_path: str = "conferences.yaml",
-    year: int | None = None,
+    years: list[int] | None = None,
     name_filter: str | None = None,
 ) -> list[CrawlResult]:
-    """Crawl all (or filtered) conferences from config."""
+    """Crawl all (or filtered) conferences from config.
+
+    Args:
+        years: List of target years. Defaults to [current_year] if None.
+    """
     import datetime
 
-    if year is None:
-        year = datetime.datetime.now().year + 1
+    if years is None:
+        years = [datetime.datetime.now().year]
 
     _ensure_strategies_loaded()
     conferences = load_conferences(config_path)
@@ -80,6 +84,7 @@ def crawl_all(
     for conf in conferences:
         if name_filter and conf["name"].lower() != name_filter.lower():
             continue
-        results.extend(crawl_conference(conf, year))
+        for year in years:
+            results.extend(crawl_conference(conf, year))
 
     return results

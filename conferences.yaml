@@ -20,10 +20,36 @@
   cycles:
     - name: "Cycle 1"
       selectors:
-        deadline: 'id="cycle1".*?Paper submissions.*?due:\s*<strong>(.*?)</strong>'
+        section: 'id="cycle1".*?(?=id="cycle2"|<h3.*Submission Deadlines)'
+        deadlines:
+          - label: abstract
+            pattern: 'Mandatory registration.*?due:\s*<strong>(.*?)</strong>'
+          - label: submission
+            pattern: 'Paper submissions.*?due:\s*<strong>(.*?)</strong>'
+          - label: early_reject
+            pattern: 'Early reject notification:\s*<strong>(.*?)</strong>'
+          - label: notification
+            pattern: 'Notification to authors:\s*<strong>(.*?)</strong>'
+          - label: shepherd
+            pattern: 'Shepherded approval due:\s*<strong>(.*?)</strong>'
+          - label: camera_ready
+            pattern: 'Final paper files due:\s*<strong>(.*?)</strong>'
     - name: "Cycle 2"
       selectors:
-        deadline: 'id="cycle2".*?Paper submissions.*?due:\s*<strong>(.*?)</strong>'
+        section: 'id="cycle2".*?(?=<h3.*Submission Deadlines|<h2|$)'
+        deadlines:
+          - label: abstract
+            pattern: 'Mandatory registration.*?due:\s*<strong>(.*?)</strong>'
+          - label: submission
+            pattern: 'Paper submissions due:\s*<strong>(.*?)</strong>'
+          - label: early_reject
+            pattern: 'Early reject notification:\s*<strong>(.*?)</strong>'
+          - label: notification
+            pattern: 'Notification to authors:\s*<strong>(.*?)</strong>'
+          - label: shepherd
+            pattern: 'Shepherded approval due:\s*<strong>(.*?)</strong>'
+          - label: camera_ready
+            pattern: 'Final paper files due:\s*<strong>(.*?)</strong>'
   main_selectors:
     date: ".field-name-field-date-text .field-item"
     place: ".field-name-field-address-text .field-item"
@@ -33,87 +59,161 @@
 - name: "S&P"
   # Pattern: sp{YYYY}.ieee-security.org — consistent across years
   url: https://sp{YYYY}.ieee-security.org/cfpapers.html
-  strategy: css
+  strategy: regex
   tags: [SEC, TIER1]
-  selectors:
-    deadline: null   # TBD — inspect page
-    date: null
-    place: null
+  cycles:
+    - name: "Cycle 1"
+      selectors:
+        section: 'id="first-deadline".*?</ul>'
+        deadlines:
+          - label: abstract
+            pattern: '<li>Abstract registration deadline:\s*(.*?)(?:\s+mandatory)?</li>'
+          - label: submission
+            pattern: '<li>Paper submission deadline:\s*(.*?)</li>'
+          - label: early_reject
+            pattern: '<li>Early-reject notification:\s*(.*?)</li>'
+          - label: notification
+            pattern: '<li>Acceptance notification:\s*(.*?)</li>'
+          - label: camera_ready
+            pattern: '<li>Camera-ready deadline:\s*(.*?)</li>'
+    - name: "Cycle 2"
+      selectors:
+        section: 'id="second-deadline".*?</ul>'
+        deadlines:
+          - label: abstract
+            pattern: '<li>Abstract.*?registration deadline:\s*(.*?)(?:,\s*mandatory)?(?:\s*\(.*?\))?</li>'
+          - label: submission
+            pattern: '<li>Paper submission deadline:\s*(.*?)</li>'
+          - label: early_reject
+            pattern: '<li>Early-reject notification:\s*(.*?)</li>'
+          - label: notification
+            pattern: '<li>Acceptance notification:\s*(.*?)</li>'
+          - label: camera_ready
+            pattern: '<li>Camera-ready deadline:\s*(.*?)</li>'
   overrides:
     description: "IEEE Symposium on Security and Privacy"
 
 - name: CCS
   # Pattern: sigsac.org/ccs/CCS{YYYY} — consistent across years
-  url: https://www.sigsac.org/ccs/CCS{YYYY}
-  strategy: css
+  url: https://www.sigsac.org/ccs/CCS{YYYY}/call-for/call-for-papers.html
+  strategy: regex
   tags: [SEC, TIER1]
-  selectors:
-    deadline: null
-    date: null
-    place: null
+  cycles:
+    - name: "Cycle A"
+      selectors:
+        section: 'id="first-review-cycle".*?</ul>'
+        deadlines:
+          - label: abstract
+            pattern: '<li><strong>Abstract submission deadline</strong><br>\s*(.*?)(?:\s*<em>.*?)?</li>'
+          - label: submission
+            pattern: '<li><strong>Full paper submission deadline</strong><br>\s*(.*?)(?:\s*<em>.*?)?</li>'
+          - label: early_reject
+            pattern: '<li><strong>Notification of early-rejection papers</strong><br>\s*(.*?)</li>'
+          - label: rebuttal_end
+            pattern: '<li><strong>Rebuttal deadline</strong><br>\s*(.*?)</li>'
+          - label: notification
+            pattern: '<li><strong>Author notification</strong><br>\s*(.*?)</li>'
+          - label: camera_ready
+            pattern: '<li><strong>Camera ready deadline</strong><br>\s*(.*?)</li>'
+    - name: "Cycle B"
+      selectors:
+        section: 'id="second-review-cycle".*?</ul>'
+        deadlines:
+          - label: abstract
+            pattern: '<li><strong>Abstract submission deadline</strong><br>\s*(.*?)(?:\s*<em>.*?)?</li>'
+          - label: submission
+            pattern: '<li><strong>Full paper submission deadline</strong><br>\s*(.*?)(?:\s*<em>.*?)?</li>'
+          - label: early_reject
+            pattern: '<li><strong>Notification of early-rejection papers</strong><br>\s*(?:<s>.*?</s>\s*)?(.*?)</li>'
+          - label: rebuttal_end
+            pattern: '<li><strong>Rebuttal deadline</strong><br>\s*(.*?)</li>'
+          - label: notification
+            pattern: '<li><strong>Author notification</strong><br>\s*(.*?)</li>'
+          - label: camera_ready
+            pattern: '<li><strong>Camera ready deadline</strong><br>\s*(.*?)</li>'
   overrides:
     description: "ACM Conference on Computer and Communications Security"
 
 - name: NDSS
   # Pattern: ndss-symposium.org/ndss{YYYY}/... — consistent across years
   url: https://www.ndss-symposium.org/ndss{YYYY}/submissions/call-for-papers/
-  strategy: css
+  strategy: regex
   tags: [SEC, TIER1]
-  selectors:
-    deadline: null
-    date: null
-    place: null
+  cycles:
+    - name: "Summer"
+      selectors:
+        section: "Summer Cycle</h3>.*?(?=Fall Cycle</h3>|<h3)"
+        deadlines:
+          - label: submission
+            pattern: '<li>\w+,\s*([^<:]+):\s*Paper submission deadline'
+          - label: early_reject
+            pattern: '<li>\w+,\s*([^<:]+):\s*Early reject'
+          - label: notification
+            pattern: '<li>\w+,\s*([^<:]+):\s*Author notification<'
+          - label: camera_ready
+            pattern: '<li>\w+,\s*([^<:]+):\s*Camera Ready deadline'
+    - name: "Fall"
+      selectors:
+        section: "Fall Cycle</h3>.*?(?=<h2|<h3|$)"
+        deadlines:
+          - label: submission
+            pattern: '<li>\w+,\s*([^<:]+):\s*Paper submission deadline'
+          - label: early_reject
+            pattern: '<li>\w+,\s*([^<:]+):\s*Early reject'
+          - label: notification
+            pattern: '<li>\w+,\s*([^<:]+):\s*Author notification<'
+          - label: camera_ready
+            pattern: '<li>\w+,\s*([^<:]+):\s*Camera Ready deadline'
   overrides:
     description: "ISOC Network and Distributed System Security Symposium"
-
 ########################  Security — TIER2  ########################
 
-- name: ESORICS
-  # Pattern: esorics{YYYY}.org — but domain changes per year, unpredictable
-  url: https://www.esorics{YYYY}.org/
-  url_fixed: true   # domain varies — verify/update annually
-  strategy: css
-  tags: [SEC, TIER2]
-  selectors:
-    deadline: null
-    date: null
-    place: null
-  overrides:
-    description: "European Symposium on Research in Computer Security"
-
-- name: ASIACCS
-  # Pattern varies: host changes per year (iitkgp, etc.), unpredictable
-  url: null
-  url_fixed: true   # host changes per year — must update manually
-  strategy: css
-  tags: [SEC, TIER2]
-  selectors:
-    deadline: null
-    date: null
-    place: null
-  overrides:
-    description: "ACM Asia Conference on Computer and Communications Security"
-
-- name: RAID
-  # Pattern: raid{YYYY}.github.io — consistent
-  url: https://raid{YYYY}.github.io/index.html
-  strategy: css
-  tags: [SEC, TIER2]
-  selectors:
-    deadline: null
-    date: null
-    place: null
-  overrides:
-    description: "International Symposium on Research in Attacks, Intrusions and Defenses"
-
-- name: ACSAC
-  # Pattern: acsac.org/{YYYY}/ — consistent
-  url: https://www.acsac.org/{YYYY}/
-  strategy: css
-  tags: [SEC, TIER2]
-  selectors:
-    deadline: null
-    date: null
-    place: null
-  overrides:
-    description: "Annual Computer Security Applications Conference"
+# - name: ESORICS
+#   # Pattern: esorics{YYYY}.org — but domain changes per year, unpredictable
+#   url: https://www.esorics{YYYY}.org/
+#   url_fixed: true   # domain varies — verify/update annually
+#   strategy: regex
+#   tags: [SEC, TIER2]
+#   selectors:
+#     deadline: null
+#     date: null
+#     place: null
+#   overrides:
+#     description: "European Symposium on Research in Computer Security"
+#
+# - name: ASIACCS
+#   # Pattern varies: host changes per year (iitkgp, etc.), unpredictable
+#   url: null
+#   url_fixed: true   # host changes per year — must update manually
+#   strategy: regex
+#   tags: [SEC, TIER2]
+#   selectors:
+#     deadline: null
+#     date: null
+#     place: null
+#   overrides:
+#     description: "ACM Asia Conference on Computer and Communications Security"
+#
+# - name: RAID
+#   # Pattern: raid{YYYY}.github.io — consistent
+#   url: https://raid{YYYY}.github.io/index.html
+#   strategy: regex
+#   tags: [SEC, TIER2]
+#   selectors:
+#     deadline: null
+#     date: null
+#     place: null
+#   overrides:
+#     description: "International Symposium on Research in Attacks, Intrusions and Defenses"
+#
+# - name: ACSAC
+#   # Pattern: acsac.org/{YYYY}/ — consistent
+#   url: https://www.acsac.org/{YYYY}/
+#   strategy: regex
+#   tags: [SEC, TIER2]
+#   selectors:
+#     deadline: null
+#     date: null
+#     place: null
+#   overrides:
+#     description: "Annual Computer Security Applications Conference"
