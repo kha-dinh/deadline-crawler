@@ -1,0 +1,359 @@
+# SEC, SYS, SE, GEN ,HW]
+- name: S&P (Oakland)
+  year: 2026
+  date: May 12-15
+  description: IEEE Symposium on Security and Privacy
+  link: https://sp2026.ieee-security.org/cfpapers.html
+  deadline:
+    - "2025-06-05 23:59"
+    - "2025-11-13 23:59"
+  place: San Francisco, California, USA
+  tags: [SEC, TIER1]
+  notification:
+    - "2025-09-09"
+    - "2026-03-19"
+
+- name: CCS (TBA)
+  description: ACM Conference on Computer and Communications Security
+  year: 2026
+  date: Oct. 13-17
+  place: Taipei, Taiwan
+  link: https://www.sigsac.org/ccs/CCS2025
+  deadline:
+    - "2026-01-09 23:59"
+    - "2026-04-14 23:59"
+  date:
+  place:
+  tags: [SEC, TIER1]
+  notification:
+    - "2025-09-09"
+    - "2026-03-19"
+
+- name: USENIX Security
+  description: USENIX Security Symposium
+  year: 2026
+  link: https://www.usenix.org/conference/usenixsecurity26
+  deadline:
+    - "2025-08-26 23:59"
+    - "2026-02-05 23:59"
+  date: Aug. 12-14
+  place: BALTIMORE, MD
+  tags: [SEC, TIER1]
+  notification:
+    - "2025-12-04"
+    - "2026-05-14"
+
+- name: NDSS
+  description: ISOC Network and Distributed System Security Symposium
+  year: 2026
+  link: https://www.ndss-symposium.org/ndss2026/submissions/call-for-papers/
+  deadline:
+    - "2025-04-16 23:59"
+    - "2025-07-30 23:59"
+  date: Feb. 23-27
+  place: San Diego, California, USA
+  tags: [SEC, TIER1]
+  notification:
+    - "2025-07-02"
+    - "2025-10-22"
+
+###########################  Tier 2  #################################
+- name: ESORICS (TBA)
+  description: European Symposium on Research in Computer Security
+  year: 2025
+  link: https://www.esorics2025.org/
+  deadline:
+    - "2026-01-10 23:59"
+    - "2026-04-22 23:59"
+  date:
+  place:
+  tags: [SEC, TIER2]
+
+- name: ASIACCS
+  description: ACM Asia Conference on Computer and Communications Security
+  year: 2026
+  link: https://asiaccs2026.cse.iitkgp.ac.in/important-dates/
+  deadline:
+    - "2025-08-25 23:59"
+    - "2025-12-12 23:59"
+  date: Jun. 1-6
+  place: Bangalore, India
+  tags: [SEC, TIER2]
+
+- name: RAID (TBA)
+  description: International Symposium on Research in Attacks, Intrusions and Defenses
+  year: 2026
+  link: https://raid2025.github.io/index.html
+  deadline: ["2026-04-17 23:59"]
+  date:
+  place:
+  tags: [SEC, TIER2]
+
+- name: ACSAC (TBA)
+  description: Annual Computer Security Applications Conference
+  year: 2026
+  link: https://www.acsac.org/2025/
+  deadline: ["2026-05-30 23:59"]
+  comment: Abstract deadline on May 22nd
+  date: Dec. 9-13
+  place: Honolulu, Hawaii, USA
+  tags: [SEC, TIER2]
+
+######################################################################
+##########################  Systems  #################################
+######################################################################
+
+###########################  Tier 1  #################################
+- name: SOSP
+  year: 2026
+  date: Sep. 29 - Oct. 2
+  description: ACM Symposium on Operating Systems Principle
+  link: https://sigops.org/s/conferences/sosp/2026/index.html
+  deadline:
+    - "2026-04-01 23:59"
+  comment: Abstract deadline on April 10
+  place: Prague, Czechia
+  tags: [SYS, TIER1]
+
+- name: ASPLOS
+  year: 2026
+  comment: Abstract deadline one week before final submission
+  date: Mar. 30 - Apr. 3
+  description: ACM Conference on Architectural Support for Programming Languages and Operating Systems
+  link: https://www.asplos-conference.org/asplos2026/cfp
+  deadline:
+    - "2025-03-12 23:59"
+    - "2025-08-20 23:59"
+  comment: Abstract deadline on Aug 13
+  place:
+  timezone: America/New_York
+  tags: [SYS, TIER1]
+
+- name: EuroSys
+  comment: Abstract deadline one week before final submission
+  year: 2026
+  date: Apr. 13-16
+  description: European Conference on Computer Systems
+  link: https://www.eurosys.org
+  deadline:
+    - "2025-05-15 23:59"
+    - "2025-09-25 23:59"
+  place: Edinburgh
+  tags: [SYS, TIER1]
+  notification:
+    - "2025-08-22"
+    - "2026-01-30"
+
+- name: OSDI
+  year: 2026
+  comment: Abstract deadline Nov 30 10:59pm UTC.
+  date: July 13-16
+  description: USENIX Symposium on Operating Systems Design and Implementation
+  link: https://www.usenix.org/conference/osdi26
+  deadline:
+    - "2025-12-11 22:59"
+  place: Seattle, WA
+  timezone: Etc/UTC
+  tags: [SYS, TIER1]
+  comment: Abstract deadline Dec 4 10:59pm UTC.
+  notification:
+    - "2026-03-26"
+
+# ATC is now retired... goodbye ATC!
+#- name: ATC
+#  year: 2025
+#  date: July 10-12
+#  description: USENIX Annual Technical Conference
+#  link: https://www.usenix.org/conference/atc24
+#  comment: Abstract deadline Jan 7 11:59pm UTC.
+#  deadline:
+#    - "2025-01-14 23:59"
+#  place: SANTA CLARA, CA
+#  timezone: Etc/UTC
+#  tags: [SYS, TIER1]
+
+
+###########################  Tier 2  #################################
+
+######################################################################
+##########################  Hardware  ################################
+######################################################################
+
+###########################  Tier 1  #################################
+
+- name: ISCA
+  year: 2026
+  date: June 27 - July 1
+  description: International Symposium on Computer Architecture
+  link: https://iscaconf.org/isca2025/
+  deadline:
+    - "2025-11-17 23:59"
+  place: Raleigh, USA
+  tags: [HW, TIER1]
+  notification:
+    - "2026-03-27"
+
+- name: HPCA
+  year: 2026
+  date: 
+  description: International Symposium on High-Performance Computer Architecture
+  link: https://hpca-conf.org/2025/
+  deadline:
+    - "2025-08-01 23:59"
+  place:
+  timezone: America/Los_Angeles
+  tags: [HW, TIER1]
+
+- name: DAC (TBA)
+  year: 2026
+  date:
+  description: Design Automation Conference
+  link: https://www.dac.com
+  deadline:
+    - "2025-11-20 16:59"
+  place:
+  timezone: Etc/GMT+8
+  tags: [HW, TIER1]
+
+- name: MICRO (TBA)
+  year: 2026
+  date:
+  description: IEEE/ACM International Symposium on Microarchitecture
+  link: https://microarch.org/micro58/index.php
+  deadline:
+    - "2026-04-11 23:59"
+  place:
+  timezone: America/New_York
+  tags: [HW, TIER1]
+
+###########################  Tier 2  #################################
+
+######################################################################
+##########################  SE & PL  #################################
+######################################################################
+
+###########################  Tier 1  #################################
+
+- name: ICSE (TBA)
+  year: 2027
+  date: April 12-16
+  description: International Conference on Software Engineering
+  link: https://conf.researchr.org/home/icse-2026
+  deadline:
+    - "2026-03-14 23:59"
+    - "2026-07-18 23:59"
+  place: Dublin, Ireland
+  tags: [SE, TIER1]
+
+- name: FSE (TBA)
+  year: 2027
+  comment: Abstract deadline Sep 04 11:59pm AoE.
+  date: 23-27 Jul
+  description: ACM Foundations of Software Engineering
+  link: https://conf.researchr.org/home/fse-2026
+  deadline:
+      - "2026-09-11 23:59"
+  place: Trondheim, Norway
+  tags: [SE, TIER1]
+
+- name: ASE (TBA)
+  year: 2026
+  data: 16-20 Nov
+  description: IEEE/ACM International Conference on Automated Software Engineering
+  link: https://conf.researchr.org/home/ase-2025
+  deadline:
+      - "2026-05-30 23:59"
+  place: Seoul
+  tags: [SE, TIER1]
+
+- name: PLDI
+  year: 2026
+  date: 16-20 June
+  description: Programming Language Design and Implementation
+  link: https://pldi25.sigplan.org/
+  deadline:
+    - "2025-11-13 23:59"
+  place: Seoul
+  tags: [PL, TIER1]
+
+- name: POPL
+  year: 2026
+  date: Jan 11-17
+  description: Programming Language Design and Implementation
+  link: https://popl26.sigplan.org/
+  deadline:
+    - "2025-07-10 23:59"
+  place: Seoul
+  tags: [PL, TIER1]
+
+- name: OOPSLA
+  year: 2026
+  date: 12-18, Oct.
+  description: Object-Oriented Programming, Systems, Languages & Applications 
+  link: https://2026.splashcon.org/track/OOPSLA
+  deadline:
+    - "2025-10-10 23:59"
+    - "2026-03-17 23:59"
+  place: Singapore
+  tags: [PL, TIER1]
+
+###########################  Tier 2  #################################
+
+- name: ISSTA
+  year: 2026
+  date: 3-9 Oct.
+  description: ACM SIGSOFT International Symposium on Software Testing and Analysis
+  link: https://conf.researchr.org/home/issta-2026
+  deadline:
+    - "2026-01-29 23:59"
+  place: Oakland, California
+  tags: [SE, TIER2]
+
+######################################################################
+##########################  General  #################################
+######################################################################
+
+###########################  Tier 1  #################################
+- name: WWW
+  year: 2024
+  date:
+  description: The Web Conference
+  link: https://www2024.thewebconf.org/
+  deadline:
+    - "2023-10-12 23:59"
+  place:
+  tags: [GEN, TIER1]
+
+- name: INFOCOM
+  year: 2025
+  date:
+  description: IEEE International Conference on Computer Communications
+  link: https://infocom2024.ieee-infocom.org
+  deadline:
+    - "2024-07-24 23:59"
+  place:
+  tags: [GEN, TIER1]
+
+###########################  Tier 2  #################################
+
+- name: MIDDLEWARE
+  year: 2024
+  date:
+  description: ACM/IFIP/USENIX INTERNATIONAL MIDDLEWARE CONFERENCE
+  link: https://middleware-conf.github.io/2024/
+  deadline:
+    - "2023-12-01 23:59"
+    - "2024-05-24 23:59"
+  place:
+  tags: [GEN, TIER2]
+
+- name: ICDCS (TBA)
+  year: 2025
+  date:
+  description: 43rd IEEE International Conference on Distributed Computing Systems
+  link: https://icdcs2024.icdcs.org
+  deadline:
+    - "2023-01-21 23:59"
+  place:
+  tags: [GEN, TIER2]
+

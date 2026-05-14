@@ -1,0 +1,119 @@
+# conferences.yaml — crawl config per conference
+# Each entry defines how to crawl a conference's CFP page for deadline info.
+# Required fields (V7): name, url, strategy, tags
+# Strategy must be one of: css, regex, llm, static (V8)
+#
+# Year-agnostic URL templates:
+#   Use {YYYY} for 4-digit year, {YY} for 2-digit year in url/url_main.
+#   Crawler resolves these at runtime for target year.
+#   If a site's URL pattern is unpredictable, set url_fixed: true
+#   and update url manually each year.
+
+########################  Security — TIER1  ########################
+
+- name: USENIX Security
+  # Pattern: usenixsecurity{YY} — consistent across years
+  url: https://www.usenix.org/conference/usenixsecurity{YY}/call-for-papers
+  url_main: https://www.usenix.org/conference/usenixsecurity{YY}
+  strategy: regex
+  tags: [SEC, TIER1]
+  cycles:
+    - name: "Cycle 1"
+      selectors:
+        deadline: 'id="cycle1".*?Paper submissions.*?due:\s*<strong>(.*?)</strong>'
+    - name: "Cycle 2"
+      selectors:
+        deadline: 'id="cycle2".*?Paper submissions.*?due:\s*<strong>(.*?)</strong>'
+  main_selectors:
+    date: ".field-name-field-date-text .field-item"
+    place: ".field-name-field-address-text .field-item"
+  overrides:
+    description: "USENIX Security Symposium"
+
+- name: "S&P"
+  # Pattern: sp{YYYY}.ieee-security.org — consistent across years
+  url: https://sp{YYYY}.ieee-security.org/cfpapers.html
+  strategy: css
+  tags: [SEC, TIER1]
+  selectors:
+    deadline: null   # TBD — inspect page
+    date: null
+    place: null
+  overrides:
+    description: "IEEE Symposium on Security and Privacy"
+
+- name: CCS
+  # Pattern: sigsac.org/ccs/CCS{YYYY} — consistent across years
+  url: https://www.sigsac.org/ccs/CCS{YYYY}
+  strategy: css
+  tags: [SEC, TIER1]
+  selectors:
+    deadline: null
+    date: null
+    place: null
+  overrides:
+    description: "ACM Conference on Computer and Communications Security"
+
+- name: NDSS
+  # Pattern: ndss-symposium.org/ndss{YYYY}/... — consistent across years
+  url: https://www.ndss-symposium.org/ndss{YYYY}/submissions/call-for-papers/
+  strategy: css
+  tags: [SEC, TIER1]
+  selectors:
+    deadline: null
+    date: null
+    place: null
+  overrides:
+    description: "ISOC Network and Distributed System Security Symposium"
+
+########################  Security — TIER2  ########################
+
+- name: ESORICS
+  # Pattern: esorics{YYYY}.org — but domain changes per year, unpredictable
+  url: https://www.esorics{YYYY}.org/
+  url_fixed: true   # domain varies — verify/update annually
+  strategy: css
+  tags: [SEC, TIER2]
+  selectors:
+    deadline: null
+    date: null
+    place: null
+  overrides:
+    description: "European Symposium on Research in Computer Security"
+
+- name: ASIACCS
+  # Pattern varies: host changes per year (iitkgp, etc.), unpredictable
+  url: null
+  url_fixed: true   # host changes per year — must update manually
+  strategy: css
+  tags: [SEC, TIER2]
+  selectors:
+    deadline: null
+    date: null
+    place: null
+  overrides:
+    description: "ACM Asia Conference on Computer and Communications Security"
+
+- name: RAID
+  # Pattern: raid{YYYY}.github.io — consistent
+  url: https://raid{YYYY}.github.io/index.html
+  strategy: css
+  tags: [SEC, TIER2]
+  selectors:
+    deadline: null
+    date: null
+    place: null
+  overrides:
+    description: "International Symposium on Research in Attacks, Intrusions and Defenses"
+
+- name: ACSAC
+  # Pattern: acsac.org/{YYYY}/ — consistent
+  url: https://www.acsac.org/{YYYY}/
+  strategy: css
+  tags: [SEC, TIER2]
+  selectors:
+    deadline: null
+    date: null
+    place: null
+  overrides:
+    description: "Annual Computer Security Applications Conference"
