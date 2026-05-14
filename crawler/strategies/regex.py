@@ -15,6 +15,7 @@ from crawler.strategy import BaseStrategy
 LABEL_MAP: dict[str, list[str]] = {
     "abstract": [
         "abstract registration",
+        "mandatory registration",
         "register abstracts",
         "abstracts due",
         "abstract submission",
@@ -41,6 +42,7 @@ LABEL_MAP: dict[str, list[str]] = {
         "rebuttal begins",
         "reviews available",
         "author response start",
+        "author response period",
     ],
     "rebuttal_end": [
         "rebuttal end",
@@ -55,6 +57,7 @@ LABEL_MAP: dict[str, list[str]] = {
         "notification of acceptance",
         "acceptance notification",
         "decision notification",
+        "notification",
     ],
     "shepherd": [
         "shepherd",
@@ -147,18 +150,56 @@ def _parse_deadline_date(text: str) -> str | None:
 
 
 def _strip_html(html: str) -> str:
-    """Strip HTML tags, collapse whitespace, return plain text lines."""
+    """Structure-preserving HTML→text (Phase A, T17).
+
+    Preserves label+date pairing by:
+    - Joining <td>/<th> cells in same <tr> with ' | '
+    - Merging <dt> + <dd> pairs onto one line
+    - Flattening <li> inline children (incl <strong>, <br>) onto one line
+    """
+    soup = BeautifulSoup(html, "html.parser")
+
     # Remove script/style blocks
-    text = re.sub(r"<(script|style)[^>]*>.*?</\1>", "", html, flags=re.DOTALL | re.IGNORECASE)
-    # Replace block-level tags with newlines
-    text = re.sub(r"<(?:br|li|tr|p|div|h[1-6])[^>]*>", "\n", text, flags=re.IGNORECASE)
-    # Strip remaining tags
-    text = re.sub(r"<[^>]+>", " ", text)
-    # Decode common entities
+    for tag in soup.find_all(["script", "style"]):
+        tag.decompose()
+
+    # Replace <br> with space to keep inline content on one line
+    for br in soup.find_all("br"):
+        br.replace_with(" ")
+
+    # Process <tr>: join cells with ' | '
+    for tr in soup.find_all("tr"):
+        cells = tr.find_all(["td", "th"])
+        if cells:
+            text = " | ".join(c.get_text(separator=" ", strip=True) for c in cells)
+            tr.replace_with(text + "\n")
+
+    # Process <dt>/<dd> pairs: merge onto one line
+    for dt in soup.find_all("dt"):
+        dd = dt.find_next_sibling("dd")
+        dt_text = dt.get_text(strip=True)
+        dd_text = dd.get_text(strip=True) if dd else ""
+        dt.replace_with(f"{dt_text} | {dd_text}\n")
+        if dd:
+            dd.decompose()
+
+    # Process <li>: flatten all inline children onto one line
+    for li in soup.find_all("li"):
+        text = li.get_text(separator=" ", strip=True)
+        li.replace_with(text + "\n")
+
+    # Get remaining text with newlines at block boundaries
+    text = soup.get_text(separator="\n")
+
+    # Clean up entities and whitespace
     text = text.replace("&nbsp;", " ").replace("&amp;", "&").replace("&#8212;", "—")
-    # Collapse whitespace within lines
-    text = re.sub(r"[ \t]+", " ", text)
-    return text
+    lines = []
+    for line in text.split("\n"):
+        line = re.sub(r"[ \t]+", " ", line).strip()
+        if line:
+            lines.append(line)
+
+    return "\n".join(lines)
 
 
 def _match_label(text: str) -> str | None:
@@ -188,34 +229,55 @@ def _extract_deadlines_specific(deadline_specs: list[dict], html: str) -> list[d
 
 
 def _extract_deadlines_generic(html: str) -> list[dict]:
-    """Generic text-based deadline extraction (T16).
+    """Generic two-pass deadline extraction (Phase A+C, T17).
 
-    Strips HTML, scans each line for a known label phrase + date pattern.
-    Uses LABEL_MAP for phrase→canonical label mapping.
+    Phase A: structure-preserving HTML→text (via _strip_html).
+    Phase C: two-pass proximity search:
+      Pass 1 — find all lines with date-like strings.
+      Pass 2 — for each date, search same line + ±2 lines for label phrase.
+      Nearest label wins; same label not assigned twice.
     """
     text = _strip_html(html)
+    lines = text.split("\n")
     deadlines = []
-    seen_labels = set()
+    seen_labels: set[str] = set()
 
-    for line in text.split("\n"):
-        line = line.strip()
-        if not line:
-            continue
-
-        label = _match_label(line)
-        if not label or label in seen_labels:
-            continue
-
-        # Find a date on this line
+    # Pass 1: find all (line_index, parsed_date) tuples
+    date_hits: list[tuple[int, str]] = []
+    for i, line in enumerate(lines):
         m = _GENERIC_DATE_RE.search(line)
-        if not m:
-            continue
+        if m:
+            date_str = m.group(1) or m.group(2)
+            parsed = _parse_deadline_date(date_str)
+            if parsed:
+                date_hits.append((i, parsed))
 
-        date_str = m.group(1) or m.group(2)
-        parsed = _parse_deadline_date(date_str)
-        if parsed:
+    # Pass 2a: same-line matches first (prevents proximity from stealing labels)
+    matched_indices: set[int] = set()
+    for line_idx, parsed_date in date_hits:
+        label = _match_label(lines[line_idx])
+        if label and label not in seen_labels:
             seen_labels.add(label)
-            deadlines.append({"label": label, "date": parsed})
+            deadlines.append({"label": label, "date": parsed_date})
+            matched_indices.add(line_idx)
+
+    # Pass 2b: proximity search for remaining unmatched dates
+    for line_idx, parsed_date in date_hits:
+        if line_idx in matched_indices:
+            continue
+        best_label = None
+        for dist in range(1, 3):  # ±1, ±2 lines
+            if best_label:
+                break
+            for check_idx in [line_idx - dist, line_idx + dist]:
+                if 0 <= check_idx < len(lines):
+                    label = _match_label(lines[check_idx])
+                    if label and label not in seen_labels:
+                        best_label = label
+                        break
+        if best_label:
+            seen_labels.add(best_label)
+            deadlines.append({"label": best_label, "date": parsed_date})
 
     return deadlines
 

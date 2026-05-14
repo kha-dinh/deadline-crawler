@@ -21,35 +21,9 @@
     - name: "Cycle 1"
       selectors:
         section: 'id="cycle1".*?(?=id="cycle2"|<h3.*Submission Deadlines)'
-        deadlines:
-          - label: abstract
-            pattern: 'Mandatory registration.*?due:\s*<strong>(.*?)</strong>'
-          - label: submission
-            pattern: 'Paper submissions.*?due:\s*<strong>(.*?)</strong>'
-          - label: early_reject
-            pattern: 'Early reject notification:\s*<strong>(.*?)</strong>'
-          - label: notification
-            pattern: 'Notification to authors:\s*<strong>(.*?)</strong>'
-          - label: shepherd
-            pattern: 'Shepherded approval due:\s*<strong>(.*?)</strong>'
-          - label: camera_ready
-            pattern: 'Final paper files due:\s*<strong>(.*?)</strong>'
     - name: "Cycle 2"
       selectors:
         section: 'id="cycle2".*?(?=<h3.*Submission Deadlines|<h2|$)'
-        deadlines:
-          - label: abstract
-            pattern: 'Mandatory registration.*?due:\s*<strong>(.*?)</strong>'
-          - label: submission
-            pattern: 'Paper submissions due:\s*<strong>(.*?)</strong>'
-          - label: early_reject
-            pattern: 'Early reject notification:\s*<strong>(.*?)</strong>'
-          - label: notification
-            pattern: 'Notification to authors:\s*<strong>(.*?)</strong>'
-          - label: shepherd
-            pattern: 'Shepherded approval due:\s*<strong>(.*?)</strong>'
-          - label: camera_ready
-            pattern: 'Final paper files due:\s*<strong>(.*?)</strong>'
   main_selectors:
     date: ".field-name-field-date-text .field-item"
     place: ".field-name-field-address-text .field-item"
@@ -65,31 +39,9 @@
     - name: "Cycle 1"
       selectors:
         section: 'id="first-deadline".*?</ul>'
-        deadlines:
-          - label: abstract
-            pattern: '<li>Abstract registration deadline:\s*(.*?)(?:\s+mandatory)?</li>'
-          - label: submission
-            pattern: '<li>Paper submission deadline:\s*(.*?)</li>'
-          - label: early_reject
-            pattern: '<li>Early-reject notification:\s*(.*?)</li>'
-          - label: notification
-            pattern: '<li>Acceptance notification:\s*(.*?)</li>'
-          - label: camera_ready
-            pattern: '<li>Camera-ready deadline:\s*(.*?)</li>'
     - name: "Cycle 2"
       selectors:
         section: 'id="second-deadline".*?</ul>'
-        deadlines:
-          - label: abstract
-            pattern: '<li>Abstract.*?registration deadline:\s*(.*?)(?:,\s*mandatory)?(?:\s*\(.*?\))?</li>'
-          - label: submission
-            pattern: '<li>Paper submission deadline:\s*(.*?)</li>'
-          - label: early_reject
-            pattern: '<li>Early-reject notification:\s*(.*?)</li>'
-          - label: notification
-            pattern: '<li>Acceptance notification:\s*(.*?)</li>'
-          - label: camera_ready
-            pattern: '<li>Camera-ready deadline:\s*(.*?)</li>'
   overrides:
     description: "IEEE Symposium on Security and Privacy"
 
@@ -102,35 +54,9 @@
     - name: "Cycle A"
       selectors:
         section: 'id="first-review-cycle".*?</ul>'
-        deadlines:
-          - label: abstract
-            pattern: '<li><strong>Abstract submission deadline</strong><br>\s*(.*?)(?:\s*<em>.*?)?</li>'
-          - label: submission
-            pattern: '<li><strong>Full paper submission deadline</strong><br>\s*(.*?)(?:\s*<em>.*?)?</li>'
-          - label: early_reject
-            pattern: '<li><strong>Notification of early-rejection papers</strong><br>\s*(.*?)</li>'
-          - label: rebuttal_end
-            pattern: '<li><strong>Rebuttal deadline</strong><br>\s*(.*?)</li>'
-          - label: notification
-            pattern: '<li><strong>Author notification</strong><br>\s*(.*?)</li>'
-          - label: camera_ready
-            pattern: '<li><strong>Camera ready deadline</strong><br>\s*(.*?)</li>'
     - name: "Cycle B"
       selectors:
         section: 'id="second-review-cycle".*?</ul>'
-        deadlines:
-          - label: abstract
-            pattern: '<li><strong>Abstract submission deadline</strong><br>\s*(.*?)(?:\s*<em>.*?)?</li>'
-          - label: submission
-            pattern: '<li><strong>Full paper submission deadline</strong><br>\s*(.*?)(?:\s*<em>.*?)?</li>'
-          - label: early_reject
-            pattern: '<li><strong>Notification of early-rejection papers</strong><br>\s*(?:<s>.*?</s>\s*)?(.*?)</li>'
-          - label: rebuttal_end
-            pattern: '<li><strong>Rebuttal deadline</strong><br>\s*(.*?)</li>'
-          - label: notification
-            pattern: '<li><strong>Author notification</strong><br>\s*(.*?)</li>'
-          - label: camera_ready
-            pattern: '<li><strong>Camera ready deadline</strong><br>\s*(.*?)</li>'
   overrides:
     description: "ACM Conference on Computer and Communications Security"
 
@@ -143,27 +69,9 @@
     - name: "Summer"
       selectors:
         section: "Summer Cycle</h3>.*?(?=Fall Cycle</h3>|<h3)"
-        deadlines:
-          - label: submission
-            pattern: '<li>\w+,\s*([^<:]+):\s*Paper submission deadline'
-          - label: early_reject
-            pattern: '<li>\w+,\s*([^<:]+):\s*Early reject'
-          - label: notification
-            pattern: '<li>\w+,\s*([^<:]+):\s*Author notification<'
-          - label: camera_ready
-            pattern: '<li>\w+,\s*([^<:]+):\s*Camera Ready deadline'
     - name: "Fall"
       selectors:
         section: "Fall Cycle</h3>.*?(?=<h2|<h3|$)"
-        deadlines:
-          - label: submission
-            pattern: '<li>\w+,\s*([^<:]+):\s*Paper submission deadline'
-          - label: early_reject
-            pattern: '<li>\w+,\s*([^<:]+):\s*Early reject'
-          - label: notification
-            pattern: '<li>\w+,\s*([^<:]+):\s*Author notification<'
-          - label: camera_ready
-            pattern: '<li>\w+,\s*([^<:]+):\s*Camera Ready deadline'
   overrides:
     description: "ISOC Network and Distributed System Security Symposium"
 ########################  Security — TIER2  ########################
@@ -227,15 +135,6 @@
   tags: [SYS, TIER1]
   selectors:
     section: 'id="dates".*?</table>'
-    deadlines:
-      - label: abstract
-        pattern: 'Deadline to register abstracts</td>\s*<td>(?:<[sb]>)*([A-Z][a-z]+ \d+\w*,? \d{4})'
-      - label: submission
-        pattern: 'Submission deadline.*?</td>\s*<td>(?:<[sb]>)*([A-Z][a-z]+ \d+\w*,? \d{4})'
-      - label: notification
-        pattern: 'Author notification</td>\s*<td>(?:<[sb]>)*([A-Z][a-z]+ \d+\w*,? \d{4})'
-      - label: camera_ready
-        pattern: 'Camera ready due.*?</td>\s*<td>(?:<[sb]>)*([A-Z][a-z]+ \d+\w*,? \d{4})'
   overrides:
     description: "ACM Symposium on Operating Systems Principles"
 
@@ -243,6 +142,7 @@
   # Pattern: usenix.org/conference/osdi{YY}/call-for-papers — consistent
   # Biennial: even years only
   url: https://www.usenix.org/conference/osdi{YY}/call-for-papers
+  url_main: https://www.usenix.org/conference/osdi{YY}
   strategy: regex
   tags: [SYS, TIER1]
   selectors:
@@ -256,6 +156,9 @@
         pattern: 'Notification to authors:\s*<strong>(.*?)</strong>'
       - label: camera_ready
         pattern: 'Final papers? due:\s*<strong>(.*?)</strong>'
+  main_selectors:
+    date: ".field-name-field-date-text .field-item"
+    place: ".field-name-field-address-text .field-item"
   overrides:
     description: "USENIX Symposium on Operating Systems Design and Implementation"
 
@@ -268,27 +171,9 @@
     - name: "Spring"
       selectors:
         section: 'Spring deadline</h3>.*?(?=Fall deadline</h3>|<h2)'
-        deadlines:
-          - label: abstract
-            pattern: 'abstracts due:\s*(?:<strong>)?(.*?)(?:</strong>)?\s*</li>'
-          - label: submission
-            pattern: 'paper submissions due:\s*(?:<strong>)?(.*?)(?:</strong>)?\s*</li>'
-          - label: notification
-            pattern: 'Notification to authors:\s*(?:<strong>)?\s*(.*?)(?:</strong>)?\s*</li>'
-          - label: camera_ready
-            pattern: 'Camera-ready deadline:\s*(?:<strong>)?(.*?)(?:</strong>)?\s*</li>'
     - name: "Fall"
       selectors:
         section: 'Fall deadline</h3>.*?(?=<h2|<h3|$)'
-        deadlines:
-          - label: abstract
-            pattern: 'abstracts due:\s*(?:<strong>)?(.*?)(?:</strong>)?\s*</li>'
-          - label: submission
-            pattern: 'paper submissions due:\s*(?:<strong>)?(.*?)(?:</strong>)?\s*</li>'
-          - label: notification
-            pattern: 'Notification to authors:\s*(?:<strong>)?\s*(.*?)(?:</strong>)?\s*</li>'
-          - label: camera_ready
-            pattern: 'Camera-ready deadline:\s*(?:<strong>)?(.*?)(?:</strong>)?\s*</li>'
   overrides:
     description: "European Conference on Computer Systems"
 
@@ -301,48 +186,30 @@
     - name: "Spring"
       selectors:
         section: '<p>Spring Cycle</p>.*?</ul>'
-        deadlines:
-          - label: abstract
-            pattern: 'Abstract submission\s*—\s*(.*?)(?:\s*\(.*?\))?\s*</li>'
-          - label: submission
-            pattern: 'Full paper submission\s*—\s*(.*?)(?:\s*\(.*?\))?\s*</li>'
-          - label: notification
-            pattern: 'Notification\s*—\s*(.*?)(?:\s*\(.*?\))?\s*</li>'
     - name: "Summer"
       selectors:
         section: '<p>Summer Cycle[^<]*</p>.*?</ul>'
-        deadlines:
-          - label: abstract
-            pattern: 'Abstract submission\s*—\s*(.*?)(?:\s*\(.*?\))?\s*</li>'
-          - label: submission
-            pattern: 'Full paper submission\s*—\s*(.*?)(?:\s*\(.*?\))?\s*</li>'
-          - label: notification
-            pattern: 'Notification\s*—\s*(.*?)(?:\s*\(.*?\))?\s*</li>'
   overrides:
     description: "International Conference on Architectural Support for Programming Languages and Operating Systems"
 
 - name: "USENIX ATC"
   # Pattern: sigops.org/s/conferences/atc/{YYYY}/cfp.html — moved to ACM/SIGOPS in 2026
   url: https://sigops.org/s/conferences/atc/{YYYY}/cfp.html
+  url_main: https://www.usenix.org/conference/atc{YY}
   strategy: regex
   tags: [SYS, TIER1]
   selectors:
     section: 'id="dates".*?</table>'
-    deadlines:
-      - label: submission
-        pattern: 'Submission deadline.*?</td>\s*<td>(?:<[sb]>)*([A-Z][a-z]+ \d+, \d{4})'
-      - label: early_reject
-        pattern: 'Early rejection notification.*?</td>\s*<td>(?:<[sb]>)*([A-Z][a-z]+ \d+, \d{4})'
-      - label: notification
-        pattern: 'Author notification</td>\s*<td>(?:<[sb]>)*([A-Z][a-z]+ \d+, \d{4})'
-      - label: camera_ready
-        pattern: 'Camera ready due.*?</td>\s*<td>(?:<[sb]>)*([A-Z][a-z]+ \d+, \d{4})'
+  main_selectors:
+    date: ".field-name-field-date-text .field-item"
+    place: ".field-name-field-address-text .field-item"
   overrides:
     description: "ACM SIGOPS Annual Technical Conference"
 
 - name: NSDI
   # Pattern: usenix.org/conference/nsdi{YY}/call-for-papers — consistent
   url: https://www.usenix.org/conference/nsdi{YY}/call-for-papers
+  url_main: https://www.usenix.org/conference/nsdi{YY}
   strategy: regex
   tags: [SYS, TIER1]
   cycles:
@@ -370,6 +237,9 @@
             pattern: 'Notification to authors:\s*<strong>(.*?)</strong>'
           - label: camera_ready
             pattern: 'Final paper files due:\s*(?:<strike>.*?</strike>\s*)?<strong>(.*?)</strong>'
+  main_selectors:
+    date: ".field-name-field-date-text .field-item"
+    place: ".field-name-field-address-text .field-item"
   overrides:
     description: "USENIX Symposium on Networked Systems Design and Implementation"
 
