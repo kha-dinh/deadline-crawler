@@ -1,4 +1,4 @@
-"""Regex-based extraction strategy (T4)."""
+"""Regex-based extraction strategy (T4, T16)."""
 
 import re
 from datetime import datetime
@@ -9,6 +9,72 @@ from bs4 import BeautifulSoup
 from crawler.config import resolve_url
 from crawler.models import CrawlResult
 from crawler.strategy import BaseStrategy
+
+# V10/V11: Canonical label map — maps raw CFP phrases → canonical labels.
+# Each canonical label has ≥1 phrase variant. Single source of truth.
+LABEL_MAP: dict[str, list[str]] = {
+    "abstract": [
+        "abstract registration",
+        "register abstracts",
+        "abstracts due",
+        "abstract submission",
+        "abstract deadline",
+        "paper titles and abstracts due",
+    ],
+    "submission": [
+        "submission deadline",
+        "paper submission",
+        "paper submissions due",
+        "full paper submission",
+        "submissions due",
+        "paper due",
+    ],
+    "early_reject": [
+        "early reject",
+        "early rejection",
+        "early-reject",
+        "desk reject",
+    ],
+    "rebuttal_start": [
+        "rebuttal start",
+        "rebuttal period begin",
+        "rebuttal begins",
+        "reviews available",
+        "author response start",
+    ],
+    "rebuttal_end": [
+        "rebuttal end",
+        "rebuttal due",
+        "rebuttal deadline",
+        "author response due",
+        "author responses due",
+    ],
+    "notification": [
+        "author notification",
+        "notification to authors",
+        "notification of acceptance",
+        "acceptance notification",
+        "decision notification",
+    ],
+    "shepherd": [
+        "shepherd",
+        "shepherding",
+        "conditional accept",
+    ],
+    "camera_ready": [
+        "camera ready",
+        "camera-ready",
+        "final paper",
+        "final version",
+        "final papers due",
+    ],
+}
+
+# Generic date pattern: matches "Month DD, YYYY" with optional ordinal suffix
+_GENERIC_DATE_RE = re.compile(
+    r"([A-Z][a-z]+\.?\s+\d+\w*,?\s+\d{4})"
+    r"|(\d+\w*\s+[A-Z][a-z]+\.?\s+\d{4})"
+)
 
 _HEADERS = {
     "User-Agent": (
@@ -78,6 +144,80 @@ def _parse_deadline_date(text: str) -> str | None:
             continue
 
     return None
+
+
+def _strip_html(html: str) -> str:
+    """Strip HTML tags, collapse whitespace, return plain text lines."""
+    # Remove script/style blocks
+    text = re.sub(r"<(script|style)[^>]*>.*?</\1>", "", html, flags=re.DOTALL | re.IGNORECASE)
+    # Replace block-level tags with newlines
+    text = re.sub(r"<(?:br|li|tr|p|div|h[1-6])[^>]*>", "\n", text, flags=re.IGNORECASE)
+    # Strip remaining tags
+    text = re.sub(r"<[^>]+>", " ", text)
+    # Decode common entities
+    text = text.replace("&nbsp;", " ").replace("&amp;", "&").replace("&#8212;", "—")
+    # Collapse whitespace within lines
+    text = re.sub(r"[ \t]+", " ", text)
+    return text
+
+
+def _match_label(text: str) -> str | None:
+    """Match a text fragment against LABEL_MAP, return canonical label or None."""
+    lower = text.lower()
+    for label, phrases in LABEL_MAP.items():
+        for phrase in phrases:
+            if phrase in lower:
+                return label
+    return None
+
+
+def _extract_deadlines_specific(deadline_specs: list[dict], html: str) -> list[dict]:
+    """Extract deadlines using site-specific regex patterns."""
+    deadlines = []
+    seen_dates = set()
+    for spec in deadline_specs:
+        label = spec["label"]
+        pattern = spec["pattern"]
+        matches = re.findall(pattern, html, re.DOTALL | re.IGNORECASE)
+        for match in matches:
+            parsed = _parse_deadline_date(match)
+            if parsed and parsed not in seen_dates:
+                seen_dates.add(parsed)
+                deadlines.append({"label": label, "date": parsed})
+    return deadlines
+
+
+def _extract_deadlines_generic(html: str) -> list[dict]:
+    """Generic text-based deadline extraction (T16).
+
+    Strips HTML, scans each line for a known label phrase + date pattern.
+    Uses LABEL_MAP for phrase→canonical label mapping.
+    """
+    text = _strip_html(html)
+    deadlines = []
+    seen_labels = set()
+
+    for line in text.split("\n"):
+        line = line.strip()
+        if not line:
+            continue
+
+        label = _match_label(line)
+        if not label or label in seen_labels:
+            continue
+
+        # Find a date on this line
+        m = _GENERIC_DATE_RE.search(line)
+        if not m:
+            continue
+
+        date_str = m.group(1) or m.group(2)
+        parsed = _parse_deadline_date(date_str)
+        if parsed:
+            seen_labels.add(label)
+            deadlines.append({"label": label, "date": parsed})
+
+    return deadlines
 
 
 def _fetch(url: str) -> str:
@@ -163,22 +303,15 @@ class RegexStrategy(BaseStrategy):
             else:
                 return []
 
+        # Fallback chain: site-specific patterns → generic text extractor → empty
         deadline_specs = selectors.get("deadlines", [])
-        if not deadline_specs:
-            return []
+        if deadline_specs:
+            result = _extract_deadlines_specific(deadline_specs, html)
+            if result:
+                return result
 
-        deadlines = []
-        seen_dates = set()
-        for spec in deadline_specs:
-            label = spec["label"]
-            pattern = spec["pattern"]
-            matches = re.findall(pattern, html, re.DOTALL | re.IGNORECASE)
-            for match in matches:
-                parsed = _parse_deadline_date(match)
-                if parsed and parsed not in seen_dates:
-                    seen_dates.add(parsed)
-                    deadlines.append({"label": label, "date": parsed})
-        return deadlines
+        # Generic text-based extraction (T16)
+        return _extract_deadlines_generic(html)
 
     @staticmethod
     def _css_text(soup: BeautifulSoup, selector: str | None) -> str | None:

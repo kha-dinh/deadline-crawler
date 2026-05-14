@@ -1,9 +1,13 @@
-"""Tests for regex extraction strategy (T4)."""
+"""Tests for regex extraction strategy (T4, T16)."""
 
 import pytest
 from unittest.mock import patch, MagicMock
 
-from crawler.strategies.regex import RegexStrategy, _parse_deadline_date
+from crawler.strategies.regex import (
+    RegexStrategy, _parse_deadline_date,
+    _extract_deadlines_generic, _match_label, _strip_html,
+    LABEL_MAP,
+)
 from crawler.models import CrawlResult
 
 
@@ -419,3 +423,216 @@ def test_extract_ndss_cycles_with_section(mock_get):
     assert {"label": "early_reject", "date": "2025-09-17 23:59"} in fall.deadlines
     assert {"label": "notification", "date": "2025-10-22 23:59"} in fall.deadlines
     assert {"label": "camera_ready", "date": "2025-12-17 23:59"} in fall.deadlines
+
+
+# --- T16: Generic text extractor ---
+
+
+def test_label_map_covers_all_v10():
+    """V11: label map must cover all V10 canonical labels."""
+    v10_labels = {
+        "abstract", "submission", "early_reject", "rebuttal_start",
+        "rebuttal_end", "notification", "shepherd", "camera_ready",
+    }
+    assert set(LABEL_MAP.keys()) == v10_labels
+    # Each label must have at least one phrase
+    for label, phrases in LABEL_MAP.items():
+        assert len(phrases) >= 1, f"{label} has no phrases"
+
+
+def test_match_label_basics():
+    assert _match_label("Abstract registration deadline") == "abstract"
+    assert _match_label("Paper submission deadline") == "submission"
+    assert _match_label("Author notification") == "notification"
+    assert _match_label("Camera-ready deadline") == "camera_ready"
+    assert _match_label("Early reject notification") == "early_reject"
+    assert _match_label("something unrelated") is None
+
+
+def test_strip_html():
+    html = '<li><strong>Submission deadline</strong>: <b>June 10, 2026</b></li>'
+    text = _strip_html(html)
+    assert "<" not in text
+    assert "Submission deadline" in text
+    assert "June 10, 2026" in text
+
+
+def test_generic_extractor_li_format():
+    """Generic extractor handles <li> date lists (common format)."""
+    html = """
+    <h2>Important Dates</h2>
+    <ul>
+      <li>Abstract registration deadline: May 29, 2025</li>
+      <li>Paper submission deadline: June 5, 2025</li>
+      <li>Author notification: September 9, 2025</li>
+      <li>Camera-ready deadline: October 17, 2025</li>
+    </ul>
+    """
+    deadlines = _extract_deadlines_generic(html)
+    labels = {d["label"] for d in deadlines}
+    assert "abstract" in labels
+    assert "submission" in labels
+    assert "notification" in labels
+    assert "camera_ready" in labels
+    assert {"label": "submission", "date": "2025-06-05 23:59"} in deadlines
+
+
+def test_generic_extractor_table_format():
+    """Generic extractor handles <td> table rows (SOSP/ATC style)."""
+    html = """
+    <table>
+      <tr><td>Deadline to register abstracts</td><td>March 26, 2026</td></tr>
+      <tr><td><b>Submission deadline</b></td><td>April 1, 2026</td></tr>
+      <tr><td>Author notification</td><td>July 3, 2026</td></tr>
+      <tr><td><b>Camera ready due</b></td><td>August 28, 2026</td></tr>
+    </table>
+    """
+    deadlines = _extract_deadlines_generic(html)
+    labels = {d["label"] for d in deadlines}
+    assert "abstract" in labels
+    assert "submission" in labels
+    assert "notification" in labels
+    assert "camera_ready" in labels
+
+
+def test_generic_extractor_eurosys_format():
+    """Generic extractor handles EuroSys plain-text list items."""
+    html = """
+    <h3>Spring deadline</h3>
+    <p>
+      <li>Paper titles and abstracts due: Thursday, May 8, 2025 (AoE)</li>
+      <li>Full paper submissions due: Thursday, May 15, 2025 (AoE)</li>
+      <li>Notification to authors: Friday, August 22, 2025 (AoE)</li>
+      <li>Camera-ready deadline: Friday, September 26, 2025 (AoE)</li>
+    </p>
+    """
+    deadlines = _extract_deadlines_generic(html)
+    labels = {d["label"] for d in deadlines}
+    assert "abstract" in labels
+    assert "submission" in labels
+    assert "notification" in labels
+    assert "camera_ready" in labels
+    assert {"label": "abstract", "date": "2025-05-08 23:59"} in deadlines
+
+
+def test_generic_extractor_reverse_format():
+    """Generic extractor handles date-before-label (NDSS style)."""
+    html = """
+    <ul>
+      <li>Wed, 23 April 2025: Paper submission deadline</li>
+      <li>Wed, 28 May 2025: Early reject notification</li>
+      <li>Wed, 2 July 2025: Author notification</li>
+      <li>Wed, 10 September 2025: Camera Ready deadline</li>
+    </ul>
+    """
+    deadlines = _extract_deadlines_generic(html)
+    labels = {d["label"] for d in deadlines}
+    assert "submission" in labels
+    assert "early_reject" in labels
+    assert "notification" in labels
+    assert "camera_ready" in labels
+
+
+def test_generic_extractor_no_dates():
+    """Generic extractor returns empty on HTML with no dates."""
+    html = "<p>No deadlines here, just prose about the conference.</p>"
+    assert _extract_deadlines_generic(html) == []
+
+
+def test_fallback_chain_specific_first():
+    """Fallback: site-specific patterns used when present and matching."""
+    html = """
+    <h2>Important Dates</h2>
+    <ul>
+      <li>Paper submission deadline: June 5, 2025</li>
+    </ul>
+    """
+    conf = {
+        "name": "Test",
+        "url": "https://example.com",
+        "strategy": "regex",
+        "tags": ["GEN"],
+        "selectors": {
+            "deadlines": [
+                {"label": "submission", "pattern": r"Paper submission deadline:\s*(.*?)</li>"},
+            ],
+        },
+    }
+
+    @patch("crawler.strategies.regex.requests.get")
+    def run(mock_get):
+        mock_get.return_value = MagicMock(text=html)
+        strategy = RegexStrategy()
+        results = strategy.extract(conf, 2025)
+        assert len(results) == 1
+        assert results[0].deadlines == [{"label": "submission", "date": "2025-06-05 23:59"}]
+
+    run()
+
+
+def test_fallback_chain_generic_when_specific_empty():
+    """Fallback: generic extractor used when specific patterns return nothing."""
+    html = """
+    <h2>Important Dates</h2>
+    <ul>
+      <li>Paper submission deadline: June 5, 2025</li>
+      <li>Author notification: September 9, 2025</li>
+    </ul>
+    """
+    conf = {
+        "name": "Test",
+        "url": "https://example.com",
+        "strategy": "regex",
+        "tags": ["GEN"],
+        "selectors": {
+            # Patterns that won't match this HTML
+            "deadlines": [
+                {"label": "submission", "pattern": r"will_not_match:\s*<strong>(.*?)</strong>"},
+            ],
+        },
+    }
+
+    @patch("crawler.strategies.regex.requests.get")
+    def run(mock_get):
+        mock_get.return_value = MagicMock(text=html)
+        strategy = RegexStrategy()
+        results = strategy.extract(conf, 2025)
+        assert len(results) == 1
+        labels = {d["label"] for d in results[0].deadlines}
+        assert "submission" in labels
+        assert "notification" in labels
+
+    run()
+
+
+def test_fallback_chain_generic_when_no_patterns():
+    """Fallback: generic extractor used when no deadline patterns defined."""
+    html = """
+    <h2>Important Dates</h2>
+    <ul>
+      <li>Abstract registration: March 26, 2026</li>
+      <li>Submission deadline: April 1, 2026</li>
+    </ul>
+    """
+    conf = {
+        "name": "Test",
+        "url": "https://example.com",
+        "strategy": "regex",
+        "tags": ["GEN"],
+        "selectors": {
+            "section": "Important Dates</h2>.*?</ul>",
+            # No "deadlines" key — should fall through to generic
+        },
+    }
+
+    @patch("crawler.strategies.regex.requests.get")
+    def run(mock_get):
+        mock_get.return_value = MagicMock(text=html)
+        strategy = RegexStrategy()
+        results = strategy.extract(conf, 2026)
+        assert len(results) == 1
+        labels = {d["label"] for d in results[0].deadlines}
+        assert "abstract" in labels
+        assert "submission" in labels
+
+    run()

@@ -231,7 +231,7 @@ class TestGenerateFromResults:
         ]
         out = tmp_path / "deadlines.json"
         data = generate_from_results(results, out, fmt="json", now=NOW)
-        assert data["conferences"][0]["name"] == "USENIX Security (Cycle 1) 2026"
+        assert data["conferences"][0]["name"] == "USENIX Security 2026 (Cycle 1)"
 
     def test_skips_invalid(self, tmp_path):
         results = [
