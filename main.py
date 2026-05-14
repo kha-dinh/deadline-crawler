@@ -20,13 +20,13 @@ def _parse_years(raw: str | None) -> list[int] | None:
 def cmd_crawl(args):
     """Crawl conferences and export output."""
     years = _parse_years(args.year)
-    print(f"Crawling conferences (year={years})...")
 
     try:
         results = crawl_all(
             config_path=args.config,
             years=years,
             name_filter=args.conf,
+            workers=args.workers,
         )
     except Exception as e:
         print(f"Crawl failed: {e}", file=sys.stderr)
@@ -35,12 +35,6 @@ def cmd_crawl(args):
     if not results:
         print("No results.")
         return
-
-    print(f"Got {len(results)} result(s).")
-    for r in results:
-        label = f"{r.name} {r.year} ({r.cycle})" if r.cycle else f"{r.name} {r.year}"
-        dl_str = ", ".join(f"{d['label']}: {d['date']}" for d in r.deadlines) if r.deadlines else "no deadlines found"
-        print(f"  {label}: {dl_str}")
 
     output = generate_from_results(
         results,
@@ -247,6 +241,7 @@ def main():
     crawl_p.add_argument("--year", default=None, help="Target year(s), comma-separated (e.g. 2026,2027)")
     crawl_p.add_argument("--format", "-f", choices=["json", "yaml"], default="json", help="Output format")
     crawl_p.add_argument("--output", "-o", help="Output file path")
+    crawl_p.add_argument("--workers", "-w", type=int, default=4, help="Parallel fetch threads (default: 4)")
 
     # T10: validate command
     validate_p = sub.add_parser("validate", help="Validate exported output against invariants")

@@ -66,13 +66,16 @@ def crawl_all(
     config_path: str = "conferences.yaml",
     years: list[int] | None = None,
     name_filter: str | None = None,
+    workers: int = 4,
 ) -> list[CrawlResult]:
     """Crawl all (or filtered) conferences from config.
 
     Args:
         years: List of target years. Defaults to [current_year] if None.
+        workers: Number of parallel threads for fetching. Default 4.
     """
     import datetime
+    from concurrent.futures import ThreadPoolExecutor, as_completed
 
     if years is None:
         years = [datetime.datetime.now().year]
@@ -80,11 +83,64 @@ def crawl_all(
     _ensure_strategies_loaded()
     conferences = load_conferences(config_path)
 
+    # Build work list: (conf, year) pairs
+    work = [
+        (conf, year)
+        for conf in conferences
+        if not name_filter or conf["name"].lower() == name_filter.lower()
+        for year in years
+    ]
+
     results = []
-    for conf in conferences:
-        if name_filter and conf["name"].lower() != name_filter.lower():
-            continue
-        for year in years:
-            results.extend(crawl_conference(conf, year))
+    warnings = []
+    from rich.progress import Progress, SpinnerColumn, TextColumn, BarColumn, MofNCompleteColumn
+    from rich.console import Console
+
+    console = Console(stderr=True)
+
+    def _crawl_one(conf: dict, year: int) -> tuple[list[CrawlResult], list[str]]:
+        """Crawl single conference, return (results, warnings)."""
+        label = f"{conf['name']} {year}"
+        local_results = []
+        local_warnings = []
+        try:
+            conf_results = crawl_conference(conf, year)
+            for r in conf_results:
+                if not r.deadlines:
+                    rlabel = f"{r.name} {r.year} ({r.cycle})" if r.cycle else f"{r.name} {r.year}"
+                    local_warnings.append(f"{rlabel}: no deadlines extracted")
+                else:
+                    local_results.append(r)
+        except Exception as e:
+            local_warnings.append(f"{label}: {e}")
+        return local_results, local_warnings
+
+    with Progress(
+        SpinnerColumn(),
+        TextColumn("[bold blue]{task.description}"),
+        BarColumn(),
+        MofNCompleteColumn(),
+        TextColumn("[dim]{task.fields[current]}"),
+        console=console,
+    ) as progress:
+        task = progress.add_task("Crawling", total=len(work), current="")
+
+        with ThreadPoolExecutor(max_workers=workers) as pool:
+            futures = {
+                pool.submit(_crawl_one, conf, year): f"{conf['name']} {year}"
+                for conf, year in work
+            }
+            for future in as_completed(futures):
+                label = futures[future]
+                progress.update(task, current=label)
+                r, w = future.result()
+                results.extend(r)
+                warnings.extend(w)
+                progress.advance(task)
+
+    if warnings:
+        console.print()
+        for w in warnings:
+            console.print(f"[bold yellow]⚠ {w}[/]")
 
     return results

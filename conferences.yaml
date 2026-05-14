@@ -30,7 +30,7 @@
   overrides:
     description: "USENIX Security Symposium"
 
-- name: "S&P"
+- name: "IEEE S&P"
   # Pattern: sp{YYYY}.ieee-security.org — consistent across years
   url: https://sp{YYYY}.ieee-security.org/cfpapers.html
   strategy: regex
@@ -45,7 +45,7 @@
   overrides:
     description: "IEEE Symposium on Security and Privacy"
 
-- name: CCS
+- name: ACM CCS
   # Pattern: sigsac.org/ccs/CCS{YYYY} — consistent across years
   url: https://www.sigsac.org/ccs/CCS{YYYY}/call-for/call-for-papers.html
   strategy: regex
@@ -146,7 +146,7 @@
   strategy: regex
   tags: [SYS, TIER1]
   selectors:
-    section: 'Important Dates</h2>.*?(?=<h2|Deadline and Submission)'
+    section: "Important Dates</h2>.*?(?=<h2|Deadline and Submission)"
     deadlines:
       - label: abstract
         pattern: 'Abstract registrations? due:\s*<strong>(.*?)</strong>'
@@ -170,10 +170,10 @@
   cycles:
     - name: "Spring"
       selectors:
-        section: 'Spring deadline</h3>.*?(?=Fall deadline</h3>|<h2)'
+        section: "Spring deadline</h3>.*?(?=Fall deadline</h3>|<h2)"
     - name: "Fall"
       selectors:
-        section: 'Fall deadline</h3>.*?(?=<h2|<h3|$)'
+        section: "Fall deadline</h3>.*?(?=<h2|<h3|$)"
   overrides:
     description: "European Conference on Computer Systems"
 
@@ -185,14 +185,14 @@
   cycles:
     - name: "Spring"
       selectors:
-        section: '<p>Spring Cycle</p>.*?</ul>'
+        section: "<p>Spring Cycle</p>.*?</ul>"
     - name: "Summer"
       selectors:
-        section: '<p>Summer Cycle[^<]*</p>.*?</ul>'
+        section: "<p>Summer Cycle[^<]*</p>.*?</ul>"
   overrides:
     description: "International Conference on Architectural Support for Programming Languages and Operating Systems"
 
-- name: "USENIX ATC"
+- name: ATC
   # Pattern: sigops.org/s/conferences/atc/{YYYY}/cfp.html — moved to ACM/SIGOPS in 2026
   url: https://sigops.org/s/conferences/atc/{YYYY}/cfp.html
   url_main: https://www.usenix.org/conference/atc{YY}
@@ -215,7 +215,7 @@
   cycles:
     - name: "Spring"
       selectors:
-        section: 'Spring deadline:</strong>.*?</ul>'
+        section: "Spring deadline:</strong>.*?</ul>"
         deadlines:
           - label: abstract
             pattern: 'abstracts due:\s*<strong>(.*?)</strong>'
@@ -227,7 +227,7 @@
             pattern: 'Final paper files due:\s*(?:<strike>.*?</strike>\s*)?<strong>(.*?)</strong>'
     - name: "Fall"
       selectors:
-        section: 'Fall deadline:</strong>.*?</ul>'
+        section: "Fall deadline:</strong>.*?</ul>"
         deadlines:
           - label: abstract
             pattern: 'abstracts due:\s*<strong>(.*?)</strong>'
@@ -242,7 +242,6 @@
     place: ".field-name-field-address-text .field-item"
   overrides:
     description: "USENIX Symposium on Networked Systems Design and Implementation"
-
 ########################  Systems — TIER2  ########################
 
 # - name: FAST
