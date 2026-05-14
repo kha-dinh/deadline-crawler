@@ -217,3 +217,192 @@
 #     place: null
 #   overrides:
 #     description: "Annual Computer Security Applications Conference"
+
+########################  Systems — TIER1  ########################
+
+- name: SOSP
+  # Pattern: sigops.org/s/conferences/sosp/{YYYY}/cfp.html — moved to ACM/SIGOPS
+  url: https://sigops.org/s/conferences/sosp/{YYYY}/cfp.html
+  strategy: regex
+  tags: [SYS, TIER1]
+  selectors:
+    section: 'id="dates".*?</table>'
+    deadlines:
+      - label: abstract
+        pattern: 'Deadline to register abstracts</td>\s*<td>(?:<[sb]>)*([A-Z][a-z]+ \d+\w*,? \d{4})'
+      - label: submission
+        pattern: 'Submission deadline.*?</td>\s*<td>(?:<[sb]>)*([A-Z][a-z]+ \d+\w*,? \d{4})'
+      - label: notification
+        pattern: 'Author notification</td>\s*<td>(?:<[sb]>)*([A-Z][a-z]+ \d+\w*,? \d{4})'
+      - label: camera_ready
+        pattern: 'Camera ready due.*?</td>\s*<td>(?:<[sb]>)*([A-Z][a-z]+ \d+\w*,? \d{4})'
+  overrides:
+    description: "ACM Symposium on Operating Systems Principles"
+
+- name: OSDI
+  # Pattern: usenix.org/conference/osdi{YY}/call-for-papers — consistent
+  # Biennial: even years only
+  url: https://www.usenix.org/conference/osdi{YY}/call-for-papers
+  strategy: regex
+  tags: [SYS, TIER1]
+  selectors:
+    section: 'Important Dates</h2>.*?(?=<h2|Deadline and Submission)'
+    deadlines:
+      - label: abstract
+        pattern: 'Abstract registrations? due:\s*<strong>(.*?)</strong>'
+      - label: submission
+        pattern: 'Complete paper submissions? due:\s*<strong>(.*?)</strong>'
+      - label: notification
+        pattern: 'Notification to authors:\s*<strong>(.*?)</strong>'
+      - label: camera_ready
+        pattern: 'Final papers? due:\s*<strong>(.*?)</strong>'
+  overrides:
+    description: "USENIX Symposium on Operating Systems Design and Implementation"
+
+- name: EuroSys
+  # Pattern: {YYYY}.eurosys.org/cfp.html — consistent
+  url: https://{YYYY}.eurosys.org/cfp.html
+  strategy: regex
+  tags: [SYS, TIER1]
+  cycles:
+    - name: "Spring"
+      selectors:
+        section: 'Spring deadline</h3>.*?(?=Fall deadline</h3>|<h2)'
+        deadlines:
+          - label: abstract
+            pattern: 'abstracts due:\s*(?:<strong>)?(.*?)(?:</strong>)?\s*</li>'
+          - label: submission
+            pattern: 'paper submissions due:\s*(?:<strong>)?(.*?)(?:</strong>)?\s*</li>'
+          - label: notification
+            pattern: 'Notification to authors:\s*(?:<strong>)?\s*(.*?)(?:</strong>)?\s*</li>'
+          - label: camera_ready
+            pattern: 'Camera-ready deadline:\s*(?:<strong>)?(.*?)(?:</strong>)?\s*</li>'
+    - name: "Fall"
+      selectors:
+        section: 'Fall deadline</h3>.*?(?=<h2|<h3|$)'
+        deadlines:
+          - label: abstract
+            pattern: 'abstracts due:\s*(?:<strong>)?(.*?)(?:</strong>)?\s*</li>'
+          - label: submission
+            pattern: 'paper submissions due:\s*(?:<strong>)?(.*?)(?:</strong>)?\s*</li>'
+          - label: notification
+            pattern: 'Notification to authors:\s*(?:<strong>)?\s*(.*?)(?:</strong>)?\s*</li>'
+          - label: camera_ready
+            pattern: 'Camera-ready deadline:\s*(?:<strong>)?(.*?)(?:</strong>)?\s*</li>'
+  overrides:
+    description: "European Conference on Computer Systems"
+
+- name: ASPLOS
+  # Pattern: asplos-conference.org/asplos{YYYY}/cfp/ — consistent
+  url: https://www.asplos-conference.org/asplos{YYYY}/cfp/
+  strategy: regex
+  tags: [SYS, TIER1]
+  cycles:
+    - name: "Spring"
+      selectors:
+        section: '<p>Spring Cycle</p>.*?</ul>'
+        deadlines:
+          - label: abstract
+            pattern: 'Abstract submission\s*—\s*(.*?)(?:\s*\(.*?\))?\s*</li>'
+          - label: submission
+            pattern: 'Full paper submission\s*—\s*(.*?)(?:\s*\(.*?\))?\s*</li>'
+          - label: notification
+            pattern: 'Notification\s*—\s*(.*?)(?:\s*\(.*?\))?\s*</li>'
+    - name: "Summer"
+      selectors:
+        section: '<p>Summer Cycle[^<]*</p>.*?</ul>'
+        deadlines:
+          - label: abstract
+            pattern: 'Abstract submission\s*—\s*(.*?)(?:\s*\(.*?\))?\s*</li>'
+          - label: submission
+            pattern: 'Full paper submission\s*—\s*(.*?)(?:\s*\(.*?\))?\s*</li>'
+          - label: notification
+            pattern: 'Notification\s*—\s*(.*?)(?:\s*\(.*?\))?\s*</li>'
+  overrides:
+    description: "International Conference on Architectural Support for Programming Languages and Operating Systems"
+
+- name: "USENIX ATC"
+  # Pattern: sigops.org/s/conferences/atc/{YYYY}/cfp.html — moved to ACM/SIGOPS in 2026
+  url: https://sigops.org/s/conferences/atc/{YYYY}/cfp.html
+  strategy: regex
+  tags: [SYS, TIER1]
+  selectors:
+    section: 'id="dates".*?</table>'
+    deadlines:
+      - label: submission
+        pattern: 'Submission deadline.*?</td>\s*<td>(?:<[sb]>)*([A-Z][a-z]+ \d+, \d{4})'
+      - label: early_reject
+        pattern: 'Early rejection notification.*?</td>\s*<td>(?:<[sb]>)*([A-Z][a-z]+ \d+, \d{4})'
+      - label: notification
+        pattern: 'Author notification</td>\s*<td>(?:<[sb]>)*([A-Z][a-z]+ \d+, \d{4})'
+      - label: camera_ready
+        pattern: 'Camera ready due.*?</td>\s*<td>(?:<[sb]>)*([A-Z][a-z]+ \d+, \d{4})'
+  overrides:
+    description: "ACM SIGOPS Annual Technical Conference"
+
+- name: NSDI
+  # Pattern: usenix.org/conference/nsdi{YY}/call-for-papers — consistent
+  url: https://www.usenix.org/conference/nsdi{YY}/call-for-papers
+  strategy: regex
+  tags: [SYS, TIER1]
+  cycles:
+    - name: "Spring"
+      selectors:
+        section: 'Spring deadline:</strong>.*?</ul>'
+        deadlines:
+          - label: abstract
+            pattern: 'abstracts due:\s*<strong>(.*?)</strong>'
+          - label: submission
+            pattern: 'paper submissions due:\s*<strong>(.*?)</strong>'
+          - label: notification
+            pattern: 'Notification to authors:\s*<strong>(.*?)</strong>'
+          - label: camera_ready
+            pattern: 'Final paper files due:\s*(?:<strike>.*?</strike>\s*)?<strong>(.*?)</strong>'
+    - name: "Fall"
+      selectors:
+        section: 'Fall deadline:</strong>.*?</ul>'
+        deadlines:
+          - label: abstract
+            pattern: 'abstracts due:\s*<strong>(.*?)</strong>'
+          - label: submission
+            pattern: 'paper submissions due:\s*<strong>(.*?)</strong>'
+          - label: notification
+            pattern: 'Notification to authors:\s*<strong>(.*?)</strong>'
+          - label: camera_ready
+            pattern: 'Final paper files due:\s*(?:<strike>.*?</strike>\s*)?<strong>(.*?)</strong>'
+  overrides:
+    description: "USENIX Symposium on Networked Systems Design and Implementation"
+
+########################  Systems — TIER2  ########################
+
+# - name: FAST
+#   # Pattern: usenix.org/conference/fast{YY}/call-for-papers — consistent
+#   url: https://www.usenix.org/conference/fast{YY}/call-for-papers
+#   strategy: regex
+#   tags: [SYS, TIER2]
+#   selectors:
+#     deadlines: []
+#   overrides:
+#     description: "USENIX Conference on File and Storage Technologies"
+#
+# - name: SoCC
+#   # Pattern varies: acm-socc.org or similar — may change
+#   url: null
+#   url_fixed: true
+#   strategy: regex
+#   tags: [SYS, TIER2]
+#   selectors:
+#     deadlines: []
+#   overrides:
+#     description: "ACM Symposium on Cloud Computing"
+#
+# - name: Middleware
+#   # Pattern: middleware-conf.github.io/{YYYY}/ — mostly consistent
+#   url: https://middleware-conf.github.io/{YYYY}/
+#   url_fixed: true
+#   strategy: regex
+#   tags: [SYS, TIER2]
+#   selectors:
+#     deadlines: []
+#   overrides:
+#     description: "ACM/IFIP International Middleware Conference"

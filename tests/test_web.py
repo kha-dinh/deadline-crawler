@@ -98,7 +98,7 @@ class TestTransformEntry:
 
     def test_id_is_slug(self):
         result = transform_entry(VALID_ENTRY, NOW)
-        assert result["id"] == "usenix-security"
+        assert result["id"] == "usenix-security-2026"
 
     def test_area_tier_from_tags(self):
         result = transform_entry(VALID_ENTRY, NOW)
@@ -157,7 +157,7 @@ class TestGenerateOutput:
 
         assert "generated_at" in result
         assert len(result["conferences"]) == 1
-        assert result["conferences"][0]["name"] == "USENIX Security"
+        assert result["conferences"][0]["name"] == "USENIX Security 2026"
 
         # Verify file written
         with open(out_file) as f:
@@ -185,7 +185,7 @@ class TestGenerateOutput:
             from_disk = yaml.safe_load(f)
         assert from_disk["generated_at"] == result["generated_at"]
         assert len(from_disk["conferences"]) == 1
-        assert from_disk["conferences"][0]["name"] == "USENIX Security"
+        assert from_disk["conferences"][0]["name"] == "USENIX Security 2026"
 
     def test_invalid_format_raises(self, tmp_path):
         data_file = tmp_path / "data.yaml"
@@ -215,7 +215,7 @@ class TestGenerateFromResults:
         out = tmp_path / "deadlines.json"
         data = generate_from_results(results, out, fmt="json", now=NOW)
         assert len(data["conferences"]) == 1
-        assert data["conferences"][0]["name"] == "USENIX Security"
+        assert data["conferences"][0]["name"] == "USENIX Security 2026"
         assert out.exists()
 
     def test_cycle_name(self, tmp_path):
@@ -231,7 +231,7 @@ class TestGenerateFromResults:
         ]
         out = tmp_path / "deadlines.json"
         data = generate_from_results(results, out, fmt="json", now=NOW)
-        assert data["conferences"][0]["name"] == "USENIX Security (Cycle 1)"
+        assert data["conferences"][0]["name"] == "USENIX Security (Cycle 1) 2026"
 
     def test_skips_invalid(self, tmp_path):
         results = [
@@ -247,4 +247,4 @@ class TestGenerateFromResults:
         out = tmp_path / "deadlines.json"
         data = generate_from_results(results, out, fmt="json", now=NOW)
         assert len(data["conferences"]) == 1
-        assert data["conferences"][0]["name"] == "Good"
+        assert data["conferences"][0]["name"] == "Good 2026"

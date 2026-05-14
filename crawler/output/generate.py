@@ -103,8 +103,8 @@ def transform_entry(entry: dict, now: datetime) -> dict:
         )
 
     return {
-        "id": _slugify(entry["name"]),
-        "name": entry["name"],
+        "id": _slugify(f"{entry['name']} {entry['year']}"),
+        "name": f"{entry['name']} {entry['year']}",
         "year": entry["year"],
         "description": entry.get("description", ""),
         "link": entry["link"],
@@ -123,6 +123,7 @@ def _result_to_entry(r) -> dict:
     """Convert a CrawlResult to a data.yaml-shaped dict."""
     entry = {
         "name": f"{r.name} ({r.cycle})" if r.cycle else r.name,
+        # Note: year is appended to name in transform_entry
         "year": r.year,
         "link": r.link,
         "deadline": r.deadlines,

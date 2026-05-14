@@ -11,7 +11,26 @@
       "Bash(uv run:*)",
       "Bash(just crawl:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(find /Users/khadd/Projects/deadline-crawler -not -path */.* -not -path */.venv/* -type f)",
+      "WebFetch(domain:sp2026.ieee-security.org)",
+      "WebFetch(domain:www.sigsac.org)",
+      "Bash(wget -q -O - *)",
+      "Bash(wget -q -O - https://www.sigsac.org/ccs/CCS2026/call-for/call-for-papers.html)",
+      "WebFetch(domain:www.asplos-conference.org)",
+      "Bash(curl -sL --max-time 15 -o /tmp/eurosys_cfp.html \"https://2025.eurosys.org/cfp.html\")",
+      "Read(//tmp/**)",
+      "Bash(curl -sL --max-time 15 -o /tmp/asplos_cfp.html \"https://www.asplos-conference.org/asplos2026/cfp/\")",
+      "Bash(curl -sL --max-time 15 -o /tmp/sosp_cfp.html \"https://sigops.org/s/conferences/sosp/2025/\")",
+      "Bash(find /Users/khadd/Projects/deadline-crawler -name __pycache__ -type d -exec rm -rf {} +)",
+      "Bash(for conf:*)",
+      "Bash(do echo:*)",
+      "WebFetch(domain:sigops.org)",
+      "WebFetch(domain:2026.eurosys.org)",
+      "Bash(curl -sL https://2026.eurosys.org/cfp.html)",
+      "Bash(curl -sL https://sigops.org/s/conferences/sosp/2025/)",
+      "Bash(curl -sL https://sigops.org/s/conferences/atc/2026/cfp.html)",
+      "Bash(curl -sL https://sigops.org/s/conferences/sosp/2026/cfp.html)"
     ]
   }
 }

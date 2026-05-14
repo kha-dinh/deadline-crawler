@@ -36,6 +36,18 @@ from crawler.models import CrawlResult
         ("Jan 14, 2026", "2026-01-14 23:59"),
         ("Apr 22, 2026", "2026-04-22 23:59"),
         ("Apr 29, 2026", "2026-04-29 23:59"),
+        # Semicolon time format (SOSP style)
+        ("April 10, 2025; 23:59 PT", "2025-04-10 23:59"),
+        ("April 17, 2025; 23:59 PT", "2025-04-17 23:59"),
+        # Parenthetical suffix (EuroSys/ASPLOS style)
+        ("Tuesday May 14, 2024 (AoE)", "2024-05-14 23:59"),
+        ("March 05, 2025 (11:59pm Eastern)", "2025-03-05 23:59"),
+        # &nbsp; entity (ASPLOS summer cycle)
+        ("Aug 13,&nbsp; 2025", "2025-08-13 23:59"),
+        # US timezone prefix (NSDI style)
+        ("Friday, April 18, 2025, 11:59 pm US PDT", "2025-04-18 23:59"),
+        # Day-of-week without comma (EuroSys style)
+        ("Tuesday May 14, 2024", "2024-05-14 23:59"),
         # Garbage
         ("nonsense text", None),
     ],

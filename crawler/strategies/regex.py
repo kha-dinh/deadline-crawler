@@ -30,16 +30,26 @@ def _parse_deadline_date(text: str) -> str | None:
       - "June 5, 2025"
     """
     text = text.strip()
+    # Normalize HTML entities to plain text
+    text = text.replace("&nbsp;", " ").replace("&#8212;", "—")
+    # Collapse multiple spaces
+    text = re.sub(r" {2,}", " ", text)
     # Remove day-of-week prefix if present (e.g. "Tuesday, " or "Wed, ")
-    text = re.sub(r"^[A-Z][a-z]+(?:day)?,\s*", "", text)
+    text = re.sub(r"^(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon|Tue|Wed|Thu|Fri|Sat|Sun),?\s*", "", text)
     # Normalize non-standard abbreviations (e.g. "Sept" → "Sep")
     text = re.sub(r"\bSept\b", "Sep", text)
+    # Strip ordinal suffixes (e.g. "3rd" → "3", "1st" → "1")
+    text = re.sub(r"(\d+)(?:st|nd|rd|th)\b", r"\1", text)
 
     # Strip trailing qualifier words (mandatory, etc.)
     text = re.sub(r"\s+(?:mandatory|optional)\b.*$", "", text, flags=re.IGNORECASE)
+    # Strip parenthetical suffixes like "(previously ...)" or "(AoE)"
+    text = re.sub(r"\s*\(.*?\)\s*$", "", text)
+    # Strip semicolon-delimited time (e.g. "April 10, 2025; 23:59 PT")
+    text = re.sub(r";\s*\d{1,2}:\d{2}\s*(?:AM|PM|am|pm)?\s*(?:AoE|UTC|EST|PST|PDT|PT|ET|AOE)?\s*$", "", text)
 
-    # Strip timezone suffix after am/pm or at end
-    cleaned = re.sub(r"\s+(?:AoE|UTC|EST|PST|PT|ET|AOE)\s*$", "", text.strip())
+    # Strip timezone suffix after am/pm or at end (handles "US PDT", "EST", etc.)
+    cleaned = re.sub(r"\s+(?:US\s+)?(?:AoE|UTC|EST|EDT|PST|PDT|PT|ET|AOE|Eastern|Pacific)\s*$", "", text.strip(), flags=re.IGNORECASE)
 
     # Try formats with explicit time first
     for fmt in (
@@ -71,7 +81,9 @@ def _parse_deadline_date(text: str) -> str | None:
 
 
 def _fetch(url: str) -> str:
-    return requests.get(url, headers=_HEADERS, timeout=30).text
+    resp = requests.get(url, headers=_HEADERS, timeout=30)
+    resp.encoding = resp.apparent_encoding
+    return resp.text
 
 
 class RegexStrategy(BaseStrategy):

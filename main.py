@@ -38,7 +38,7 @@ def cmd_crawl(args):
 
     print(f"Got {len(results)} result(s).")
     for r in results:
-        label = f"{r.name} ({r.cycle})" if r.cycle else r.name
+        label = f"{r.name} {r.year} ({r.cycle})" if r.cycle else f"{r.name} {r.year}"
         dl_str = ", ".join(f"{d['label']}: {d['date']}" for d in r.deadlines) if r.deadlines else "no deadlines found"
         print(f"  {label}: {dl_str}")
 
