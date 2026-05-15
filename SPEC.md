@@ -22,7 +22,7 @@ Crawl conference CFP pages and export structured deadline data (JSON/YAML). Per-
 ## §V Invariants
 - V1: Every data.yaml entry MUST have: name, year, link, deadline (≥1), tags (≥1 area + tier)
 - V2: deadline[] items are dicts `{label: str, date: "YYYY-MM-DD HH:MM"}` — label is canonical (see V10)
-- V3: tags[] first element = area code {SEC,SYS,HW,SE,PL,GEN,CRYPTO}, second = CORE rank {A*,A,B,C}. In conferences.yaml, tags has only 1 element (area); rank injected at load time from CORE CSV (see T27)
+- V3: tags[] first element = area code {SEC,SYS,HW,SE,PL,GEN,CRYPTO,ML}, second = CORE rank {A*,A,B,C}. In conferences.yaml, tags has only 1 element (area); rank injected at load time from CORE CSV (see T27)
 - V4: No duplicate (name, year) pairs in data.yaml
 - V5: (removed — no data.yaml intermediary)
 - V6: Past deadlines retained in output for historical reference

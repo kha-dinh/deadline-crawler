@@ -789,3 +789,86 @@
     items: "article.d-card"
     label: "p.card-paragraph"
     date: "h3.d-card-title"
+
+########################  Machine Learning  ########################
+
+- name: NeurIPS
+  core_acronym: NeurIPS
+  # Pattern: neurips.cc/Conferences/{YYYY}/CallForPapers — consistent across years
+  # 2026+: unnamed div > <p>Key dates:</p> + <ul>; li text = "label: date" inline
+  # 2025: div.important-dates > ul > li with <strong>label</strong> + trailing date text
+  url: https://neurips.cc/Conferences/{YYYY}/CallForPapers
+  strategy: css
+  tags: [ML]
+  description: "Conference on Neural Information Processing Systems"
+  selectors:
+    section_css: "div:has(> p + ul)"
+    items: "p + ul > li"
+  by_year:
+    2025:
+      selectors:
+        section_css: "div.important-dates"
+        items: "li"
+        label: "strong"
+
+- name: ICML
+  core_acronym: ICML
+  # Pattern: icml.cc/Conferences/{YYYY}/CallForPapers — consistent 2025, 2026
+  # Deadlines in <ul> immediately after first <h3> ("Important Dates and Submission Site")
+  # li text = "label: date [AoE]" inline; generic fallback handles label+date extraction
+  url: https://icml.cc/Conferences/{YYYY}/CallForPapers
+  strategy: css
+  tags: [ML]
+  description: "International Conference on Machine Learning"
+  selectors:
+    section_css: "h3 + ul"
+    items: "li"
+
+- name: ICLR
+  core_acronym: ICLR
+  # Pattern: iclr.cc/Conferences/{YYYY}/CallForPapers — consistent 2025, 2026
+  # Key dates: first classless <ul> in main#main; li text = "label: date" inline
+  url: https://iclr.cc/Conferences/{YYYY}/CallForPapers
+  strategy: css
+  tags: [ML]
+  description: "International Conference on Learning Representations"
+  selectors:
+    section_css: "main#main ul:not([class]):first-of-type"
+    items: "li"
+
+- name: CVPR
+  core_acronym: CVPR
+  # Pattern: cvpr.thecvf.com/Conferences/{YYYY}/CallForPapers — consistent 2025, 2026
+  # Important Dates: two-column table (all labels in td:first-child, all dates in td:last-child)
+  # 2026: <br>-separated within one <td>; 2025: individual <p> per entry — no per-item selector
+  # Regex generic A+C handles both layouts via structure-preserving HTML→text
+  url: https://cvpr.thecvf.com/Conferences/{YYYY}/CallForPapers
+  strategy: regex
+  tags: [ML]
+  description: "IEEE/CVF Conference on Computer Vision and Pattern Recognition"
+
+- name: AAAI
+  core_acronym: AAAI
+  # URL uses aaai-{YY} pattern (no {YY} template support) — use by_year
+  # WordPress Gutenberg blocks; regex generic A+C as safe fallback
+  strategy: regex
+  tags: [ML]
+  description: "AAAI Conference on Artificial Intelligence"
+  by_year:
+    2026:
+      url: https://aaai.org/conference/aaai/aaai-26/main-technical-track-call/
+    2027:
+      url: https://aaai.org/conference/aaai/aaai-27/main-technical-track-call/
+
+- name: IJCAI
+  core_acronym: IJCAI
+  # URL uses {YYYY}.ijcai.org subdomain with year-specific slug — use by_year
+  # HTML: <strong>label</strong>: date<br> pattern; regex generic A+C handles this
+  strategy: regex
+  tags: [ML]
+  description: "International Joint Conference on Artificial Intelligence"
+  by_year:
+    2025:
+      url: https://2025.ijcai.org/call-for-papers/
+    2026:
+      url: https://2026.ijcai.org/ijcai-ecai-2026-call-for-papers-main-track/

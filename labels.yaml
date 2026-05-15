@@ -41,6 +41,8 @@ early_reject:
   - desk reject
   - early notification  # pre-rebuttal decision (e.g. SIGCOMM 2026)
   - first round notification  # IACR conferences: pre-rebuttal decision before final notification
+  - summary reject  # IJCAI: "Summary reject notification"
+  - phase 1 rejection  # AAAI: "Phase 1 rejection notification"
 
 rebuttal_start:
   - rebuttal start
@@ -70,6 +72,8 @@ notification:
   - acceptance notification
   - decision notification
   - decisions released
+  - final decisions  # ICLR/CVPR: "Final decisions: date"
+  - paper notification  # IJCAI: "Paper notification"
   - notification
 
 shepherd:
