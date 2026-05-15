@@ -541,6 +541,41 @@ def _fetch(url: str) -> str:
     return resp.text
 
 
+# Phrases that indicate a page is a placeholder without real CFP content yet.
+_SCAFFOLDING_PHRASES: frozenset[str] = frozenset([
+    "coming soon",
+    "under construction",
+    "will be announced soon",
+    "to be announced soon",
+    "stay tuned",
+    "check back later",
+    "page not found",
+    "404 not found",
+    "website not found",
+    "site not found",
+])
+
+# Pages with fewer words than this (after HTML stripping) are likely placeholders.
+_MIN_CONTENT_WORDS = 20
+
+
+def _is_scaffolding(html: str) -> bool:
+    """Return True if page is a placeholder/scaffolding with no real CFP content.
+
+    Two signals:
+    - Phrase match: known placeholder phrases in the stripped text.
+    - Word count: fewer than _MIN_CONTENT_WORDS words AND no date patterns found
+      (a sparse page with real dates is a terse CFP, not scaffolding).
+    """
+    text = _strip_html(html)
+    lower = text.lower()
+    if any(phrase in lower for phrase in _SCAFFOLDING_PHRASES):
+        return True
+    if len(text.split()) < _MIN_CONTENT_WORDS:
+        return not bool(_GENERIC_DATE_RE.search(text))
+    return False
+
+
 class RegexStrategy(BaseStrategy):
     name = "regex"
 
@@ -550,6 +585,9 @@ class RegexStrategy(BaseStrategy):
             raise ValueError(f"{conf['name']}: no URL configured")
 
         html = _fetch(url)
+
+        if _is_scaffolding(html):
+            raise ValueError(f"{conf['name']}: scaffolding/placeholder page detected at {url}")
 
         # Shared fields from main page
         date, place = self._extract_main_fields(conf, year, url, html)

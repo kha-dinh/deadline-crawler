@@ -7,7 +7,7 @@ from crawler.strategies.regex import (
     RegexStrategy, _parse_deadline_date,
     _extract_deadlines_generic, _extract_deadlines_researchr,
     _autodiscover_researchr, _match_label, _strip_html,
-    _split_date_range,
+    _split_date_range, _is_scaffolding,
     LABEL_MAP,
 )
 from crawler.models import CrawlResult
@@ -780,3 +780,53 @@ def test_autodiscover_researchr_picks_research_track():
 def test_autodiscover_researchr_no_tr_href():
     html = "<ul><li>Submission: May 1, 2026</li></ul>"
     assert _autodiscover_researchr(html) == []
+
+
+# --- Scaffolding detection ---
+
+
+def test_is_scaffolding_coming_soon():
+    html = "<html><body><h1>Coming Soon</h1><p>Check back later.</p></body></html>"
+    assert _is_scaffolding(html) is True
+
+
+def test_is_scaffolding_under_construction():
+    html = "<html><body><p>This site is under construction.</p></body></html>"
+    assert _is_scaffolding(html) is True
+
+
+def test_is_scaffolding_few_words():
+    # Very sparse page — fewer than _MIN_CONTENT_WORDS
+    html = "<html><body><p>Hello world.</p></body></html>"
+    assert _is_scaffolding(html) is True
+
+
+def test_is_scaffolding_real_cfp():
+    # A page with enough content and no scaffolding phrases is not scaffolding
+    html = """<html><body>
+    <h1>Call for Papers</h1>
+    <p>We invite submissions on topics including security, systems, and networking.
+    Authors should submit original research papers. All submissions will be reviewed
+    by the program committee. Papers must be formatted according to the submission
+    guidelines and must not exceed twelve pages including references.</p>
+    <ul>
+      <li>Abstract deadline: March 1, 2026</li>
+      <li>Submission deadline: March 8, 2026</li>
+      <li>Notification: May 15, 2026</li>
+    </ul>
+    </body></html>"""
+    assert _is_scaffolding(html) is False
+
+
+@patch("crawler.strategies.regex._fetch")
+def test_is_scaffolding_raises_in_extract(mock_fetch):
+    """RegexStrategy.extract raises ValueError on scaffolding page."""
+    conf = {
+        "name": "TestConf",
+        "url": "https://example.com/{YYYY}",
+        "strategy": "regex",
+        "tags": ["SEC", "A*"],
+    }
+    mock_fetch.return_value = "<html><body><p>Coming soon</p></body></html>"
+    with pytest.raises(ValueError, match="scaffolding"):
+        RegexStrategy().extract(conf, 2026)
