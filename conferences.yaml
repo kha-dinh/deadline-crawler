@@ -35,22 +35,36 @@
     place: ".field-name-field-address-text .field-item"
   overrides:
     description: "USENIX Security Symposium"
+  by_year:
+    2027:
+      # CFP page not yet live; deadlines published on main conference page
+      url: https://www.usenix.org/conference/usenixsecurity{YY}
+      strategy: regex
+      cycles:
+        - name: "Cycle 1"
+          selectors:
+            section: '<strong>Cycle 1</strong>.*?(?=<strong>Cycle 2</strong>)'
+        - name: "Cycle 2"
+          selectors:
+            section: '<strong>Cycle 2</strong>.*?</ul>'
 
 - name: "IEEE S&P"
   # Pattern: sp{YYYY}.ieee-security.org — consistent across years
   url: https://sp{YYYY}.ieee-security.org/cfpapers.html
   url_main: https://sp{YYYY}.ieee-security.org/
-  strategy: regex
+  strategy: css
   tags: [SEC, A*]
   main_selectors:
     date: "p.location"
   cycles:
     - name: "Cycle 1"
       selectors:
-        section: 'id="first-deadline".*?</ul>'
+        section_css: "#first-deadline + ul"
+        items: "li"
     - name: "Cycle 2"
       selectors:
-        section: 'id="second-deadline".*?</ul>'
+        section_css: "#second-deadline + ul"
+        items: "li"
   overrides:
     description: "IEEE Symposium on Security and Privacy"
 
@@ -58,7 +72,7 @@
   # Pattern: sigsac.org/ccs/CCS{YYYY} — consistent across years
   url: https://www.sigsac.org/ccs/CCS{YYYY}/call-for/call-for-papers.html
   url_main: https://www.sigsac.org/ccs/CCS{YYYY}/
-  strategy: regex
+  strategy: css
   tags: [SEC, A*]
   main_selectors:
     date: "header.masthead .page-heading span.subheading:nth-of-type(1)"
@@ -66,10 +80,14 @@
   cycles:
     - name: "Cycle A"
       selectors:
-        section: 'id="first-review-cycle".*?</ul>'
+        section_css: "#first-review-cycle + ul"
+        items: "li"
+        label: "strong"
     - name: "Cycle B"
       selectors:
-        section: 'id="second-review-cycle".*?</ul>'
+        section_css: "#second-review-cycle + ul"
+        items: "li"
+        label: "strong"
   overrides:
     description: "ACM Conference on Computer and Communications Security"
 
@@ -228,10 +246,13 @@
   # Main page: .hero-container p.mb-4.pb-0 has "Date · Venue, City, Country" (combined)
   url: https://sigops.org/s/conferences/sosp/{YYYY}/cfp.html
   url_main: https://sigops.org/s/conferences/sosp/{YYYY}/
-  strategy: regex
+  strategy: css
   tags: [SYS, A*]
   selectors:
-    section: 'id="dates".*?</table>'
+    section_css: "#dates"
+    items: "tr"
+    label: "td:first-child"
+    date: "td:nth-child(2)"
   main_selectors:
     date: ".hero-container p.mb-4.pb-0"
   overrides:
@@ -297,10 +318,13 @@
   # 2026+: url_main = sigops.org, hero-container selector (same platform as SOSP)
   url: https://sigops.org/s/conferences/atc/{YYYY}/cfp.html
   url_main: https://www.usenix.org/conference/atc{YY}
-  strategy: regex
+  strategy: css
   tags: [SYS, A]
   selectors:
-    section: 'id="dates".*?</table>'
+    section_css: "#dates"
+    items: "tr"
+    label: "td:first-child"
+    date: "td:nth-child(2)"
   main_selectors:
     date: ".field-name-field-date-text .field-item"
     place: ".field-name-field-address-text .field-item"
@@ -314,17 +338,21 @@
 
 - name: NSDI
   # Pattern: usenix.org/conference/nsdi{YY}/call-for-papers — consistent
+  # Cycles delimited by <p><strong>Spring/Fall deadline:</strong></p> (no IDs);
+  # Spring = first <ul>, Fall = second <ul> within .field-name-field-column-wysiwyg .field-item
   url: https://www.usenix.org/conference/nsdi{YY}/call-for-papers
   url_main: https://www.usenix.org/conference/nsdi{YY}
-  strategy: regex
+  strategy: css
   tags: [SYS, A*]
   cycles:
     - name: "Spring"
       selectors:
-        section: "Spring deadline:</strong>.*?</ul>"
+        section_css: ".field-name-field-column-wysiwyg .field-item ul:first-of-type"
+        items: "li"
     - name: "Fall"
       selectors:
-        section: "Fall deadline:</strong>.*?</ul>"
+        section_css: ".field-name-field-column-wysiwyg .field-item ul:nth-of-type(2)"
+        items: "li"
   main_selectors:
     date: ".field-name-field-date-text .field-item"
     place: ".field-name-field-address-text .field-item"
@@ -332,14 +360,17 @@
     description: "USENIX Symposium on Networked Systems Design and Implementation"
 - name: SIGCOMM
   # Pattern: conferences.sigcomm.org/sigcomm/{YYYY}/cfp/ — consistent
-  # Dates in <table class=compact-table> under <h2>Important Dates</h2> (no id); uses <th> not <td>
+  # Dates in <table class=compact-table>; each row uses <th> (not <td>) for label and date
   # Main page: first span.text-color-secondary=date, second=place
   url: https://conferences.sigcomm.org/sigcomm/{YYYY}/cfp/
   url_main: https://conferences.sigcomm.org/sigcomm/{YYYY}/
-  strategy: regex
+  strategy: css
   tags: [SYS, A*]
   selectors:
-    section: 'Important Dates</h2>.*?</table>'
+    section_css: "table.compact-table"
+    items: "tr"
+    label: "th:first-child"
+    date: "th:last-child"
   main_selectors:
     date: "span.text-color-secondary:first-of-type"
     place: "span.text-color-secondary:last-of-type"
@@ -350,17 +381,21 @@
 
 - name: FAST
   # Pattern: usenix.org/conference/fast{YY}/call-for-papers — consistent
+  # Cycles delimited by <p><strong>Spring/Fall deadline:</strong></p> (no IDs);
+  # Spring = first <ul>, Fall = last <ul> within .field-name-body .field-item
   url: https://www.usenix.org/conference/fast{YY}/call-for-papers
   url_main: https://www.usenix.org/conference/fast{YY}
-  strategy: regex
+  strategy: css
   tags: [SYS, A]
   cycles:
     - name: "Spring"
       selectors:
-        section: "Spring deadline:</strong>.*?(?=Fall deadline:</strong>)"
+        section_css: ".field-name-body .field-item ul:first-of-type"
+        items: "li"
     - name: "Fall"
       selectors:
-        section: "Fall deadline:</strong>.*?(?=<h3|Two Deadlines</h3>)"
+        section_css: ".field-name-body .field-item ul:last-of-type"
+        items: "li"
   main_selectors:
     date: ".field-name-field-date-text .field-item"
     place: ".field-name-field-address-text .field-item"

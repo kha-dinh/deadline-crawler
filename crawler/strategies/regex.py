@@ -91,6 +91,7 @@ def _parse_deadline_date(text: str) -> str | None:
         "%B %d, %Y, %I:%M %p",
         "%B %d, %Y, %I:%M%p",
         "%B %d, %Y, %H:%M",
+        "%B %d, %Y %H:%M",
         "%B %d %Y, %H:%M",
         "%b %d, %Y, %I:%M:%S %p",
         "%b %d, %Y, %I:%M:%S%p",
@@ -99,6 +100,7 @@ def _parse_deadline_date(text: str) -> str | None:
         "%b %d, %Y, %I:%M %p",
         "%b %d, %Y, %I:%M%p",
         "%b %d, %Y, %H:%M",
+        "%b %d, %Y %H:%M",
         "%b %d %Y, %H:%M",
     ):
         try:

@@ -177,6 +177,7 @@ def transform_entry(entry: dict, now: datetime) -> dict:
                 "passed": _is_passed(d["date"], now),
             }
         )
+    out_deadlines.sort(key=lambda d: LABEL_ORDER.index(d["label"]) if d["label"] in LABEL_ORDER else len(LABEL_ORDER))
 
     return {
         "id": _slugify(f"{entry['name']} {entry['year']}" + (f" {entry['cycle']}" if entry.get("cycle") else "")),
