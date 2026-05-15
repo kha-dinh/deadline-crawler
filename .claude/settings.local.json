@@ -72,7 +72,11 @@
       "Bash(/dev/null cat:*)",
       "Bash(/dev/null done:*)",
       "Bash(python3:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(file:*)",
+      "Bash(wc:*)",
+      "Bash(but status:*)",
+      "Bash(but commit:*)"
     ]
   }
 }
