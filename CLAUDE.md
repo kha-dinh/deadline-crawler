@@ -56,7 +56,9 @@ Multi-cycle support: conferences with `cycles[]` produce one `CrawlResult` per c
 
 **CSSStrategy** (`crawler/strategies/css.py`): CSS selector-based extraction. Config shape: `section_css` (narrow DOM), `items` (per-item selector), `label`/`date` sub-selectors. Falls back to `LABEL_MAP` + `_GENERIC_DATE_RE` from regex module when sub-selectors omitted. Shares scaffolding check.
 
-**Config** (`crawler/config.py`): Loads `conferences.yaml`, validates V7/V8 invariants. URL templates use `{YYYY}`/`{YY}` placeholders resolved at crawl time. `by_year` support: per-year config merges over top-level defaults; year-specific fields take precedence.
+**Config** (`crawler/config.py`): Loads `conferences.yaml`, validates V7/V8 invariants. URL templates use `{YYYY}`/`{YY}` placeholders resolved at crawl time. `by_year` support: per-year config merges over top-level defaults; year-specific fields take precedence. After loading, injects CORE rank into `tags[1]` from `data/core2026.csv` via `crawler/ranks.py`; uses `core_acronym` field when conference name differs from CORE portal acronym; falls back to `core_rank` field when CSV rank is absent or non-standard.
+
+**Rankings** (`crawler/ranks.py`): Loads `data/core2026.csv` (downloaded from CORE portal, ICORE2026 source) into `{acronym_lower: rank}` dict. First match wins on duplicate acronyms. `load_ranks()` returns empty dict if CSV missing (graceful degradation).
 
 **Output** (`crawler/output/generate.py`): Transforms `CrawlResult` list → JSON/YAML with validation against V1-V3, V10 invariants.
 
@@ -74,4 +76,6 @@ Multi-cycle support: conferences with `cycles[]` produce one `CrawlResult` per c
 
 ## conferences.yaml Structure
 
-Each entry has: `name`, `url` (with `{YYYY}/{YY}` templates), `strategy`, `tags`. Optional: `url_main`, `cycles[]`, `selectors`, `overrides`, `by_year`. `by_year: {YYYY: {url, selectors?, cycles?, overrides?}}` — per-year config for conferences with unpredictable URLs; merges over top-level defaults. Cycles contain `name` + `selectors.section` (regex to isolate cycle text) + optional `selectors.researchr_track`/`researchr_cycle` for researchr.org multi-cycle pages.
+Each entry has: `name`, `url` (with `{YYYY}/{YY}` templates), `strategy`, `tags`. Optional: `url_main`, `cycles[]`, `selectors`, `by_year`, `core_acronym`, `core_rank`. `by_year: {YYYY: {url, selectors?, cycles?, overrides?}}` — per-year config for conferences with unpredictable URLs; merges over top-level defaults. Cycles contain `name` + `selectors.section` (regex to isolate cycle text) + optional `selectors.researchr_track`/`researchr_cycle` for researchr.org multi-cycle pages.
+
+`tags` contains only the area code: `[SEC]`, `[SYS]`, etc. — rank is injected at load time from `data/core2026.csv`. `core_acronym` overrides name-based CSV lookup (e.g. `ACM CCS` → `CCS`). `core_rank` provides explicit fallback when CSV rank is absent or non-standard (e.g. NSDI's "National: USA").
