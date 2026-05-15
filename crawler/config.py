@@ -2,6 +2,11 @@
 
 import yaml
 from pathlib import Path
+from rich.console import Console
+
+from crawler.ranks import load_ranks, lookup, _VALID_RANKS
+
+_stderr = Console(stderr=True)
 
 VALID_STRATEGIES = {"css", "regex", "llm", "static"}
 REQUIRED_FIELDS = {"name", "strategy", "tags"}
@@ -12,7 +17,12 @@ class ConfigError(Exception):
 
 
 def load_conferences(path: str | Path = "conferences.yaml") -> list[dict]:
-    """Load conferences.yaml and validate each entry against V7/V8."""
+    """Load conferences.yaml and validate each entry against V7/V8.
+
+    Overrides tags[1] (CORE rank) from data/core2026.csv when found and valid.
+    Uses core_acronym field if set, otherwise matches by name.
+    Warns when CSV rank differs from yaml rank or when conference not found.
+    """
     path = Path(path)
     if not path.exists():
         raise ConfigError(f"Config file not found: {path}")
@@ -23,12 +33,49 @@ def load_conferences(path: str | Path = "conferences.yaml") -> list[dict]:
     if not isinstance(entries, list):
         raise ConfigError("conferences.yaml must be a YAML list")
 
+    ranks = load_ranks()
+
     validated = []
     for i, entry in enumerate(entries):
         _validate_entry(entry, i)
+        entry = _inject_rank(entry, ranks)
         validated.append(entry)
 
     return validated
+
+
+def _inject_rank(entry: dict, ranks: dict[str, str]) -> dict:
+    """Inject CORE rank into tags[1] from CSV (or core_rank fallback field).
+
+    Uses entry['core_acronym'] if set, else entry['name'] for CSV lookup.
+    Falls back to entry['core_rank'] if CSV rank absent or invalid.
+    Warns when conference not found and no fallback available.
+    """
+    tags = entry.get("tags", [])
+    area = tags[0] if tags else ""
+    acronym = entry.get("core_acronym") or entry["name"]
+    csv_rank = lookup(acronym, ranks)
+    fallback = entry.get("core_rank")
+
+    if csv_rank in _VALID_RANKS:
+        rank = csv_rank
+    elif fallback in _VALID_RANKS:
+        if csv_rank is not None:
+            _stderr.print(
+                f"[dim]rank fallback[/] {entry['name']}: CORE CSV rank {csv_rank!r} invalid, "
+                f"using core_rank={fallback!r}"
+            )
+        rank = fallback
+    else:
+        _stderr.print(
+            f"[yellow]⚠[/] {entry['name']}: not found in CORE CSV "
+            f"(acronym={acronym!r}) and no core_rank fallback — rank unknown"
+        )
+        return entry
+
+    entry = dict(entry)
+    entry["tags"] = [area, rank]
+    return entry
 
 
 def _validate_entry(entry: dict, index: int) -> None:
