@@ -24,6 +24,85 @@
 #     section         — regex to narrow HTML (regex strategy)
 #     researchr_cycle — cycle label filter for researchr.org pages
 
+########################  Cryptography  ########################
+# IACR flagship conferences. All use the same Bootstrap-based template:
+#   article.customCard:first-of-type  →  "Important dates" card
+#   div.customCardRow  →  one row per date entry
+#   h6.dateTitle  →  date text, p  →  label text
+
+- name: Crypto
+  # Pattern: crypto.iacr.org/{YYYY}/ — consistent IACR template
+  url: https://crypto.iacr.org/{YYYY}/
+  strategy: css
+  tags: [CRYPTO]
+  description: "IACR Annual International Cryptology Conference"
+  selectors:
+    section_css: "article.customCard:first-of-type"
+    items: "div.customCardRow"
+    date: "h6.dateTitle"
+    label: "p"
+
+- name: Eurocrypt
+  # Pattern: eurocrypt.iacr.org/{YYYY}/ — consistent IACR template
+  url: https://eurocrypt.iacr.org/{YYYY}/
+  strategy: css
+  tags: [CRYPTO]
+  description: "Annual International Conference on the Theory and Applications of Cryptographic Techniques"
+  selectors:
+    section_css: "article.customCard:first-of-type"
+    items: "div.customCardRow"
+    date: "h6.dateTitle"
+    label: "p"
+
+- name: Asiacrypt
+  # Pattern: asiacrypt.iacr.org/{YYYY}/ — consistent IACR template
+  url: https://asiacrypt.iacr.org/{YYYY}/
+  strategy: css
+  tags: [CRYPTO]
+  description: "Annual International Conference on the Theory and Application of Cryptology and Information Security"
+  selectors:
+    section_css: "article.customCard:first-of-type"
+    items: "div.customCardRow"
+    date: "h6.dateTitle"
+    label: "p"
+
+- name: TCC
+  # Pattern: tcc.iacr.org/{YYYY}/ — consistent IACR template
+  url: https://tcc.iacr.org/{YYYY}/
+  strategy: css
+  tags: [CRYPTO]
+  description: "Theory of Cryptography Conference"
+  selectors:
+    section_css: "article.customCard:first-of-type"
+    items: "div.customCardRow"
+    date: "h6.dateTitle"
+    label: "p"
+
+- name: PKC
+  # Pattern: pkc.iacr.org/{YYYY}/ — consistent IACR template
+  url: https://pkc.iacr.org/{YYYY}/
+  strategy: css
+  tags: [CRYPTO]
+  description: "IACR International Conference on Practice and Theory in Public-Key Cryptography"
+  selectors:
+    section_css: "article.customCard:first-of-type"
+    items: "div.customCardRow"
+    date: "h6.dateTitle"
+    label: "p"
+
+- name: CHES
+  # Pattern: ches.iacr.org/{YYYY}/ — consistent IACR template
+  # CHES/TCHES has 4 submission cycles per year (h5 separators); CSS extracts cycle 1 only.
+  url: https://ches.iacr.org/{YYYY}/
+  strategy: css
+  tags: [CRYPTO]
+  description: "Workshop on Cryptographic Hardware and Embedded Systems"
+  selectors:
+    section_css: "article.customCard:first-of-type"
+    items: "div.customCardRow"
+    date: "h6.dateTitle"
+    label: "p"
+
 ########################  Security — TIER1  ########################
 
 - name: USENIX Security

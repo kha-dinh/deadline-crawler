@@ -102,6 +102,8 @@ def _parse_deadline_date(text: str) -> str | None:
     text = re.sub(r"^(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon|Tue|Wed|Thu|Fri|Sat|Sun),?\s*", "", text)
     # Normalize non-standard abbreviations (e.g. "Sept" → "Sep")
     text = re.sub(r"\bSept\b", "Sep", text)
+    # Strip trailing periods from month abbreviations (e.g. "Sept." → "Sep", "Mar." → "Mar")
+    text = re.sub(r"\b(Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\.", r"\1", text)
     # Strip ordinal suffixes (e.g. "3rd" → "3", "1st" → "1")
     text = re.sub(r"(\d+)(?:st|nd|rd|th)\b", r"\1", text)
 
