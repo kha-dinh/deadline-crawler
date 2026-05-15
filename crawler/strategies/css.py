@@ -32,6 +32,8 @@ from crawler.strategies.regex import (
     _fetch,
     _is_scaffolding,
     _parse_deadline_date,
+    _resolve_event_selectors,
+    _build_cycle_selectors,
     _split_date_range,
 )
 
@@ -146,14 +148,13 @@ class CssStrategy(BaseStrategy):
             raise ValueError(f"{conf['name']}: scaffolding/placeholder page detected at {url}")
 
         date, place = self._extract_main_fields(conf, year, url, html)
-        overrides = conf.get("overrides", {})
 
         cycles = conf.get("cycles")
         if cycles:
             results = []
             for cycle in cycles:
                 deadlines = _extract_deadlines_css(
-                    cycle.get("selectors", {}), html, year
+                    _build_cycle_selectors(conf, cycle), html, year
                 )
                 results.append(
                     CrawlResult(
@@ -164,7 +165,7 @@ class CssStrategy(BaseStrategy):
                         cycle=cycle.get("name"),
                         date=date,
                         place=place,
-                        description=overrides.get("description"),
+                        description=conf.get("description"),
                         tags=list(conf.get("tags", [])),
                     )
                 )
@@ -181,7 +182,7 @@ class CssStrategy(BaseStrategy):
                     deadlines=deadlines,
                     date=date,
                     place=place,
-                    description=overrides.get("description"),
+                    description=conf.get("description"),
                     tags=list(conf.get("tags", [])),
                 )
             ]
@@ -189,11 +190,11 @@ class CssStrategy(BaseStrategy):
     def _extract_main_fields(
         self, conf: dict, year: int, cfp_url: str, cfp_html: str
     ) -> tuple[str | None, str | None]:
-        main_selectors = conf.get("main_selectors")
+        event_selectors = _resolve_event_selectors(conf)
         static_date = conf.get("date") or None
         static_place = conf.get("place") or None
 
-        if not main_selectors:
+        if not event_selectors:
             return static_date, static_place
 
         url_main = resolve_url(
@@ -205,8 +206,8 @@ class CssStrategy(BaseStrategy):
             main_html = cfp_html
 
         soup = BeautifulSoup(main_html, "lxml")
-        date = self._css_text(soup, main_selectors.get("date")) or static_date
-        place = self._css_text(soup, main_selectors.get("place")) or static_place
+        date = self._css_text(soup, event_selectors.get("date")) or static_date
+        place = self._css_text(soup, event_selectors.get("place")) or static_place
         if date and place and date.endswith(place):
             date = date[: -len(place)].strip()
         return date, place

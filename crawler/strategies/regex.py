@@ -33,6 +33,41 @@ def _get_session() -> requests.Session:
     return _thread_local.session
 
 
+# T25: implicit event_selectors defaults keyed by url_main domain pattern
+_EVENT_SELECTORS_DEFAULTS: dict[str, dict[str, str]] = {
+    "conf.researchr.org": {"date": "div.place", "place": "div.place a"},
+    "usenix.org": {
+        "date": ".field-name-field-date-text .field-item",
+        "place": ".field-name-field-address-text .field-item",
+    },
+}
+
+
+def _resolve_event_selectors(conf: dict) -> dict | None:
+    """T25: resolve event_selectors — explicit block first, then URL-pattern defaults."""
+    explicit = conf.get("event_selectors")
+    if explicit:
+        return explicit
+    url_main = conf.get("url_main", conf.get("url", ""))
+    for domain, defaults in _EVENT_SELECTORS_DEFAULTS.items():
+        if domain in url_main:
+            return defaults
+    return None
+
+
+def _build_cycle_selectors(conf: dict, cycle: dict) -> dict:
+    """T26: build selectors for a cycle.
+
+    New format: cycle is flat {name, discriminator(s)} — merged with top-level selectors.
+    Old format (compat): cycle has nested selectors: block — used directly.
+    """
+    if "selectors" in cycle:
+        return cycle["selectors"]
+    merged = dict(conf.get("selectors", {}))
+    merged.update({k: v for k, v in cycle.items() if k != "name"})
+    return merged
+
+
 # Generic date pattern: matches "Month DD, YYYY" with optional ordinal suffix
 _GENERIC_DATE_RE = re.compile(
     r"([A-Z][a-z]+\.?\s+\d+\w*,?\s+\d{4})"
@@ -495,7 +530,6 @@ class RegexStrategy(BaseStrategy):
 
         # Shared fields from main page
         date, place = self._extract_main_fields(conf, year, url, html)
-        overrides = conf.get("overrides", {})
 
         no_specific = conf.get("_no_specific", False)
         conf_prefix = conf["name"].lower()
@@ -504,7 +538,7 @@ class RegexStrategy(BaseStrategy):
             # One CrawlResult per cycle
             results = []
             for cycle in cycles:
-                deadlines = self._extract_deadlines(cycle.get("selectors", {}), html, year, no_specific=no_specific, conf_prefix=conf_prefix)
+                deadlines = self._extract_deadlines(_build_cycle_selectors(conf, cycle), html, year, no_specific=no_specific, conf_prefix=conf_prefix)
                 results.append(CrawlResult(
                     name=conf["name"],
                     year=year,
@@ -513,7 +547,7 @@ class RegexStrategy(BaseStrategy):
                     cycle=cycle.get("name"),
                     date=date,
                     place=place,
-                    description=overrides.get("description"),
+                    description=conf.get("description"),
                     tags=list(conf.get("tags", [])),
                 ))
             return results
@@ -527,19 +561,19 @@ class RegexStrategy(BaseStrategy):
                 deadlines=deadlines,
                 date=date,
                 place=place,
-                description=overrides.get("description"),
+                description=conf.get("description"),
                 tags=list(conf.get("tags", [])),
             )]
 
     def _extract_main_fields(
         self, conf: dict, year: int, cfp_url: str, cfp_html: str
     ) -> tuple[str | None, str | None]:
-        main_selectors = conf.get("main_selectors")
+        event_selectors = _resolve_event_selectors(conf)
         # Static fallback: date/place can be hardcoded in conf (e.g. via by_year)
         static_date = conf.get("date") or None
         static_place = conf.get("place") or None
 
-        if not main_selectors:
+        if not event_selectors:
             return static_date, static_place
 
         url_main = resolve_url(
@@ -551,8 +585,8 @@ class RegexStrategy(BaseStrategy):
             main_html = cfp_html
 
         soup = BeautifulSoup(main_html, "lxml")
-        date = self._css_text(soup, main_selectors.get("date")) or static_date
-        place = self._css_text(soup, main_selectors.get("place")) or static_place
+        date = self._css_text(soup, event_selectors.get("date")) or static_date
+        place = self._css_text(soup, event_selectors.get("place")) or static_place
         # Strip trailing place text from date if both share same parent element
         # (e.g. researchr "div.place" has date text + <a>place</a>)
         if date and place and date.endswith(place):
