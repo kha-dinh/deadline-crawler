@@ -173,6 +173,7 @@ ALL_PAIRS: list[tuple[str, int]] = [
     ("ICFP", 2025),
     ("OOPSLA", 2025),
     # 2027
+    ("USENIX Security", 2027),
     ("IEEE S&P", 2027),
     ("PoPETs", 2027),
     ("EuroSys", 2027),
@@ -244,6 +245,7 @@ REQUIRED_LABELS_CASES: list[tuple[str, int, frozenset[str]]] = [
                                "rebuttal_start", "rebuttal_end"})),
     ("ICFP", 2025, frozenset({"submission", "shepherd", "notification", "camera_ready"})),
     # 2027 subset
+    ("USENIX Security", 2027, frozenset({"abstract", "submission"})),
     ("IEEE S&P", 2027, frozenset({"abstract", "submission", "early_reject",
                                    "notification", "camera_ready"})),
     ("FSE", 2027, frozenset({"submission", "notification"})),
@@ -297,7 +299,7 @@ SUBMISSION_DATE_CASES: list[tuple[str, int, str]] = [
     ("OSDI", 2025, "2024-12-10 17:59"),
     ("SIGCOMM", 2025, "2025-01-31 23:59"),
     ("HotOS", 2025, "2025-01-15 23:59"),
-    ("FSE", 2025, "2025-02-14 23:59"),
+    ("FSE", 2025, "2024-09-12 23:59"),     # research papers track
     ("ASE", 2025, "2025-05-30 23:59"),
     ("ISSTA", 2025, "2024-10-31 23:59"),
     ("ICSME", 2025, "2025-03-13 23:59"),
@@ -310,6 +312,8 @@ SUBMISSION_DATE_CASES: list[tuple[str, int, str]] = [
     ("MICRO", 2025, "2025-04-11 23:59"),
     ("ICFP", 2025, "2025-02-27 23:59"),
     # 2027
+    ("USENIX Security", 2027, "2026-08-25 23:59"),     # cycle 1
+    ("USENIX Security", 2027, "2027-01-26 23:59"),     # cycle 2
     ("IEEE S&P", 2027, "2026-06-11 23:59"),           # cycle 1
     ("FSE", 2027, "2026-10-02 23:59"),
     ("ICSE", 2027, "2026-06-30 23:59"),

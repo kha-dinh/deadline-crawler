@@ -98,6 +98,21 @@ def _extract_deadlines_css(selectors: dict, html: str, year: int | None = None) 
                 continue
             parsed = _parse_deadline_date(date_text)
         else:
+            # Check for date range in full item text before trying single-date extraction
+            _rm = _DATE_RANGE_RE.search(item_text) or _DATE_RANGE_EXPANDED_RE.search(item_text)
+            range_result = _split_date_range(_rm.group(0)) if _rm else None
+            if range_result:
+                start_str, end_str = range_result
+                ps = _parse_deadline_date(start_str)
+                pe = _parse_deadline_date(end_str)
+                if label and ps and label not in seen_labels:
+                    seen_labels.add(label)
+                    deadlines.append({"label": label, "date": ps})
+                    partner = _RANGE_LABEL_PAIRS.get(label)
+                    if partner and pe and partner not in seen_labels:
+                        seen_labels.add(partner)
+                        deadlines.append({"label": partner, "date": pe})
+                continue
             m = _GENERIC_DATE_RE.search(item_text)
             if m:
                 date_str = m.group(1) or m.group(2)
