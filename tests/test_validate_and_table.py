@@ -6,6 +6,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from main import cmd_validate, _output_to_entry, print_table, _days_until, _urgency_color
+from crawler.output.generate import _check_date_order
 
 
 # --- T10: validate ---
@@ -108,7 +109,7 @@ def test_urgency_color_green():
 
 
 def test_urgency_color_past():
-    assert _urgency_color(-5) == ""
+    assert _urgency_color(-5) == "\033[2m"
 
 
 def test_print_table_output(capsys):
@@ -139,6 +140,53 @@ def test_print_table_output(capsys):
     assert "ConfB" in out
     assert "submission" in out
     assert "abstract" in out
+
+
+# --- V14: date order checks ---
+
+
+def test_check_date_order_valid():
+    """V14: correctly ordered dates produce no warnings."""
+    entry = {
+        "deadline": [
+            {"label": "abstract", "date": "2026-01-10 23:59"},
+            {"label": "submission", "date": "2026-01-20 23:59"},
+            {"label": "notification", "date": "2026-03-01 23:59"},
+            {"label": "camera_ready", "date": "2026-04-01 23:59"},
+        ]
+    }
+    assert _check_date_order(entry) == []
+
+
+def test_check_date_order_violation():
+    """V14: out-of-order dates produce warnings."""
+    entry = {
+        "deadline": [
+            {"label": "abstract", "date": "2026-02-01 23:59"},
+            {"label": "submission", "date": "2026-01-15 23:59"},  # before abstract
+        ]
+    }
+    warnings = _check_date_order(entry)
+    assert len(warnings) == 1
+    assert "abstract" in warnings[0]
+    assert "submission" in warnings[0]
+
+
+def test_check_date_order_single_deadline():
+    """V14: single deadline = nothing to compare, no warnings."""
+    entry = {"deadline": [{"label": "submission", "date": "2026-06-01 23:59"}]}
+    assert _check_date_order(entry) == []
+
+
+def test_check_date_order_equal_dates():
+    """V14: equal dates are allowed (≤ not <)."""
+    entry = {
+        "deadline": [
+            {"label": "abstract", "date": "2026-01-15 23:59"},
+            {"label": "submission", "date": "2026-01-15 23:59"},
+        ]
+    }
+    assert _check_date_order(entry) == []
 
 
 def test_print_table_sort_by_urgency(capsys):

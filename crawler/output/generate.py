@@ -9,6 +9,9 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import yaml
+from rich.console import Console
+
+_stderr = Console(stderr=True)
 
 
 def write_yaml(data: dict, output_path: str | Path) -> None:
@@ -53,6 +56,12 @@ VALID_LABELS = {
     "rebuttal_end", "notification", "shepherd", "camera_ready",
 }
 
+# V14: canonical chronological order for deadline labels
+LABEL_ORDER = [
+    "abstract", "submission", "early_reject", "rebuttal_start",
+    "rebuttal_end", "notification", "shepherd", "camera_ready",
+]
+
 
 def _validate_entry(entry: dict) -> list[str]:
     """Validate data.yaml entry against V1, V2, V3, V10. Return list of errors."""
@@ -85,6 +94,25 @@ def _validate_entry(entry: dict) -> list[str]:
             errors.append(f"bad tier: {tags[1]}")
 
     return errors
+
+
+def _check_date_order(entry: dict) -> list[str]:
+    """V14: check deadline dates follow canonical label sequence. Return warnings."""
+    deadlines = entry.get("deadline", [])
+    label_to_date = {}
+    for d in deadlines:
+        if isinstance(d, dict) and d.get("label") and d.get("date"):
+            label_to_date[d["label"]] = d["date"]
+
+    # Filter to labels present, in canonical order
+    ordered = [(l, label_to_date[l]) for l in LABEL_ORDER if l in label_to_date]
+    warnings = []
+    for i in range(len(ordered) - 1):
+        l1, d1 = ordered[i]
+        l2, d2 = ordered[i + 1]
+        if d1 > d2:
+            warnings.append(f"date order: {l1} ({d1}) > {l2} ({d2})")
+    return warnings
 
 
 def transform_entry(entry: dict, now: datetime) -> dict:
@@ -165,9 +193,14 @@ def generate_from_results(
         entry = _result_to_entry(r)
         errors = _validate_entry(entry)
         if errors:
-            import sys
-            print(f"  ⚠ skipping {entry.get('name', '?')}: {'; '.join(errors)}", file=sys.stderr)
+            _stderr.print(f"  [bold red]⚠ skipping[/] {entry.get('name', '?')}: {'; '.join(errors)}")
             continue
+        # V14: warn on date order violations
+        date_warnings = _check_date_order(entry)
+        if date_warnings:
+            name = entry.get("name", "?")
+            for w in date_warnings:
+                _stderr.print(f"  [bold yellow]⚠[/] {name}: {w}")
         conferences.append(transform_entry(entry, now))
 
     result = {
