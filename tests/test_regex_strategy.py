@@ -7,6 +7,7 @@ from crawler.strategies.regex import (
     RegexStrategy, _parse_deadline_date,
     _extract_deadlines_generic, _extract_deadlines_researchr,
     _autodiscover_researchr, _match_label, _strip_html,
+    _split_date_range,
     LABEL_MAP,
 )
 from crawler.models import CrawlResult
@@ -59,6 +60,38 @@ from crawler.models import CrawlResult
 )
 def test_parse_deadline_date(input_text, expected):
     assert _parse_deadline_date(input_text) == expected
+
+
+# --- Date range splitting ---
+
+
+@pytest.mark.parametrize("text,expected", [
+    ("November 6–13, 2025", ("November 6, 2025", "November 13, 2025")),
+    ("April 16–23, 2026", ("April 16, 2026", "April 23, 2026")),
+    ("Nov 6-13, 2025", ("Nov 6, 2025", "Nov 13, 2025")),
+    ("June 5, 2025", None),   # single date → None
+    ("nonsense", None),
+])
+def test_split_date_range(text, expected):
+    assert _split_date_range(text) == expected
+
+
+def test_generic_extractor_range_produces_start_and_end():
+    html = """
+    <ul>
+      <li>Paper submission deadline: January 17, 2026</li>
+      <li>Rebuttal Period: November 6–13, 2025</li>
+      <li>Author notification: December 4, 2025</li>
+    </ul>
+    """
+    results = _extract_deadlines_generic(html, year=2026)
+    by_label = {d["label"]: d["date"] for d in results}
+    assert by_label.get("rebuttal_start") == "2025-11-06 23:59"
+    assert by_label.get("rebuttal_end") == "2025-11-13 23:59"
+
+
+def test_label_map_has_rebuttal_period():
+    assert "rebuttal period" in LABEL_MAP["rebuttal_start"]
 
 
 # --- Strategy integration ---

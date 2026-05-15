@@ -159,6 +159,6 @@ def crawl_all(
     if warnings:
         console.print()
         for w in warnings:
-            console.print(f"[bold yellow]⚠ {w}[/]")
+            console.print(f"[bold yellow]⚠[/] {w}")
 
     return results

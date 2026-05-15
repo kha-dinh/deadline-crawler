@@ -234,15 +234,16 @@ def generate_from_results(
         entry = _result_to_entry(r)
         errors = _validate_entry(entry)
         if errors:
-            _stderr.print(f"  [bold red]⚠ skipping[/] {entry.get('name', '?')}: {'; '.join(errors)}")
+            _stderr.print(f"[bold red]✗ skipping[/] {entry.get('name', '?')} {entry.get('year', '?')}: {'; '.join(errors)}")
             continue
         name = entry.get("name", "?")
+        year = entry.get("year", "?")
         # V16, V20: warn on possibly incomplete crawl results
         for w in _validate_entry_warnings(entry):
-            _stderr.print(f"  [bold yellow]⚠[/] {name}: {w}")
+            _stderr.print(f"[bold yellow]⚠[/] {name} {year}: {w}")
         # V14: warn on date order violations
         for w in _check_date_order(entry):
-            _stderr.print(f"  [bold yellow]⚠[/] {name}: {w}")
+            _stderr.print(f"[bold yellow]⚠[/] {name} {year}: {w}")
         conferences.append(transform_entry(entry, now))
 
     result = {

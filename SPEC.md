@@ -27,7 +27,7 @@ Crawl conference CFP pages and export structured deadline data (JSON/YAML). Per-
 - V5: (removed — no data.yaml intermediary)
 - V6: Past deadlines retained in output for historical reference
 - V7: Every conference in conferences.yaml MUST have: name, strategy, tags. `url` required unless `by_year` provides URLs for all target years
-- V8: Strategy field must be: regex (css, llm, static deferred)
+- V8: Strategy field must be one of: regex, css (llm, static deferred)
 - V9: Crawl result validated against V1-V3 before proposing to user
 - V10: deadline[].label MUST be one of: {abstract, submission, early_reject, rebuttal_start, rebuttal_end, notification, shepherd, camera_ready}. Mapping from raw CFP text → canonical label lives in strategy layer
 - V11: Generic extractor label map MUST cover all V10 canonical labels. Each canonical label has ≥1 phrase variant. Map is single source of truth for text→label mapping
@@ -46,7 +46,7 @@ Crawl conference CFP pages and export structured deadline data (JSON/YAML). Per-
 |----|--------|------|-------|
 | T1 | x | design conferences.yaml schema + seed w/ existing SEC conferences | I.conf,V7,V8 |
 | T2 | x | strategy engine: load conf, dispatch to strategy handler | I.strategy,I.conf |
-| T3 | — | (deferred) strategy: `css` | I.strategy |
+| T3 | x | strategy: `css` — CSS selector-based extraction | I.strategy |
 | T4 | x | strategy: `regex` — fetch page, extract via regex patterns | I.strategy |
 | T5 | — | (deferred) strategy: `llm` | I.strategy |
 | T6 | — | (deferred) strategy: `static` | I.strategy |
@@ -153,3 +153,4 @@ Most conferences only need `section` selector. Site-specific `deadlines:` patter
 | id | date | cause | fix |
 |----|------|-------|-----|
 | B1 | 2026-05-14 | POPL: shepherd date < notification date triggers V14 warning — POPL assigns shepherds before final notification (non-standard review process); data correct | no code fix; V14 annotated with known exception |
+| B2 | 2026-05-15 | SIGCOMM: rebuttal_end > notification triggers V14 warning — SIGCOMM has "early notification" (accept/reject/revision) before rebuttal period, then final "review results notification" after; only the earlier one gets the `notification` label (first-match-wins); data correct | no code fix; process quirk |

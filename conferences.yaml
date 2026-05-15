@@ -17,15 +17,19 @@
   # Pattern: usenixsecurity{YY} — consistent across years
   url: https://www.usenix.org/conference/usenixsecurity{YY}/call-for-papers
   url_main: https://www.usenix.org/conference/usenixsecurity{YY}
-  strategy: regex
+  strategy: css
   tags: [SEC, A*]
   cycles:
     - name: "Cycle 1"
       selectors:
-        section: 'id="cycle1".*?(?=id="cycle2"|<h3.*Submission Deadlines)'
+        section_css: "#cycle1 + ul"
+        items: "li"
+        date: "strong"
     - name: "Cycle 2"
       selectors:
-        section: 'id="cycle2".*?(?=<h3.*Submission Deadlines|<h2|$)'
+        section_css: "#cycle2 + ul"
+        items: "li"
+        date: "strong"
   main_selectors:
     date: ".field-name-field-date-text .field-item"
     place: ".field-name-field-address-text .field-item"
