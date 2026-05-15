@@ -113,7 +113,7 @@ def _validate_entry(entry: dict) -> list[str]:
 
 
 def _validate_entry_warnings(entry: dict) -> list[str]:
-    """V16, V20: warn on possibly incomplete crawl. Return list of warning strings."""
+    """V16, V20, V21: warn on possibly incomplete crawl. Return list of warning strings."""
     warnings = []
     deadlines = entry.get("deadline", [])
     labels = {d["label"] for d in deadlines if isinstance(d, dict) and "label" in d}
@@ -125,6 +125,14 @@ def _validate_entry_warnings(entry: dict) -> list[str]:
     # V20: exactly 1 deadline = likely partial
     if len(deadlines) == 1:
         warnings.append("only 1 deadline found (possibly partial crawl)")
+
+    # V21: date field year must match entry year
+    date_str = entry.get("date", "")
+    entry_year = entry.get("year")
+    if date_str and entry_year:
+        m = re.search(r"\b(20\d{2})\b", str(date_str))
+        if m and int(m.group(1)) != int(entry_year):
+            warnings.append(f"date field year {m.group(1)} != entry year {entry_year} (wrong page crawled?)")
 
     return warnings
 

@@ -289,6 +289,8 @@
 
 - name: ATC
   # Pattern: sigops.org/s/conferences/atc/{YYYY}/cfp.html — moved to ACM/SIGOPS in 2026
+  # 2025 and earlier: url_main = usenix.org, USENIX-style main_selectors
+  # 2026+: url_main = sigops.org, hero-container selector (same platform as SOSP)
   url: https://sigops.org/s/conferences/atc/{YYYY}/cfp.html
   url_main: https://www.usenix.org/conference/atc{YY}
   strategy: regex
@@ -300,6 +302,11 @@
     place: ".field-name-field-address-text .field-item"
   overrides:
     description: "ACM SIGOPS Annual Technical Conference"
+  by_year:
+    2026:
+      url_main: https://sigops.org/s/conferences/atc/2026/
+      main_selectors:
+        date: ".hero-container p.mb-4.pb-0"
 
 - name: NSDI
   # Pattern: usenix.org/conference/nsdi{YY}/call-for-papers — consistent

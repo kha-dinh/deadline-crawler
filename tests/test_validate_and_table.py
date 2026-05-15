@@ -345,6 +345,48 @@ def test_v20_no_warn_multiple_deadlines():
     assert not any("only 1 deadline" in w for w in warnings)
 
 
+# --- V21: date field year must match entry year ---
+
+
+def test_v21_warn_year_mismatch():
+    """V21: date field contains wrong year → warn."""
+    entry = {
+        "name": "Conf", "year": 2026, "link": "https://example.com",
+        "tags": ["SEC", "A*"],
+        "deadline": [{"label": "submission", "date": "2026-06-01 23:59"},
+                     {"label": "abstract", "date": "2026-05-01 23:59"}],
+        "date": "July 7–9, 2025",
+    }
+    warnings = _validate_entry_warnings(entry)
+    assert any("date field year" in w for w in warnings)
+
+
+def test_v21_no_warn_year_match():
+    """V21: date field year matches entry year → no warning."""
+    entry = {
+        "name": "Conf", "year": 2026, "link": "https://example.com",
+        "tags": ["SEC", "A*"],
+        "deadline": [{"label": "submission", "date": "2026-06-01 23:59"},
+                     {"label": "abstract", "date": "2026-05-01 23:59"}],
+        "date": "November 15-18, 2026",
+    }
+    warnings = _validate_entry_warnings(entry)
+    assert not any("date field year" in w for w in warnings)
+
+
+def test_v21_no_warn_empty_date():
+    """V21: empty date field → no warning."""
+    entry = {
+        "name": "Conf", "year": 2026, "link": "https://example.com",
+        "tags": ["SEC", "A*"],
+        "deadline": [{"label": "submission", "date": "2026-06-01 23:59"},
+                     {"label": "abstract", "date": "2026-05-01 23:59"}],
+        "date": "",
+    }
+    warnings = _validate_entry_warnings(entry)
+    assert not any("date field year" in w for w in warnings)
+
+
 def test_print_table_sort_by_urgency(capsys):
     """Soonest deadline first."""
     now = datetime(2026, 1, 1, 0, 0, tzinfo=timezone.utc)

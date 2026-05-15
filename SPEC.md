@@ -39,6 +39,7 @@ Crawl conference CFP pages and export structured deadline data (JSON/YAML). Per-
 - V17: Duplicate label within single entry → error, reject entry (extractor bug)
 - V19: `link` empty or not valid HTTP/HTTPS URL → error, reject entry
 - V20: Entry with exactly 1 deadline → warn (likely partial crawl)
+- V21: If entry `date` field non-empty and contains a 4-digit year, that year MUST match entry `year`. Violation → warn (not error) — some conferences span year-end (e.g. Dec/Jan event)
 
 ## §T Tasks
 | id | status | task | cites |
@@ -65,6 +66,7 @@ Crawl conference CFP pages and export structured deadline data (JSON/YAML). Per-
 | T20 | x | researchr extractor: `_extract_deadlines_researchr` (explicit slug) + `_autodiscover_researchr` (auto-score all `<tr href>` slugs); auto-discover fires on any researchr page with no config; ICSE keeps explicit `researchr_track`+`researchr_cycle` for cycle filtering; FSE, ASE, ISSTA, ICST, MSR, ICSME, SANER `deadlines:` blocks removed | I.conf,I.strategy |
 | T21 | x | implement V16,V17,V19,V20 validators in `validate` command + call on crawl output | V16,V17,V19,V20 |
 | T22 | x | unit tests for V16,V17,V19,V20 validators | V16,V17,V19,V20 |
+| T23 | x | V21 validator: warn when `date` field year ≠ entry year | V21 |
 
 ## §D Date Parsing Pipeline
 

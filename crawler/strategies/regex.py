@@ -2,10 +2,13 @@
 
 import re
 import threading
+import warnings
 from datetime import datetime
 
 import requests
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, XMLParsedAsHTMLWarning
+
+warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
 
 from crawler.config import resolve_url
 from crawler.models import CrawlResult
