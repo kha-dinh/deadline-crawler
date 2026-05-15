@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <title>IEEE Symposium on Security and Privacy 2027</title>
+
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Cookie banner -->
+    <!-- v ieee cookie banner v --> <script src="https://cmp.osano.com/AzyzptTmRlqVd2LRf/8c8682a8-99ab-47fd-b03f-e3eef61ae584/osano.js"></script> <link rel="stylesheet" href="https://cookie-consent.ieee.org/ieee-cookie-banner.css" type="text/css"/> <!-- ^ ieee cookie banner ^ -->
+
+    <!-- icons -->
+    <link href="images/favicon.png" rel="icon" type="image/png">
+    <link href="images/favicon.png" rel="apple-touch-icon" type="image/png">
+
+    <!-- bootstrap -->
+    <script src="js/jquery-2.1.3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+
+    <!-- glyphs -->
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+
+    <!-- fonts -->
+    <link rel="stylesheet" href="css/webfonts.css" type="text/css">
+
+    <!-- custom css -->
+    <link href="css/main.css" rel="stylesheet" type="text/css">
+
+    <!-- workaround for ie 7, 8 -->
+    <script type="text/javascript" src="js/css3-mediaqueries.js"></script>
+    <!--[if lt IE 9]>
+      <script type="text/javascript" src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+      <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.js"></script>
+    <![endif]-->
+
+    <!-- google analytics -->
+    <!--<script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-80995671-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>-->
+
+	<!--<script src="https://s3-us-west-2.amazonaws.com/ieeeshutpages/gdpr/settings.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js"></script>
+	<script>
+		window.addEventListener("load", function(){
+		 window.cookieconsent.initialise(json)
+		});
+	</script>-->
+  </head>
+  <body onLoad="updateCfPDeadline()">
+
+    <!-- https://github.com/twbs/bootstrap/issues/10601 -->
+    <div class="navbar navbar-inverse navbar-fixed-top" role="banner">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">S &amp; P</a>
+        </div>
+        <div class="collapse navbar-collapse" role="navigation">
+          <ul class="nav navbar-nav">
+            <li><a href="index.html"><i class="fa fa-home"></i> &nbsp; Home</a></li>
+
+             
+              <!--<li class="dropdown">
+               
+             
+ <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                Program <i class="fa fa-caret-down"></i>
+              </a>
+             
+              
+             
+
+              <ul class="dropdown-menu">  
+                <li><a href="program.html">Program</a></li>
+                <li><a href="accepted-papers.html">Accepted Papers</a></li>
+                <li><a href="posters.html">Posters</a></li>
+                <li><a href="program-shorttalks.html">Short Talks</a></li>
+		            <li><a href="presenters.html">Symposium Presenter Information</a></li>
+               </ul>
+
+               
+
+            </li>-->
+            
+
+
+
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                Call For... &nbsp; <i class="fa fa-caret-down"></i>
+              </a>
+              <ul class="dropdown-menu">
+                <li><a href="cfpapers.html">Papers</a></li>
+                <!--<li><a href="cfartifacts.html">Artifacts</a></li>-->
+                <!--<li><a href="https://docs.google.com/forms/d/e/1FAIpQLSeBJeZl7IUS1_6e-SPYxoti5PXMNCfRD-F4YsbA5EcLh2oHSg/viewform?usp=dialog" target="_blank">Artifact Evaluators</a></li>-->
+                
+                <!-- <li><a href="shadowpc.html">Shadow PCs</a></li> -->
+                <!-- <li><a href="cftalks.html">Short Talks</a></li> -->
+                <!--<li><a href="cfposters.html">Posters</a></li>-->
+                <!--<li><a href="cfworkshops.html">Workshops</a></li>-->
+                <!-- <li><a href="cfdonors.html">Donors</a></li> -->
+		<!-- <li><a href="cfdonors.html">Donors</a></li>--> 
+                <!--<li><a href="cfdonors.html">Donors</a></li>-->
+                <!--<li><a href="nominations-cybersecurity-award.html">Nominations: IEEE Cybersecurity Award for Practice</a></li>-->
+                <!-- <li><a href="studentpc.html">Student PC</a></li> -->
+              </ul>
+
+            </li>
+
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                Attend &nbsp; <i class="fa fa-caret-down"></i>
+              </a>
+              <ul class="dropdown-menu">
+               <!-- <li><a href="venue.html">Venue Info</a></li> -->
+               <!--<li><a href="https://na.eventscloud.com/ieeesp2026">Registration</a></li>-->
+               <!--<li><a href="travel_grants.html">Student Travel Grants</a></li>-->
+               <li><a href="codeofconduct.html">Attendee Code of Conduct</a></li>
+              </ul>
+            </li>
+
+
+            <!--<li class=""><a href="workshops.html"></i> 
+                Workshops </a></li>
+              
+             
+
+              <ul class="dropdown-menu">
+                <li><a href="workshops.html">General Info</a></li>
+              </ul>
+		              
+
+            </li>-->
+
+
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+<!-- comment press page
+            <li class="hidden-sm"><a href="press.html">Press</a></li>
+end press -->
+            <li class="hidden-sm">
+              <a href="https://twitter.com/ieeessp">
+                <i class="fa fa-twitter hidden-xs"></i>
+                <span class="visible-xs">Twitter</span>
+              </a>
+            </li>
+
+            <li class="hidden-sm">
+              <a href="https://www.facebook.com/ieeessp">
+                <i class="fa fa-facebook hidden-xs"></i>
+                <span class="visible-xs">Facebook</span>
+              </a>
+            </li>
+            <li class="hidden-sm">
+              <a href="https://www.linkedin.com/company/ieee-symposium-on-security-and-privacy/">
+                <i class="fa fa-linkedin hidden-xs"></i>
+                <span class="visible-xs">LinkedIn</span>
+              </a>
+            </li>
+            <li>
+              <a href="contact.html">
+                <i class="fa fa-envelope hidden-xs"></i>
+                <span class="visible-xs">Contact</span>
+              </a>
+            </li>
+
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                About &nbsp; <i class="fa fa-caret-down"></i>
+              </a>
+              <ul class="dropdown-menu">
+               <li><a href="past.html">Past Conferences</a></li>
+               <li><a href="organizers.html">Conference Organizers</a></li>
+               <li><a href="https://www.ieee-security.org/index.html">IEEE Technical Community</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="jumbotron">
+      <div class="container">
+        <p class="location">
+          
+              TBA 
+               AT THE
+              TBA,
+              MONTREAL, CANADA 
+          
+        </p>
+
+        <p class="title">
+          
+              48th IEEE Symposium on<br>Security and Privacy
+          
+        </p>
+
+        <p class="sponsors hidden-xs">
+          Sponsored by the <a class="jumbotron_link" href="http://ieee-security.org/">IEEE Computer Society's Technical Community on Security and Privacy</a> in cooperation with the <a
+              class="jumbotron_link" href="http://www.iacr.org">International Association for Cryptologic Research</a>
+        </p>
+<!--        <p class="sponsors">
+          Registration Button
+          <a class="btn btn-default btn-lg">
+            <i class="fa fa-chevron-circle-right fa-lg"></i>&nbsp;&nbsp; Register (not open)
+          </a>
+        </p>
+-->
+      </div>
+    </div>
+
+    <div class="container">
+<div class="lead" style="margin-top: 3ex">
+  <p>
+    Since 1980, the IEEE Symposium on Security and Privacy has been the premier forum for presenting developments in computer security and electronic privacy, and for bringing together researchers and practitioners in the field. The 2027 Symposium will mark the 48<sup>th</sup> annual meeting of this flagship conference.
+  </p>
+
+   <p>
+    The Symposium will be held on TBA, and the Security and Privacy Workshops will be held on TBA.  Both events will be in Montreal, Canada at the TBA.
+  </p> 
+</div>
+
+<!--
+
+# Latest News
+
+---
+
+### Statement on the US Government Travel Restrictions
+
+The IEEE Computer Society's Technical Community on Security and Privacy fully
+supports the position of the IEEE and its Computer Society on the US
+Government's Travel Restrictions, as expressed in their public statements (<a href="https://m.ieee.org/about/bartleson_message_01_february_2017.html"><u>1</u></a>, <a href="https://www.computer.org/web/about/cs-statement-on-travel-restrictions"><u>2</u></a>).
+In addition, we acknowledge our commitment to the special
+responsibility of the security and privacy research community to advance
+knowledge and technologies to enable protection of universal human rights such
+as freedom of opinion and expression.
+
+-->
+<!--
+### S&P on X (Twitter)
+
+<blockquote class="twitter-tweet" data-dnt="true"><p lang="en" dir="ltr">Don&#39;t forget to send your workshop proposals!<br>The deadline is approaching: September 26.<a href="https://twitter.com/hashtag/ieeesp2025?src=hash&amp;ref_src=twsrc%5Etfw">#ieeesp2025</a><br><br>More info: <a href="https://t.co/dbFqQCpEWN">https://t.co/dbFqQCpEWN</a></p>&mdash; IEEE S&amp;P (@IEEESSP) <a href="https://twitter.com/IEEESSP/status/1836129431628243143?ref_src=twsrc%5Etfw">September 17, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+-->
+
+<h3 id="sp-on-linkedin"><a href="https://www.linkedin.com/company/ieee-symposium-on-security-and-privacy/" target="_blank">S&amp;P on LinkedIn</a></h3>
+
+<h3 id="organizing-committee">Organizing Committee</h3>
+
+<hr />
+
+<table class="table table-hover table-nonfluid">
+  <tr>
+    <td><a href="mailto:chair-27@sp.ieee-security.org">General Chair</a></td>
+    <td>Adam Aviv</td>
+    <td>George Washington University</td>
+  </tr>
+  <tr>
+    <td><a data-href="mailto:vicechair-27@sp.ieee-security.org">Vice Chair</a></td>
+    <td>TBA</td>
+    <td>TBA</td>
+  </tr>
+  <tr>
+    <td><a href="mailto:pcchairs-27@sp.ieee-security.org">Program Chairs</a></td>
+    <td>Michelle Mazurek</td>
+    <td>University of Maryland</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>Nicolas Papernot</td>
+    <td>University of Toronto and Vector Institute and Google DeepMind</td>
+  </tr>
+  <tr>
+    <td><a data-href="mailto:treasurer-27@sp.ieee-security.org">Treasurer</a></td>
+    <td>Adwait Nadkarni</td>
+    <td>William &amp; Mary</td>
+  </tr>
+  <tr>
+    <td><a data-href="mailto:workshopchair-27@sp.ieee-security.org">Workshops Chairs</a></td>
+    <td>Ghada Almashaqbeh</td>
+    <td>University of Connecticut</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>Gabe Kaptchuk</td>
+    <td>University of Maryland</td>
+  </tr>
+  <tr>
+    <td><a data-href="mailto:posters-27@sp.ieee-security.org">Posters Chairs</a></td>
+    <td>Syed Hussain</td>
+    <td>Pennsylvania State University</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>Wajih Hassan</td>
+    <td>University of Virginia</td>
+  </tr>
+  <tr>
+    <td><a data-href="mailto:awards-27@sp.ieee-security.org">Test of Time Awards Chair</a></td>
+    <td>Jeremy Epstein</td>
+    <td>Georgia Tech</td>
+  </tr>
+  <tr>
+    <td><a href="mailto:webmaster-27@sp.ieee-security.org">Web Chairs</a></td>
+    <td>Andreas Brüggemann</td>
+    <td>TU Darmstadt</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>Jan Filipp</td>
+    <td>TU Darmstadt</td>
+  </tr>
+  <tr>
+    <td><a data-href="mailto:publicity-27@sp.ieee-security.org">Publicity Chairs</a></td>
+    <td>Amit Seal Ami</td>
+    <td>University of South Florida</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>Prianka Mandal</td>
+    <td>William &amp; Mary</td>
+  </tr>
+  <tr>
+    <td><a data-href="mailto:studenttravel-27@sp.ieee-security.org">Student Travel Grants Chair</a></td>
+    <td>Arkady Yerukhimovich</td>
+    <td>George Washington University</td>
+  </tr>
+  <!--<tr>
+    <td><a data-href="mailto:donations-27@sp.ieee-security.org">Donations Chair</a></td>
+    <td>TBA</td>
+    <td>TBA</td>
+  </tr>-->
+  <tr>
+    <td><a data-href="mailto:publication-27@sp.ieee-security.org">Publications Chairs</a></td>
+    <td>Berkay Celik</td>
+    <td>Purdue University</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>Pubali Datta</td>
+    <td>University of Illinois Urbana-Champaign</td>
+  </tr>
+  <!--<tr>
+    <td><a data-href="mailto:diversity-27@sp.ieee-security.org">Diversity, Equity, and Inclusion Chair</a></td>
+    <td>TBA</td>
+    <td>TBA</td>
+  </tr>-->
+  <!--<tr>
+    <td><a data-href="mailto:ieeesp@executivevents.com">Site Chair</a></td>
+    <td>TBA</td>
+    <td>TBA</td>
+  </tr>-->
+  <tr>
+    <td>General Chair Emeritus</td>
+    <td>Alina Oprea</td>
+    <td>Northeastern University</td>
+  </tr>
+</table>
+
+<!-- # Deadlines
+---
+
+<table class="table table-hover table-nonfluid">
+  <tr>
+   <td>Papers</td>
+   <td>Paper submission deadline</td>
+   <td><div id="cfpRollingDeadline">Rolling (Next deadline: January 1, 2018)</div></td>
+  </tr>
+  <tr>
+   <td></td>
+   <td>Submission site open for acceptance</td>
+   <td>1 week before the rolling deadline</td>
+  </tr>
+  <tr>
+   <td></td>
+   <td>Acceptance notification</td>
+   <td>2 months after submission</td>
+  </tr>
+  <tr>
+   <td></td>
+   <td>Camera-ready deadline</td>
+   <td>1 month after acceptance</td>
+  </tr>
+</table>
+
+ -->
+
+<!--# Platinum Supporters
+
+---
+
+<div class="row">
+    <div class="col-md-12">
+      <a href="https://www.nsf.gov/" target="_blank"><img src="images/logo-nsf.png" alt="NSF" class="img-responsive logo center-block"></a>
+    </div>
+</div>-->
+
+<!--# Gold Supporters
+
+---
+
+<div class="row">
+    <div class="col-md-12">
+      <a href="https://www.paloaltonetworks.com/" target="_blank"><img src="images/logo-paloalto.png" alt="Palo Alto Networks" class="img-responsive logo center-block" style="margin-top: 29px; margin-bottom: 28px;"></a>
+   </div>
+</div>-->
+
+<!--# Silver Supporters
+
+---
+
+<div class="row">
+    <div class="col-md-12">
+      <a href="https://www.ibm.com/" target="_blank"><img src="images/logo-IBM.png" alt="IBM" class="img-responsive logo center-block"></a>
+    </div>
+</div>-->
+
+<!--# Bronze Supporters
+
+---
+
+<div class="row">
+    <div class="col-md-4">
+      <a href="https://www.ll.mit.edu/" target="_blank"><img src="images/logo-mitll.png" alt="Lincoln Laboratory (MIT)" class="img-responsive logo center-block align-middle" style="max-width:300px; margin-top: 42px; margin-bottom: 41px;"></a>
+    </div>
+    <div class="col-md-3">
+      <a href="https://puppygraph.com/" target="_blank"><img src="images/logo-puppyquery.png" alt="PuppyQuery Inc." class="img-responsive logo center-block" style="max-width:220px; margin-top: 27px; margin-bottom: 27px;"></a>
+    </div>
+    <div class="col-md-2">
+      <a href="https://www.tii.ae/" target="_blank"><img src="images/logo-tii.png" alt="Technology Innovation Institute" class="img-responsive logo center-block" style="max-width:150px; margin-top: 15px; margin-bottom: 14px;"></a>
+    </div>
+    <div class="col-md-3">
+      <a href="https://www.cisco.com/" target="_blank"><img src="images/logo-cisco.png" alt="Cisco" class="img-responsive logo center-block" style="max-width:170px; margin-top: 11px; margin-bottom: 11px;"></a>
+    </div>
+</div>-->
+
+<!--
+Prior sponsors for quick reference if they sponsor future events again:
+2026, including v-alignment and sizing for specific rows:
+<div class="row">
+    <div class="col-md-12">
+      <a href="https://www.nsf.gov/" target="_blank"><img src="images/logo-nsf.png" alt="NSF" class="img-responsive logo center-block"></a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+      <a href="https://www.tiktok.com/" target="_blank"><img src="images/logo-tiktok.png" alt="TikTok" class="img-responsive logo center-block"></a>
+   </div>
+   <div class="col-md-6">
+      <a href="https://www.google.com/" target="_blank"><img src="images/logo-google.png" alt="Google" class="img-responsive logo center-block" style="margin-top: 7px;"></a>
+   </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+      <a href="https://www.ibm.com/" target="_blank"><img src="images/logo-IBM.png" alt="IBM" class="img-responsive logo center-block"></a>
+    </div>
+    <div class="col-md-4">
+      <a href="https://www.paloaltonetworks.com/" target="_blank"><img src="images/logo-paloalto.png" alt="Palo Alto Networks" class="img-responsive logo center-block" style="margin-top: 29px; margin-bottom: 28px;"></a>
+    </div>
+    <div class="col-md-4">
+      <a href="https://www.antgroup.com/en" target="_blank"><img src="images/logo-ant.png" alt="ANT group" class="img-responsive logo center-block"></a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+      <a href="https://www.ll.mit.edu/" target="_blank"><img src="images/logo-mitll.png" alt="Lincoln Laboratory (MIT)" class="img-responsive logo center-block align-middle" style="max-width:300px; margin-top: 42px; margin-bottom: 41px;"></a>
+    </div>
+    <div class="col-md-3">
+      <a href="https://puppygraph.com/" target="_blank"><img src="images/logo-puppyquery.png" alt="PuppyQuery Inc." class="img-responsive logo center-block" style="max-width:220px; margin-top: 27px; margin-bottom: 27px;"></a>
+    </div>
+    <div class="col-md-2">
+      <a href="https://www.tii.ae/" target="_blank"><img src="images/logo-tii.png" alt="Technology Innovation Institute" class="img-responsive logo center-block" style="max-width:150px; margin-top: 15px; margin-bottom: 14px;"></a>
+    </div>
+    <div class="col-md-3">
+      <a href="https://www.cisco.com/" target="_blank"><img src="images/logo-cisco.png" alt="Cisco" class="img-responsive logo center-block" style="max-width:170px; margin-top: 11px; margin-bottom: 11px;"></a>
+    </div>
+</div>
+
+Misc old:
+<a href="https://www.intel.com/content/www/us/en/security/overview.html" target="_blank"><img src="images/logo-intel.png" alt="Intel" class="img-responsive logo center-block"></a>
+<a href="https://www.research.fb.com/" target="_blank"><img src="images/logo-facebook.png" alt="Facebook" class="img-responsive logo center-block"></a>
+<a href="https://research.google.com/" target="_blank"><img src="images/logo-google.png" alt="Google" class="img-responsive logo center-block"></a>
+<a href="https://www.sei.cmu.edu/about/divisions/cert/index.cfm" target="_blank"><img src="images/logo-cmu.jpg" alt="Computer Emergency Response Team" class="img-responsive logo center-block"></a>
+<a href="https://www.cert.org/" target="_blank"><img src="images/logo-sei.jpg" alt="Computer Emergency Response Team" class="img-responsive logo center-block"></a>
+<a href="https://research.fb.com/" target="_blank"><img src="images/logo-facebook.png" alt="Facebook" class="img-responsive logo center-block"></a>
+<a href="https://www.vmware.com" target="_blank"><img src="images/logo-vmware.jpg" alt="VMware" class="img-responsive logo center-block"></a>
+<a href="https://www.sei.cmu.edu/about/divisions/cert/index.cfm" target="_blank"><img src="images/logo-cmu.jpeg" alt="Computer Emergency Response Team" class="img-responsive logo center-block" width=350></a>
+<a href="https://www.computer.org/csdl/magazine/sp" target="_blank"><img src="images/logo-ieee-sp.jpg" alt="IEEE Security & Privacy" class="img-responsive logo center-block"></a>
+-->
+
+
+    </div>
+
+    <footer class="footer hidden-xs">
+      <div class="container text-center">
+        <a href="http://www.ieee.org"><img src="images/logo-ieee.jpg" height="44" alt="IEEE"></a>
+        <a href="http://www.computer.org"><img src="images/logo-ieee-cs.png" height="44" alt="IEEE Computer Society" style="padding: 0ex 10ex"></a>
+        <a href="http://www.ieee-security.org"><img src="images/trojan.png" height="44" alt="IEEE Technical Community on Security and Privacy"></a>
+      </div>
+    </footer>
+
+  </body>
+</html>

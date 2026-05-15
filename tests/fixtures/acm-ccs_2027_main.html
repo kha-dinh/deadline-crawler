@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"./>
+  <title>ACM CCS 2027</title>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"./>
+  <link rel="stylesheet" href="./meta/styles.css" />
+</head>
+<body>
+  <!-- NAVBAR -->
+  <div id="nav-overlay"></div>
+  <div id="navbar-slot"></div>
+  <!-- MAIN HERO -->
+  <section class="hero">
+    <img class="hero-logo" src="./img/sigsac-logo.png" alt="ACM CCS 2027 logo">
+    <h1 class="hero-title">ACM CCS <span>2027</span></h1>
+    <p class="hero-subtitle">Coming in October 2027</p>
+    <p class="hero-location"><strong>Atlanta，USA</strong></p>
+    <div class="hero-divider"></div>  
+    <div class="coming-soon-badge">Coming Soon</div>
+  </section>
+  <!-- LATEST NEWS -->
+  <div id="news-slot"></div>
+  <!-- FOOTER -->
+  <div id="footer-slot"></div>
+
+  <script src="./meta/scripts.js"></script>
+  <script>
+    async function loadComponent(slotId, path) {
+      const response = await fetch(path);
+      const html = await response.text();
+      document.getElementById(slotId).innerHTML = html;
+    }
+
+    async function initPage() {
+      await Promise.all([
+        loadComponent('navbar-slot', './components/navbar.html'),
+        loadComponent('news-slot', './components/news.html'),
+        loadComponent('footer-slot', './components/footer.html')
+      ]);
+
+      if (typeof window.initNavbar === 'function') {
+        window.initNavbar();
+      }
+    }
+
+    initPage();
+  </script>
+
+  
+</body>
+</html>

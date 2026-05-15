@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en" class=" kpcetukn idc0_350"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="Daniel Gruss">
+<meta name="theme-color" content="#563d7c">
+<title>22nd Conference on Detection of Intrusions and Malware &amp; Vulnerability Assessment (DIMVA '25)</title>
+<!-- Bootstrap core CSS -->
+<link href="bootstrap.min.css" rel="stylesheet">
+<link href="fontawesome.min.css" rel="stylesheet">
+<link href="academicons.min.css" rel="stylesheet">
+<style>
+body {
+    overflow-x: hidden;
+    font-family: K2D, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+p {
+    line-height: 1.25;
+    text-align: left;
+}
+
+a {
+    color: #b33;
+}
+
+a.active, a:active, a:focus, a:hover {
+    color: #d44;
+}
+
+strike {
+	text-decoration-thickness: 2px;
+	text-decoration-color: #aa0000aa;
+	}
+
+strong.important {
+    color: #b33;
+}
+
+.text-primary {
+    color: #00ff00 !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    text-align: left;
+    font-weight: 700;
+}
+
+.session {
+    color: #b33;
+}
+
+section {
+    padding: 60px 0;
+}
+
+th, td {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+section h2.section-heading {
+    font-size: 30px;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+section h3.section-subheading {
+    font-size: 20px;
+    font-weight: 400;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    text-transform: none;
+}
+
+#mainNav {
+    background-color: #222;
+}
+
+#mainNav .navbar-toggler {
+    font-size: 12px;
+    right: 0;
+    padding: 13px;
+    text-transform: uppercase;
+    color: white;
+    border: 0;
+    background-color: #c44;
+}
+
+#mainNav .navbar-brand {
+    color: #f4f4f4;
+    /* font-weight: bold; */
+}
+
+#mainNav .navbar-brand.active, #mainNav .navbar-brand:active, #mainNav .navbar-brand:focus, #mainNav .navbar-brand:hover {
+    color: #f44;
+}
+
+#mainNav .navbar-nav .nav-item .nav-link {
+    font-size: 90%;
+    font-weight: 400;
+    padding: 1.1em;
+    letter-spacing: 1px;
+    color: white;
+}
+
+#mainNav .navbar-nav .nav-item .nav-link.active, #mainNav .navbar-nav .nav-item .nav-link:hover {
+    color: #f44;
+}
+
+@media (max-width: 992px) {
+  .navbar-collapse {
+    position: absolute;      /* take it out of the document flow */
+    top: 56px;               /* height of your navbar */
+    right: auto;                /* hug the right edge */
+    left: auto;              /* don't stretch full-width */
+    width: auto;             /* shrink to content */
+    background-color: #343a40; /* match bg-dark */
+    padding: 0.5rem 1rem;    /* tighter padding */
+    border-radius: 0 0 0.25rem 0.25rem;
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.2);
+    z-index: 1040;           /* above content */
+  }
+  .navbar-nav .nav-link {
+    padding: 0.25rem 0;      /* less vertical space */
+  }
+}
+</style>
+</head>
+
+<body id="page-top">
+
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+<div class="container">
+	<a class="navbar-brand" href="#page-top"><img src="dimvalogo.png" width="50px" alt="DIMVA Logo"> DIMVA 2025</a>
+  <button class="navbar-toggler" 
+        type="button" 
+        data-bs-toggle="collapse" 
+        data-bs-target="#navbar" 
+        aria-controls="navbar" 
+        aria-expanded="false" 
+        aria-label="Toggle navigation">
+  <span class="navbar-toggler-icon"></span>
+</button>
+	<div class="collapse navbar-collapse" id="navbar">
+	<ul class="navbar-nav ml-auto">
+		<li class="nav-item"><a class="nav-link" href="#page-top">Home</a></li>
+		<!--<li class="nav-item"><a class="nav-link" href="#registration">Registration</a></li>-->
+    <!--<li class="nav-item"><a class="nav-link" href="#diversity">Diversity Grants</a></li>-->
+		<li class="nav-item"><a class="nav-link" href="#program">Program</a></li>
+		<li class="nav-item"><a class="nav-link" href="#sponsors">Sponsors</a></li>
+		<!--<li class="nav-item"><a class="nav-link" href="#cfp">Call for Papers</a></li>
+		<li class="nav-item"><a class="nav-link" href="#cfposter">Call for Posters</a></li>-->
+		<li class="nav-item"><a class="nav-link" href="#committee">Committee</a></li>
+		<li class="nav-item"><a class="nav-link" href="#venue">Venue</a></li>
+	</ul>
+	</div>
+    <img src="tugraz.png" class="ml-auto" width="50px">
+</div>
+</nav>
+
+<main role="main" class="container">
+
+<section id="header">
+<div class="container">
+<br>
+
+<h1>22nd Conference on Detection of Intrusions and Malware &amp; Vulnerability Assessment (DIMVA '25)</h1>
+<h4>July 9 to 11, 2025 at Graz University of Technology, Austria</h4>
+
+<a href="https://discord.gg/h898j3Fhee"><div style="color: rgb(29, 155, 240);width:30px;height:30p; display:inline-block;">
+<svg width="32px" height="32px" viewBox="0 -28.5 256 256" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid">
+    <g>
+        <path d="M216.856339,16.5966031 C200.285002,8.84328665 182.566144,3.2084988 164.041564,0 C161.766523,4.11318106 159.108624,9.64549908 157.276099,14.0464379 C137.583995,11.0849896 118.072967,11.0849896 98.7430163,14.0464379 C96.9108417,9.64549908 94.1925838,4.11318106 91.8971895,0 C73.3526068,3.2084988 55.6133949,8.86399117 39.0420583,16.6376612 C5.61752293,67.146514 -3.4433191,116.400813 1.08711069,164.955721 C23.2560196,181.510915 44.7403634,191.567697 65.8621325,198.148576 C71.0772151,190.971126 75.7283628,183.341335 79.7352139,175.300261 C72.104019,172.400575 64.7949724,168.822202 57.8887866,164.667963 C59.7209612,163.310589 61.5131304,161.891452 63.2445898,160.431257 C105.36741,180.133187 151.134928,180.133187 192.754523,160.431257 C194.506336,161.891452 196.298154,163.310589 198.110326,164.667963 C191.183787,168.842556 183.854737,172.420929 176.223542,175.320965 C180.230393,183.341335 184.861538,190.991831 190.096624,198.16893 C211.238746,191.588051 232.743023,181.531619 254.911949,164.955721 C260.227747,108.668201 245.831087,59.8662432 216.856339,16.5966031 Z M85.4738752,135.09489 C72.8290281,135.09489 62.4592217,123.290155 62.4592217,108.914901 C62.4592217,94.5396472 72.607595,82.7145587 85.4738752,82.7145587 C98.3405064,82.7145587 108.709962,94.5189427 108.488529,108.914901 C108.508531,123.290155 98.3405064,135.09489 85.4738752,135.09489 Z M170.525237,135.09489 C157.88039,135.09489 147.510584,123.290155 147.510584,108.914901 C147.510584,94.5396472 157.658606,82.7145587 170.525237,82.7145587 C183.391518,82.7145587 193.761324,94.5189427 193.539891,108.914901 C193.539891,123.290155 183.391518,135.09489 170.525237,135.09489 Z" fill="#000000" fill-rule="nonzero">
+
+</path>
+    </g>
+</svg></div>
+ Join our Discord server
+</a>
+
+<a href="https://infosec.exchange/@DIMVAConf"><div style="color: rgb(29, 155, 240);width:30px;height:30p; display:inline-block;"><svg viewBox="0 0 32 32" aria-hidden="true" style="color: rgb(29, 155, 240)"><g><path d="M 15.9375 4.03125 C 12.917 4.0435 9.9179219 4.4269844 8.3574219 5.1464844 C 8.3574219 5.1464844 5 6.6748594 5 11.880859 C 5 18.077859 4.9955 25.860234 10.5625 27.365234 C 12.6945 27.938234 14.527953 28.061562 16.001953 27.976562 C 18.676953 27.825562 20 27.005859 20 27.005859 L 19.910156 25.029297 C 19.910156 25.029297 18.176297 25.640313 16.029297 25.570312 C 13.902297 25.495313 11.6615 25.335688 11.3125 22.679688 C 11.2805 22.432688 11.264625 22.182594 11.265625 21.933594 C 15.772625 23.052594 19.615828 22.420969 20.673828 22.292969 C 23.627828 21.933969 26.199344 20.081672 26.527344 18.388672 C 27.041344 15.720672 26.998047 11.880859 26.998047 11.880859 C 26.998047 6.6748594 23.646484 5.1464844 23.646484 5.1464844 C 22.000984 4.3779844 18.958 4.019 15.9375 4.03125 z M 12.705078 8.0019531 C 13.739953 8.0297031 14.762578 8.4927031 15.392578 9.4707031 L 16.001953 10.505859 L 16.609375 9.4707031 C 17.874375 7.5037031 20.709594 7.6264375 22.058594 9.1484375 C 23.302594 10.596438 23.025391 11.531 23.025391 18 L 23.025391 18.001953 L 20.578125 18.001953 L 20.578125 12.373047 C 20.578125 9.7380469 17.21875 9.6362812 17.21875 12.738281 L 17.21875 16 L 14.787109 16 L 14.787109 12.738281 C 14.787109 9.6362812 11.429688 9.7360938 11.429688 12.371094 L 11.429688 18 L 8.9765625 18 C 8.9765625 11.526 8.7043594 10.585438 9.9433594 9.1484375 C 10.622859 8.3824375 11.670203 7.9742031 12.705078 8.0019531 z"></path></g></svg></div> Follow us on Mastodon</a>
+
+<a href="https://twitter.com/DIMVAConf"><div style="color: rgb(29, 155, 240);width:30px;height:30p; display:inline-block;"><svg viewBox="0 0 24 24" aria-hidden="true" style="color: rgb(29, 155, 240)"><g><path style="color: rgb(29, 155, 240)" d="M23.643 4.937c-.835.37-1.732.62-2.675.733.962-.576 1.7-1.49 2.048-2.578-.9.534-1.897.922-2.958 1.13-.85-.904-2.06-1.47-3.4-1.47-2.572 0-4.658 2.086-4.658 4.66 0 .364.042.718.12 1.06-3.873-.195-7.304-2.05-9.602-4.868-.4.69-.63 1.49-.63 2.342 0 1.616.823 3.043 2.072 3.878-.764-.025-1.482-.234-2.11-.583v.06c0 2.257 1.605 4.14 3.737 4.568-.392.106-.803.162-1.227.162-.3 0-.593-.028-.877-.082.593 1.85 2.313 3.198 4.352 3.234-1.595 1.25-3.604 1.995-5.786 1.995-.376 0-.747-.022-1.112-.065 2.062 1.323 4.51 2.093 7.14 2.093 8.57 0 13.255-7.098 13.255-13.254 0-.2-.005-.402-.014-.602.91-.658 1.7-1.477 2.323-2.41z"></path></g></svg></div> Follow us on X/Twitter</a>
+
+<a href="https://bsky.app/profile/dimvaconf.bsky.social"><div style="color: rgb(29, 155, 240);width:30px;height:30p; display:inline-block;"><svg viewBox="0 0 600 535" aria-hidden="true" style="color: rgb(29, 155, 240)"><g><path d="m299.75 238.48c-26.326-51.007-97.736-146.28-164.21-193.17-63.677-44.919-88.028-37.186-103.82-29.946-18.428 8.3915-21.719 36.692-21.719 53.311s9.0496 136.57 15.138 156.48c19.745 66.145 89.674 88.522 154.17 81.282 3.2908-0.49362 6.5816-0.98723 10.037-1.3163-3.2908 0.49362-6.7461 0.98723-10.037 1.3163-94.445 13.986-178.52 48.374-68.284 170.96 121.1 125.38 166.02-26.82 189.06-104.15 23.035 77.169 49.526 223.94 186.75 104.15 103.17-104.15 28.301-156.97-66.145-170.96-3.2908-0.32908-6.7461-0.82269-10.037-1.3163 3.4553 0.49362 6.7461 0.82269 10.037 1.3163 64.499 7.2397 134.59-15.138 154.17-81.282 5.9234-20.074 15.138-139.86 15.138-156.48s-3.2908-44.919-21.719-53.311c-15.96-7.2397-40.148-14.973-103.82 29.946-66.967 47.058-138.38 142.16-164.7 193.17z" />
+</g></svg></div> Follow us on Bluesky</a>
+
+<br>
+<br>
+
+Access to the proceedings in the Springer library: <a href="https://link.springer.com/book/9783031976193">Part 1</a> and <a href="https://link.springer.com/book/9783031976223">Part 2</a>.
+
+<br><br>
+
+Access photos from the event <a href="https://cloud.tugraz.at/index.php/s/na8KdQJoaaEFK28">here</a>.
+
+<br><br>
+<b>The download links next to the paper, require access from eduroam or entering the WiFi credentials distributed at the conference, with the SSID TUGRAZguest as the username.</b>
+
+</div>
+</section>
+
+
+
+<!--<section id="registration">
+  <div class="container">
+  <br><h2>Registration</h2>
+  <p>Registration will be open until July 1, 23:59.</p>
+  
+  <p>At least one Member or Regular fee must be paid for each accepted paper. Papers without registered author(s) will be withdrawn from the program.</p>
+  
+  <p>All registration fee includes admission to all DIMVA 2025 sessions, selected meals and welcome reception, dinner and social event throughout the official event July 9 – July 11. You will be charged in EUR as stated below.</p>
+  
+  <p>Please note: On-site registration is <b>not</b> possible!</p>
+  <p>Requests for cancellation and refunds must be received no later than <b>July, 1, 2025</b>. No refunds will be processed after this date.</p>
+  <p>The registration does not include the accommodation - please book your accommodation separately.</p>
+  
+  <p><strong>CAUTION: </strong>Some authors of accepted papers as well as committee members have received scam / phishing e-mails with subject lines like "Hotel Booking for [Your Name] in Graz", e.g., requesting confirmation of arrival/departure dates to finalize hotel reservations. Please be advised that we <b>do not</b> book hotels on behalf of attendees. Our only official point of contact for conference-related matters is <a href="mailto:dimva2025.isec@tugraz.at">dimva2025.isec@tugraz.at</a>. Do not respond to, click links in, or provide personal or payment information to any unsolicited email regarding hotel bookings.</p>
+  
+  <table>
+  <tr><th>Ticket</th>
+  <th>Normal</th>
+  <th>Late (starting June
+  7th till July 1st)</th></tr>
+  <tr><td>Regular</td>
+  <td>340</td>
+  <td>390</td></tr>
+  <tr><td>GI members and other scientific organization members</td>
+  <td>260</td>
+  <td>310</td></tr>
+  <tr><td>B.Sc./M.Sc. Student </td>
+  <td>270</td>
+  <td>320</td></tr>
+  </table>
+  <p>The <i>student ticket</i> is available for Bachelor and Master students only!</p>
+  
+  <p><b>Please <a href="https://pretix.eu/gi/DIMVA25/">register for the conference here</a>.</b></p>
+  
+  <p>Please also have a look at our <a href="terms-of-participation.pdf">terms of participation</a> and our <a href="privacy-notice.pdf">privacy notice</a>.</p>
+  
+  <p>Reach out to <a href="mailto:dimva2025.isec@tugraz.at">dimva2025.isec@tugraz.at</a> if you have questions.</p>
+  </div>
+  </section>-->
+  
+  <!--<hr>
+  <section id="diversity">
+  <div class="container">
+  <br><h2>Diversity Grants</h2>
+  
+  <p>We are committed to supporting diversity in the security community. DIMVA 2025 offers a limited number of diversity grants for participants who identify as women, non-binary, or belong to other underrepresented groups in IT security.</p>
+  
+  <p>Each grant covers a total eligible cost of 800€ to cover:</p>
+  <ul>
+    <li>Conference registration fee</li>
+    <li>Travel and accommodation</li>
+  </ul>
+  
+  <p>To apply, please fill out the <a href="https://forms.gle/ctuz565xL2XnQugq9">application form</a> by <b>May 31, 2025</b>.</p>
+  
+  <p>Decisions will be communicated by <b>June 4, 2025</b>.</p>
+  
+  <p>If you are selected, we will reimburse registration and travel expenses based on receipts (up to the maximum amount).</p>
+  </div>
+  </section>-->
+  
+<section id="program">
+  <div class="container">
+    <br>
+    <h2>Conference Program</h2>
+
+    <h3>Wednesday, July 9: Day 0</h3>
+    <div class="row margin-b-30">
+      <div class="col-sm-2">15:30</div>
+      <div class="col-sm-10">
+        <h4>Welcome event: Graz city tour</h4>
+        On this walking tour, we'll explore the old town of Graz. This is a great opportunity to get to know the other
+        conference attendees and to walk off any travel fatigue.
+        <b>Our meeting point is <a href="https://maps.app.goo.gl/cXgPQF6rXM6tJays8">right in front of the town hall (Rathaus)</a></b>.
+      </div>
+      <div class="col-sm-2">17:45 to 18:30</div>
+      <div class="col-sm-10">
+        At the end of the city tour, at the top of the Schlossberg (the hill in the city center), we'll have a short
+        welcome reception (<a href="https://maps.app.goo.gl/b26Uc6ycnhWj7vQa9">here</a>). Afterwards, we walk down the stairs (if you want you can take the <a
+          href="https://www.schlossbergrutsche.at/de/die-rutsche/">170 meter Schlossberg slide</a>, <a href="https://maps.app.goo.gl/nxMjeixFQ2nR4hpQ9">here</a>) to the
+        welcome dinner. If you take the stairs, check out the beautiful view from the Bürgerbastei <a href="https://maps.app.goo.gl/kX3Dw7ezfD2NBPGY7">here</a> and proceed down the stairs <a href="https://maps.app.goo.gl/iqXJ9fTFMKrvwQpa7">here</a>. The walk to the restaurant will take 30-40 minutes.<br /><br />
+      </div>
+      <div class="col-sm-2">19:00</div>
+      <div class="col-sm-10">
+        <h4>Welcome dinner @ <a href="https://maps.app.goo.gl/m2MNjPaZc9pxaQGi7">Gösser Bräu</a></h4>
+      </div>
+    </div>
+    <br />
+    <br />
+
+    <h3>Thursday, July 10: Day 1 @ <a href="https://maps.app.goo.gl/4nXkkDEBZbLs6Q2D8">TU Graz Main Building Aula</a>
+    </h3>
+    <div class="row margin-b-30">
+      <div class="col-sm-2">9:00 to 9:10</div>
+      <div class="col-sm-10">
+        <h4>Chair's welcome to DIMVA'25</h4>
+      </div>
+      <div class="col-sm-2">9:10 to 10:10</div>
+      <div class="col-sm-10">
+        <h4 class="session">Session 1: Web Security (Session Chair: Michael Meier)</h4>
+        <p><b><a href="https://link.springer.com/chapter/10.1007/978-3-031-97620-9_1">ScamFerret: Detecting Scam Websites Autonomously with Large Language Models</a> <a href="/dimva2025/proceedings/978-3-031-97620-9_1.pdf"><img src="save.png" style="height: 1.75em; vertical-align: middle;" /></a></b> by Hiroki Nakano, Takashi
+          Koide, Daiki Chiba (NTT Security Holdings Corporation & NTT Corporation)</p>
+        <p><b><a href="https://link.springer.com/chapter/10.1007/978-3-031-97620-9_2">Domain Name Encryption Does Not Ensure Privacy: Website Fingerprinting Attack With Only a Few Samples
+            Using Siamese Network</a> <a href="/dimva2025/proceedings/978-3-031-97620-9_2.pdf"><img src="save.png" style="height: 1.75em; vertical-align: middle;" /></a></b> by Asaf Shabtai, Neriya Mazzuz (Ben Gurion University of the Negev)</p>
+        <p><b><a href="https://link.springer.com/chapter/10.1007/978-3-031-97620-9_3">Making (Only) the Right Calls: Preventing Remote Code Execution Attacks in PHP Applications with
+            Contextual, State-Sensitive System Call Filtering</a> <a href="/dimva2025/proceedings/978-3-031-97620-9_3.pdf"><img src="save.png" style="height: 1.75em; vertical-align: middle;" /></a></b> by Yunsen Lei, Craig A. Shue (Worcester Polytechnic
+          Institute)</p>
+      </div>
+      <div class="col-sm-2">10:25 to 11:05</div>
+      <div class="col-sm-10">
+        <h4 class="session">Session 2: Vulnerability Detection (Session Chair: Michele Carminati)</h4>
+        <p><b><a href="https://link.springer.com/chapter/10.1007/978-3-031-97620-9_5">Sourcerer: channeling the void</a> <a href="/dimva2025/proceedings/978-3-031-97620-9_5.pdf"><img src="save.png" style="height: 1.75em; vertical-align: middle;" /></a></b> by Nicolas Badoux (EPFL); Flavio Toffalini (RUB); Mathias Payer (EPFL)
+        </p>
+        <p><b><a href="https://link.springer.com/chapter/10.1007/978-3-031-97620-9_6">CodeGrafter: Unifying Source and Binary Graphs for Robust Vulnerability Detection</a> <a href="/dimva2025/proceedings/978-3-031-97620-9_6.pdf"><img src="save.png" style="height: 1.75em; vertical-align: middle;" /></a></b> by Saquib Irtiza,
+          Mahmoud Zamani, Shamila Wickramasuriya, Kevin Hamlen, Latifur Khan (University of Texas at Dallas)</p>
+        <p><b><a href="https://link.springer.com/chapter/10.1007/978-3-031-97620-9_7">SyzForge:An Automated System Call Specification Generation Process for Efficient Kernel Fuzzing</a> <a href="/dimva2025/proceedings/978-3-031-97620-9_7.pdf"><img src="save.png" style="height: 1.75em; vertical-align: middle;" /></a></b> by
+          ZhiZhuo Tang (Information Engineering University); Jian Lin, Weiyu Dong (State Key Laboratory of Mathematical
+          Engineering and Advanced Computing); Tieming Liu (Information Engineering University)</p>
+      </div>
+      <div class="col-sm-2">11:10 to 12:10</div>
+      <div class="col-sm-10">
+        <h4>Early and Small Lunch</h4>
+        <p>We will have a chocolate tasting and all-you-can-eat running chocolate in the afternoon, followed by a full dinner in the evening. Keeping it very light for lunch is essential to stand a chance against all the chocolate tasting stations.</p>
+      </div>
+      <div class="col-sm-2">12:10 to 13:10</div>
+      <div class="col-sm-10">
+        <h4 class="session">Session 3: Side Channels (Session Chair: Martina Lindorfer)</h4>
+        <p><b><a href="https://link.springer.com/chapter/10.1007/978-3-031-97620-9_9">Reverse-Engineering the Address Translation Caches</a> <a href="/dimva2025/proceedings/978-3-031-97620-9_9.pdf"><img src="save.png" style="height: 1.75em; vertical-align: middle;" /></a></b> by Philipp Ertmer (Ruhr University Bochum); Robert
+          Dumitru (Ruhr University Bochum and The University of Adelaide); Yuval Yarom (Ruhr University Bochum)</p>
+        <p><b><a href="https://link.springer.com/chapter/10.1007/978-3-031-97620-9_10">The HMB Timing Side Channel: Exploiting the SSD's Host Memory Buffer</a> <a href="/dimva2025/proceedings/978-3-031-97620-9_10.pdf"><img src="save.png" style="height: 1.75em; vertical-align: middle;" /></a></b> by Jonas Juffinger, Hannes
+          Weissteiner, Thomas Steinbauer, Daniel Gruss (Graz University of Technology)</p>
+        <p><b><a href="https://link.springer.com/chapter/10.1007/978-3-031-97620-9_11">Cohere+Reload: Re-enabling High-Resolution Cache Attacks on AMD SEV-SNP</a> <a href="/dimva2025/proceedings/978-3-031-97620-9_11.pdf"><img src="save.png" style="height: 1.75em; vertical-align: middle;" /></a></b> by Lukas Giner, Sudheendra
+          Raghav Neela, Daniel Gruss (Graz University of Technology)</p>
+      </div>
+      <div class="col-sm-2">13:20 to 14:20</div>
+      <div class="col-sm-10">
+        <h4 class="session">Session 4: Obfuscation (Session Chair: Daniele Cono D'Elia)</h4>
+        <p><b><a href="https://link.springer.com/chapter/10.1007/978-3-031-97620-9_13">Experimental Study of Binary Diffing Resilience on Obfuscated Programs</a> <a href="/dimva2025/proceedings/978-3-031-97620-9_13.pdf"><img src="save.png" style="height: 1.75em; vertical-align: middle;" /></a></b> by Roxane Cohen (Quarkslab,
+          LAMSADE, Paris-Dauphine University - PSL); Robin David, Riccardo Mori (Quarkslab); Florian Yger (LITIS, INSA
+          Rouen Normandy); Fabrice Rossi (CEREMADE, CNRS, Université Paris-Dauphine - PSL)</p>
+        <p><b><a href="https://link.springer.com/chapter/10.1007/978-3-031-97620-9_14">Quantifying and Mitigating the Impact of Obfuscations on Machine-Learning-Based Decompilation
+            Improvement</a> <a href="/dimva2025/proceedings/978-3-031-97620-9_14.pdf"><img src="save.png" style="height: 1.75em; vertical-align: middle;" /></a></b> by Luke Dramko (Carnegie Mellon University); Deniz Boloni-Turgut (Cornell University);
+          Claire Le Goues, Edward Schwartz (Carnegie Mellon University)</p>
+        <p><b><a href="https://link.springer.com/chapter/10.1007/978-3-031-97620-9_15">Exploring the Potential of LLMs for Code Deobfuscation</a> <a href="/dimva2025/proceedings/978-3-031-97620-9_15.pdf"><img src="save.png" style="height: 1.75em; vertical-align: middle;" /></a></b> by David Beste (CISPA Helmholtz Center for
+          Information Security); Grégoire Menguy (Université Paris-Saclay, CEA, List); Hossein Hajipour, Mario Fritz
+          (CISPA Helmholtz Center for Information Security); Antonio Emanuele Cinà (University of Genoa); Sébastien
+          Bardin (CEA List, Université Paris Saclay); Thorsten Holz (CISPA Helmholtz Center for Information Security);
+          Thorsten Eisenhofer (BIFOLD & TU Berlin); Lea Schönherr (CISPA Helmholtz Center for Information Security)</p>
+      </div>
+      <div class="col-sm-2">14:30</div>
+      <div class="col-sm-10">
+        <h4>Bus Departure to Social Event, Poster Session, and Dinner</h4>
+      </div>
+      <div class="col-sm-2">15:30 to 17:30</div>
+      <div class="col-sm-10">
+        <h4>Social event: Zotter Chocolate Factory Tour and Edible Zoo</h4>
+        <p>We'll take a sweet and immersive tour through the Zotter Chocolate Factory, one of the most creative and
+          sustainable chocolate producers worldwide. You'll get an inside look at the entire process from bean to bar
+          and enjoy <b>numerous</b> (more than you can eat!) tasting stations. If you haven't had enough, after the tour
+          there's a running chocolate all-you-can-eat included. For those who already had enough of chocolate, Zotter's
+          edible zoo invites for a nice walk and non-chocolate snacks, if you like. Please don't overeat - dinner is
+          afterwards.</p>
+      </div>
+      <div class="col-sm-2">18:00 to 19:00</div>
+      <div class="col-sm-10">
+        <h4 class="session">Poster Session</h4>
+        <p><b><a href="#">GREED: Practical Symbolic Execution for Ethereum Smart Contracts</a></b> by Nicola Ruaro, Fabio Gritti, Robert
+          McLaughlin, Dongyu Meng, Ilya Grishchenko, Christopher Kruegel, Giovanni Vigna</p>
+        <p><b><a href="https://link.springer.com/chapter/10.1007/978-3-031-97623-0_15">Referencing your Privileges - A Data-Only Exploit Technique for the Windows Kernel</a> <a href="/dimva2025/proceedings/978-3-031-97623-0_15.pdf"><img src="save.png" style="height: 1.75em; vertical-align: middle;" /></a></b> by Nicola Stauffer,
+          Gürkan Gür</p>
+        <p><b><a href="https://link.springer.com/chapter/10.1007/978-3-031-97620-9_4">Generating the WEB-IDS23 Dataset</a> <a href="/dimva2025/proceedings/978-3-031-97620-9_4.pdf"><img src="save.png" style="height: 1.75em; vertical-align: middle;" /></a></b> by Eric Lanfer, Dominik Brockmann, Nils Aschenbruck</p>
+        <p><b><a href="https://link.springer.com/chapter/10.1007/978-3-031-97620-9_8">Machine Learning for Vulnerability Detection as Target Oracle in Automated Fuzz Driver Generation</a> <a href="/dimva2025/proceedings/978-3-031-97620-9_8.pdf"><img src="save.png" style="height: 1.75em; vertical-align: middle;" /></a></b> by
+          Gianpietro Castiglione, Marcello Maugeri, Giampaolo Bella</p>
+        <p><b><a href="https://link.springer.com/chapter/10.1007/978-3-031-97620-9_12">Extracting Cryptographic Keys from Windows Live Processes</a> <a href="/dimva2025/proceedings/978-3-031-97620-9_12.pdf"><img src="save.png" style="height: 1.75em; vertical-align: middle;" /></a></b> by León Abascal, Ricardo J. Rodríguez</p>
+        <p><b><a href="https://link.springer.com/chapter/10.1007/978-3-031-97620-9_16">All Right Then, (Don't) Keep Your Secrets: Exposing API Hashing in Malware</a> <a href="/dimva2025/proceedings/978-3-031-97620-9_16.pdf"><img src="save.png" style="height: 1.75em; vertical-align: middle;" /></a></b> by Nicola Bottura, Giorgia
+          Di Pietro, Yuya Yamada, Daniele Cono D'Elia, Leonardo Querzoni</p>
+        <p><b><a href="https://link.springer.com/chapter/10.1007/978-3-031-97623-0_5">Exploring the Zero-Shot Potential of Large Language Models for Detecting Algorithmically Generated
+            Domains</a> <a href="/dimva2025/proceedings/978-3-031-97623-0_5.pdf"><img src="save.png" style="height: 1.75em; vertical-align: middle;" /></a></b> by Tomás Pelayo-Benedet, Ricardo J. Rodríguez, Carlos H. Gañán</p>
+        <p><b><a href="https://link.springer.com/chapter/10.1007/978-3-031-97623-0_6">Using Machine Learning to Infer Network Structure from Security Metadata</a> <a href="/dimva2025/proceedings/978-3-031-97623-0_6.pdf"><img src="save.png" style="height: 1.75em; vertical-align: middle;" /></a></b> by Asfa Khalid, Seán Óg
+          Murphy, Cormac Sreenan, Utz Roedig</p>
+        <p><b><a href="https://link.springer.com/chapter/10.1007/978-3-031-97623-0_10">SPECK: From Google Textual Guidelines to Automatic Detection of Android Apps Vulnerabilities</a> <a href="/dimva2025/proceedings/978-3-031-97623-0_10.pdf"><img src="save.png" style="height: 1.75em; vertical-align: middle;" /></a></b> by
+          Roberto Rossini, Simeone Pizzi, Samuele Doria, Mauro Conti, Eleonora Losiouk</p>
+        <p><b><a href="https://link.springer.com/chapter/10.1007/978-3-031-97623-0_14">On the Usage of Kernel Shadow Stacks for User-Level Programs</a> <a href="/dimva2025/proceedings/978-3-031-97623-0_14.pdf"><img src="save.png" style="height: 1.75em; vertical-align: middle;" /></a></b> by Marco Calavaro, Pasquale Caporaso,
+          Luca Capotombolo, Giuseppe Bianchi, Francesco Quaglia</p>
+        <p><b><a href="https://link.springer.com/chapter/10.1007/978-3-031-97623-0_19">Building Confidence in Hardware-based Ransomware Detection through Hardware Performance Counter Event
+            Correlation</a> <a href="/dimva2025/proceedings/978-3-031-97623-0_19.pdf"><img src="save.png" style="height: 1.75em; vertical-align: middle;" /></a></b> by Ryan Binder, Joshua Byun, Dane Brown, Owens Walker, Jennie Hill</p>
+        <p><b><a href="https://link.springer.com/chapter/10.1007/978-3-031-97623-0_20">FedBlockParadox - A Framework for Simulating and Securing Decentralized Federated Learning</b> by Gabriele
+          Digregorio, Francesco Bleggi, Federico Caroli, Michele Carminati, Stefano Zanero, Stefano Longari</a> <a href="/dimva2025/proceedings/978-3-031-97623-0_20.pdf"><img src="save.png" style="height: 1.75em; vertical-align: middle;" /></a></b>
+      </div>
+      <div class="col-sm-2">19:00 to 21:30</div>
+      <div class="col-sm-10">
+        <h4>Dinner at the Buschenschank Monschein (a traditional Styrian vineyard tavern)</h4>
+        <p>We'll have a cozy and traditional Styrian/Austrian Buschenschank-dinner experience. A <i>Buschenschank</i> is
+          a vineyard tavern, which only serves their own wine, juice, and food, with ingredients almost entirely from
+          their own production or the same or neighboring villages. Vegetarian and vegan options are available.</p>
+        </div>
+        <div class="col-sm-2">21:30</div>
+        <div class="col-sm-10">
+          <h4>Bus Return to TU Graz</h4>
+        </div>
+      </div>
+      <br />
+      <br />
+      
+      <h3>Friday, July 11: Day 2 @ <a href="https://maps.app.goo.gl/4nXkkDEBZbLs6Q2D8">TU Graz Main Building Aula</a></h3>
+      <div class="row margin-b-30">
+        <div class="col-sm-2">8:50 to 9:50</div>
+        <div class="col-sm-10">
+            <h4 class="session"><u>Keynote: Lessons Learned in Mobile Malware Detection with Machine Learning (Session Chair: Manuel Egele)</u></h4>
+            <div class="row">
+                <div class="col-sm-3">
+                    <img src="danielarp.jpg" alt="(c) Rights reserved" class="img-fluid">
+                </div>
+                <div class="col-sm-9">
+                    <div class="col-sm-9">
+                        <p><b>Abstract:</b> Mobile malware continues to pose a serious threat to the security and privacy of mobile device users. In response, the research community has developed a wide range of machine learning-based detection approaches over the past decade, aiming to overcome the limitations of traditional signature-based techniques. While these learning-based methods have demonstrated strong potential, the field still faces a number of unresolved challenges—such as concept drift and evolving adversarial behaviors—that must be addressed to ensure sustained effectiveness in real-world environments. In this talk, we reflect on a decade of research in machine learning-based mobile malware detection, discuss key lessons learned, and highlight ongoing challenges that present opportunities for future work.<br/><br/>
+        
+                        <b>Bio:</b> Daniel Arp is a tenure-track Assistant Professor in the Security and Privacy Research Unit at Technische Universität Wien. Previously, he held a postdoctoral research position at TU Berlin and a visiting research position at University College London and King’s College London. He received his Ph.D. with honours in Computer Science from TU Braunschweig. Additionally, he holds a master’s degree in Computer Engineering from TU Berlin. His research focuses on developing learning-based methods to detect and analyze cyber threats, such as malware, while also examining the security and robustness of these detection systems.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2">9:50 to 10:20</div>
+          <div class="col-sm-10">
+            <h4>Women, Underrepresented and Allies Meetup</h4>
+          </div>
+          <div class="col-sm-2">10:20 to 11:20</div>
+            <div class="col-sm-10">
+              <h4 class="session">Session 5: Android &amp; Patches (Session Chair: Sven Dietrich)</h4>
+        
+              <p><b><a href="https://link.springer.com/chapter/10.1007/978-3-031-97623-0_7">More Than You Signed Up For: Exposing Gaps in the Validation of Android's App Signing</a> <a href="/dimva2025/proceedings/978-3-031-97623-0_7.pdf"><img src="save.png" style="height: 1.75em; vertical-align: middle;" /></a></b> by Norah Ridley,
+                Enrico Branca, Natalia Stakhanova (University of Saskatchewan)</p>
+              <p><b><a href="https://link.springer.com/chapter/10.1007/978-3-031-97623-0_9">Red Light for Security: Uncovering Feature Check and Access Control Gaps in AAOS</a> <a href="/dimva2025/proceedings/978-3-031-97623-0_9.pdf"><img src="save.png" style="height: 1.75em; vertical-align: middle;" /></a></b> by Jumana, Parjanya
+                Vyas, Yousra Aafer (University of Waterloo)</p>
+              <p><b><a href="https://link.springer.com/chapter/10.1007/978-3-031-97623-0_8">An Empirical Study of Multi-Language Security Patches in Open Source Software</a> <a href="/dimva2025/proceedings/978-3-031-97623-0_8.pdf"><img src="save.png" style="height: 1.75em; vertical-align: middle;" /></a></b> by Shiyu Sun, Yunlong Xing
+                (George Mason University); Grant Zou (University of Virginia); Xinda Wang (University of Texas at Dallas); Kun
+                Sun (George Mason University)</p>
+                </div>
+            <div class="col-sm-2">11:40 to 12:40</div>
+            <div class="col-sm-10">
+              <h4>Lunch</h4>
+            </div>
+            <div class="col-sm-2">12:40 to 13:40</div>
+            <div class="col-sm-10">
+              <h4 class="session">Session 6: OS &amp; Network (Session Chair: Veelasha Moonsamy)</h4>
+              <p><b><a href="https://link.springer.com/chapter/10.1007/978-3-031-97623-0_12">Linux hurt itself in its confusion! Exploiting Out-of-Memory Killer for Confusion Attacks via Heuristic
+                  Manipulation</a> <a href="/dimva2025/proceedings/978-3-031-97623-0_12.pdf"><img src="save.png" style="height: 1.75em; vertical-align: middle;" /></a></b> by Lorenzo Bossi, Daniele Mammone, Michele Carminati, Stefano Zanero, Stefano Longari
+                (Politecnico di Milano)</p>
+              <p><b><a href="https://link.springer.com/chapter/10.1007/978-3-031-97623-0_13">Overlapping data in network protocols: bridging OS and NIDS reassembly gap</a> <a href="/dimva2025/proceedings/978-3-031-97623-0_13.pdf"><img src="save.png" style="height: 1.75em; vertical-align: middle;" /></a></b> by Lucas Aubard (Inria);
+                Johan Mazel (ANSSI); Gilles Guette (IMT Atlantique); Pierre Chifflier (ANSSI)</p>
+              <p><b><a href="https://link.springer.com/chapter/10.1007/978-3-031-97623-0_11">Taming the Linux Memory Allocator for Rapid Prototyping</a> <a href="/dimva2025/proceedings/978-3-031-97623-0_11.pdf"><img src="save.png" style="height: 1.75em; vertical-align: middle;" /></a></b> by Ruiyi Zhang, Tristan Hornetz, Lukas Gerlach,
+                Michael Schwarz (CISPA Helmholtz Center for Information Security)</p>
+            </div>
+            <div class="col-sm-2">13:50 to 15:10</div>
+            <div class="col-sm-10">
+            <h4 class="session">Session 7: AI/ML &amp; Security (Session Chair: Pavel Laskov)</h4>
+            <p><b><a href="https://link.springer.com/chapter/10.1007/978-3-031-97623-0_3">Hiding in Plain Sight: On the Robustness of AI-generated code detection</a> <a href="/dimva2025/proceedings/978-3-031-97623-0_3.pdf"><img src="save.png" style="height: 1.75em; vertical-align: middle;" /></a></b> by Sina Pordanesh, Sufiyan
+              Bukhari, Benjamin Tan, Lorenzo De Carli (University of Calgary)</p>
+            <p><b><a href="https://link.springer.com/chapter/10.1007/978-3-031-97623-0_4">FlexGE: Towards Secure and Flexible Model Partition for Deep Neural Networks</a> <a href="/dimva2025/proceedings/978-3-031-97623-0_4.pdf"><img src="save.png" style="height: 1.75em; vertical-align: middle;" /></a></b> by Xiaolong Wu, Aravind
+              Machiry, Yung-Hsiang Lu, Dave (Jing) Tian (Purdue University)</p>
+            <p><b><a href="https://link.springer.com/chapter/10.1007/978-3-031-97623-0_1">Towards Explainable Drift Detection and Early Retrain in ML-based Malware Detection Pipelines</a> <a href="/dimva2025/proceedings/978-3-031-97623-0_1.pdf"><img src="save.png" style="height: 1.75em; vertical-align: middle;" /></a></b> by Jayesh
+              Tripathi (Texas A&M University); Heitor Gomes (Victoria University of Wellington); Marcus Botacin (Texas A&M
+              University)</p>
+            <p><b><a href="https://link.springer.com/chapter/10.1007/978-3-031-97623-0_2">InferONNX: Practical and Privacy-preserving Machine Learning Inference using Trusted Execution
+                Environments</a></b> by Konstantina Papafragkaki (Institute of Computer Science, Foundation for Research and
+              Technology - Hellas, Greece); Giorgos Vasiliadis (Hellenic Mediterranean University and FORTH)</p></div>
+              <div class="col-sm-2">15:20 to 16:20</div>
+              <div class="col-sm-10">
+                <h4 class="session">Session 8: Resilient Systems (Session Chair: Stefano Zanero)</h4>
+                <p><b><a href="https://link.springer.com/chapter/10.1007/978-3-031-97623-0_18">FAULTLESS: Flexible and Transparent Fault Protection for Superscalar RISC-V Processors</a> <a href="/dimva2025/proceedings/978-3-031-97623-0_18.pdf"><img src="save.png" style="height: 1.75em; vertical-align: middle;" /></a></b> by Moritz Waser
+                  (Graz University of Technology,Graz); David Schrammel, Robert Schilling (Rivos Inc.); Stefan Mangard (Graz
+                  University of Technology)</p>
+                <p><b><a href="https://link.springer.com/chapter/10.1007/978-3-031-97623-0_17">A History of Greed: Practical Symbolic Execution for Ethereum Smart Contracts</a> <a href="/dimva2025/proceedings/978-3-031-97623-0_17.pdf"><img src="save.png" style="height: 1.75em; vertical-align: middle;" /></a></b> by Nicola Ruaro, Fabio
+                  Gritti (UC Santa Barbara); Robert McLaughlin (University of California, Santa Barbara); Dongyu Meng (UC Santa
+                  Barbara); Ilya Grishchenko (Univerity of California, Santa Barbara); Christopher Kruegel (UC Santa Barbara and
+                  Cisco); Giovanni Vigna (UC Santa Barbara and Broadcom)</p>
+                <p><b><a href="https://link.springer.com/chapter/10.1007/978-3-031-97623-0_16">PackHero: A Scalable Graph-based Approach for Efficient Packer Identification</a> <a href="/dimva2025/proceedings/978-3-031-97623-0_16.pdf"><img src="save.png" style="height: 1.75em; vertical-align: middle;" /></a></b> by Marco Di Gennaro,
+                  Mario D'Onghia, Mario Polino, Stefano Zanero, Michele Carminati (Politecnico di Milano)</p>
+              </div>
+              <div class="col-sm-2">16:20 to 16:30</div>
+              <div class="col-sm-10">
+                <h4>Closing notes and good bye</h4>
+              </div>
+            </div>
+        
+          </div>
+          </section>
+
+
+<hr>
+    
+<section id="sponsors">
+<div class="container">
+<h2>Sponsors</h2><br>
+We thank our sponsors!
+    <p><a href="https://sic.tech/" style="margin-right: 0px;"><img src="SIC-Logo.png" width="15%"></a>
+      <a href="https://www.genua.de" style="margin-right: 10px;"><img src="genua.png" width="30%"></a>
+    <a href="https://www.springer.com/" style="margin-right: 50px;"><img src="springer.png" width="27%"></a> 
+    <a href="http://www.ubit-stmk.at/"><img src="ubit_st4_transparent.png" width="20%"></a>
+    </p>
+    <br />
+
+
+<hr>
+
+
+<section id="cfp">
+<div class="container">
+<br><h2>Call for Papers</h2>
+<h3>Important Dates (AoE)</h3>
+<ul>
+    <li>Cycle 1:
+        <ul>
+            <li>Submission: <s>Dec 4, 2024</s> &nbsp; <b>Dec 10, 2024 (extended!)</b></li>
+            <li>Notification (accept/reject): <s>Jan 22, 2025</s> &nbsp; <b>Jan 27, 2025 (extended!)</b></li>
+            <li>Submission Site: <a href="https://dimva25.hotcrp.com/" target="_blank">https://dimva25.hotcrp.com/</a></li>
+        </ul>
+    </li>
+    <li>Cycle 2:
+    <ul>
+        <li>Submission: <s>Feb 12, 2024</s> &nbsp; <b>Feb 19, 2024 (extended!)</b></li>
+        <li>Notification (accept/reject): Wed. Apr 2, 2025</li>
+        <li>Submission Site: <a href="https://dimva25r2.hotcrp.com/" target="_blank">https://dimva25r2.hotcrp.com/</a></li>
+    </ul>
+    </li>
+    <li>Camera ready deadline: Apr 30, 2025</li>
+    <li>Conference: July 9 to 11, 2025</li>
+</ul>
+
+
+<h3>General Information</h3>
+
+<p>The annual DIMVA conference serves as a premier forum for advancing the state of the art in the broader areas of intrusion detection, malware analysis, and vulnerability assessment. Each year, DIMVA brings together international experts from academia, industry, and government to present and discuss novel research in these areas. DIMVA is organized by the special interest group Security - Intrusion Detection and Response (SIDAR) of the German Informatics Society (GI). The conference proceedings will appear in the Springer Lecture Notes in Computer Science (LNCS) series.</p>
+
+<h3>Topics of Interest</h3>
+
+<p>DIMVA solicits submissions of high-quality, original scientific papers presenting novel research on malware analysis, intrusion detection, vulnerability assessment, and related systems security topics.</p>
+
+<p>Topics of interest include, but are not limited to:<br>
+
+</p><h4>Intrusions</h4>
+<ul>
+<li>Novel approaches and domains</li>
+<li>Insider detection</li>
+<li>Prevention and response</li>
+<li>Data leakage, exfiltration, and poisoning</li>
+<li>Result correlation and cooperation</li>
+<li>Evasion and other attacks</li>
+<li>Potentials and limitation</li>
+<li>Operational experiences</li>
+<li>Privacy, legal, and social aspects</li>
+<li>Targeted attacks</li>
+<li>Analysis or detection of cryptocurrency heists</li>
+</ul>
+
+<h4>Malware</h4>
+<ul>
+<li>Automated analyses</li>
+<li>Behavioral models</li>
+<li>Prevention and containment</li>
+<li>Classification</li>
+<li>Lineage</li>
+<li>Forensics and recovery</li>
+<li>Underground economy</li>
+<li>Vulnerabilities in malware</li>
+<li>Financially targeted malware (e.g., ransomware, DeFi)</li>
+</ul>
+
+<h4>Vulnerability detection</h4>
+<ul>
+<li>Vulnerability prevention</li>
+<li>Vulnerability analysis</li>
+<li>Exploitation and defenses</li>
+<li>Hardware vulnerabilities</li>
+<li>Situational awareness</li>
+<li>Active probing</li>
+<li>Vulnerabilities in decentralized systems</li>
+</ul>
+<p></p>
+
+<p>Papers will be judged on novelty, significance, correctness, and clarity. We expect all papers to provide enough details to enable reproducibility of the experimental results. We encourage papers that bridge research in different communities. We also welcome experience papers that clearly articulate lessons learnt.</p>
+
+<h3>Types of Submissions Solicited</h3>
+
+
+<p>We invite <b>full papers</b> for submission that present novel and mature research results. Full
+ papers are limited to 20 pages in Springer LNCS format, including bibliography and appendices.</p>
+<p>Papers that do not follow these formatting guidelines may be rejected without review.</p>
+
+<p>While we do not accept short papers, we encourage authors to submit a poster instead, presenting original, still ongoing work that has not yet reached the maturity required for a full paper. For more information, please refer to the Call for Posters.</p>
+
+<h3>Submission Guidelines</h3>
+
+<p>DIMVA 2025 will adopt a double-blind reviewing process. All 
+submissions should be appropriately anonymized. Author names and 
+affiliations must be excluded from the paper. Furthermore, authors 
+should avoid obvious self-references, and should cite their own previous
+ work in third person, whenever necessary. Papers that are not properly 
+anonymized risk being rejected without review.</p>
+<p>Submissions must be original work and may not be under submission to 
+another venue at the time of review. At least one author of each 
+accepted paper is required to physically present the submitted work at 
+the conference, for the paper to be included in the proceedings.</p>
+<p>Authors are encouraged to submit code appropriately anonymized, using, e.g., <a href="https://anonymous.4open.science/">https://anonymous.4open.science/</a>.</p>
+
+<h3>Ethical considerations</h3>
+
+<p>Submissions that report experiments with data gathered from human 
+subjects should disclose whether the research received approval from an 
+institutional ethics review board (IRB), if applicable, and what 
+measures were adopted to minimize risks to privacy.</p>
+<p>Submissions that describe experiments related to vulnerabilities in 
+software or systems should discuss the steps taken to avoid negatively 
+affecting any third-parties (e.g., in case of probing of network 
+devices), and how the authors plan to responsibly disclose the 
+vulnerabilities to the appropriate software or system vendors or owners 
+before publication.</p>
+<p>If you have any questions, please contact the program chairs at <a href="mailto:pc-chairs@dimva.org:">pc-chairs@dimva.org</a>.</p>
+</div>
+</section>
+
+<hr>
+
+<section id="cfposter">
+<div class="container">
+<br><h2>Call for Posters</h2>
+<h3>Important Dates (AoE)</h3>
+<ul>
+  <li>Submission: up to <del>April 11th</del> April 18th, 2025</li>
+  <li>Notification: April 21st, 2025</li>
+  <li>Camera-ready: April 30th, 2025</li>
+</ul>
+
+<div>High-quality posters facilitate discussions about recent research findings, encourage meaningful interactions with interested attendees, showcase ongoing projects, and present innovative ideas. DIMVA invites submissions of posters that highlight preliminary results, ongoing work, or recently published research. Posters will be displayed in a forum setting, allowing attendees to mingle and engage with the presenters.</div>
+
+<h3>Submission Guidelines</h3>
+<div>Poster submissions must include two components: the poster draft and an accompanying poster paper. The poster paper should be at least 4 pages, but no more than 6 pages long, formatted according to the Springer LNCS guidelines, and this page count includes the bibliography and any appendices. Proposals are not anonymized and must clearly state the authors' names, affiliations, and contact information. The poster papers will be published in the proceedings. Please ensure that the title of the poster paper begins with the word &quot;Poster&quot;.</div>
+
+<div>The poster submission system is available at <a href="https://dimva25posters.hotcrp.com/" target="_blank">https://dimva25posters.hotcrp.com/</a>.</div>
+
+<div>Note: Poster sessions will be held in-person. At least one author of each accepted poster will be required to attend the conference. During the conference, we will provide poster stands. Attendees may bring printed posters <b>up to size A1</b>.</div>
+</div>
+</section>
+
+<hr>
+
+<section id="committee">
+<div class="container">
+<br>
+<h2>Committee</h2>
+
+<h4>Program co-chairs (email: <a href="mailto:pc-chairs@dimva.org">pc-chairs@dimva.org</a>)</h4>
+<ul>
+  <li><a href="https://megele.io/">Manuel Egele</a> (Boston University)</li>
+	<li><a href="https://veelasha.org/">Veelasha Moonsamy</a> (Ruhr University Bochum)</li>
+</ul>
+
+<h4>Program committee</h4>
+<ul>
+  <li>Advait Patel, Broadcom</li>
+  <li>Amin Kharraz, Florida International University</li>
+  <li>Andrea Continella, University of Twente</li>
+  <li>Andrea Lanzi, University of Milan</li>
+  <li>Andrea Mambretti, IBM Research Europe - Zurich</li>
+  <li>Anita Nikolich, University of Illinois-Urbana Champaign</li>
+  <li>Bart Coppens, Ghent University</li>
+  <li>Behzad Ousat, Florida International University</li>
+  <li>Daniel Gruss, Graz University of Technology</li>
+  <li>Daniel Plohmann, Fraunhofer FKIE</li>
+  <li>Daniele Antonioli, EURECOM</li>
+  <li>Daniele Cono D'Elia, Sapienza University of Rome</li>
+  <li>David Klein, Technische Universität Braunschweig</li>
+  <li>Eleonora Losiouk, University of Padua</li>
+  <li>Emilio Coppa, LUISS University</li>
+  <li>Fabio Pagani, Binarly</li>
+  <li>Fabio Pierazzi, King's College London</li>
+  <li>Flavio Toffalini, RUB</li>
+  <li>Hervé Debar, Télécom SudParis</li>
+  <li>Ilya Grishchenko, University of California, Santa Barbara</li>
+  <li>Jan Wichelmann, Universität zu Lübeck</li>
+  <li>Johanna Ullrich, University of Vienna</li>
+  <li>Johannes Kinder, LMU Munich</li>
+  <li>Juan Caballero, IMDEA Software Institute</li>
+  <li>Juan Tapiador, Universidad Carlos III de Madrid</li>
+  <li>Kaan Onarlioglu, Akamai</li>
+  <li>Kimberly Tam, University of Plymouth / Alan Turing Institute</li>
+  <li>Konrad Rieck, TU Berlin</li>
+  <li>Mannat Kaur, Max-Planck-Institute for Informatics</li>
+  <li>Manuel Egele, Boston University</li>
+  <li>Marco Cova, VMware</li>
+  <li>Martina Lindorfer, TU Wien</li>
+  <li>Mathias Fischer, University of Hamburg</li>
+  <li>Michael Meier, University of Bonn and Fraunhofer FKIE</li>
+  <li>Michael Schwarz, CISPA Helmholtz Center for Information Security</li>
+  <li>Michalis Polychronakis, Stony Brook University</li>
+  <li>Michele Carminati, Politecnico di Milano</li>
+  <li>Moritz Schloegel, CISPA Helmholtz Center for Information Security</li>
+  <li>Prashast Srivastava, Columbia University</li>
+  <li>Ricardo J. Rodríguez, Universidad de Zaragoza (Spain)</li>
+  <li>Roland Yap, National University of Singapore</li>
+  <li>Seungwon Shin, KAIST</li>
+  <li>Silvia Sebastián, CISPA</li>
+  <li>Simon Koch, TU Braunschweig</li>
+  <li>Stefano Zanero, Politecnico di Milano</li>
+  <li>Stijn Volckaert, DistriNet, KU Leuven</li>
+  <li>Sven Dietrich, City University of New York</li>
+  <li>Tapti Palit, UC Davis</li>
+  <li>Tiago Heinrich, Max-Planck-Institut für Informatik</li>
+  <li>Urko Zurutuza, Mondragon Unibertsitatea</li>
+  <li>Vasileios Kemerlis, Brown University</li>
+  <li>Vasilios Mavroudis, Alan Turing Institute</li>
+  <li>Veelasha Moonsamy, Ruhr University Bochum</li>
+  <li>Vera Rimmer, DistriNet, KU Leuven</li>
+  <li>Vinod Yegneswaran, SRI</li>
+  <li>Yang Zhang, CISPA</li>
+  <li>Yinzhi Cao, Johns Hopkins University</li>
+</ul>
+
+<h4>Publication chair</h4>
+<ul>
+    <li>Michele Carminati</li>
+</ul>
+
+<h4>Poster co-chairs</h4>
+<ul>
+    <li>Tarini Saka</li>
+    <li>Flavio Toffalini</li>
+</ul>
+
+<h4>General chair</h4>
+<ul>
+    <li><a href="https://gruss.cc/">Daniel Gruss</a> (Graz University of Technology)</li>
+</ul>
+
+<h4>Steering committee</h4>
+<ul>
+    <li>Ulrich Flegel (co-chair)</li>
+    <li>Michael Meier (co-chair)</li>
+    <li>Magnus Almgren</li>
+    <li>Sébastien Bardin</li>
+    <li>Leyla Bilge</li>
+    <li>Gregory Blanc</li>
+    <li>Herbert Bos</li>
+    <li>Danilo M. Bruschi</li>
+    <li>Roland Bueschkes</li>
+    <li>Juan Caballero</li>
+    <li>Lorenzo Cavallaro</li>
+    <li>Hervé Debar</li>
+    <li>Sven Dietrich</li>
+    <li>Mathias Fischer</li>
+    <li>Giorgio Giacinto</li>
+    <li>Cristiano Giuffrida</li>
+    <li>Daniel Gruss</li>
+    <li>Bernhard Haemmerli</li>
+    <li>Thorsten Holz</li>
+    <li>Marko Jahnke</li>
+    <li>Klaus Julisch</li>
+    <li>Christian Kreibich</li>
+    <li>Christopher Kruegel</li>
+    <li>Pavel Laskov</li>
+    <li>Federico Maggi</li>
+    <li>Clémentine Maurice</li>
+    <li>Nuno Neves</li>
+    <li>Roberto Perdisci</li>
+    <li>Michalis Polychronakis</li>
+    <li>Konrad Rieck</li>
+    <li>Jean-Pierre Seifert</li>
+    <li>Robin Sommer</li>
+    <li>Urko Zurutuza</li>
+</ul>
+</div>
+</section>
+
+<hr>
+
+
+<section id="venue">
+<div class="container">
+<br><h2>Venue: Graz University of Technology</h2>
+
+<img src="tugraz.jpg" width="100%" alt="Front view of Graz University of Technology">
+<br><br>
+<p>DIMVA will be held in the <a href="https://online.tugraz.at/tug_online/ris.ris?corg=37&pQuellGeogrBTypNr=5&pZielGeogrBTypNr=5&pZielGeogrBerNr=10001&pRaumNr=396&pActionFlag=A&pShowEinzelraum=J">Aula
+ of the historic main building</a> of <a href="https://www.tugraz.at">Graz University of Technology</a> (aka "old campus"), located at <a href="https://www.openstreetmap.org/relation/67291#map=19/47.06909/15.45032">Rechbauerstraße 12, 8010 Graz</a>.
+
+From the main train station you can take bus/tram line E1/E6 to "Jakominiplatz" which is the central point of transfer for public transport in Graz.
+From there you can reach the conference location via tram line 1 or 7 from station "Mayffredygasse" within 3 minutes, via tram line 3 from stations "Mandellstraße" or "Rechbauerstraße" within 3-4 minutes, or via tram line 3 or 6 from station "Dietrichsteinplatz" within 8 minutes.
+Navigation via Google Maps works fine in Graz. You can buy tickets via the <a href="https://www.oebb.at/">OEBB website or app</a>, or at the ticket machine <b>inside</b> the trams.
+<p>As the campus is located right in the city center (Jakominiplatz), there are many hotels and apartments around so that it is easy to find an accommodation that meets your expectations.</p>
+
+    <h2>Travel Information</h2>
+    <h3>By Plane</h3>
+    <p>If you come by plane, the simplest way to get to the venue is to take a taxi from Graz Airport. The fare is approximately EUR 40 and the journey takes around 20 minutes. Uber is also available in Graz.</p>
+    
+    <h3>By Train</h3>
+    <ul>
+      <li><strong>Fare:</strong> EUR 3,10 to "Graz Hauptbahnhof" (main railway station)</li>
+      <li><strong>Duration:</strong> Approximately 20 minutes</li>
+      <li><strong>Walk:</strong> A short (~100 m) walk from the airport to the station is required</li>
+      <li><strong>Frequency:</strong> Leaves every 30 minutes</li>
+      <li><strong>Ticket Options:</strong> 1-hour ticket EUR 3,10; 24-hour ticket EUR 6,80 (includes all city trams, buses, and the train to/from the airport)</li>
+    </ul>
+  </div>
+</section>
+
+<section id="hotels">
+  <div class="container">
+    <h2>Hotels</h2>
+    <p>We have blocked room allotments in three hotels within walking distance to our conference location. Please mention the code "DIMVA" when booking. Contact the hotel directly (email/phone) to make your reservation!</p>
+    
+    <h3>Motel One Graz</h3>
+    <address>
+      Jakominiplatz 7<br>
+      8010 Graz<br>
+      <a href="mailto:res.graz@motel-one.com">res.graz@motel-one.com</a><br>
+      <a href="https://www.motel-one.com/de/hotels/graz/hotel-graz/">www.motel-one.com</a>
+    </address>
+    <p>Single room: EUR 101,50 per night (price includes breakfast)</p>
+    
+    <h3>Hotel Gollner</h3>
+    <address>
+      Schloegelgasse 14<br>
+      8010 Graz<br>
+      Tel: +43 316 822521 0<br>
+      <a href="mailto:office@hotelgollner.com">office@hotelgollner.com</a><br>
+      <a href="http://www.hotelgollner.com">www.hotelgollner.com</a>
+    </address>
+    <p>
+      Single room basic: EUR 119 per night<br>
+      Single room business: EUR 124 per night<br>
+      Price includes breakfast
+    </p>
+    
+    <h3>Boutique Hotel Dom</h3>
+    <address>
+      Bürgergasse 14, 8010 Graz<br>
+      Tel: +43 316/824 800<br>
+      <a href="mailto:domhotel@domhotel.co.at">domhotel@domhotel.co.at</a><br>
+      <a href="http://www.domhotel.co.at">www.domhotel.co.at</a>
+    </address>
+    <p>
+      Single room: EUR 111,50 per night<br>
+      Double room for single use: EUR 151,50 per night<br>
+      Price includes breakfast
+    </p>
+    
+    <h3>Further Hotels</h3>
+    <ul>
+      <li>
+        <strong>Hotel Weitzer ****</strong>: 
+        <a href="https://www.openstreetmap.org/relation/1521889">Grieskai 12-16, 8020 Graz</a>, 
+        <a href="http://www.hotelweitzer.com" target="_blank">www.hotelweitzer.com</a>
+      </li>
+      <li>
+        <strong>Hotel Wiesler ****</strong>: 
+        <a href="https://www.openstreetmap.org/node/280236394">Grieskai 4-8, 8020 Graz</a>, 
+        <a href="http://www.hotelwiesler.com" target="_blank">www.hotelwiesler.com</a>
+      </li>
+      <li>
+        <strong>Austria Trend Hotel Europa ****</strong>: 
+        <a href="https://www.openstreetmap.org/node/280071300">Bahnhofgürtel 89, 8020 Graz</a>, 
+        <a href="http://www.austria-trend.at/Hotel-Europa-Graz" target="_blank">www.austria-trend.at/Hotel-Europa-Graz</a>
+      </li>
+      <li>
+        <strong>Das Parkhotel Graz ****</strong>: 
+        <a href="https://www.openstreetmap.org/node/21261459">Leonhardstraße 8, 8010 Graz</a>, 
+        <a href="http://www.parkhotel-graz.at" target="_blank">www.parkhotel-graz.at</a>
+      </li>
+      <li>
+        <strong>Hotel roomz Graz</strong>: 
+        <a href="https://www.openstreetmap.org/way/157585115">Conrad-von-Hötzendorf-Straße 96, 8010 Graz</a>, 
+        <a href="http://www.roomz-graz.com" target="_blank">www.roomz-graz.com</a>
+      </li>
+    </ul>
+    <p>If you mention "TU Graz" upon booking, you should also receive a reduced tariff.</p>
+  </div>
+</section>
+
+  <!--<h3>Sponsorship Opportunities</h3>
+  <p>We are looking for a few industry sponsors, primarily to provide them with an opportunity to engage with the participants. This way, we hope to make the local security community more visible to an international audience and create networking opportunities.</p>
+  <p>We offer three sponsorship levels, each of which includes a ticket for a researcher from the sponsoring company to mingle with attendees or place goodies/swag in the welcome bag that we hand out at check-in.</p>
+  
+  <h4>Sponsorship Benefits</h4>
+  <ul>
+      <li>All sponsors will have their logos displayed on the conference website.</li>
+      <li>Sponsors will be acknowledged in the opening remarks.</li>
+  </ul>
+  <p>An early confirmation (or decline) of sponsorship would help us with planning, but we need to know by June at the latest whether sponsorship is possible.</p>
+  
+  <h4>Sponsorship Levels</h4>
+  <ul>
+      <li><b>Gold: €4000</b> (includes up to 4 free registrations, the option to have a table in the break area, the option to display a roll-up/poster, and the ability to place swag/goodies in the attendee bags)</li>
+      <li><b>Silver: €3000</b> (includes up to 3 free registrations, the option to display a roll-up/poster, and the ability to place swag/goodies in the attendee bags)</li>
+      <li><b>Bronze: €2000</b> (includes up to 2 free registrations, the ability to place swag/goodies in the attendee bags)</li>
+      <li>Other individual levels can be arranged.</li>
+  </ul>
+  
+  <p>We are happy to discuss other sponsorship options as well. If you have any questions, feel free to reach out. We look forward to this big and international event in Graz!</p>
+  </div>
+  
+
+</div>
+</section>-->
+
+
+<section id="imprint">
+<h1 id="content-responsibility-and-admin">Content Responsibility and Admin</h1>
+<p>Daniel Gruss<br>
+Graz University of Technology<br>
+Rechbauerstraße 12<br>
+8010 Graz, Austria<br>
+Telephone: +43 316 873 5544<br>
+E-Mail: <a href="mailto:daniel.gruss@tugraz.at">daniel.gruss@tugraz.at</a></p>
+<h1 id="privacy-policy">Privacy Policy</h1>
+<h2 id="processing-of-your-personal-data-when-you-visit-this-website">Processing of your personal data when you visit this website</h2>
+<p>We do not store any personal data about your visit to our project website.</p>
+<p>We only process your IP address to the extent necessary for the technical delivery of the web content. In addition to the IP address, your browser - depending on the configuration - also transmits other data, e.g. browser type, browser version, operating system used, referrer URL, which we use for delivering the website optimized for your display. Your personal data will not be processed by us beyond what is necessary for delivering the website and will be directly deleted afterwards.</p>
+<h2 id="cookies">Cookies</h2>
+<p>We do not use Cookies.</p>
+<h2 id="server-log-files">Server log files</h2>
+<!--
+<p>Our server does not log your access to our website.</p>
+-->
+<p>Your access to our website will be logged for a maximum of 7 days in order to be able to analyse any problems.</p>
+<h2 id="external-resources">External resources</h2>
+<p>All pictures, fonts, and additional resources are retrieved solely from our server, so that your visit to our website does not leave any traces at third parties.</p>
+</section>
+
+</main>
+
+
+<script src="bootstrap.bundle.min.js"></script>
+</body></html>

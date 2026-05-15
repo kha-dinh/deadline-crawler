@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+<!--
+       Xkk0OO0XW             WWNXKK0OOOOOOOOOO00KXXNWW                          
+     WKxc::::clox0XW    WWNXK0OOkkkkkkkkkkkkkkkkkkOO00KXNW                      
+    Nkc;;;;;;;;;;;cdOKXK0OkkkxkkkkkkkkkkkkkkkkkkkkkkkkkkkO0XNW                  
+   Nk:;;;;;;;;;;;;;;;:ldxkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkOKNW               
+   0l;;;;;;;;;;;;;;;;;;:ldxkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkOKNW            
+  Wk:;;;;;;;;;;;;;;;;;;;;:lxkkkkkkkkkkkkkkkkkkkkkkkkOOOOOOOOOkkkkkO0NW          
+  Nd;;;;;;;;;;;;;;;;;;;;;;;:ldxkkkkkkkkkkkkkkkkkkOOOOOOOOOOOOOkxxxkkO0NW        
+  Xo;;;;;;;;;;;;;;;;;;;;;;;;;;cldxkkkkkkkkkkkkkOOOOOkkkkkkkOOOOxodxkkkOKN       
+  Kl;;;;;;;;;;;;;;;;;;;;;;;;;;;;:coxkkkkkkkkkkOOOkkkkkkkkkkkOOOkoldkkkkk0XW     
+  Kl;;;;;;;;;;;;;;;;;,,;ldl:;;;;;;;coxkkkkkkkOOOxdxkkkkkkkkkkOOkoldxkkkkkOKW    
+  Kl;;;;;;;;;;;;;,''.'cONWNXOxoc:;;;;:oxkkkkOOOxodkkkkkkkkkkkOOkoloxkkkkkkkKW   
+  Kl;;;;;;;;,'... .':kN       WX0ko::;;coxkkOOOxdxkkkkkkkkkkOOOkxxkkOOkxxkkkKW  
+  Kl;;;;;;;;c;.  .cKW            WKkxdoodxOOOOOOOOOOOOOOOOOOOOOOOOOOOOOdldxkkKW 
+  Kl;;;;;;;oKXk:;xN               N0OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOkoloxkkOX 
+ WOc;;;;;;oKW  WNW                X0OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOkoloxkkk0N
+ Nx;;;;;;l0W                     WX0OOOOOOOOOOOOkl;,;lxOOOOOOOOOOOOOOOxlldkkkkOX
+WOc;;;;;',oKW                     WNX0OOOOOOOOOx;     ,xOOOOOOOOOOOOOOxlldkkkkk0
+0l;;;;;;,''cx0KNW                   WX0OOOOOOOOl.     .oOOOOOOOOOOOOOOdlldkkkkkO
+o;;;;;;;;;;;;;:ldk0XWW               WX0OOOOOOOo.     ,xOOOOOOOOOOOOOkollxkkkkkO
+xdo:;;;;;;;;;;;;;;;cok0NW        WXXNWNK0OOOOOOkl.  .:xOOOOOOOOOOOOOOkocoxkkkkkk
+WWKl;;;;;;;;;;;;;;;;,;:lx0NW     WN0O0000OOOOOOOk,  :kOOOOOOOOOOOOOOOxlloxkkkkkO
+  Xo;;;;;;;;;;;;;;;;;;;;:cokXW    Xo,;lxOOOOOOOOx, .oOOOOOOOOOOOOOOOOxlldxkkkkkO
+  Nx:;;;;;;;;;;;;;;;;;;:xkcckW  WW0l'  ':oOOOOOOkc'ckOOOOOOOOOOOOOOOOdlldkkkkkk0
+  W0l;;;;;;;;;;;;;;;;;;;::ckN  WX00Ok:.  ,xOOOOOOOkOOOOOOOOOOOOOOOOOkdcldkkkkkkK
+   Xx:;;;;;;;;;;;;;;;:dd::kN   WK0OOOd.  'dOOOOOOOOOOOOOOOOOOOOOOOOOkoclxkkkkk0N
+   W0o:;;;;;;;;;;;;;;:oo:lONW  WX0OOOd.  ,xOxxxxxkOOOOOOOOOOOOOOOO0OkocoxkkkkOXW
+    NOl;;;;;;;;;;;;;;:c:;lxkO00Okkxxxl.  'dl.....'lxxxxxxxxxxxxxxxxxdlcoxkkkkKW 
+     NOl;;;;;;;;;;;;;dOo;lxkkxdllllll;.  .'.      .clllllllllllclcclccloxkkk0W  
+      NOo:;;;;;;;;;;;;:;;:clloddoooooc.           ,looooooooooooooooooodkkkKN   
+       N0dc;;;;;;;;;;;;;;;;;;;:cldxxkxc.         ,dkkkkkkkkkkkkkkkkkkkkkkOKW    
+        WKkl:;;;;;;;;;;;;;;;;;;;;;cdxkxl;'.   ..:dkkkkkkkkkkkkkkkkkkkkkkOXW     
+          N0dc;;;;;;;;;;;;;;;;;;;;;:okkkkxdllldxkkkkkkkkkkkkkkkkkkkkkkOKN       
+           WXOdl:;;;;;;;;;;;;;;;;;;;cdkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk0NW        
+             WXOxl:;;;;;;;;;;;;;;;;;;oxkkkkkkkkkkkkkkkkkkkkkkkkkkkO0NW          
+               WX0kdl:;;;;;;;;;;;;;;;cxkkkkkkkkkkkkkkkkkkkkkkkkkOKNW            
+                  NX0kdol::;;;;;;;;;;:dkkkkkkkkkkkkkkkkkkkkkkOKXW               
+                    WWXK0kxdolcc::;;;:okkkkkkkkkkkkkkkkkkO0KNW                  
+                        WWNXK0OkxxddooxkkkkkkkkkkkkOO0KXNWW                     
+                             WNNXH0BBESkkkkkOOO00KXNWW                          
+ -->
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="keywords" content="application security conference,industry,government,academia,computer security,information security,encryption,privacy,protection,vulnerability,cryptography,certification and accreditation,enterprise security,identification and authentication,incident ersponse,virtualization security" />
+<meta name="description" property="og:description" content="The Annual Computer Security Applications Conference (ACSAC) brings together cutting-edge researchers, with a broad cross-section of security professionals drawn from academia, industry, and government, gathered to present and discuss the latest security results and topics. With peer reviewed technical papers, invited talks, panels, national interest discussions, and workshops, ACSAC continues its core mission of investigating practical solutions for computer and network security technology.">
+<link rel="shortcut icon" type="image/ico" href="/favicon.ico">
+<link rel="icon" type="image/png" href="/images/favicon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/images/acsac-192.png">
+<link href="/images/acsac-57.png" rel="apple-touch-icon-precomposed">
+<link href="/images/acsac-72.png" rel="apple-touch-icon-precomposed" sizes="72x72">
+<link href="/images/acsac-114.png" rel="apple-touch-icon-precomposed" sizes="114x114">
+<link href="/images/acsac-152.png" rel="apple-touch-icon-precomposed" sizes="144x144">
+<title>Annual Computer Security Applications Conference (ACSAC)</title>
+<link rel="stylesheet" href="/2025/main.min.css">
+<link rel="stylesheet" href="/2025/acsac.css?v=5">
+<meta name="title" property="og:title" content="Annual Computer Security Applications Conference (ACSAC)" />
+<meta name="author" property="og:author" content="ACSAC" />
+<meta name="image" property="og:image" content="https://www.acsac.org/2025/ACSACcard2025.png" /><meta property="og:image:alt" content="ACSAC home page" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1439" />
+<meta property="og:image:height" content="780" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://www.acsac.org/" />
+</head>
+<body>
+<a class="acsac-skipnav" href="#main-content">Skip to main content</a>
+
+<div class="acsac-overlay"></div>
+<header class="acsac-header acsac-header--extended" role="banner"><div class="acsac-navbar">
+<div class="acsac-logo" id="extended-logo">
+<em class="acsac-logo__text"><a href="/" title="Home" aria-label="Home">ACSAC 2025<span class="display-block font-heading-3xs text-gray-70">December 8-12, 2025 &#8226; Honolulu, Hawaii, USA</span></a></em>
+</div>
+<button class="acsac-menu-btn">Menu</button>
+</div>
+<nav role="navigation" class="acsac-nav">
+<div class="acsac-nav__inner">
+<button class="acsac-nav__close"><img src="/img/close.svg" alt="close"></button>
+<ul class="acsac-nav__primary acsac-accordion">
+
+<li class="acsac-nav__primary-item">
+<button id="acsac-nav-submissions" class="acsac-accordion__button acsac-nav__link" aria-expanded="false" aria-controls="extended-nav-section-submissions"><span>Submissions</span></button>
+<ul id="extended-nav-section-submissions" class="acsac-nav__submenu">
+<li class="acsac-nav__submenu-item"><a href="/2025/submissions/">Call for Submissions</a></li>
+<li class="acsac-nav__submenu-item"><a href="/2025/submissions/topics/">Submission Topics</a></li>
+<li class="acsac-nav__submenu-item"><a href="/2025/submissions/hardtopic/">Hard-Topic Theme</a></li>
+<li class="acsac-nav__submenu-item"><a href="/2025/submissions/papers/">Technical Papers</a></li>
+<li class="acsac-nav__submenu-item"><a href="/2025/submissions/case_studies/">Case Studies</a></li>
+<li class="acsac-nav__submenu-item"><a href="/2025/submissions/panels/">Panels</a></li>
+<li class="acsac-nav__submenu-item"><a href="/2025/submissions/posters/">Posters and WiPs</a></li>
+<li class="acsac-nav__submenu-item"><a href="/2025/submissions/workshops/">Workshops</a></li>
+<li class="acsac-nav__submenu-item border-top-2px border-gray-30 padding-top-1"><a href="/2025/submissions/artifacts_competition/">Artifacts Competition</a></li>
+<li class="acsac-nav__submenu-item"><a href="/2025/submissions/conferenceships/">Student Conferenceships</a></li>
+</ul>
+</li>
+
+<li class="acsac-nav__primary-item">
+<button id="acsac-nav-workshops" class="acsac-accordion__button acsac-nav__link" aria-expanded="false" aria-controls="extended-nav-section-workshops"><span>Workshops</span></button>
+<ul id="extended-nav-section-workshops" class="acsac-nav__submenu">
+<li class="acsac-nav__submenu-item"><a href="/2025/workshops/cset/">CSET &ndash; Cyber Security Experimentation and </a></li>
+<li class="acsac-nav__submenu-item"><a href="https://publish.illinois.edu/healthsec2025/" title="workshop page is outside our website">HealthSec &ndash; Cybersecurity in Healthcare</a></li>
+<li class="acsac-nav__submenu-item"><a href="/2025/workshops/icss/">ICSS &ndash; Industrial Control System Security</a></li>
+<li class="acsac-nav__submenu-item"><a href="/2025/workshops/laser/">LASER &ndash; Learning from Authoritative Security Experiment Results</a></li>
+<li class="acsac-nav__submenu-item"><a href="/2025/workshops/tracerfire/">Tracer FIRE – Forensic and Incident Response Exercise</a></li>
+<li class="acsac-nav__submenu-item"><a href="/2025/workshops/waiti/">WAITI with IOT-SCTI &ndash; Workshop on AI for Cyber Threat Intelligence &amp; IoT Security and Cyber Threat Intelligence</a></li>
+<li class="acsac-nav__submenu-item"><a href="/2025/workshops/web3sec/">WEB3SEC &ndash; Workshop Encouraging Building Better Blockchain Security</a></li>
+</ul>
+</li>
+
+<li class="acsac-nav__primary-item">
+<button id="acsac-nav-committees" class="acsac-accordion__button acsac-nav__link" aria-expanded="false" aria-controls="extended-nav-section-committees"><span>Committees</span></button>
+<ul id="extended-nav-section-committees" class="acsac-nav__submenu">
+<li class="acsac-nav__submenu-item"><a href="/2025/committees/organizing/">Organizing Committee</a></li>
+<li class="acsac-nav__submenu-item"><a href="/2025/committees/steering/">Steering Committee</a></li>
+<li class="acsac-nav__submenu-item"><a href="/2025/committees/program/">Program Committee</a></li>
+</ul>
+</li>
+
+<li class="acsac-nav__primary-item">
+<button id="acsac-nav-program" class="acsac-accordion__button acsac-nav__link" aria-expanded="false" aria-controls="extended-nav-section-program"><span>Program</span></button>
+<ul id="extended-nav-section-program" class="acsac-nav__submenu">
+<li class="acsac-nav__submenu-item"><a href="/2025/program/">Full Program</a></li>
+<li class="acsac-nav__submenu-item"><a href="/2025/program/papers/">Accepted Papers</a></li>
+<li class="acsac-nav__submenu-item"><a href="/2025/program/posters/">Accepted Posters</a></li>
+<li class="acsac-nav__submenu-item"><a href="/2025/program/artifacts/">Paper Artifacts</a></li>
+<li class="acsac-nav__submenu-item"><a href="/2025/program/closing/">Closing Plenary</a></li>
+</ul>
+</li>
+
+
+<li class="acsac-nav__primary-item" id="acsac-nav-registration"><a class="acsac-nav__link" href="/2025/proceedings/"><span>Proceedings</span></a></li>
+
+<li class="acsac-nav__primary-item" id="acsac-nav-sponsors"><a class="acsac-nav__link" href="/2025/sponsors/"><span>Sponsors</span></a></li>
+
+<li class="acsac-nav__primary-item" id="acsac-nav-venue"><a class="acsac-nav__link" href="/2025/venue/"><span>Venue</span></a></li>
+
+
+</ul>
+
+<div class="acsac-nav__secondary">
+<ul class="acsac-nav__secondary-links">
+<li class="acsac-nav__secondary-item"><a href="/archive/">Archive</a></li>
+<li class="acsac-nav__secondary-item"><a href="/faq/">FAQs</a></li>
+<li class="acsac-nav__secondary-item"><a href="/list/">Mailing List</a></li>
+</ul>
+<form class="acsac-search acsac-search--small" method="get" action="/search/">
+<div role="search">
+<label class="acsac-sr-only" for="extended-search-field-small">Search small</label>
+<input class="acsac-input" id="extended-search-field-small" type="search" name="q" placeholder="search on duckduckgo" value="">
+<button class="acsac-button" type="submit"><span class="acsac-sr-only">Search</span></button>
+</div>
+</form>
+</div>
+
+</div>
+</nav>
+</header>
+
+    
+
+<main id="main-content">
+
+  <section class="acsac-hero">
+    <div class="grid-container">
+      <div class="acsac-hero__callout">
+        <h1 class="acsac-hero__heading"><span class="acsac-hero__heading--alt">It's a wrap!</span><span title="Until we all meet again">A Hui Hou Kākou</span></h1><p class="margin-bottom-3">IEEE proceedings available!<br />Presentations posted in program.</p><div class="width-full text-center"><a class="acsac-button acsac-button--accent-cool margin-x-2 margin-bottom-05" href="/2025/proceedings/">Proceedings</a> <a class="acsac-button acsac-button--accent-cool margin-x-2 margin-bottom-05" href="/2025/program/">Program</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="grid-container acsac-section">
+    <div class="grid-row grid-gap">
+      <div class="tablet:grid-col-4">
+        <h2 class="font-heading-xl margin-top-0 tablet:margin-bottom-0">Mahalo for joining us in Hawaii!</h2>
+	<p class="font-body-lg">See you December 7-11, 2026 in Los Angeles, California</p>
+      </div>
+      <div class="tablet:grid-col-8 acsac-prose">
+        <p>The <b>Annual Computer Security Applications Conference (ACSAC)</b> brings together leading researchers and practitioners, along with a diverse group of security professionals drawn from academia, industry, and government, gathered to present and discuss the latest cybersecurity results and topics. With peer reviewed technical papers, invited talks, panels, national interest discussions, and workshops, ACSAC continues its core mission of investigating practical solutions for computer and network security technologies.</p>
+
+	<p>As an internationally recognized forum where researchers, practitioners, and developers meet to learn and to exchange practical ideas and experiences in computer and network security, we invite you to submit your work. In addition to peer-reviewed papers on novel applied research, we also welcome case studies on real-world applications, panels featuring world experts, and workshops consisting of 1-2 day sessions on hot cybersecurity and privacy topics.</p>
+
+      </div>
+    </div>
+  </section>
+  
+
+  <section id="acsac_keynotes" class="acsac-graphic-list acsac-section acsac-section--dark">
+  <div class="grid-container">
+      <h2 class="font-heading-xl margin-bottom-3 margin-top-neg-2" style="text-align: center">Keynote</em></h2>
+    <div class="acsac-graphic-list__row grid-row ">
+      <div class="acsac-media-block tablet:grid-col"></div>
+      <div class="acsac-media-block tablet:grid-col-10">
+	  <img class="acsac-media-block__img" src="https://www.acsac.org/2025/files/web/photo_yves.jpeg" alt="Yves Younan Photo" width="150" height="178" />
+        <div class="acsac-media-block__body">
+	<h3 class="text-left font-heading-lg"><a href="https://www.openconf.org/acsac2025/modules/request.php?module=oc_program&action=page.php&id=33">Vulnerabilities: Past, Present, and Future</a></h3>
+          <h3 class="acsac-graphic-list__heading">Yves Younan</h3>
+	  <p>Director, Cisco Talos</p>
+        </div>
+      </div>
+      <div class="acsac-media-block tablet:grid-col"></div>
+     </div>
+  </div>
+</section>
+
+
+
+  <section class="acsac-section">
+    <div class="grid-container">
+      <h2 class="font-heading-xl margin-y-0">Hard Topic Theme: <em>Automated Detection and Patching of Software Vulnerabilities</em></h2>
+      <p class="acsac-intro">This year's hard topic theme solicits research results and technologies that advance our ability to automatically identify and fix software security vulnerabilities. Security vulnerabilities exist in any domain that relies on software, including the Internet of Things, the Web, and cyber-physical systems. Automatically identifying issues in real-world codebases is becoming increasingly challenging, given the complexity of advanced vulnerabilities and the size of commonly used code.</p>
+      <a class="acsac-button acsac-button--big" href="/2025/submissions/hardtopic/">Read More</a>
+    </div>
+  </section>
+
+</main>
+
+
+<footer class="acsac-footer" role="contentinfo">
+<div class="grid-container acsac-footer__return-to-top">
+<a href="#">Return to top</a>
+</div>
+<div class="acsac-footer__primary-section">
+<nav class="acsac-footer__nav">
+<ul class="add-list-reset grid-row grid-gap">
+<li class="mobile-lg:grid-col-4 desktop:grid-col-2 acsac-footer__primary-content"><a class="acsac-footer__primary-link" href="/conduct/">Code of Conduct</a></li>
+<li class="mobile-lg:grid-col-4 desktop:grid-col-2 acsac-footer__primary-content"><a class="acsac-footer__primary-link" href="/privacy/">Privacy Policy</a></li>
+<li class="mobile-lg:grid-col-4 desktop:grid-col-2 acsac-footer__primary-content"><a class="acsac-footer__primary-link" href="/faq/">FAQs</a></li>
+<li class="mobile-lg:grid-col-4 desktop:grid-col-2 acsac-footer__primary-content"><a class="acsac-footer__primary-link" href="/list/">Mailing List</a></li>
+<li class="mobile-lg:grid-col-4 desktop:grid-col-2 acsac-footer__primary-content"><a class="acsac-footer__primary-link" href="/contact/">Contact Us</a></li>
+</ul>
+</nav>
+</div>
+
+<div class="acsac-footer__secondary-section">
+<div class="grid-container">
+<div class="grid-row grid-gap">
+<div class="acsac-footer__logo grid-row mobile-lg:grid-col-10 mobile-lg:grid-gap-2">
+<div class="mobile-lg:grid-col-auto">
+<h3 class="acsac-footer__logo-heading">An event by <a href="https://www.appliedcomputersecurity.org/"><em>Applied Computer Security Associates</em></a></h3>
+</div>
+<div class="mobile-lg:grid-col-auto">
+<a href="https://www.appliedcomputersecurity.org/"><img class="acsac-footer__logo-img" src="/images/acsa2-150x100.png" alt="ACSA logo"></a>
+</div>
+<span class="margin-left-1">a 501(c)(3) non-profit association of computer security professionals with the goal to improve the understanding, theory, and practice of computer security through activities such as ACSAC and</span>
+<div class="margin-top-1">
+<a href="https://www.swsis.org" class="margin-x-3"><img src="/images/swsis-footer2.png" alt="Scholarships for Women Studying Information Security (SWSIS)" width="140" height="75" /></a>
+<a href="https://www.laser-workshop.org" class="margin-x-3"><img src="/images/laser-footer.png" alt="Learning from Authoritative Security Experiment Results (LASER)" width="75" height="75" /></a>
+<a href="https://www.nspw.org/" class="margin-x-3"><img src="/images/nspw-footer2.png" alt="New Security Paradigms Workshop" width="115" height="75" /></a>
+</div>
+
+
+<div class="mobile-lg:grid-col-12 margin-top-2">
+<h3 class="acsac-footer__logo-heading">With financial co-sponsorship by IEEE Computer Society</h3>
+</div>
+<div class="margin-top-1 padding-left-2">
+<img src="/2024/images/ieee.png" width="205" height="60" alt="IEEE logo" class="margin-x-2" />
+<img src="/2024/images/ieeecs.png" width="196" height="60" alt="IEEE Computer Society logo" class="margin-x-2" />
+<img src="/2024/images/ieeetcsp.png" width="136" height="60" alt="IEEE TC on Security & Privacy logo" class="margin-x-2" />
+</div>
+
+
+<div class="mobile-lg:grid-col-12 margin-top-3">
+<h3 class="acsac-footer__logo-heading">And support from:</h3>
+</div>
+<div class="margin-top-1">
+
+<div class="margin-top-2">
+<div class="margin-bottom-1 margin-x-3 bg-gray-70 text-bold text-gold padding-x-4">GOLD SPONSOR</div>
+<a href="https://www.ibm.com/" target="_blank" class="margin-x-5"><img src="/2024/images/ibm.png" alt="IBM" align="middle" width="200" height="80" /></a>
+<a href="https://www.cisco.com/" target="_blank" class="margin-x-5"><img src="/2025/images/cisco.svg" width="173" height="120" align="middle" alt="CISCO" /></a>
+<br />
+<a href="https://www.amazon.science/" target="_blank" class="margin-x-5"><img src="/2024/images/amazon.png" alt="Amazon | Science" width="357" height="100" /></a>
+</div>
+
+
+<div class="margin-top-2">
+<div class="margin-bottom-1 margin-x-3 bg-gray-70 text-bold text-cyan padding-x-4">CONFERENCESHIPS SPONSOR</div
+>
+<a href="https://www.nsf.gov" target="_blank" class="margin-x-5"><img src="/2022/images/nsf.gif" alt="National Science Found
+ation" width="100" height="101" /></a>
+</div>
+
+</div> <!--margin-top-1-->
+
+</div>
+
+<div class="acsac-footer__contact-links mobile-lg:grid-col-2">
+<div class="acsac-footer__social-links grid-row grid-gap-1">
+<div class="grid-col-auto margin-bottom-05">
+<a class="acsac-social-link acsac-social-link--bluesky" href="https://bsky.app/profile/acsacconf.bsky.social">
+<span>Bluesky</span>
+</a>
+</div>
+<div class="grid-col-auto margin-bottom-05">
+<a class="acsac-social-link acsac-social-link--mastodon" href="https://infosec.exchange/@ACSAC_Conf">
+<span>Mastodon</span>
+</a>
+</div>
+<div class="grid-col-auto margin-bottom-05">
+<a class="acsac-social-link acsac-social-link--facebook" href="https://www.facebook.com/acsaconf/">
+<span>Facebook</span>
+</a>
+</div>
+<div class="grid-col-auto margin-bottom-05">
+<a class="acsac-social-link acsac-social-link--x" href="https://x.com/ACSAC_Conf">
+<span>Twitter</span>
+</a>
+</div>
+<div class="grid-col-auto margin-bottom-05">
+<a class="acsac-social-link acsac-social-link--linkedin" href="https://www.linkedin.com/company/81522440">
+<span>YouTube</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</footer>
+
+<script src="/2024/main.min.js"></script>
+<script src="/2024/acsac.js"></script>
+
+</body>
+</html>
