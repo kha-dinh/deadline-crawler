@@ -27,6 +27,7 @@ def cmd_crawl(args):
             years=years,
             name_filter=args.conf,
             workers=args.workers,
+            no_specific=args.no_specific,
         )
     except Exception as e:
         print(f"Crawl failed: {e}", file=sys.stderr)
@@ -247,6 +248,7 @@ def main():
     crawl_p.add_argument("--format", "-f", choices=["json", "yaml"], default="json", help="Output format")
     crawl_p.add_argument("--output", "-o", help="Output file path")
     crawl_p.add_argument("--workers", "-w", type=int, default=4, help="Parallel fetch threads (default: 4)")
+    crawl_p.add_argument("--no-specific", action="store_true", default=False, help="Skip site-specific deadline patterns; use generic extractor only")
 
     # T10: validate command
     validate_p = sub.add_parser("validate", help="Validate exported output against invariants")

@@ -124,14 +124,7 @@
   by_year:
     2026:
       url: https://raid2026.org/call.html
-      selectors:
-        deadlines:
-          - label: submission
-            pattern: '<strong[^>]*>Submission Deadline</strong>\s*<span>([^<]+)</span>'
-          - label: notification
-            pattern: '<strong[^>]*>Notification to Authors</strong>\s*<span>([^<]+)</span>'
-          - label: camera_ready
-            pattern: '<strong[^>]*>Camera-ready Deadline</strong>\s*<span>([^<]+)</span>'
+      selectors: {}
 
 - name: ACSAC
   # Pattern: acsac.org/{YYYY}/submissions/papers/ — consistent
@@ -164,15 +157,6 @@
   tags: [SYS, TIER1]
   selectors:
     section: "Important Dates</h2>.*?(?=<h2|Deadline and Submission)"
-    deadlines:
-      - label: abstract
-        pattern: 'Abstract registrations? due:\s*<strong>(.*?)</strong>'
-      - label: submission
-        pattern: 'Complete paper submissions? due:\s*<strong>(.*?)</strong>'
-      - label: notification
-        pattern: 'Notification to authors:\s*<strong>(.*?)</strong>'
-      - label: camera_ready
-        pattern: 'Final papers? due:\s*<strong>(.*?)</strong>'
   main_selectors:
     date: ".field-name-field-date-text .field-item"
     place: ".field-name-field-address-text .field-item"
@@ -233,27 +217,9 @@
     - name: "Spring"
       selectors:
         section: "Spring deadline:</strong>.*?</ul>"
-        deadlines:
-          - label: abstract
-            pattern: 'abstracts due:\s*<strong>(.*?)</strong>'
-          - label: submission
-            pattern: 'paper submissions due:\s*<strong>(.*?)</strong>'
-          - label: notification
-            pattern: 'Notification to authors:\s*<strong>(.*?)</strong>'
-          - label: camera_ready
-            pattern: 'Final paper files due:\s*(?:<strike>.*?</strike>\s*)?<strong>(.*?)</strong>'
     - name: "Fall"
       selectors:
         section: "Fall deadline:</strong>.*?</ul>"
-        deadlines:
-          - label: abstract
-            pattern: 'abstracts due:\s*<strong>(.*?)</strong>'
-          - label: submission
-            pattern: 'paper submissions due:\s*<strong>(.*?)</strong>'
-          - label: notification
-            pattern: 'Notification to authors:\s*<strong>(.*?)</strong>'
-          - label: camera_ready
-            pattern: 'Final paper files due:\s*(?:<strike>.*?</strike>\s*)?<strong>(.*?)</strong>'
   main_selectors:
     date: ".field-name-field-date-text .field-item"
     place: ".field-name-field-address-text .field-item"
@@ -271,19 +237,9 @@
     - name: "Spring"
       selectors:
         section: "Spring deadline:</strong>.*?(?=Fall deadline:</strong>)"
-        deadlines:
-          - label: submission
-            pattern: 'Paper submissions due:\s*<strong>(.*?)</strong>'
-          - label: notification
-            pattern: 'Notification to authors:\s*<strong>(.*?)</strong>'
     - name: "Fall"
       selectors:
         section: "Fall deadline:</strong>.*?(?=<h3|Two Deadlines</h3>)"
-        deadlines:
-          - label: submission
-            pattern: 'Paper submissions due:\s*<strong>(.*?)</strong>'
-          - label: notification
-            pattern: 'Notification to authors:\s*<strong>(.*?)</strong>'
   main_selectors:
     date: ".field-name-field-date-text .field-item"
     place: ".field-name-field-address-text .field-item"
@@ -318,42 +274,16 @@
   cycles:
     - name: "Cycle 1"
       selectors:
-        deadlines:
-          - label: abstract
-            pattern: '<tr[^>]*href="[^"]*?/icse-\d{4}-research-track"[^>]*><td>(?:<strong>)?([^<]+)(?:\s*<[^>]*>)*\s*</td><td>(?:<strong>)?[^<]*(?:</strong>)?</td><td>(?:<strong>)?[^<]*First Cycle:[^<]*Abstract'
-          - label: submission
-            pattern: '<tr[^>]*href="[^"]*?/icse-\d{4}-research-track"[^>]*><td>(?:<strong>)?([^<]+)(?:\s*<[^>]*>)*\s*</td><td>(?:<strong>)?[^<]*(?:</strong>)?</td><td>(?:<strong>)?[^<]*First Cycle: Submission'
-          - label: notification
-            pattern: '<tr[^>]*href="[^"]*?/icse-\d{4}-research-track"[^>]*><td>(?:<strong>)?([^<]+)(?:\s*<[^>]*>)*\s*</td><td>(?:<strong>)?[^<]*(?:</strong>)?</td><td>(?:<strong>)?[^<]*First Cycle: Notification'
-          - label: camera_ready
-            pattern: '<tr[^>]*href="[^"]*?/icse-\d{4}-research-track"[^>]*><td>(?:<strong>)?([^<]+)(?:\s*<[^>]*>)*\s*</td><td>(?:<strong>)?[^<]*(?:</strong>)?</td><td>(?:<strong>)?[^<]*First Cycle: Camera-ready'
+        researchr_track: icse-{YYYY}-research-track
+        researchr_cycle: "First Cycle"
     - name: "Cycle 2"
       selectors:
-        deadlines:
-          - label: abstract
-            pattern: '<tr[^>]*href="[^"]*?/icse-\d{4}-research-track"[^>]*><td>(?:<strong>)?([^<]+)(?:\s*<[^>]*>)*\s*</td><td>(?:<strong>)?[^<]*(?:</strong>)?</td><td>(?:<strong>)?[^<]*Second Cycle:[^<]*Abstract'
-          - label: submission
-            pattern: '<tr[^>]*href="[^"]*?/icse-\d{4}-research-track"[^>]*><td>(?:<strong>)?([^<]+)(?:\s*<[^>]*>)*\s*</td><td>(?:<strong>)?[^<]*(?:</strong>)?</td><td>(?:<strong>)?[^<]*Second Cycle: Submission'
-          - label: notification
-            pattern: '<tr[^>]*href="[^"]*?/icse-\d{4}-research-track"[^>]*><td>(?:<strong>)?([^<]+)(?:\s*<[^>]*>)*\s*</td><td>(?:<strong>)?[^<]*(?:</strong>)?</td><td>(?:<strong>)?[^<]*Second Cycle: Notification'
-          - label: camera_ready
-            pattern: '<tr[^>]*href="[^"]*?/icse-\d{4}-research-track"[^>]*><td>(?:<strong>)?([^<]+)(?:\s*<[^>]*>)*\s*</td><td>(?:<strong>)?[^<]*(?:</strong>)?</td><td>(?:<strong>)?[^<]*Second Cycle: Camera-ready'
+        researchr_track: icse-{YYYY}-research-track
+        researchr_cycle: "Second Cycle"
   by_year:
     2027:
       # ICSE 2027 dropped two-cycle format — single cycle, no "First/Second Cycle:" prefix
       cycles: null
-      selectors:
-        deadlines:
-          - label: abstract
-            pattern: '<tr[^>]*href="[^"]*?/icse-\d{4}-research-track"[^>]*><td>(?:<strong>)?([^<]+)(?:\s*<[^>]*>)*\s*</td><td>[^<]*</td><td>[^<]*Abstract'
-          - label: submission
-            pattern: '<tr[^>]*href="[^"]*?/icse-\d{4}-research-track"[^>]*><td>(?:<strong>)?([^<]+)(?:\s*<[^>]*>)*\s*</td><td>[^<]*</td><td>[^<]*Submission'
-          - label: rebuttal_start
-            pattern: '<tr[^>]*href="[^"]*?/icse-\d{4}-research-track"[^>]*><td>(?:<strong>)?([^<]+)(?:\s*<[^>]*>)*\s*</td><td>[^<]*</td><td>[^<]*Author response'
-          - label: notification
-            pattern: '<tr[^>]*href="[^"]*?/icse-\d{4}-research-track"[^>]*><td>(?:<strong>)?([^<]+)(?:\s*<[^>]*>)*\s*</td><td>[^<]*</td><td>[^<]*Notification'
-          - label: camera_ready
-            pattern: '<tr[^>]*href="[^"]*?/icse-\d{4}-research-track"[^>]*><td>(?:<strong>)?([^<]+)(?:\s*<[^>]*>)*\s*</td><td>[^<]*</td><td>[^<]*Camera-ready'
   overrides:
     description: "International Conference on Software Engineering"
 
@@ -362,50 +292,24 @@
   url: https://conf.researchr.org/dates/fse-{YYYY}
   strategy: regex
   tags: [SE, TIER1]
-  selectors:
-    deadlines:
-      - label: abstract
-        pattern: '<tr[^>]*href="[^"]*?/fse-\d{4}-research-papers"[^>]*><td>(?:<strong>)?([^<]+)(?:\s*<[^>]*>)*\s*</td><td>(?:<strong>)?[^<]*(?:</strong>)?</td><td>(?:<strong>)?[^<]*[Aa]bstract'
-      - label: submission
-        pattern: '<tr[^>]*href="[^"]*?/fse-\d{4}-research-papers"[^>]*><td>(?:<strong>)?([^<]+)(?:\s*<[^>]*>)*\s*</td><td>(?:<strong>)?[^<]*(?:</strong>)?</td><td>(?:<strong>)?[^<]*paper submission'
-      - label: notification
-        pattern: '<tr[^>]*href="[^"]*?/fse-\d{4}-research-papers"[^>]*><td>(?:<strong>)?([^<]+)(?:\s*<[^>]*>)*\s*</td><td>(?:<strong>)?[^<]*(?:</strong>)?</td><td>(?:<strong>)?[^<]*[Nn]otification'
-      - label: camera_ready
-        pattern: '<tr[^>]*href="[^"]*?/fse-\d{4}-research-papers"[^>]*><td>(?:<strong>)?([^<]+)(?:\s*<[^>]*>)*\s*</td><td>(?:<strong>)?[^<]*(?:</strong>)?</td><td>(?:<strong>)?[^<]*[Cc]amera [Rr]eady'
   overrides:
     description: "ACM Joint European Software Engineering Conference and Symposium on the Foundations of Software Engineering"
 
 - name: ASE
   # Pattern: conf.researchr.org/dates/ase-{YYYY} — consistent
-  # Track ID varies: ase-YYYY-papers (2025) vs ase-YYYY-research-track (2026)
+  # Track ID varies: ase-YYYY-papers (2025) vs ase-YYYY-research-track (2026) — auto-discovered
   url: https://conf.researchr.org/dates/ase-{YYYY}
   strategy: regex
   tags: [SE, TIER1]
-  selectors:
-    deadlines:
-      - label: submission
-        pattern: '<tr[^>]*href="[^"]*?/ase-\d{4}-(?:papers|research-track)"[^>]*><td>(?:<strong>)?([^<]+)(?:\s*<[^>]*>)*\s*</td><td>(?:<strong>)?[^<]*(?:</strong>)?</td><td>(?:<strong>)?[^<]*Paper Submission'
-      - label: notification
-        pattern: '<tr[^>]*href="[^"]*?/ase-\d{4}-(?:papers|research-track)"[^>]*><td>(?:<strong>)?([^<]+)(?:\s*<[^>]*>)*\s*</td><td>(?:<strong>)?[^<]*(?:</strong>)?</td><td>(?:<strong>)?[^<]*Initial Notification'
-      - label: camera_ready
-        pattern: '<tr[^>]*href="[^"]*?/ase-\d{4}-(?:papers|research-track)"[^>]*><td>(?:<strong>)?([^<]+)(?:\s*<[^>]*>)*\s*</td><td>(?:<strong>)?[^<]*(?:</strong>)?</td><td>(?:<strong>)?[^<]*Camera.Ready'
   overrides:
     description: "International Conference on Automated Software Engineering"
 
 - name: ISSTA
   # Pattern: conf.researchr.org/dates/issta-{YYYY} — consistent
-  # Track ID varies: issta-YYYY-papers (2025) vs issta-YYYY-research-papers (2026)
+  # Track ID varies: issta-YYYY-papers (2025) vs issta-YYYY-research-papers (2026) — auto-discovered
   url: https://conf.researchr.org/dates/issta-{YYYY}
   strategy: regex
   tags: [SE, TIER1]
-  selectors:
-    deadlines:
-      - label: submission
-        pattern: '<tr[^>]*href="[^"]*?/issta-\d{4}-(?:research-)?papers"[^>]*><td>(?:<strong>)?([^<]+)(?:\s*<[^>]*>)*\s*</td><td>(?:<strong>)?[^<]*(?:</strong>)?</td><td>(?:<strong>)?[^<]*Paper Submission'
-      - label: notification
-        pattern: '<tr[^>]*href="[^"]*?/issta-\d{4}-(?:research-)?papers"[^>]*><td>(?:<strong>)?([^<]+)(?:\s*<[^>]*>)*\s*</td><td>(?:<strong>)?[^<]*(?:</strong>)?</td><td>(?:<strong>)?[^<]*(?:Initial )?Notification'
-      - label: camera_ready
-        pattern: '<tr[^>]*href="[^"]*?/issta-\d{4}-(?:research-)?papers"[^>]*><td>(?:<strong>)?([^<]+)(?:\s*<[^>]*>)*\s*</td><td>(?:<strong>)?[^<]*(?:</strong>)?</td><td>(?:<strong>)?[^<]*Camera Ready'
   overrides:
     description: "International Symposium on Software Testing and Analysis"
 
@@ -416,14 +320,6 @@
   url: https://conf.researchr.org/dates/icst-{YYYY}
   strategy: regex
   tags: [SE, TIER2]
-  selectors:
-    deadlines:
-      - label: submission
-        pattern: '<tr[^>]*href="[^"]*?/icst-\d{4}-research"[^>]*><td>(?:<strong>)?([^<]+)(?:\s*<[^>]*>)*\s*</td><td>(?:<strong>)?[^<]*(?:</strong>)?</td><td>(?:<strong>)?[^<]*paper submission'
-      - label: notification
-        pattern: '<tr[^>]*href="[^"]*?/icst-\d{4}-research"[^>]*><td>(?:<strong>)?([^<]+)(?:\s*<[^>]*>)*\s*</td><td>(?:<strong>)?[^<]*(?:</strong>)?</td><td>(?:<strong>)?[^<]*notification'
-      - label: camera_ready
-        pattern: '<tr[^>]*href="[^"]*?/icst-\d{4}-research"[^>]*><td>(?:<strong>)?([^<]+)(?:\s*<[^>]*>)*\s*</td><td>(?:<strong>)?[^<]*(?:</strong>)?</td><td>(?:<strong>)?[^<]*[Cc]amera ready'
   overrides:
     description: "IEEE International Conference on Software Testing, Verification and Validation"
 
@@ -432,16 +328,6 @@
   url: https://{YYYY}.msrconf.org/dates
   strategy: regex
   tags: [SE, TIER2]
-  selectors:
-    deadlines:
-      - label: abstract
-        pattern: '<tr[^>]*href="[^"]*?msr-\d{4}-technical-papers"[^>]*><td>(?:<strong>)?([^<]+)(?:\s*<[^>]*>)*\s*</td><td>(?:<strong>)?[^<]*(?:</strong>)?</td><td>(?:<strong>)?[^<]*Abstract'
-      - label: submission
-        pattern: '<tr[^>]*href="[^"]*?msr-\d{4}-technical-papers"[^>]*><td>(?:<strong>)?([^<]+)(?:\s*<[^>]*>)*\s*</td><td>(?:<strong>)?[^<]*(?:</strong>)?</td><td>(?:<strong>)?[^<]*Paper Deadline'
-      - label: notification
-        pattern: '<tr[^>]*href="[^"]*?msr-\d{4}-technical-papers"[^>]*><td>(?:<strong>)?([^<]+)(?:\s*<[^>]*>)*\s*</td><td>(?:<strong>)?[^<]*(?:</strong>)?</td><td>(?:<strong>)?[^<]*Notification'
-      - label: camera_ready
-        pattern: '<tr[^>]*href="[^"]*?msr-\d{4}-technical-papers"[^>]*><td>(?:<strong>)?([^<]+)(?:\s*<[^>]*>)*\s*</td><td>(?:<strong>)?[^<]*(?:</strong>)?</td><td>(?:<strong>)?[^<]*Camera Ready'
   overrides:
     description: "IEEE/ACM International Conference on Mining Software Repositories"
 
@@ -450,16 +336,6 @@
   url: https://conf.researchr.org/dates/icsme-{YYYY}
   strategy: regex
   tags: [SE, TIER2]
-  selectors:
-    deadlines:
-      - label: abstract
-        pattern: '<tr[^>]*href="[^"]*?/icsme-\d{4}-papers"[^>]*><td>(?:<strong>)?([^<]+)(?:\s*<[^>]*>)*\s*</td><td>(?:<strong>)?[^<]*(?:</strong>)?</td><td>(?:<strong>)?[^<]*Abstract Submission'
-      - label: submission
-        pattern: '<tr[^>]*href="[^"]*?/icsme-\d{4}-papers"[^>]*><td>(?:<strong>)?([^<]+)(?:\s*<[^>]*>)*\s*</td><td>(?:<strong>)?[^<]*(?:</strong>)?</td><td>(?:<strong>)?[^<]*Paper Submission'
-      - label: notification
-        pattern: '<tr[^>]*href="[^"]*?/icsme-\d{4}-papers"[^>]*><td>(?:<strong>)?([^<]+)(?:\s*<[^>]*>)*\s*</td><td>(?:<strong>)?[^<]*(?:</strong>)?</td><td>(?:<strong>)?[^<]*Final Notification'
-      - label: camera_ready
-        pattern: '<tr[^>]*href="[^"]*?/icsme-\d{4}-papers"[^>]*><td>(?:<strong>)?([^<]+)(?:\s*<[^>]*>)*\s*</td><td>(?:<strong>)?[^<]*(?:</strong>)?</td><td>(?:<strong>)?[^<]*Camera-Ready'
   overrides:
     description: "IEEE International Conference on Software Maintenance and Evolution"
 
@@ -468,15 +344,5 @@
   url: https://conf.researchr.org/dates/saner-{YYYY}
   strategy: regex
   tags: [SE, TIER2]
-  selectors:
-    deadlines:
-      - label: abstract
-        pattern: '<tr[^>]*href="[^"]*?/saner-\d{4}-papers"[^>]*><td>(?:<strong>)?([^<]+)(?:\s*<[^>]*>)*\s*</td><td>(?:<strong>)?[^<]*(?:</strong>)?</td><td>(?:<strong>)?[^<]*Abstract'
-      - label: submission
-        pattern: '<tr[^>]*href="[^"]*?/saner-\d{4}-papers"[^>]*><td>(?:<strong>)?([^<]+)(?:\s*<[^>]*>)*\s*</td><td>(?:<strong>)?[^<]*(?:</strong>)?</td><td>(?:<strong>)?[^<]*Paper Submission'
-      - label: notification
-        pattern: '<tr[^>]*href="[^"]*?/saner-\d{4}-papers"[^>]*><td>(?:<strong>)?([^<]+)(?:\s*<[^>]*>)*\s*</td><td>(?:<strong>)?[^<]*(?:</strong>)?</td><td>(?:<strong>)?[^<]*Notification'
-      - label: camera_ready
-        pattern: '<tr[^>]*href="[^"]*?/saner-\d{4}-papers"[^>]*><td>(?:<strong>)?([^<]+)(?:\s*<[^>]*>)*\s*</td><td>(?:<strong>)?[^<]*(?:</strong>)?</td><td>(?:<strong>)?[^<]*Camera Ready'
   overrides:
     description: "IEEE International Conference on Software Analysis, Evolution and Reengineering"

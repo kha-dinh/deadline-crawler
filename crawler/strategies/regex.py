@@ -51,6 +51,7 @@ LABEL_MAP: dict[str, list[str]] = {
         "rebuttal deadline",
         "author response due",
         "author responses due",
+        "author response period ends",
     ],
     "notification": [
         "author notification",
@@ -132,12 +133,16 @@ def _parse_deadline_date(text: str) -> str | None:
         "%B %d %Y, %I:%M:%S%p",
         "%B %d, %Y, %I:%M %p",
         "%B %d, %Y, %I:%M%p",
+        "%B %d, %Y, %H:%M",
+        "%B %d %Y, %H:%M",
         "%b %d, %Y, %I:%M:%S %p",
         "%b %d, %Y, %I:%M:%S%p",
         "%b %d %Y, %I:%M:%S %p",
         "%b %d %Y, %I:%M:%S%p",
         "%b %d, %Y, %I:%M %p",
         "%b %d, %Y, %I:%M%p",
+        "%b %d, %Y, %H:%M",
+        "%b %d %Y, %H:%M",
     ):
         try:
             dt = datetime.strptime(cleaned.strip(), fmt)
@@ -173,8 +178,8 @@ def _strip_html(html: str) -> str:
     """
     soup = BeautifulSoup(html, "html.parser")
 
-    # Remove script/style blocks
-    for tag in soup.find_all(["script", "style"]):
+    # Remove script/style blocks and struck-through text (outdated dates)
+    for tag in soup.find_all(["script", "style", "strike", "s"]):
         tag.decompose()
 
     # Replace <br> with space to keep inline content on one line
@@ -217,13 +222,85 @@ def _strip_html(html: str) -> str:
 
 
 def _match_label(text: str) -> str | None:
-    """Match a text fragment against LABEL_MAP, return canonical label or None."""
+    """Match a text fragment against LABEL_MAP, return canonical label or None.
+
+    Longest-match-wins: more specific phrases beat shorter overlapping ones
+    (e.g. "author response period ends" beats "author response period").
+    """
     lower = text.lower()
+    best_label = None
+    best_len = 0
     for label, phrases in LABEL_MAP.items():
         for phrase in phrases:
-            if phrase in lower:
-                return label
-    return None
+            if phrase in lower and len(phrase) > best_len:
+                best_label = label
+                best_len = len(phrase)
+    return best_label
+
+
+def _extract_deadlines_researchr(
+    track_slug: str, html: str, cycle_filter: str | None = None
+) -> list[dict]:
+    """Extract deadlines from researchr.org dates page (T20).
+
+    Filters <tr href="...track_slug..."> rows, reads col0 (date) + col2 (label).
+    cycle_filter: if set, only rows whose col2 contains this string are used
+    (e.g. "First Cycle" / "Second Cycle" for ICSE multi-cycle).
+    """
+    soup = BeautifulSoup(html, "html.parser")
+    deadlines = []
+    seen_labels: set[str] = set()
+
+    for tr in soup.find_all("tr"):
+        href = tr.get("href", "")
+        if track_slug not in href:
+            continue
+        cells = tr.find_all(["td", "th"])
+        if len(cells) < 3:
+            continue
+        date_text = cells[0].get_text(strip=True)
+        label_text = cells[2].get_text(strip=True)
+        if cycle_filter and cycle_filter.lower() not in label_text.lower():
+            continue
+        parsed = _parse_deadline_date(date_text)
+        label = _match_label(label_text)
+        if parsed and label and label not in seen_labels:
+            seen_labels.add(label)
+            deadlines.append({"label": label, "date": parsed})
+
+    return deadlines
+
+
+def _autodiscover_researchr(html: str, cycle_filter: str | None = None) -> list[dict]:
+    """Auto-discover best research track on a researchr.org dates page.
+
+    Collects all unique track slugs from <tr href=...> attributes, scores each
+    by canonical label count (tiebreak: prefer slug containing "research"),
+    returns deadlines from highest-scoring track.
+    """
+    soup = BeautifulSoup(html, "html.parser")
+    seen_slugs: list[str] = []
+    for tr in soup.find_all("tr"):
+        href = tr.get("href", "")
+        if not href:
+            continue
+        slug = href.rstrip("/").split("/")[-1]
+        if slug and slug not in seen_slugs:
+            seen_slugs.append(slug)
+
+    if not seen_slugs:
+        return []
+
+    best_result: list[dict] = []
+    best_score: tuple[int, bool] = (-1, False)
+    for slug in seen_slugs:
+        result = _extract_deadlines_researchr(slug, html, cycle_filter)
+        score = (len(result), "research" in slug)
+        if score > best_score:
+            best_score = score
+            best_result = result
+
+    return best_result
 
 
 def _extract_deadlines_specific(deadline_specs: list[dict], html: str) -> list[dict]:
@@ -268,7 +345,9 @@ def _extract_deadlines_generic(html: str, year: int | None = None) -> list[dict]
         m = _GENERIC_DATE_RE.search(line)
         if m:
             date_str = m.group(1) or m.group(2)
-            parsed = _parse_deadline_date(date_str)
+            # Try tail from match start (may include time); fall back to date-only
+            tail = line[m.start():]
+            parsed = _parse_deadline_date(tail) or _parse_deadline_date(date_str)
             if parsed:
                 date_hits.append((i, parsed))
         elif year:
@@ -330,12 +409,13 @@ class RegexStrategy(BaseStrategy):
         date, place = self._extract_main_fields(conf, year, url, html)
         overrides = conf.get("overrides", {})
 
+        no_specific = conf.get("_no_specific", False)
         cycles = conf.get("cycles")
         if cycles:
             # One CrawlResult per cycle
             results = []
             for cycle in cycles:
-                deadlines = self._extract_deadlines(cycle.get("selectors", {}), html, year)
+                deadlines = self._extract_deadlines(cycle.get("selectors", {}), html, year, no_specific=no_specific)
                 results.append(CrawlResult(
                     name=conf["name"],
                     year=year,
@@ -350,7 +430,7 @@ class RegexStrategy(BaseStrategy):
             return results
         else:
             # No cycles — single result using top-level selectors
-            deadlines = self._extract_deadlines(conf.get("selectors", {}), html, year)
+            deadlines = self._extract_deadlines(conf.get("selectors", {}), html, year, no_specific=no_specific)
             return [CrawlResult(
                 name=conf["name"],
                 year=year,
@@ -383,7 +463,7 @@ class RegexStrategy(BaseStrategy):
         return date, place
 
     @staticmethod
-    def _extract_deadlines(selectors: dict, html: str, year: int | None = None) -> list[dict]:
+    def _extract_deadlines(selectors: dict, html: str, year: int | None = None, no_specific: bool = False) -> list[dict]:
         # Optionally narrow HTML to a section first
         section_pattern = selectors.get("section")
         if section_pattern:
@@ -393,9 +473,22 @@ class RegexStrategy(BaseStrategy):
             else:
                 return []
 
-        # Fallback chain: site-specific patterns → generic text extractor → empty
+        # Fallback chain: researchr_track → researchr auto-discover → site-specific → generic
+        cycle_filter = selectors.get("researchr_cycle")
+        track_slug = selectors.get("researchr_track")
+        if track_slug:
+            if year:
+                track_slug = track_slug.replace("{YYYY}", str(year))
+            result = _extract_deadlines_researchr(track_slug, html, cycle_filter)
+            if result:
+                return result
+        else:
+            result = _autodiscover_researchr(html, cycle_filter)
+            if result:
+                return result
+
         deadline_specs = selectors.get("deadlines", [])
-        if deadline_specs:
+        if deadline_specs and not no_specific:
             result = _extract_deadlines_specific(deadline_specs, html)
             if result:
                 return result

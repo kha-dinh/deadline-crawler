@@ -52,7 +52,7 @@ def _ensure_strategies_loaded():
     import crawler.strategies.static
 
 
-def crawl_conference(conf: dict, year: int) -> list[CrawlResult]:
+def crawl_conference(conf: dict, year: int, no_specific: bool = False) -> list[CrawlResult]:
     """Crawl a single conference using its configured strategy.
 
     Merges by_year overrides before dispatching (V13).
@@ -63,6 +63,8 @@ def crawl_conference(conf: dict, year: int) -> list[CrawlResult]:
     resolved = resolve_conf_for_year(conf, year)
     if resolved is None:
         return []
+    if no_specific:
+        resolved = {**resolved, "_no_specific": True}
     strategy = get_strategy(resolved["strategy"])
     return strategy.extract(resolved, year)
 
@@ -72,6 +74,7 @@ def crawl_all(
     years: list[int] | None = None,
     name_filter: str | None = None,
     workers: int = 4,
+    no_specific: bool = False,
 ) -> list[CrawlResult]:
     """Crawl all (or filtered) conferences from config.
 
@@ -117,12 +120,14 @@ def crawl_all(
             return local_results, local_warnings
 
         try:
-            conf_results = crawl_conference(conf, year)
+            conf_results = crawl_conference(conf, year, no_specific=no_specific)
             for r in conf_results:
+                rlabel = f"{r.name} {r.year} ({r.cycle})" if r.cycle else f"{r.name} {r.year}"
                 if not r.deadlines:
-                    rlabel = f"{r.name} {r.year} ({r.cycle})" if r.cycle else f"{r.name} {r.year}"
                     local_warnings.append(f"{rlabel}: no deadlines extracted")
                 else:
+                    if len(r.deadlines) < 3:
+                        local_warnings.append(f"{rlabel}: only {len(r.deadlines)} deadline(s) extracted")
                     local_results.append(r)
         except Exception as e:
             local_warnings.append(f"{label}: {e}")
