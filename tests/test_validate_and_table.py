@@ -43,6 +43,7 @@ def test_validate_valid_file(tmp_path, capsys):
 
     class Args:
         input = str(f)
+        strict = False
 
     cmd_validate(Args())
     out = capsys.readouterr().out
@@ -58,6 +59,7 @@ def test_validate_invalid_file(tmp_path, capsys):
 
     class Args:
         input = str(f)
+        strict = False
 
     with pytest.raises(SystemExit):
         cmd_validate(Args())
@@ -74,6 +76,7 @@ def test_validate_duplicate_detection(tmp_path, capsys):
 
     class Args:
         input = str(f)
+        strict = False
 
     with pytest.raises(SystemExit):
         cmd_validate(Args())

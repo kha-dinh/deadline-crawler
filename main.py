@@ -93,11 +93,16 @@ def cmd_crawl(args):
         print("No results.")
         return
 
-    output = generate_from_results(
-        results,
-        output_path=args.output,
-        fmt=args.format,
-    )
+    try:
+        output = generate_from_results(
+            results,
+            output_path=args.output,
+            fmt=args.format,
+            strict=args.strict,
+        )
+    except ValueError as e:
+        _stderr.print(f"[bold red]✗[/] {e}")
+        sys.exit(1)
 
     n = len(output["conferences"])
     out_path = args.output or f"output/deadlines.{args.format}"
@@ -136,7 +141,8 @@ def _output_to_entry(conf: dict) -> dict:
 
 
 def cmd_validate(args):
-    """Validate exported output against invariants V1-V4, V10, V16, V17, V19, V20."""
+    """Validate exported output against invariants V1-V4, V10, V14, V16, V17, V19, V20."""
+    from crawler.output.generate import _check_date_order, _check_v16, _check_v20
     data = _load_output_file(args.input)
     conferences = data.get("conferences", [])
 
@@ -164,12 +170,54 @@ def cmd_validate(args):
             for e in errors:
                 _stderr.print(f"    {e}")
 
-        # V16, V20: warnings (don't reject)
-        warnings = _validate_entry_warnings(entry)
-        if warnings:
-            total_warnings += len(warnings)
-            for w in warnings:
-                _stderr.print(f"[bold yellow]⚠[/] {conf.get('name', '?')} ({conf.get('year', '?')}): {w}")
+        name = conf.get("name", "?")
+        year = conf.get("year", "?")
+
+        # V16: no abstract/submission — error in strict mode
+        v16_issues = _check_v16(entry)
+        if v16_issues:
+            if args.strict:
+                total_errors += len(v16_issues)
+                _stderr.print(f"[bold red]✗[/] {name} ({year}):")
+                for w in v16_issues:
+                    _stderr.print(f"    {w}")
+            else:
+                total_warnings += len(v16_issues)
+                for w in v16_issues:
+                    _stderr.print(f"[bold yellow]⚠[/] {name} ({year}): {w}")
+
+        # V20: < 2 deadlines — error in strict mode
+        v20_issues = _check_v20(entry)
+        if v20_issues:
+            if args.strict:
+                total_errors += len(v20_issues)
+                _stderr.print(f"[bold red]✗[/] {name} ({year}):")
+                for w in v20_issues:
+                    _stderr.print(f"    {w}")
+            else:
+                total_warnings += len(v20_issues)
+                for w in v20_issues:
+                    _stderr.print(f"[bold yellow]⚠[/] {name} ({year}): {w}")
+
+        # V21: always warn only
+        other_warnings = [w for w in _validate_entry_warnings(entry) if w not in v16_issues and w not in v20_issues]
+        if other_warnings:
+            total_warnings += len(other_warnings)
+            for w in other_warnings:
+                _stderr.print(f"[bold yellow]⚠[/] {name} ({year}): {w}")
+
+        # V14: date order — warn normally, error in strict mode
+        order_issues = _check_date_order(entry)
+        if order_issues:
+            if args.strict:
+                total_errors += len(order_issues)
+                _stderr.print(f"[bold red]✗[/] {name} ({year}):")
+                for w in order_issues:
+                    _stderr.print(f"    {w}")
+            else:
+                total_warnings += len(order_issues)
+                for w in order_issues:
+                    _stderr.print(f"[bold yellow]⚠[/] {name} ({year}): {w}")
 
     summary_parts = [f"✓ {len(conferences)} conference(s) valid."] if total_errors == 0 else []
     if total_warnings:
@@ -386,10 +434,12 @@ def main():
     crawl_p.add_argument("--workers", "-w", type=int, default=8, help="Parallel fetch threads (default: 8)")
     crawl_p.add_argument("--no-specific", action="store_true", default=False, help="Skip site-specific deadline patterns; use generic extractor only")
     crawl_p.add_argument("--fixtures", metavar="DIR", nargs="?", const="tests/fixtures", default=None, help="Load HTML from local fixtures instead of fetching live (default dir: tests/fixtures)")
+    crawl_p.add_argument("--strict", action="store_true", default=False, help="Treat date order violations (V14) as errors instead of warnings")
 
     # T10: validate command
     validate_p = sub.add_parser("validate", help="Validate exported output against invariants")
     validate_p.add_argument("--input", "-i", default="output/deadlines.json", help="Exported file to validate")
+    validate_p.add_argument("--strict", action="store_true", default=False, help="Treat date order violations (V14) as errors instead of warnings")
 
     # T11: show command (table output)
     show_p = sub.add_parser("show", help="Show conferences as colored table")

@@ -112,19 +112,26 @@ def _validate_entry(entry: dict) -> list[str]:
     return errors
 
 
-def _validate_entry_warnings(entry: dict) -> list[str]:
-    """V16, V20, V21: warn on possibly incomplete crawl. Return list of warning strings."""
-    warnings = []
+def _check_v16(entry: dict) -> list[str]:
+    """V16: no abstract or submission deadline = likely incomplete crawl."""
     deadlines = entry.get("deadline", [])
     labels = {d["label"] for d in deadlines if isinstance(d, dict) and "label" in d}
-
-    # V16: no abstract or submission = likely incomplete
     if not (labels & {"abstract", "submission"}):
-        warnings.append("no abstract or submission deadline (possibly incomplete crawl)")
+        return ["no abstract or submission deadline (possibly incomplete crawl)"]
+    return []
 
-    # V20: exactly 1 deadline = likely partial
+
+def _check_v20(entry: dict) -> list[str]:
+    """V20: fewer than 2 deadlines = likely partial crawl."""
+    deadlines = entry.get("deadline", [])
     if len(deadlines) == 1:
-        warnings.append("only 1 deadline found (possibly partial crawl)")
+        return ["only 1 deadline found (possibly partial crawl)"]
+    return []
+
+
+def _validate_entry_warnings(entry: dict) -> list[str]:
+    """V16, V20, V21: warn on possibly incomplete crawl. Return list of warning strings."""
+    warnings = list(_check_v16(entry)) + list(_check_v20(entry))
 
     # V21: date field year must match entry year
     date_str = entry.get("date", "")
@@ -218,6 +225,7 @@ def generate_from_results(
     output_path: str | Path | None = None,
     fmt: str = "json",
     now: datetime | None = None,
+    strict: bool = False,
 ) -> dict:
     """Generate output directly from CrawlResult list. Skip invalid entries with warning."""
     if fmt not in FORMATS:
@@ -238,12 +246,28 @@ def generate_from_results(
             continue
         name = entry.get("name", "?")
         year = entry.get("year", "?")
-        # V16, V20: warn on possibly incomplete crawl results
+        # V16: no abstract/submission — error in strict mode
+        v16_issues = _check_v16(entry)
+        for w in v16_issues:
+            _stderr.print(f"[bold {'red' if strict else 'yellow'}]{'✗' if strict else '⚠'}[/] {name} {year}: {w}")
+        if strict and v16_issues:
+            raise ValueError(f"V16 violation in {name} {year} (use --no-strict to downgrade to warning)")
+        # V20: < 2 deadlines — error in strict mode
+        v20_issues = _check_v20(entry)
+        for w in v20_issues:
+            _stderr.print(f"[bold {'red' if strict else 'yellow'}]{'✗' if strict else '⚠'}[/] {name} {year}: {w}")
+        if strict and v20_issues:
+            raise ValueError(f"V20 violation in {name} {year} (use --no-strict to downgrade to warning)")
+        # V21: always warn only
         for w in _validate_entry_warnings(entry):
-            _stderr.print(f"[bold yellow]⚠[/] {name} {year}: {w}")
-        # V14: warn on date order violations
-        for w in _check_date_order(entry):
-            _stderr.print(f"[bold yellow]⚠[/] {name} {year}: {w}")
+            if w not in v16_issues and w not in v20_issues:
+                _stderr.print(f"[bold yellow]⚠[/] {name} {year}: {w}")
+        # V14: date order violations — warn normally, error in strict mode
+        order_issues = _check_date_order(entry)
+        for w in order_issues:
+            _stderr.print(f"[bold {'red' if strict else 'yellow'}]{'✗' if strict else '⚠'}[/] {name} {year}: {w}")
+        if strict and order_issues:
+            raise ValueError(f"Date order violation in {name} {year} (use --no-strict to downgrade to warning)")
         conferences.append(transform_entry(entry, now))
 
     result = {
