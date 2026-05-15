@@ -1,0 +1,1653 @@
+{
+  "generated_at": "2026-05-15T00:20:29.508320+00:00",
+  "conferences": [
+    {
+      "id": "ieee-s-p-2027-cycle-1",
+      "name": "IEEE S&P 2027 (Cycle 1)",
+      "year": 2027,
+      "description": "IEEE Symposium on Security and Privacy",
+      "link": "https://sp2027.ieee-security.org/cfpapers.html",
+      "area": "SEC",
+      "tier": "TIER1",
+      "place": "",
+      "date": "",
+      "timezone": "AoE",
+      "deadlines": [
+        {
+          "label": "abstract",
+          "date": "2026-06-04 23:59",
+          "passed": false
+        },
+        {
+          "label": "submission",
+          "date": "2026-06-11 23:59",
+          "passed": false
+        },
+        {
+          "label": "early_reject",
+          "date": "2026-07-27 23:59",
+          "passed": false
+        },
+        {
+          "label": "notification",
+          "date": "2026-09-11 23:59",
+          "passed": false
+        },
+        {
+          "label": "shepherd",
+          "date": "2026-10-02 23:59",
+          "passed": false
+        },
+        {
+          "label": "camera_ready",
+          "date": "2026-10-16 23:59",
+          "passed": false
+        }
+      ],
+      "tags": [
+        "SEC",
+        "TIER1"
+      ]
+    },
+    {
+      "id": "ieee-s-p-2027-cycle-2",
+      "name": "IEEE S&P 2027 (Cycle 2)",
+      "year": 2027,
+      "description": "IEEE Symposium on Security and Privacy",
+      "link": "https://sp2027.ieee-security.org/cfpapers.html",
+      "area": "SEC",
+      "tier": "TIER1",
+      "place": "",
+      "date": "",
+      "timezone": "AoE",
+      "deadlines": [
+        {
+          "label": "abstract",
+          "date": "2026-11-10 23:59",
+          "passed": false
+        },
+        {
+          "label": "submission",
+          "date": "2026-11-17 23:59",
+          "passed": false
+        },
+        {
+          "label": "early_reject",
+          "date": "2027-01-18 23:59",
+          "passed": false
+        },
+        {
+          "label": "notification",
+          "date": "2027-03-05 23:59",
+          "passed": false
+        },
+        {
+          "label": "shepherd",
+          "date": "2027-03-26 23:59",
+          "passed": false
+        },
+        {
+          "label": "camera_ready",
+          "date": "2027-04-08 23:59",
+          "passed": false
+        }
+      ],
+      "tags": [
+        "SEC",
+        "TIER1"
+      ]
+    },
+    {
+      "id": "ieee-s-p-2026-cycle-1",
+      "name": "IEEE S&P 2026 (Cycle 1)",
+      "year": 2026,
+      "description": "IEEE Symposium on Security and Privacy",
+      "link": "https://sp2026.ieee-security.org/cfpapers.html",
+      "area": "SEC",
+      "tier": "TIER1",
+      "place": "",
+      "date": "",
+      "timezone": "AoE",
+      "deadlines": [
+        {
+          "label": "abstract",
+          "date": "2025-05-29 23:59",
+          "passed": true
+        },
+        {
+          "label": "submission",
+          "date": "2025-06-05 23:59",
+          "passed": true
+        },
+        {
+          "label": "early_reject",
+          "date": "2025-07-21 23:59",
+          "passed": true
+        },
+        {
+          "label": "notification",
+          "date": "2025-09-09 23:59",
+          "passed": true
+        },
+        {
+          "label": "camera_ready",
+          "date": "2025-10-17 23:59",
+          "passed": true
+        }
+      ],
+      "tags": [
+        "SEC",
+        "TIER1"
+      ]
+    },
+    {
+      "id": "ieee-s-p-2026-cycle-2",
+      "name": "IEEE S&P 2026 (Cycle 2)",
+      "year": 2026,
+      "description": "IEEE Symposium on Security and Privacy",
+      "link": "https://sp2026.ieee-security.org/cfpapers.html",
+      "area": "SEC",
+      "tier": "TIER1",
+      "place": "",
+      "date": "",
+      "timezone": "AoE",
+      "deadlines": [
+        {
+          "label": "abstract",
+          "date": "2025-11-06 23:59",
+          "passed": true
+        },
+        {
+          "label": "submission",
+          "date": "2025-11-13 23:59",
+          "passed": true
+        },
+        {
+          "label": "early_reject",
+          "date": "2026-01-19 23:59",
+          "passed": true
+        },
+        {
+          "label": "notification",
+          "date": "2026-03-09 23:59",
+          "passed": true
+        },
+        {
+          "label": "camera_ready",
+          "date": "2026-04-17 23:59",
+          "passed": true
+        }
+      ],
+      "tags": [
+        "SEC",
+        "TIER1"
+      ]
+    },
+    {
+      "id": "acm-ccs-2026-cycle-a",
+      "name": "ACM CCS 2026 (Cycle A)",
+      "year": 2026,
+      "description": "ACM Conference on Computer and Communications Security",
+      "link": "https://www.sigsac.org/ccs/CCS2026/call-for/call-for-papers.html",
+      "area": "SEC",
+      "tier": "TIER1",
+      "place": "",
+      "date": "",
+      "timezone": "AoE",
+      "deadlines": [
+        {
+          "label": "abstract",
+          "date": "2026-01-07 23:59",
+          "passed": true
+        },
+        {
+          "label": "submission",
+          "date": "2026-01-14 23:59",
+          "passed": true
+        },
+        {
+          "label": "early_reject",
+          "date": "2026-02-20 23:59",
+          "passed": true
+        },
+        {
+          "label": "rebuttal_end",
+          "date": "2026-03-20 23:59",
+          "passed": true
+        },
+        {
+          "label": "notification",
+          "date": "2026-04-09 23:59",
+          "passed": true
+        },
+        {
+          "label": "shepherd",
+          "date": "2026-06-05 23:59",
+          "passed": false
+        },
+        {
+          "label": "camera_ready",
+          "date": "2026-08-21 23:59",
+          "passed": false
+        }
+      ],
+      "tags": [
+        "SEC",
+        "TIER1"
+      ]
+    },
+    {
+      "id": "acm-ccs-2026-cycle-b",
+      "name": "ACM CCS 2026 (Cycle B)",
+      "year": 2026,
+      "description": "ACM Conference on Computer and Communications Security",
+      "link": "https://www.sigsac.org/ccs/CCS2026/call-for/call-for-papers.html",
+      "area": "SEC",
+      "tier": "TIER1",
+      "place": "",
+      "date": "",
+      "timezone": "AoE",
+      "deadlines": [
+        {
+          "label": "abstract",
+          "date": "2026-04-22 23:59",
+          "passed": true
+        },
+        {
+          "label": "submission",
+          "date": "2026-04-29 23:59",
+          "passed": true
+        },
+        {
+          "label": "early_reject",
+          "date": "2026-06-03 23:59",
+          "passed": false
+        },
+        {
+          "label": "rebuttal_end",
+          "date": "2026-07-01 23:59",
+          "passed": false
+        },
+        {
+          "label": "notification",
+          "date": "2026-07-17 23:59",
+          "passed": false
+        },
+        {
+          "label": "shepherd",
+          "date": "2026-09-06 23:59",
+          "passed": false
+        },
+        {
+          "label": "camera_ready",
+          "date": "2026-09-17 23:59",
+          "passed": false
+        }
+      ],
+      "tags": [
+        "SEC",
+        "TIER1"
+      ]
+    },
+    {
+      "id": "ndss-2026-summer",
+      "name": "NDSS 2026 (Summer)",
+      "year": 2026,
+      "description": "ISOC Network and Distributed System Security Symposium",
+      "link": "https://www.ndss-symposium.org/ndss2026/submissions/call-for-papers/",
+      "area": "SEC",
+      "tier": "TIER1",
+      "place": "",
+      "date": "",
+      "timezone": "AoE",
+      "deadlines": [
+        {
+          "label": "submission",
+          "date": "2025-04-23 23:59",
+          "passed": true
+        },
+        {
+          "label": "early_reject",
+          "date": "2025-05-28 23:59",
+          "passed": true
+        },
+        {
+          "label": "notification",
+          "date": "2025-07-02 23:59",
+          "passed": true
+        },
+        {
+          "label": "shepherd",
+          "date": "2025-07-30 23:59",
+          "passed": true
+        },
+        {
+          "label": "camera_ready",
+          "date": "2025-09-10 23:59",
+          "passed": true
+        }
+      ],
+      "tags": [
+        "SEC",
+        "TIER1"
+      ]
+    },
+    {
+      "id": "ndss-2026-fall",
+      "name": "NDSS 2026 (Fall)",
+      "year": 2026,
+      "description": "ISOC Network and Distributed System Security Symposium",
+      "link": "https://www.ndss-symposium.org/ndss2026/submissions/call-for-papers/",
+      "area": "SEC",
+      "tier": "TIER1",
+      "place": "",
+      "date": "",
+      "timezone": "AoE",
+      "deadlines": [
+        {
+          "label": "submission",
+          "date": "2025-08-06 23:59",
+          "passed": true
+        },
+        {
+          "label": "early_reject",
+          "date": "2025-09-17 23:59",
+          "passed": true
+        },
+        {
+          "label": "notification",
+          "date": "2025-10-22 23:59",
+          "passed": true
+        },
+        {
+          "label": "shepherd",
+          "date": "2025-11-19 23:59",
+          "passed": true
+        },
+        {
+          "label": "camera_ready",
+          "date": "2025-12-17 23:59",
+          "passed": true
+        }
+      ],
+      "tags": [
+        "SEC",
+        "TIER1"
+      ]
+    },
+    {
+      "id": "acsac-2026",
+      "name": "ACSAC 2026",
+      "year": 2026,
+      "description": "Annual Computer Security Applications Conference",
+      "link": "https://www.acsac.org/2026/submissions/papers/",
+      "area": "SEC",
+      "tier": "TIER2",
+      "place": "",
+      "date": "",
+      "timezone": "AoE",
+      "deadlines": [
+        {
+          "label": "submission",
+          "date": "2026-05-26 23:59",
+          "passed": false
+        },
+        {
+          "label": "early_reject",
+          "date": "2026-07-13 23:59",
+          "passed": false
+        },
+        {
+          "label": "rebuttal_start",
+          "date": "2026-08-18 23:59",
+          "passed": false
+        },
+        {
+          "label": "notification",
+          "date": "2026-09-08 23:59",
+          "passed": false
+        },
+        {
+          "label": "shepherd",
+          "date": "2026-09-08 23:59",
+          "passed": false
+        },
+        {
+          "label": "camera_ready",
+          "date": "2026-10-22 23:59",
+          "passed": false
+        }
+      ],
+      "tags": [
+        "SEC",
+        "TIER2"
+      ]
+    },
+    {
+      "id": "sosp-2026",
+      "name": "SOSP 2026",
+      "year": 2026,
+      "description": "ACM Symposium on Operating Systems Principles",
+      "link": "https://sigops.org/s/conferences/sosp/2026/cfp.html",
+      "area": "SYS",
+      "tier": "TIER1",
+      "place": "",
+      "date": "",
+      "timezone": "AoE",
+      "deadlines": [
+        {
+          "label": "abstract",
+          "date": "2026-03-26 23:59",
+          "passed": true
+        },
+        {
+          "label": "submission",
+          "date": "2026-04-01 23:59",
+          "passed": true
+        },
+        {
+          "label": "rebuttal_start",
+          "date": "2026-06-22 23:59",
+          "passed": false
+        },
+        {
+          "label": "rebuttal_end",
+          "date": "2026-06-24 23:59",
+          "passed": false
+        },
+        {
+          "label": "notification",
+          "date": "2026-07-03 23:59",
+          "passed": false
+        },
+        {
+          "label": "camera_ready",
+          "date": "2026-08-28 23:59",
+          "passed": false
+        }
+      ],
+      "tags": [
+        "SYS",
+        "TIER1"
+      ]
+    },
+    {
+      "id": "asiaccs-2026-cycle-1",
+      "name": "ASIACCS 2026 (Cycle 1)",
+      "year": 2026,
+      "description": "ACM Asia Conference on Computer and Communications Security",
+      "link": "https://asiaccs2026.cse.iitkgp.ac.in/call-for-papers/",
+      "area": "SEC",
+      "tier": "TIER2",
+      "place": "",
+      "date": "",
+      "timezone": "AoE",
+      "deadlines": [
+        {
+          "label": "submission",
+          "date": "2025-08-25 23:59",
+          "passed": true
+        },
+        {
+          "label": "early_reject",
+          "date": "2025-10-01 23:59",
+          "passed": true
+        },
+        {
+          "label": "notification",
+          "date": "2025-11-19 23:59",
+          "passed": true
+        },
+        {
+          "label": "camera_ready",
+          "date": "2025-12-17 23:59",
+          "passed": true
+        }
+      ],
+      "tags": [
+        "SEC",
+        "TIER2"
+      ]
+    },
+    {
+      "id": "asiaccs-2026-cycle-2",
+      "name": "ASIACCS 2026 (Cycle 2)",
+      "year": 2026,
+      "description": "ACM Asia Conference on Computer and Communications Security",
+      "link": "https://asiaccs2026.cse.iitkgp.ac.in/call-for-papers/",
+      "area": "SEC",
+      "tier": "TIER2",
+      "place": "",
+      "date": "",
+      "timezone": "AoE",
+      "deadlines": [
+        {
+          "label": "submission",
+          "date": "2025-12-12 23:59",
+          "passed": true
+        },
+        {
+          "label": "early_reject",
+          "date": "2026-01-21 23:59",
+          "passed": true
+        },
+        {
+          "label": "notification",
+          "date": "2026-03-10 23:59",
+          "passed": true
+        },
+        {
+          "label": "camera_ready",
+          "date": "2026-04-07 23:59",
+          "passed": true
+        }
+      ],
+      "tags": [
+        "SEC",
+        "TIER2"
+      ]
+    },
+    {
+      "id": "eurosys-2026-spring",
+      "name": "EuroSys 2026 (Spring)",
+      "year": 2026,
+      "description": "European Conference on Computer Systems",
+      "link": "https://2026.eurosys.org/cfp.html",
+      "area": "SYS",
+      "tier": "TIER1",
+      "place": "",
+      "date": "",
+      "timezone": "AoE",
+      "deadlines": [
+        {
+          "label": "abstract",
+          "date": "2025-05-08 23:59",
+          "passed": true
+        },
+        {
+          "label": "submission",
+          "date": "2025-05-15 23:59",
+          "passed": true
+        },
+        {
+          "label": "rebuttal_start",
+          "date": "2025-07-30 23:59",
+          "passed": true
+        },
+        {
+          "label": "rebuttal_end",
+          "date": "2025-08-04 23:59",
+          "passed": true
+        },
+        {
+          "label": "notification",
+          "date": "2025-08-22 23:59",
+          "passed": true
+        },
+        {
+          "label": "camera_ready",
+          "date": "2025-09-26 23:59",
+          "passed": true
+        }
+      ],
+      "tags": [
+        "SYS",
+        "TIER1"
+      ]
+    },
+    {
+      "id": "eurosys-2026-fall",
+      "name": "EuroSys 2026 (Fall)",
+      "year": 2026,
+      "description": "European Conference on Computer Systems",
+      "link": "https://2026.eurosys.org/cfp.html",
+      "area": "SYS",
+      "tier": "TIER1",
+      "place": "",
+      "date": "",
+      "timezone": "AoE",
+      "deadlines": [
+        {
+          "label": "abstract",
+          "date": "2025-09-18 23:59",
+          "passed": true
+        },
+        {
+          "label": "submission",
+          "date": "2025-09-25 23:59",
+          "passed": true
+        },
+        {
+          "label": "rebuttal_start",
+          "date": "2026-01-07 23:59",
+          "passed": true
+        },
+        {
+          "label": "rebuttal_end",
+          "date": "2026-01-09 23:59",
+          "passed": true
+        },
+        {
+          "label": "notification",
+          "date": "2026-01-30 23:59",
+          "passed": true
+        },
+        {
+          "label": "camera_ready",
+          "date": "2026-03-06 23:59",
+          "passed": true
+        }
+      ],
+      "tags": [
+        "SYS",
+        "TIER1"
+      ]
+    },
+    {
+      "id": "eurosys-2027-spring",
+      "name": "EuroSys 2027 (Spring)",
+      "year": 2027,
+      "description": "European Conference on Computer Systems",
+      "link": "https://2027.eurosys.org/cfp.html",
+      "area": "SYS",
+      "tier": "TIER1",
+      "place": "",
+      "date": "",
+      "timezone": "AoE",
+      "deadlines": [
+        {
+          "label": "abstract",
+          "date": "2026-05-07 23:59",
+          "passed": true
+        },
+        {
+          "label": "submission",
+          "date": "2026-05-14 23:59",
+          "passed": true
+        },
+        {
+          "label": "rebuttal_start",
+          "date": "2026-07-29 23:59",
+          "passed": false
+        },
+        {
+          "label": "rebuttal_end",
+          "date": "2026-07-31 23:59",
+          "passed": false
+        },
+        {
+          "label": "notification",
+          "date": "2026-08-21 23:59",
+          "passed": false
+        },
+        {
+          "label": "camera_ready",
+          "date": "2026-09-25 23:59",
+          "passed": false
+        }
+      ],
+      "tags": [
+        "SYS",
+        "TIER1"
+      ]
+    },
+    {
+      "id": "eurosys-2027-fall",
+      "name": "EuroSys 2027 (Fall)",
+      "year": 2027,
+      "description": "European Conference on Computer Systems",
+      "link": "https://2027.eurosys.org/cfp.html",
+      "area": "SYS",
+      "tier": "TIER1",
+      "place": "",
+      "date": "",
+      "timezone": "AoE",
+      "deadlines": [
+        {
+          "label": "abstract",
+          "date": "2026-09-17 23:59",
+          "passed": false
+        },
+        {
+          "label": "submission",
+          "date": "2026-09-24 23:59",
+          "passed": false
+        },
+        {
+          "label": "rebuttal_start",
+          "date": "2027-01-06 23:59",
+          "passed": false
+        },
+        {
+          "label": "rebuttal_end",
+          "date": "2027-01-08 23:59",
+          "passed": false
+        },
+        {
+          "label": "notification",
+          "date": "2027-01-29 23:59",
+          "passed": false
+        },
+        {
+          "label": "camera_ready",
+          "date": "2027-03-05 23:59",
+          "passed": false
+        }
+      ],
+      "tags": [
+        "SYS",
+        "TIER1"
+      ]
+    },
+    {
+      "id": "osdi-2026",
+      "name": "OSDI 2026",
+      "year": 2026,
+      "description": "USENIX Symposium on Operating Systems Design and Implementation",
+      "link": "https://www.usenix.org/conference/osdi26/call-for-papers",
+      "area": "SYS",
+      "tier": "TIER1",
+      "place": "Seattle, WA, USA",
+      "date": "July 13–15, 2026",
+      "timezone": "AoE",
+      "deadlines": [
+        {
+          "label": "abstract",
+          "date": "2025-12-04 17:59",
+          "passed": true
+        },
+        {
+          "label": "submission",
+          "date": "2025-12-11 17:59",
+          "passed": true
+        },
+        {
+          "label": "notification",
+          "date": "2026-03-26 23:59",
+          "passed": true
+        },
+        {
+          "label": "camera_ready",
+          "date": "2026-06-09 23:59",
+          "passed": false
+        }
+      ],
+      "tags": [
+        "SYS",
+        "TIER1"
+      ]
+    },
+    {
+      "id": "usenix-security-2026-cycle-1",
+      "name": "USENIX Security 2026 (Cycle 1)",
+      "year": 2026,
+      "description": "USENIX Security Symposium",
+      "link": "https://www.usenix.org/conference/usenixsecurity26/call-for-papers",
+      "area": "SEC",
+      "tier": "TIER1",
+      "place": "Baltimore, MD, USA",
+      "date": "August 12–14, 2026",
+      "timezone": "AoE",
+      "deadlines": [
+        {
+          "label": "abstract",
+          "date": "2025-08-19 23:59",
+          "passed": true
+        },
+        {
+          "label": "submission",
+          "date": "2025-08-26 23:59",
+          "passed": true
+        },
+        {
+          "label": "early_reject",
+          "date": "2025-10-07 23:59",
+          "passed": true
+        },
+        {
+          "label": "notification",
+          "date": "2025-12-04 23:59",
+          "passed": true
+        },
+        {
+          "label": "shepherd",
+          "date": "2025-12-18 23:59",
+          "passed": true
+        },
+        {
+          "label": "camera_ready",
+          "date": "2026-01-15 23:59",
+          "passed": true
+        }
+      ],
+      "tags": [
+        "SEC",
+        "TIER1"
+      ]
+    },
+    {
+      "id": "usenix-security-2026-cycle-2",
+      "name": "USENIX Security 2026 (Cycle 2)",
+      "year": 2026,
+      "description": "USENIX Security Symposium",
+      "link": "https://www.usenix.org/conference/usenixsecurity26/call-for-papers",
+      "area": "SEC",
+      "tier": "TIER1",
+      "place": "Baltimore, MD, USA",
+      "date": "August 12–14, 2026",
+      "timezone": "AoE",
+      "deadlines": [
+        {
+          "label": "abstract",
+          "date": "2026-01-29 23:59",
+          "passed": true
+        },
+        {
+          "label": "submission",
+          "date": "2026-02-05 23:59",
+          "passed": true
+        },
+        {
+          "label": "early_reject",
+          "date": "2026-03-17 23:59",
+          "passed": true
+        },
+        {
+          "label": "notification",
+          "date": "2026-05-14 23:59",
+          "passed": true
+        },
+        {
+          "label": "shepherd",
+          "date": "2026-05-28 23:59",
+          "passed": false
+        },
+        {
+          "label": "camera_ready",
+          "date": "2026-06-11 23:59",
+          "passed": false
+        }
+      ],
+      "tags": [
+        "SEC",
+        "TIER1"
+      ]
+    },
+    {
+      "id": "asplos-2026-spring",
+      "name": "ASPLOS 2026 (Spring)",
+      "year": 2026,
+      "description": "International Conference on Architectural Support for Programming Languages and Operating Systems",
+      "link": "https://www.asplos-conference.org/asplos2026/cfp/",
+      "area": "SYS",
+      "tier": "TIER1",
+      "place": "",
+      "date": "",
+      "timezone": "AoE",
+      "deadlines": [
+        {
+          "label": "abstract",
+          "date": "2025-03-05 23:59",
+          "passed": true
+        },
+        {
+          "label": "submission",
+          "date": "2025-03-12 23:59",
+          "passed": true
+        },
+        {
+          "label": "notification",
+          "date": "2025-06-24 23:59",
+          "passed": true
+        }
+      ],
+      "tags": [
+        "SYS",
+        "TIER1"
+      ]
+    },
+    {
+      "id": "asplos-2026-summer",
+      "name": "ASPLOS 2026 (Summer)",
+      "year": 2026,
+      "description": "International Conference on Architectural Support for Programming Languages and Operating Systems",
+      "link": "https://www.asplos-conference.org/asplos2026/cfp/",
+      "area": "SYS",
+      "tier": "TIER1",
+      "place": "",
+      "date": "",
+      "timezone": "AoE",
+      "deadlines": [
+        {
+          "label": "abstract",
+          "date": "2025-08-13 23:59",
+          "passed": true
+        },
+        {
+          "label": "submission",
+          "date": "2025-08-20 23:59",
+          "passed": true
+        },
+        {
+          "label": "notification",
+          "date": "2025-11-24 23:59",
+          "passed": true
+        }
+      ],
+      "tags": [
+        "SYS",
+        "TIER1"
+      ]
+    },
+    {
+      "id": "nsdi-2027-spring",
+      "name": "NSDI 2027 (Spring)",
+      "year": 2027,
+      "description": "USENIX Symposium on Networked Systems Design and Implementation",
+      "link": "https://www.usenix.org/conference/nsdi27/call-for-papers",
+      "area": "SYS",
+      "tier": "TIER1",
+      "place": "Providence, RI, USA",
+      "date": "May 11–13, 2027",
+      "timezone": "AoE",
+      "deadlines": [
+        {
+          "label": "abstract",
+          "date": "2026-04-16 23:59",
+          "passed": true
+        },
+        {
+          "label": "submission",
+          "date": "2026-04-23 23:59",
+          "passed": true
+        },
+        {
+          "label": "notification",
+          "date": "2026-07-23 23:59",
+          "passed": false
+        },
+        {
+          "label": "camera_ready",
+          "date": "2026-10-20 23:59",
+          "passed": false
+        }
+      ],
+      "tags": [
+        "SYS",
+        "TIER1"
+      ]
+    },
+    {
+      "id": "nsdi-2027-fall",
+      "name": "NSDI 2027 (Fall)",
+      "year": 2027,
+      "description": "USENIX Symposium on Networked Systems Design and Implementation",
+      "link": "https://www.usenix.org/conference/nsdi27/call-for-papers",
+      "area": "SYS",
+      "tier": "TIER1",
+      "place": "Providence, RI, USA",
+      "date": "May 11–13, 2027",
+      "timezone": "AoE",
+      "deadlines": [
+        {
+          "label": "abstract",
+          "date": "2026-09-10 23:59",
+          "passed": false
+        },
+        {
+          "label": "submission",
+          "date": "2026-09-17 23:59",
+          "passed": false
+        },
+        {
+          "label": "notification",
+          "date": "2026-12-08 23:59",
+          "passed": false
+        },
+        {
+          "label": "camera_ready",
+          "date": "2027-03-04 23:59",
+          "passed": false
+        }
+      ],
+      "tags": [
+        "SYS",
+        "TIER1"
+      ]
+    },
+    {
+      "id": "atc-2026",
+      "name": "ATC 2026",
+      "year": 2026,
+      "description": "ACM SIGOPS Annual Technical Conference",
+      "link": "https://sigops.org/s/conferences/atc/2026/cfp.html",
+      "area": "SYS",
+      "tier": "TIER1",
+      "place": "Boston, MA, USA",
+      "date": "July 7–9, 2025",
+      "timezone": "AoE",
+      "deadlines": [
+        {
+          "label": "submission",
+          "date": "2026-06-10 23:59",
+          "passed": false
+        },
+        {
+          "label": "early_reject",
+          "date": "2026-08-01 23:59",
+          "passed": false
+        },
+        {
+          "label": "rebuttal_start",
+          "date": "2026-08-29 23:59",
+          "passed": false
+        },
+        {
+          "label": "rebuttal_end",
+          "date": "2026-09-02 23:59",
+          "passed": false
+        },
+        {
+          "label": "notification",
+          "date": "2026-09-18 23:59",
+          "passed": false
+        },
+        {
+          "label": "camera_ready",
+          "date": "2026-10-16 23:59",
+          "passed": false
+        }
+      ],
+      "tags": [
+        "SYS",
+        "TIER1"
+      ]
+    },
+    {
+      "id": "icse-2026-cycle-1",
+      "name": "ICSE 2026 (Cycle 1)",
+      "year": 2026,
+      "description": "International Conference on Software Engineering",
+      "link": "https://conf.researchr.org/dates/icse-2026",
+      "area": "SE",
+      "tier": "TIER1",
+      "place": "",
+      "date": "",
+      "timezone": "AoE",
+      "deadlines": [
+        {
+          "label": "abstract",
+          "date": "2025-03-07 23:59",
+          "passed": true
+        },
+        {
+          "label": "submission",
+          "date": "2025-03-14 23:59",
+          "passed": true
+        },
+        {
+          "label": "notification",
+          "date": "2025-06-20 23:59",
+          "passed": true
+        },
+        {
+          "label": "camera_ready",
+          "date": "2025-11-28 23:59",
+          "passed": true
+        },
+        {
+          "label": "camera_ready",
+          "date": "2025-09-10 23:59",
+          "passed": true
+        }
+      ],
+      "tags": [
+        "SE",
+        "TIER1"
+      ]
+    },
+    {
+      "id": "icse-2026-cycle-2",
+      "name": "ICSE 2026 (Cycle 2)",
+      "year": 2026,
+      "description": "International Conference on Software Engineering",
+      "link": "https://conf.researchr.org/dates/icse-2026",
+      "area": "SE",
+      "tier": "TIER1",
+      "place": "",
+      "date": "",
+      "timezone": "AoE",
+      "deadlines": [
+        {
+          "label": "abstract",
+          "date": "2025-07-11 23:59",
+          "passed": true
+        },
+        {
+          "label": "submission",
+          "date": "2025-07-18 23:59",
+          "passed": true
+        },
+        {
+          "label": "notification",
+          "date": "2025-10-17 23:59",
+          "passed": true
+        },
+        {
+          "label": "camera_ready",
+          "date": "2026-01-16 23:59",
+          "passed": true
+        },
+        {
+          "label": "camera_ready",
+          "date": "2025-11-28 23:59",
+          "passed": true
+        }
+      ],
+      "tags": [
+        "SE",
+        "TIER1"
+      ]
+    },
+    {
+      "id": "fast-2027-spring",
+      "name": "FAST 2027 (Spring)",
+      "year": 2027,
+      "description": "USENIX Conference on File and Storage Technologies",
+      "link": "https://www.usenix.org/conference/fast27/call-for-papers",
+      "area": "SYS",
+      "tier": "TIER2",
+      "place": "Renton, WA, USA",
+      "date": "February 23–25, 2027",
+      "timezone": "AoE",
+      "deadlines": [
+        {
+          "label": "notification",
+          "date": "2026-06-04 23:59",
+          "passed": false
+        }
+      ],
+      "tags": [
+        "SYS",
+        "TIER2"
+      ]
+    },
+    {
+      "id": "fast-2027-fall",
+      "name": "FAST 2027 (Fall)",
+      "year": 2027,
+      "description": "USENIX Conference on File and Storage Technologies",
+      "link": "https://www.usenix.org/conference/fast27/call-for-papers",
+      "area": "SYS",
+      "tier": "TIER2",
+      "place": "Renton, WA, USA",
+      "date": "February 23–25, 2027",
+      "timezone": "AoE",
+      "deadlines": [
+        {
+          "label": "notification",
+          "date": "2026-12-08 23:59",
+          "passed": false
+        }
+      ],
+      "tags": [
+        "SYS",
+        "TIER2"
+      ]
+    },
+    {
+      "id": "nsdi-2026-spring",
+      "name": "NSDI 2026 (Spring)",
+      "year": 2026,
+      "description": "USENIX Symposium on Networked Systems Design and Implementation",
+      "link": "https://www.usenix.org/conference/nsdi26/call-for-papers",
+      "area": "SYS",
+      "tier": "TIER1",
+      "place": "Renton, WA, USA",
+      "date": "May 4–6, 2026",
+      "timezone": "AoE",
+      "deadlines": [
+        {
+          "label": "abstract",
+          "date": "2025-04-18 23:59",
+          "passed": true
+        },
+        {
+          "label": "submission",
+          "date": "2025-04-25 23:59",
+          "passed": true
+        },
+        {
+          "label": "notification",
+          "date": "2025-07-24 23:59",
+          "passed": true
+        },
+        {
+          "label": "camera_ready",
+          "date": "2025-10-27 23:59",
+          "passed": true
+        }
+      ],
+      "tags": [
+        "SYS",
+        "TIER1"
+      ]
+    },
+    {
+      "id": "nsdi-2026-fall",
+      "name": "NSDI 2026 (Fall)",
+      "year": 2026,
+      "description": "USENIX Symposium on Networked Systems Design and Implementation",
+      "link": "https://www.usenix.org/conference/nsdi26/call-for-papers",
+      "area": "SYS",
+      "tier": "TIER1",
+      "place": "Renton, WA, USA",
+      "date": "May 4–6, 2026",
+      "timezone": "AoE",
+      "deadlines": [
+        {
+          "label": "abstract",
+          "date": "2025-09-11 23:59",
+          "passed": true
+        },
+        {
+          "label": "submission",
+          "date": "2025-09-18 23:59",
+          "passed": true
+        },
+        {
+          "label": "notification",
+          "date": "2025-12-09 23:59",
+          "passed": true
+        },
+        {
+          "label": "camera_ready",
+          "date": "2026-03-05 23:59",
+          "passed": true
+        }
+      ],
+      "tags": [
+        "SYS",
+        "TIER1"
+      ]
+    },
+    {
+      "id": "icse-2027",
+      "name": "ICSE 2027",
+      "year": 2027,
+      "description": "International Conference on Software Engineering",
+      "link": "https://conf.researchr.org/dates/icse-2027",
+      "area": "SE",
+      "tier": "TIER1",
+      "place": "",
+      "date": "",
+      "timezone": "AoE",
+      "deadlines": [
+        {
+          "label": "abstract",
+          "date": "2026-06-23 23:59",
+          "passed": false
+        },
+        {
+          "label": "submission",
+          "date": "2026-06-30 23:59",
+          "passed": false
+        },
+        {
+          "label": "rebuttal_start",
+          "date": "2026-09-25 23:59",
+          "passed": false
+        },
+        {
+          "label": "notification",
+          "date": "2026-10-20 23:59",
+          "passed": false
+        },
+        {
+          "label": "camera_ready",
+          "date": "2026-11-24 23:59",
+          "passed": false
+        },
+        {
+          "label": "camera_ready",
+          "date": "2027-01-25 23:59",
+          "passed": false
+        }
+      ],
+      "tags": [
+        "SE",
+        "TIER1"
+      ]
+    },
+    {
+      "id": "fse-2026",
+      "name": "FSE 2026",
+      "year": 2026,
+      "description": "ACM Joint European Software Engineering Conference and Symposium on the Foundations of Software Engineering",
+      "link": "https://conf.researchr.org/dates/fse-2026",
+      "area": "SE",
+      "tier": "TIER1",
+      "place": "",
+      "date": "",
+      "timezone": "AoE",
+      "deadlines": [
+        {
+          "label": "abstract",
+          "date": "2025-09-04 23:59",
+          "passed": true
+        },
+        {
+          "label": "submission",
+          "date": "2025-09-11 23:59",
+          "passed": true
+        },
+        {
+          "label": "notification",
+          "date": "2025-12-22 23:59",
+          "passed": true
+        },
+        {
+          "label": "camera_ready",
+          "date": "2026-04-23 23:59",
+          "passed": true
+        }
+      ],
+      "tags": [
+        "SE",
+        "TIER1"
+      ]
+    },
+    {
+      "id": "fast-2026-spring",
+      "name": "FAST 2026 (Spring)",
+      "year": 2026,
+      "description": "USENIX Conference on File and Storage Technologies",
+      "link": "https://www.usenix.org/conference/fast26/call-for-papers",
+      "area": "SYS",
+      "tier": "TIER2",
+      "place": "Santa Clara, CA, USA",
+      "date": "February 24–26, 2026",
+      "timezone": "AoE",
+      "deadlines": [
+        {
+          "label": "notification",
+          "date": "2025-06-05 23:59",
+          "passed": true
+        }
+      ],
+      "tags": [
+        "SYS",
+        "TIER2"
+      ]
+    },
+    {
+      "id": "fast-2026-fall",
+      "name": "FAST 2026 (Fall)",
+      "year": 2026,
+      "description": "USENIX Conference on File and Storage Technologies",
+      "link": "https://www.usenix.org/conference/fast26/call-for-papers",
+      "area": "SYS",
+      "tier": "TIER2",
+      "place": "Santa Clara, CA, USA",
+      "date": "February 24–26, 2026",
+      "timezone": "AoE",
+      "deadlines": [
+        {
+          "label": "notification",
+          "date": "2025-12-08 23:59",
+          "passed": true
+        }
+      ],
+      "tags": [
+        "SYS",
+        "TIER2"
+      ]
+    },
+    {
+      "id": "fse-2027",
+      "name": "FSE 2027",
+      "year": 2027,
+      "description": "ACM Joint European Software Engineering Conference and Symposium on the Foundations of Software Engineering",
+      "link": "https://conf.researchr.org/dates/fse-2027",
+      "area": "SE",
+      "tier": "TIER1",
+      "place": "",
+      "date": "",
+      "timezone": "AoE",
+      "deadlines": [
+        {
+          "label": "submission",
+          "date": "2026-10-02 23:59",
+          "passed": false
+        },
+        {
+          "label": "rebuttal_start",
+          "date": "2026-12-18 23:59",
+          "passed": false
+        },
+        {
+          "label": "notification",
+          "date": "2027-01-22 23:59",
+          "passed": false
+        }
+      ],
+      "tags": [
+        "SE",
+        "TIER1"
+      ]
+    },
+    {
+      "id": "ase-2026",
+      "name": "ASE 2026",
+      "year": 2026,
+      "description": "International Conference on Automated Software Engineering",
+      "link": "https://conf.researchr.org/dates/ase-2026",
+      "area": "SE",
+      "tier": "TIER1",
+      "place": "",
+      "date": "",
+      "timezone": "AoE",
+      "deadlines": [
+        {
+          "label": "submission",
+          "date": "2026-03-26 23:59",
+          "passed": true
+        },
+        {
+          "label": "notification",
+          "date": "2026-06-18 23:59",
+          "passed": false
+        },
+        {
+          "label": "camera_ready",
+          "date": "2026-08-03 23:59",
+          "passed": false
+        }
+      ],
+      "tags": [
+        "SE",
+        "TIER1"
+      ]
+    },
+    {
+      "id": "issta-2026",
+      "name": "ISSTA 2026",
+      "year": 2026,
+      "description": "International Symposium on Software Testing and Analysis",
+      "link": "https://conf.researchr.org/dates/issta-2026",
+      "area": "SE",
+      "tier": "TIER1",
+      "place": "",
+      "date": "",
+      "timezone": "AoE",
+      "deadlines": [
+        {
+          "label": "submission",
+          "date": "2026-01-29 23:59",
+          "passed": true
+        },
+        {
+          "label": "notification",
+          "date": "2026-06-25 23:59",
+          "passed": false
+        },
+        {
+          "label": "notification",
+          "date": "2026-04-16 23:59",
+          "passed": true
+        },
+        {
+          "label": "camera_ready",
+          "date": "2026-07-23 23:59",
+          "passed": false
+        }
+      ],
+      "tags": [
+        "SE",
+        "TIER1"
+      ]
+    },
+    {
+      "id": "icst-2026",
+      "name": "ICST 2026",
+      "year": 2026,
+      "description": "IEEE International Conference on Software Testing, Verification and Validation",
+      "link": "https://conf.researchr.org/dates/icst-2026",
+      "area": "SE",
+      "tier": "TIER2",
+      "place": "",
+      "date": "",
+      "timezone": "AoE",
+      "deadlines": [
+        {
+          "label": "submission",
+          "date": "2025-12-22 23:59",
+          "passed": true
+        },
+        {
+          "label": "notification",
+          "date": "2026-02-20 23:59",
+          "passed": true
+        },
+        {
+          "label": "camera_ready",
+          "date": "2026-03-06 23:59",
+          "passed": true
+        }
+      ],
+      "tags": [
+        "SE",
+        "TIER2"
+      ]
+    },
+    {
+      "id": "saner-2026",
+      "name": "SANER 2026",
+      "year": 2026,
+      "description": "IEEE International Conference on Software Analysis, Evolution and Reengineering",
+      "link": "https://conf.researchr.org/dates/saner-2026",
+      "area": "SE",
+      "tier": "TIER2",
+      "place": "",
+      "date": "",
+      "timezone": "AoE",
+      "deadlines": [
+        {
+          "label": "abstract",
+          "date": "2025-10-09 23:59",
+          "passed": true
+        },
+        {
+          "label": "submission",
+          "date": "2025-10-16 23:59",
+          "passed": true
+        },
+        {
+          "label": "notification",
+          "date": "2025-12-09 23:59",
+          "passed": true
+        },
+        {
+          "label": "camera_ready",
+          "date": "2026-01-09 23:59",
+          "passed": true
+        }
+      ],
+      "tags": [
+        "SE",
+        "TIER2"
+      ]
+    },
+    {
+      "id": "icsme-2026",
+      "name": "ICSME 2026",
+      "year": 2026,
+      "description": "IEEE International Conference on Software Maintenance and Evolution",
+      "link": "https://conf.researchr.org/dates/icsme-2026",
+      "area": "SE",
+      "tier": "TIER2",
+      "place": "",
+      "date": "",
+      "timezone": "AoE",
+      "deadlines": [
+        {
+          "label": "abstract",
+          "date": "2026-02-27 23:59",
+          "passed": true
+        },
+        {
+          "label": "submission",
+          "date": "2026-03-06 23:59",
+          "passed": true
+        },
+        {
+          "label": "notification",
+          "date": "2026-05-29 23:59",
+          "passed": false
+        }
+      ],
+      "tags": [
+        "SE",
+        "TIER2"
+      ]
+    },
+    {
+      "id": "msr-2026",
+      "name": "MSR 2026",
+      "year": 2026,
+      "description": "IEEE/ACM International Conference on Mining Software Repositories",
+      "link": "https://2026.msrconf.org/dates",
+      "area": "SE",
+      "tier": "TIER2",
+      "place": "",
+      "date": "",
+      "timezone": "AoE",
+      "deadlines": [
+        {
+          "label": "abstract",
+          "date": "2025-10-20 23:59",
+          "passed": true
+        },
+        {
+          "label": "submission",
+          "date": "2025-10-23 23:59",
+          "passed": true
+        },
+        {
+          "label": "notification",
+          "date": "2026-01-07 23:59",
+          "passed": true
+        },
+        {
+          "label": "camera_ready",
+          "date": "2026-01-26 23:59",
+          "passed": true
+        }
+      ],
+      "tags": [
+        "SE",
+        "TIER2"
+      ]
+    }
+  ]
+}
