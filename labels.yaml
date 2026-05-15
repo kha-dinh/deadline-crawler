@@ -38,6 +38,7 @@ early_reject:
   - early rejection
   - early-reject
   - desk reject
+  - early notification  # pre-rebuttal decision (e.g. SIGCOMM 2026)
 
 rebuttal_start:
   - rebuttal start
