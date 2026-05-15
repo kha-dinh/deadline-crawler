@@ -143,13 +143,7 @@ USENIX_CONF = {
             },
         },
     ],
-    "main_selectors": {
-        "date": ".field-name-field-date-text .field-item",
-        "place": ".field-name-field-address-text .field-item",
-    },
-    "overrides": {
-        "description": "USENIX Security Symposium",
-    },
+    "description": "USENIX Security Symposium",
 }
 
 
@@ -293,7 +287,7 @@ SP_CONF = {
             },
         },
     ],
-    "overrides": {"description": "IEEE Symposium on Security and Privacy"},
+    "description": "IEEE Symposium on Security and Privacy",
 }
 
 
@@ -370,7 +364,7 @@ CCS_CONF = {
             },
         },
     ],
-    "overrides": {"description": "ACM Conference on Computer and Communications Security"},
+    "description": "ACM Conference on Computer and Communications Security",
 }
 
 
@@ -442,7 +436,7 @@ NDSS_CONF = {
             },
         },
     ],
-    "overrides": {"description": "ISOC Network and Distributed System Security Symposium"},
+    "description": "ISOC Network and Distributed System Security Symposium",
 }
 
 
