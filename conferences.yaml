@@ -202,7 +202,7 @@
   # Top-level section scopes to CFP block only (separate "Call for Posters" Important Dates further down)
   url: https://www.dimva.org/dimva{YYYY}/
   strategy: regex
-  tags: [SEC, A]
+  tags: [SEC, B]
   main_selectors:
     date: "#header h4"
   selectors:
@@ -254,7 +254,7 @@
   url: https://{YYYY}.eurosys.org/cfp.html
   url_main: https://{YYYY}.eurosys.org/
   strategy: regex
-  tags: [SYS, A*]
+  tags: [SYS, A]
   cycles:
     - name: "Spring"
       selectors:
@@ -292,7 +292,7 @@
   url: https://sigops.org/s/conferences/atc/{YYYY}/cfp.html
   url_main: https://www.usenix.org/conference/atc{YY}
   strategy: regex
-  tags: [SYS, A*]
+  tags: [SYS, A]
   selectors:
     section: 'id="dates".*?</table>'
   main_selectors:
@@ -567,7 +567,7 @@
   url: https://conf.researchr.org/dates/scam-{YYYY}
   url_main: https://conf.researchr.org/home/scam-{YYYY}
   strategy: regex
-  tags: [SE, A]
+  tags: [SE, B]
   selectors:
     researchr_track: scam-{YYYY}-research-track
   main_selectors:
