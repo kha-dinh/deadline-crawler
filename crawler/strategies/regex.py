@@ -121,11 +121,21 @@ def _parse_deadline_date(text: str) -> str | None:
 
     # Strip timezone suffix after am/pm or at end (handles "US PDT", "EST", etc.)
     cleaned = re.sub(r"\s+(?:US\s+)?(?:AoE|UTC|EST|EDT|PST|PDT|PT|ET|AOE|Eastern|Pacific)\s*$", "", text.strip(), flags=re.IGNORECASE)
+    # Strip trailing text after am/pm (e.g. ", anywhere on earth (UTC-12)")
+    cleaned = re.sub(r"(\d{1,2}:\d{2}(?::\d{2})?\s*(?:am|pm)),.*$", r"\1", cleaned, flags=re.IGNORECASE)
 
     # Try formats with explicit time first
     for fmt in (
+        "%B %d, %Y, %I:%M:%S %p",
+        "%B %d, %Y, %I:%M:%S%p",
+        "%B %d %Y, %I:%M:%S %p",
+        "%B %d %Y, %I:%M:%S%p",
         "%B %d, %Y, %I:%M %p",
         "%B %d, %Y, %I:%M%p",
+        "%b %d, %Y, %I:%M:%S %p",
+        "%b %d, %Y, %I:%M:%S%p",
+        "%b %d %Y, %I:%M:%S %p",
+        "%b %d %Y, %I:%M:%S%p",
         "%b %d, %Y, %I:%M %p",
         "%b %d, %Y, %I:%M%p",
     ):

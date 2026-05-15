@@ -113,7 +113,7 @@
             section: "2nd round\\s*</b></h4>.*"
 
 - name: RAID
-  # Pattern: raid{YYYY}.github.io — consistent
+  # Pattern: raid{YYYY}.github.io — used through 2025; 2026+ use raid{YYYY}.org
   url: https://raid{YYYY}.github.io/call.html
   strategy: regex
   tags: [SEC, TIER2]
@@ -121,6 +121,17 @@
     section: "Important Dates</h2>.*?</table>"
   overrides:
     description: "International Symposium on Research in Attacks, Intrusions and Defenses"
+  by_year:
+    2026:
+      url: https://raid2026.org/call.html
+      selectors:
+        deadlines:
+          - label: submission
+            pattern: '<strong[^>]*>Submission Deadline</strong>\s*<span>([^<]+)</span>'
+          - label: notification
+            pattern: '<strong[^>]*>Notification to Authors</strong>\s*<span>([^<]+)</span>'
+          - label: camera_ready
+            pattern: '<strong[^>]*>Camera-ready Deadline</strong>\s*<span>([^<]+)</span>'
 
 - name: ACSAC
   # Pattern: acsac.org/{YYYY}/submissions/papers/ — consistent
