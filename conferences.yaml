@@ -738,38 +738,54 @@
 
 - name: ISCA
   # CFP sub-path varies between years (papers.php vs callforpapers.php) — use by_year
-  # 2026: table has 3 cols (label | Main Track | Industry Track); section isolates panel
-  strategy: regex
+  # 2025: panel-primary list with b+span.deadline-date items
+  # 2026: panel-info table with 3 cols (label | Main Track | Industry Track); td:nth-child(2) = Main Track
+  strategy: css
   tags: [HW, A*]
   by_year:
     2025:
       url: https://iscaconf.org/isca2025/submit/papers.php
+      selectors:
+        section_css: "div.panel-primary"
+        items: "li"
+        label: "b"
     2026:
       url: https://iscaconf.org/isca2026/submit/callforpapers.php
       selectors:
-        section: "Important Dates.*?</table>"
+        section_css: "div.panel-info"
+        items: "table tbody tr"
+        label: "td:first-child"
+        date: "td:nth-child(2)"
   overrides:
     description: "International Symposium on Computer Architecture"
 
 - name: MICRO
   # Uses sequential edition numbers (not years): MICRO-58=2025, MICRO-59=2026 — use by_year
-  # 2026: deadlines in <ul> under <h4>Important Dates</h4>; section isolates the list
-  strategy: regex
+  # Both years: panel-primary list with b label + span.deadline-date; date from item text (AoE default)
+  strategy: css
   tags: [HW, A*]
+  selectors:
+    section_css: "div.panel-primary"
+    items: "li"
+    label: "b"
   by_year:
     2025:
       url: https://www.microarch.org/micro58/submit/papers.php
     2026:
       url: https://www.microarch.org/micro59/submit/papers.php
-      selectors:
-        section: "Important Dates.*?</ul>"
   overrides:
     description: "IEEE/ACM International Symposium on Microarchitecture"
 
 - name: HPCA
   # URL structure changed between years — use by_year
-  strategy: regex
+  # 2025: 403 page (scaffolding detection handles it)
+  # 2026: table[aria-label="Important Dates"] with Milestone/Deadline cols
+  strategy: css
   tags: [HW, A*]
+  selectors:
+    section_css: 'table[aria-label="Important Dates"]'
+    items: "tbody tr"
+    label: "td:first-child"
   by_year:
     2025:
       url: https://hpca-conf.org/2025/call-for-papers/
@@ -780,11 +796,14 @@
 
 - name: DAC
   # Pattern: dac.com/{YYYY}/program/research-manuscript-submissions — consistent
-  # Timeline uses <h3 id="date"> cards; section isolates the Timeline block
+  # Timeline: article.d-card cards with date in h3.d-card-title, label in p.card-paragraph
+  # 2025/2027: 404 pages (scaffolding detection handles them)
   url: https://dac.com/{YYYY}/program/research-manuscript-submissions
-  strategy: regex
+  strategy: css
   tags: [HW, A]
   selectors:
-    section: 'Timeline.*?(?=</section>|</main>|<footer)'
+    items: "article.d-card"
+    label: "p.card-paragraph"
+    date: "h3.d-card-title"
   overrides:
     description: "Design Automation Conference"
