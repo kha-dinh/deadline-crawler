@@ -43,6 +43,7 @@ def test_validate_valid_file(tmp_path, capsys):
 
     class Args:
         input = str(f)
+        strict = False
 
     cmd_validate(Args())
     out = capsys.readouterr().out
@@ -58,11 +59,13 @@ def test_validate_invalid_file(tmp_path, capsys):
 
     class Args:
         input = str(f)
+        strict = False
 
     with pytest.raises(SystemExit):
         cmd_validate(Args())
-    out = capsys.readouterr().out
-    assert "bad deadline label" in out
+    captured = capsys.readouterr()
+    combined = captured.out + captured.err
+    assert "bad deadline label" in combined
 
 
 def test_validate_duplicate_detection(tmp_path, capsys):
@@ -73,11 +76,13 @@ def test_validate_duplicate_detection(tmp_path, capsys):
 
     class Args:
         input = str(f)
+        strict = False
 
     with pytest.raises(SystemExit):
         cmd_validate(Args())
-    out = capsys.readouterr().out
-    assert "duplicate" in out
+    captured = capsys.readouterr()
+    combined = captured.out + captured.err
+    assert "duplicate" in combined
 
 
 # --- T11: table + color ---

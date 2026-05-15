@@ -1,0 +1,2 @@
+- [Use uv](feedback_uv.md) — user prefers uv over pip for Python package management
+- [POPL shepherd false positive](project_popl_shepherd.md) — V14 date-order checker fires on POPL; known false positive

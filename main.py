@@ -6,8 +6,12 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
+from rich.console import Console
+
 from crawler.strategy import crawl_all
 from crawler.output.generate import generate_from_results, _validate_entry, _validate_entry_warnings
+
+_stderr = Console(stderr=True)
 
 
 def _parse_years(raw: str | None) -> list[int] | None:
@@ -17,9 +21,61 @@ def _parse_years(raw: str | None) -> list[int] | None:
     return [int(y.strip()) for y in raw.split(",")]
 
 
+def _patch_fetch_with_fixtures(fixtures_dir: Path, config: str, name_filter: str | None, years: list[int]):
+    """Monkey-patch _fetch in both strategy modules to load from local fixture files."""
+    import crawler.strategies.regex as _regex_mod
+    import crawler.strategies.css as _css_mod
+    from crawler.config import load_conferences, resolve_conf_for_year, resolve_url as _resolve_url
+
+    url_map: dict[str, Path] = {}
+    for conf in load_conferences(config):
+        if name_filter and conf["name"].lower() != name_filter.lower():
+            continue
+        for year in years:
+            resolved = resolve_conf_for_year(conf, year)
+            if resolved is None:
+                continue
+            slug = _slugify_name(conf["name"])
+            cfp_url = _resolve_url(resolved, year)
+            if cfp_url:
+                p = fixtures_dir / f"{slug}_{year}.html"
+                if p.exists():
+                    url_map[cfp_url] = p
+            url_main_tmpl = resolved.get("url_main")
+            if url_main_tmpl:
+                main_url = _resolve_url({"url": url_main_tmpl}, year)
+                if main_url and main_url != cfp_url:
+                    p = fixtures_dir / f"{slug}_{year}_main.html"
+                    if p.exists():
+                        url_map[main_url] = p
+
+    missing = []
+
+    def _fixture_fetch(url: str) -> str:
+        if url in url_map:
+            return url_map[url].read_text(encoding="utf-8")
+        missing.append(url)
+        raise FileNotFoundError(f"No fixture for URL: {url}\nRun: uv run python main.py fetch")
+
+    _regex_mod._fetch = _fixture_fetch
+    _css_mod._fetch = _fixture_fetch
+    return url_map, missing
+
+
 def cmd_crawl(args):
     """Crawl conferences and export output."""
     years = _parse_years(args.year)
+
+    if args.fixtures:
+        fixtures_dir = Path(args.fixtures)
+        if not fixtures_dir.exists():
+            _stderr.print(f"[bold red]✗[/] Fixtures dir not found: {fixtures_dir}")
+            _stderr.print("Run: uv run python main.py fetch")
+            sys.exit(1)
+        import datetime as _dt
+        effective_years = years or [_dt.datetime.now().year, _dt.datetime.now().year + 1]
+        url_map, _ = _patch_fetch_with_fixtures(fixtures_dir, args.config, args.conf, effective_years)
+        _stderr.print(f"[dim]Using fixtures from {fixtures_dir}/ ({len(url_map)} URL(s) mapped)[/]")
 
     try:
         results = crawl_all(
@@ -30,18 +86,23 @@ def cmd_crawl(args):
             no_specific=args.no_specific,
         )
     except Exception as e:
-        print(f"Crawl failed: {e}", file=sys.stderr)
+        _stderr.print(f"[bold red]✗[/] Crawl failed: {e}")
         sys.exit(1)
 
     if not results:
         print("No results.")
         return
 
-    output = generate_from_results(
-        results,
-        output_path=args.output,
-        fmt=args.format,
-    )
+    try:
+        output = generate_from_results(
+            results,
+            output_path=args.output,
+            fmt=args.format,
+            strict=args.strict,
+        )
+    except ValueError as e:
+        _stderr.print(f"[bold red]✗[/] {e}")
+        sys.exit(1)
 
     n = len(output["conferences"])
     out_path = args.output or f"output/deadlines.{args.format}"
@@ -55,7 +116,7 @@ def _load_output_file(path: str) -> dict:
     """Load exported deadlines file (JSON or YAML)."""
     p = Path(path)
     if not p.exists():
-        print(f"File not found: {path}", file=sys.stderr)
+        _stderr.print(f"[bold red]✗[/] File not found: {path}")
         sys.exit(1)
     with open(p) as f:
         if p.suffix == ".json":
@@ -80,7 +141,8 @@ def _output_to_entry(conf: dict) -> dict:
 
 
 def cmd_validate(args):
-    """Validate exported output against invariants V1-V4, V10, V16, V17, V19, V20."""
+    """Validate exported output against invariants V1-V4, V10, V14, V16, V17, V19, V20."""
+    from crawler.output.generate import _check_date_order, _check_v16, _check_v20
     data = _load_output_file(args.input)
     conferences = data.get("conferences", [])
 
@@ -104,17 +166,58 @@ def cmd_validate(args):
 
         if errors:
             total_errors += len(errors)
-            print(f"✗ {conf.get('name', '?')} ({conf.get('year', '?')}):")
+            _stderr.print(f"[bold red]✗[/] {conf.get('name', '?')} ({conf.get('year', '?')}):")
             for e in errors:
-                print(f"    {e}")
+                _stderr.print(f"    {e}")
 
-        # V16, V20: warnings (don't reject)
-        warnings = _validate_entry_warnings(entry)
-        if warnings:
-            total_warnings += len(warnings)
-            print(f"⚠ {conf.get('name', '?')} ({conf.get('year', '?')}):")
-            for w in warnings:
-                print(f"    {w}")
+        name = conf.get("name", "?")
+        year = conf.get("year", "?")
+
+        # V16: no abstract/submission — error in strict mode
+        v16_issues = _check_v16(entry)
+        if v16_issues:
+            if args.strict:
+                total_errors += len(v16_issues)
+                _stderr.print(f"[bold red]✗[/] {name} ({year}):")
+                for w in v16_issues:
+                    _stderr.print(f"    {w}")
+            else:
+                total_warnings += len(v16_issues)
+                for w in v16_issues:
+                    _stderr.print(f"[bold yellow]⚠[/] {name} ({year}): {w}")
+
+        # V20: < 2 deadlines — error in strict mode
+        v20_issues = _check_v20(entry)
+        if v20_issues:
+            if args.strict:
+                total_errors += len(v20_issues)
+                _stderr.print(f"[bold red]✗[/] {name} ({year}):")
+                for w in v20_issues:
+                    _stderr.print(f"    {w}")
+            else:
+                total_warnings += len(v20_issues)
+                for w in v20_issues:
+                    _stderr.print(f"[bold yellow]⚠[/] {name} ({year}): {w}")
+
+        # V21: always warn only
+        other_warnings = [w for w in _validate_entry_warnings(entry) if w not in v16_issues and w not in v20_issues]
+        if other_warnings:
+            total_warnings += len(other_warnings)
+            for w in other_warnings:
+                _stderr.print(f"[bold yellow]⚠[/] {name} ({year}): {w}")
+
+        # V14: date order — warn normally, error in strict mode
+        order_issues = _check_date_order(entry)
+        if order_issues:
+            if args.strict:
+                total_errors += len(order_issues)
+                _stderr.print(f"[bold red]✗[/] {name} ({year}):")
+                for w in order_issues:
+                    _stderr.print(f"    {w}")
+            else:
+                total_warnings += len(order_issues)
+                for w in order_issues:
+                    _stderr.print(f"[bold yellow]⚠[/] {name} ({year}): {w}")
 
     summary_parts = [f"✓ {len(conferences)} conference(s) valid."] if total_errors == 0 else []
     if total_warnings:
@@ -123,7 +226,7 @@ def cmd_validate(args):
     if total_errors == 0:
         print(" ".join(summary_parts) if summary_parts else f"✓ {len(conferences)} conference(s) valid.")
     else:
-        print(f"\n{total_errors} error(s) in {len(conferences)} conference(s).")
+        _stderr.print(f"\n[bold red]{total_errors} error(s)[/] in {len(conferences)} conference(s).")
         sys.exit(1)
 
 
@@ -247,6 +350,74 @@ def cmd_show(args):
     print_table(conferences)
 
 
+# --- fetch command: download CFP pages as fixtures ---
+
+def _slugify_name(name: str) -> str:
+    """Simple slug: lowercase, non-alphanumeric → hyphen, strip edges."""
+    import re
+    s = name.lower()
+    s = re.sub(r"[^a-z0-9]+", "-", s)
+    return s.strip("-")
+
+
+def cmd_fetch(args):
+    """Fetch CFP HTML pages and save as test fixtures."""
+    from crawler.config import load_conferences, resolve_conf_for_year, resolve_url
+    from crawler.strategies.regex import _fetch
+
+    outdir = Path(args.outdir)
+    outdir.mkdir(parents=True, exist_ok=True)
+
+    years = _parse_years(args.year) or [2026]
+    conferences = load_conferences(args.config)
+
+    if args.conf:
+        conferences = [c for c in conferences if c["name"].lower() == args.conf.lower()]
+        if not conferences:
+            _stderr.print(f"[bold red]✗[/] No conference named '{args.conf}'")
+            sys.exit(1)
+
+    saved = 0
+    for conf in conferences:
+        for year in years:
+            resolved = resolve_conf_for_year(conf, year)
+            if resolved is None:
+                _stderr.print(f"[dim]skip[/] {conf['name']} {year}: no config for year")
+                continue
+
+            cfp_url = resolve_url(resolved, year)
+            if not cfp_url:
+                _stderr.print(f"[dim]skip[/] {conf['name']} {year}: no URL")
+                continue
+
+            slug = _slugify_name(conf["name"])
+            cfp_path = outdir / f"{slug}_{year}.html"
+
+            try:
+                html = _fetch(cfp_url)
+                cfp_path.write_text(html, encoding="utf-8")
+                print(f"✓ {conf['name']} {year} → {cfp_path}")
+                saved += 1
+            except Exception as e:
+                _stderr.print(f"[bold red]✗[/] {conf['name']} {year}: {e}")
+                continue
+
+            # Fetch url_main separately if it differs from cfp_url
+            url_main_tmpl = resolved.get("url_main")
+            if url_main_tmpl:
+                main_url = resolve_url({"url": url_main_tmpl}, year)
+                if main_url and main_url != cfp_url:
+                    main_path = outdir / f"{slug}_{year}_main.html"
+                    try:
+                        main_html = _fetch(main_url)
+                        main_path.write_text(main_html, encoding="utf-8")
+                        print(f"  ↳ main → {main_path}")
+                    except Exception as e:
+                        _stderr.print(f"  [yellow]⚠[/] main page failed: {e}")
+
+    print(f"\n{saved} fixture(s) saved to {outdir}/")
+
+
 def main():
     parser = argparse.ArgumentParser(
         prog="deadline-crawler",
@@ -262,14 +433,24 @@ def main():
     crawl_p.add_argument("--output", "-o", help="Output file path")
     crawl_p.add_argument("--workers", "-w", type=int, default=8, help="Parallel fetch threads (default: 8)")
     crawl_p.add_argument("--no-specific", action="store_true", default=False, help="Skip site-specific deadline patterns; use generic extractor only")
+    crawl_p.add_argument("--fixtures", metavar="DIR", nargs="?", const="tests/fixtures", default=None, help="Load HTML from local fixtures instead of fetching live (default dir: tests/fixtures)")
+    crawl_p.add_argument("--strict", action="store_true", default=False, help="Treat date order violations (V14) as errors instead of warnings")
 
     # T10: validate command
     validate_p = sub.add_parser("validate", help="Validate exported output against invariants")
     validate_p.add_argument("--input", "-i", default="output/deadlines.json", help="Exported file to validate")
+    validate_p.add_argument("--strict", action="store_true", default=False, help="Treat date order violations (V14) as errors instead of warnings")
 
     # T11: show command (table output)
     show_p = sub.add_parser("show", help="Show conferences as colored table")
     show_p.add_argument("--input", "-i", default="output/deadlines.json", help="Exported file to display")
+
+    # fetch command: download CFP pages as test fixtures
+    fetch_p = sub.add_parser("fetch", help="Download CFP pages as HTML fixtures for testing")
+    fetch_p.add_argument("--conf", help="Fetch single conference by name")
+    fetch_p.add_argument("--config", default="conferences.yaml", help="Config file path")
+    fetch_p.add_argument("--year", default="2026", help="Target year(s), comma-separated (default: 2026)")
+    fetch_p.add_argument("--outdir", default="tests/fixtures", help="Output directory for fixtures (default: tests/fixtures)")
 
     args = parser.parse_args()
 
@@ -279,6 +460,8 @@ def main():
         cmd_validate(args)
     elif args.command == "show":
         cmd_show(args)
+    elif args.command == "fetch":
+        cmd_fetch(args)
     else:
         parser.print_help()
 

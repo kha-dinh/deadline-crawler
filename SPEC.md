@@ -17,7 +17,7 @@ Crawl conference CFP pages and export structured deadline data (JSON/YAML). Per-
 - I.crawl: Crawler engine — loads strategy from I.conf, fetches page, extracts fields, exports directly
 - I.out: Terminal table or JSON output
 - I.web: `deadlines.yaml` — frontend-consumable output. Shape: `generated_at` + `conferences[]`. Each conference: `id` (slug), `name`, `year`, `description`, `link`, `area`, `tier`, `place`, `date` (event date ISO), `timezone` (default AoE), `deadlines[]` (`label`, `date`, `passed`), `tags[]`, `comment?`
-- I.strategy: Extract strategy — `regex` (pattern match). Three extraction modes: (1) **researchr extractor** — structural BeautifulSoup parse of researchr.org dates pages; filters `<tr href=...>` rows by track slug, reads col0 (date) + col2 (label) via `_parse_deadline_date` + `_match_label`; two sub-modes: *explicit* (`researchr_track` set in selectors, supports `{YYYY}` template + optional `researchr_cycle` filter for multi-cycle conferences) and *auto-discover* (`_autodiscover_researchr` — collects all unique `<tr href>` slugs, scores each by canonical label count + "research" in slug tiebreak, picks best; fires automatically on any page with `<tr href>` rows, no config needed); (2) **generic A+C extractor** — structure-preserving HTML→text (Phase A: table/dl/li flattening) + two-pass proximity search (Phase C: find dates then match nearby labels); primary extractor for all standard CFP pages; (3) **site-specific regex** — per-conference `deadlines:` patterns in I.conf, last-resort escape hatch only (see V15). Extraction chain: explicit researchr_track (if set) → researchr auto-discover → generic A+C extractor → site-specific patterns (last resort, if defined) → empty. Label map inverts V10: maps raw CFP phrases → canonical labels (e.g. "abstract registration" → `abstract`). Section selector remains only required site-specific config. Other strategies (css, llm, static) deferred
+- I.strategy: Extract strategy — `regex` (pattern match). **Scaffolding check fires first** (see V22) — if page is placeholder/404, raise `ValueError` before any extraction. Three extraction modes: (1) **researchr extractor** — structural BeautifulSoup parse of researchr.org dates pages; filters `<tr href=...>` rows by track slug, reads col0 (date) + col2 (label) via `_parse_deadline_date` + `_match_label`; two sub-modes: *explicit* (`researchr_track` set in selectors, supports `{YYYY}` template + optional `researchr_cycle` filter for multi-cycle conferences) and *auto-discover* (`_autodiscover_researchr` — collects all unique `<tr href>` slugs, scores each by canonical label count + "research" in slug tiebreak, picks best; fires automatically on any page with `<tr href>` rows, no config needed); (2) **generic A+C extractor** — structure-preserving HTML→text (Phase A: table/dl/li flattening) + two-pass proximity search (Phase C: find dates then match nearby labels); primary extractor for all standard CFP pages; (3) **site-specific regex** — per-conference `deadlines:` patterns in I.conf, last-resort escape hatch only (see V15). Extraction chain: explicit researchr_track (if set) → researchr auto-discover → generic A+C extractor → site-specific patterns (last resort, if defined) → empty. Label map inverts V10: maps raw CFP phrases → canonical labels (e.g. "abstract registration" → `abstract`). Section selector remains only required site-specific config. Other strategies (css, llm, static) deferred
 
 ## §V Invariants
 - V1: Every data.yaml entry MUST have: name, year, link, deadline (≥1), tags (≥1 area + tier)
@@ -27,7 +27,7 @@ Crawl conference CFP pages and export structured deadline data (JSON/YAML). Per-
 - V5: (removed — no data.yaml intermediary)
 - V6: Past deadlines retained in output for historical reference
 - V7: Every conference in conferences.yaml MUST have: name, strategy, tags. `url` required unless `by_year` provides URLs for all target years
-- V8: Strategy field must be: regex (css, llm, static deferred)
+- V8: Strategy field must be one of: regex, css (llm, static deferred)
 - V9: Crawl result validated against V1-V3 before proposing to user
 - V10: deadline[].label MUST be one of: {abstract, submission, early_reject, rebuttal_start, rebuttal_end, notification, shepherd, camera_ready}. Mapping from raw CFP text → canonical label lives in strategy layer
 - V11: Generic extractor label map MUST cover all V10 canonical labels. Each canonical label has ≥1 phrase variant. Map is single source of truth for text→label mapping
@@ -40,13 +40,15 @@ Crawl conference CFP pages and export structured deadline data (JSON/YAML). Per-
 - V19: `link` empty or not valid HTTP/HTTPS URL → error, reject entry
 - V20: Entry with exactly 1 deadline → warn (likely partial crawl)
 - V21: If entry `date` field non-empty and contains a 4-digit year, that year MUST match entry `year`. Violation → warn (not error) — some conferences span year-end (e.g. Dec/Jan event)
+- V22: Strategy MUST run `_is_scaffolding(html)` immediately after fetch, before extraction chain. Scaffolding = placeholder/404 page with no real CFP content. Detection: (1) known phrases ("coming soon", "under construction", "page not found", "404 not found", etc.); (2) stripped text starts with `404`; (3) word count &lt; 75 AND no date patterns present. Scaffolding → raise `ValueError` (caught by `crawl_all` as warning). Silent empty deadlines MUST NOT be returned for scaffold pages. Both `regex` and `css` strategies enforce this
+- V23: Output `deadlines[]` array MUST be sorted by canonical `LABEL_ORDER` (abstract, submission, early_reject, rebuttal_start, rebuttal_end, notification, shepherd, camera_ready). Sort applied in `transform_entry` (generate.py) after extraction. Extractor insertion order is irrelevant — output order always canonical
 
 ## §T Tasks
 | id | status | task | cites |
 |----|--------|------|-------|
 | T1 | x | design conferences.yaml schema + seed w/ existing SEC conferences | I.conf,V7,V8 |
 | T2 | x | strategy engine: load conf, dispatch to strategy handler | I.strategy,I.conf |
-| T3 | — | (deferred) strategy: `css` | I.strategy |
+| T3 | x | strategy: `css` — CSS selector-based extraction | I.strategy |
 | T4 | x | strategy: `regex` — fetch page, extract via regex patterns | I.strategy |
 | T5 | — | (deferred) strategy: `llm` | I.strategy |
 | T6 | — | (deferred) strategy: `static` | I.strategy |
@@ -153,3 +155,5 @@ Most conferences only need `section` selector. Site-specific `deadlines:` patter
 | id | date | cause | fix |
 |----|------|-------|-----|
 | B1 | 2026-05-14 | POPL: shepherd date < notification date triggers V14 warning — POPL assigns shepherds before final notification (non-standard review process); data correct | no code fix; V14 annotated with known exception |
+| B2 | 2026-05-15 | SIGCOMM: rebuttal_end > notification triggers V14 warning — SIGCOMM has "early notification" (accept/reject/revision) before rebuttal period, then final "review results notification" after; only the earlier one gets the `notification` label (first-match-wins); data correct | no code fix; process quirk |
+| B3 | 2026-05-15 | CCS 2026: rebuttal_start listed after rebuttal_end in output — `transform_entry` preserved extraction order; extractor found `rebuttal_end` first (date range "Mar 17–20" → end date matched `rebuttal_end` label on next line before start date matched `rebuttal_start`) | sort `out_deadlines` by `LABEL_ORDER` in `transform_entry`; added V23 |

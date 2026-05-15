@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="en">
+<!--
+       Xkk0OO0XW             WWNXKK0OOOOOOOOOO00KXXNWW                          
+     WKxc::::clox0XW    WWNXK0OOkkkkkkkkkkkkkkkkkkOO00KXNW                      
+    Nkc;;;;;;;;;;;cdOKXK0OkkkxkkkkkkkkkkkkkkkkkkkkkkkkkkkO0XNW                  
+   Nk:;;;;;;;;;;;;;;;:ldxkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkOKNW               
+   0l;;;;;;;;;;;;;;;;;;:ldxkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkOKNW            
+  Wk:;;;;;;;;;;;;;;;;;;;;:lxkkkkkkkkkkkkkkkkkkkkkkkkOOOOOOOOOkkkkkO0NW          
+  Nd;;;;;;;;;;;;;;;;;;;;;;;:ldxkkkkkkkkkkkkkkkkkkOOOOOOOOOOOOOkxxxkkO0NW        
+  Xo;;;;;;;;;;;;;;;;;;;;;;;;;;cldxkkkkkkkkkkkkkOOOOOkkkkkkkOOOOxodxkkkOKN       
+  Kl;;;;;;;;;;;;;;;;;;;;;;;;;;;;:coxkkkkkkkkkkOOOkkkkkkkkkkkOOOkoldkkkkk0XW     
+  Kl;;;;;;;;;;;;;;;;;,,;ldl:;;;;;;;coxkkkkkkkOOOxdxkkkkkkkkkkOOkoldxkkkkkOKW    
+  Kl;;;;;;;;;;;;;,''.'cONWNXOxoc:;;;;:oxkkkkOOOxodkkkkkkkkkkkOOkoloxkkkkkkkKW   
+  Kl;;;;;;;;,'... .':kN       WX0ko::;;coxkkOOOxdxkkkkkkkkkkOOOkxxkkOOkxxkkkKW  
+  Kl;;;;;;;;c;.  .cKW            WKkxdoodxOOOOOOOOOOOOOOOOOOOOOOOOOOOOOdldxkkKW 
+  Kl;;;;;;;oKXk:;xN               N0OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOkoloxkkOX 
+ WOc;;;;;;oKW  WNW                X0OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOkoloxkkk0N
+ Nx;;;;;;l0W                     WX0OOOOOOOOOOOOkl;,;lxOOOOOOOOOOOOOOOxlldkkkkOX
+WOc;;;;;',oKW                     WNX0OOOOOOOOOx;     ,xOOOOOOOOOOOOOOxlldkkkkk0
+0l;;;;;;,''cx0KNW                   WX0OOOOOOOOl.     .oOOOOOOOOOOOOOOdlldkkkkkO
+o;;;;;;;;;;;;;:ldk0XWW               WX0OOOOOOOo.     ,xOOOOOOOOOOOOOkollxkkkkkO
+xdo:;;;;;;;;;;;;;;;cok0NW        WXXNWNK0OOOOOOkl.  .:xOOOOOOOOOOOOOOkocoxkkkkkk
+WWKl;;;;;;;;;;;;;;;;,;:lx0NW     WN0O0000OOOOOOOk,  :kOOOOOOOOOOOOOOOxlloxkkkkkO
+  Xo;;;;;;;;;;;;;;;;;;;;:cokXW    Xo,;lxOOOOOOOOx, .oOOOOOOOOOOOOOOOOxlldxkkkkkO
+  Nx:;;;;;;;;;;;;;;;;;;:xkcckW  WW0l'  ':oOOOOOOkc'ckOOOOOOOOOOOOOOOOdlldkkkkkk0
+  W0l;;;;;;;;;;;;;;;;;;;::ckN  WX00Ok:.  ,xOOOOOOOkOOOOOOOOOOOOOOOOOkdcldkkkkkkK
+   Xx:;;;;;;;;;;;;;;;:dd::kN   WK0OOOd.  'dOOOOOOOOOOOOOOOOOOOOOOOOOkoclxkkkkk0N
+   W0o:;;;;;;;;;;;;;;:oo:lONW  WX0OOOd.  ,xOxxxxxkOOOOOOOOOOOOOOOO0OkocoxkkkkOXW
+    NOl;;;;;;;;;;;;;;:c:;lxkO00Okkxxxl.  'dl.....'lxxxxxxxxxxxxxxxxxdlcoxkkkkKW 
+     NOl;;;;;;;;;;;;;dOo;lxkkxdllllll;.  .'.      .clllllllllllclcclccloxkkk0W  
+      NOo:;;;;;;;;;;;;:;;:clloddoooooc.           ,looooooooooooooooooodkkkKN   
+       N0dc;;;;;;;;;;;;;;;;;;;:cldxxkxc.         ,dkkkkkkkkkkkkkkkkkkkkkkOKW    
+        WKkl:;;;;;;;;;;;;;;;;;;;;;cdxkxl;'.   ..:dkkkkkkkkkkkkkkkkkkkkkkOXW     
+          N0dc;;;;;;;;;;;;;;;;;;;;;:okkkkxdllldxkkkkkkkkkkkkkkkkkkkkkkOKN       
+           WXOdl:;;;;;;;;;;;;;;;;;;;cdkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk0NW        
+             WXOxl:;;;;;;;;;;;;;;;;;;oxkkkkkkkkkkkkkkkkkkkkkkkkkkkO0NW          
+               WX0kdl:;;;;;;;;;;;;;;;cxkkkkkkkkkkkkkkkkkkkkkkkkkOKNW            
+                  NX0kdol::;;;;;;;;;;:dkkkkkkkkkkkkkkkkkkkkkkOKXW               
+                    WWXK0kxdolcc::;;;:okkkkkkkkkkkkkkkkkkO0KNW                  
+                        WWNXK0OkxxddooxkkkkkkkkkkkkOO0KXNWW                     
+                             WNNXH0BBESkkkkkOOO00KXNWW                          
+ -->
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="keywords" content="application security conference,industry,government,academia,computer security,information security,encryption,privacy,protection,vulnerability,cryptography,certification and accreditation,enterprise security,identification and authentication,incident ersponse,virtualization security" />
+<meta name="description" property="og:description" content="The IEEE Annual Computer Security Applications Conference (ACSAC) brings together cutting-edge researchers, with a broad cross-section of security professionals drawn from academia, industry, and government, gathered to present and discuss the latest security results and topics. With peer reviewed technical papers, invited talks, panels, national interest discussions, and workshops, ACSAC continues its core mission of investigating practical solutions for computer and network security technology.">
+<link rel="shortcut icon" type="image/ico" href="/favicon.ico">
+<link rel="icon" type="image/png" href="/images/favicon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/images/acsac-192.png">
+<link href="/images/acsac-57.png" rel="apple-touch-icon-precomposed">
+<link href="/images/acsac-72.png" rel="apple-touch-icon-precomposed" sizes="72x72">
+<link href="/images/acsac-114.png" rel="apple-touch-icon-precomposed" sizes="114x114">
+<link href="/images/acsac-152.png" rel="apple-touch-icon-precomposed" sizes="144x144">
+<title>Call for Papers - IEEE Annual Computer Security Applications Conference (ACSAC)</title>
+<link rel="stylesheet" href="/2026/main.min.css">
+<link rel="stylesheet" href="/2026/acsac.css?v=6">
+</head>
+<body>
+<a class="acsac-skipnav" href="#main-content">Skip to main content</a>
+
+<div class="acsac-overlay"></div>
+<header class="acsac-header acsac-header--extended" role="banner"><div class="acsac-navbar">
+<div class="acsac-logo" id="extended-logo">
+<em class="acsac-logo__text"><a href="/" title="Home" aria-label="Home">IEEE ACSAC 2026<span class="display-block font-heading-3xs text-gray-70">December 7-11, 2026 &#8226; Los Angeles, California, USA</span></a></em>
+</div>
+<button class="acsac-menu-btn">Menu</button>
+</div>
+<nav role="navigation" class="acsac-nav">
+<div class="acsac-nav__inner">
+<button class="acsac-nav__close"><img src="/img/close.svg" alt="close"></button>
+<ul class="acsac-nav__primary acsac-accordion">
+
+<li class="acsac-nav__primary-item">
+<button id="acsac-nav-submissions" class="acsac-accordion__button acsac-nav__link" aria-expanded="false" aria-controls="extended-nav-section-submissions"><span>Submissions</span></button>
+<ul id="extended-nav-section-submissions" class="acsac-nav__submenu">
+<li class="acsac-nav__submenu-item"><a href="/2026/submissions/">Call for Submissions</a></li>
+<li class="acsac-nav__submenu-item"><a href="/2026/submissions/topics/">Submission Topics</a></li>
+<li class="acsac-nav__submenu-item"><a href="/2026/submissions/hardtopic/">Hard-Topic Theme</a></li>
+<li class="acsac-nav__submenu-item"><a href="/2026/submissions/papers/">Technical Papers</a></li>
+<li class="acsac-nav__submenu-item"><a href="/2026/submissions/case_studies/">Case Studies</a></li>
+<li class="acsac-nav__submenu-item"><a href="/2026/submissions/panels/">Panels</a></li>
+<li class="acsac-nav__submenu-item"><a href="/2026/submissions/posters/">Posters and WiPs</a></li>
+<li class="acsac-nav__submenu-item"><a href="/2026/submissions/workshops/">Workshops</a></li>
+<li class="acsac-nav__submenu-item border-top-2px border-gray-30 padding-top-1"><a href="/2026/submissions/artifacts_competition/">Artifacts Competition</a></li>
+<li class="acsac-nav__submenu-item"><a href="/2026/submissions/conferenceships/">Student Conferenceships</a></li>
+</ul>
+</li>
+
+
+<li class="acsac-nav__primary-item">
+<button id="acsac-nav-committees" class="acsac-accordion__button acsac-nav__link" aria-expanded="false" aria-controls="extended-nav-section-committees"><span>Committees</span></button>
+<ul id="extended-nav-section-committees" class="acsac-nav__submenu">
+<li class="acsac-nav__submenu-item"><a href="/2026/committees/organizing/">Organizing Committee</a></li>
+<li class="acsac-nav__submenu-item"><a href="/2026/committees/steering/">Steering Committee</a></li>
+<li class="acsac-nav__submenu-item"><a href="/2026/committees/program/">Program Committee</a></li>
+</ul>
+</li>
+
+
+
+
+<li class="acsac-nav__primary-item" id="acsac-nav-sponsors"><a class="acsac-nav__link" href="/2026/sponsors/"><span>Sponsors</span></a></li>
+
+<li class="acsac-nav__primary-item" id="acsac-nav-venue"><a class="acsac-nav__link" href="/2026/venue/"><span>Venue</span></a></li>
+
+<li class="acsac-nav__primary-item" id="acsac-nav-registration"><a class="acsac-nav__link" href="/2026/registration/"><span>Registration</span></a></li>
+
+</ul>
+
+<div class="acsac-nav__secondary">
+<ul class="acsac-nav__secondary-links">
+<li class="acsac-nav__secondary-item"><a href="/archive/">Archive</a></li>
+<li class="acsac-nav__secondary-item"><a href="/faq/">FAQs</a></li>
+<li class="acsac-nav__secondary-item"><a href="/list/">Mailing List</a></li>
+</ul>
+<form class="acsac-search acsac-search--small" method="get" action="/search/">
+<div role="search">
+<label class="acsac-sr-only" for="extended-search-field-small">Search small</label>
+<input class="acsac-input" id="extended-search-field-small" type="search" name="q" placeholder="search on duckduckgo" value="">
+<button class="acsac-button" type="submit"><span class="acsac-sr-only">Search</span></button>
+</div>
+</form>
+</div>
+
+</div>
+</nav>
+</header>
+
+
+<main class="acsac-layout-docs acsac-section" id="main-content">
+<div class="grid-container">
+<div class="grid-row grid-gap">
+<aside class="acsac-layout-docs__sidenav desktop:grid-col-3"><!--array(4) {
+  [0]=>
+  string(25) "/2026/submissions/papers/"
+  [1]=>
+  string(16) "2026/submissions"
+  [2]=>
+  string(5) "2026/"
+  [3]=>
+  string(6) "papers"
+}
+--><nav>
+<ul class="acsac-sidenav">
+<li class="acsac-sidenav__item"><a href="../../submissions/" id="acsac-sidenav-submissions">Call for Submissions</a></li>
+<li class="acsac-sidenav__item"><a href="../../submissions/topics/" id="acsac-sidenav-topics">Submission Topics</a></li>
+<li class="acsac-sidenav__item"><a href="../../submissions/hardtopic/" id="acsac-sidenav-hardtopic">Hard Topic Theme</a></li>
+<li class="acsac-sidenav__item"><a href="../../submissions/papers/" id="acsac-sidenav-papers">Technical Papers</a>
+	<ul class="acsac-sidenav__sublist">
+	<li class="acsac-sidenav__item"><a href="../../submissions/papers/artifacts/" id="acsac-sidenav-papers-artifacts">Paper Artifacts</a></li>
+	</ul>
+</li>
+<li class="acsac-sidenav__item"><a href="../../submissions/case_studies/" id="acsac-sidenav-case_studies">Case Studies</a></li>
+<li class="acsac-sidenav__item"><a href="../../submissions/panels/" id="acsac-sidenav-panels">Panels</a></li>
+<li class="acsac-sidenav__item"><a href="../../submissions/posters/" id="acsac-sidenav-posters">Posters and WiPs</a></li>
+<li class="acsac-sidenav__item"><a href="../../submissions/workshops/" id="acsac-sidenav-workshops">Workshops</a></li>
+<li class="acsac-sidenav__item"><a href="../../submissions/artifacts_competition/" id="acsac-sidenav-artifacts_competition">Artifacts Competition</a></li>
+<li class="acsac-sidenav__item"><a href="../../submissions/conferenceships/" id="acsac-sidenav-conferenceships">Student Conferenceships</a></li>
+</ul>
+</nav>
+</aside><div class="acsac-layout-docs__main desktop:grid-col-9 acsac-prose">
+<h1>Call for Papers</h1>
+
+<p>
+<span class="text-gray-50 text-bold">Paper Submissions:</span> <!--<span class="text-strike">June 29</span>--> May 26 (23:59 AoE) — <b>firm deadline</b><br />
+<span class="text-gray-50 text-bold">Early Rejection Notification:</span> <!--<span class="text-strike">September 2</span>--> July 13<br />
+<span class="text-gray-50 text-bold">Authors Response Period:</span> <!--<span class="text-strike">September 2</span>--> August 18-25<br />
+<span class="text-gray-50 text-bold">Acceptance Notification:</span> <!--<span class="text-strike">September 2</span>--> September 8<br />
+<span class="text-gray-50 text-bold">Minor Revision Period:</span> <!--<span class="text-strike">September 2</span>--> September 8 - October 8<br />
+<span class="text-gray-50 text-bold">Camera Ready Deadline:</span> <!--<span class="text-strike">September 2</span>--> October 22<br />
+<span class="text-gray-50 text-bold">Paper Artifacts Submission:</span> Please refer to the <a href="artifacts/">Call for Paper Artifacts</a>
+</p>
+
+<p>
+<b>Program Chair:</b>  Nick Nikiforakis, Stony Brook University<br />
+<b>Program Co-Chair:</b> Konrad Rieck, BIFOLD &amp; TU Berlin<br />
+<b>Artifacts Evaluation Co-Chair:</b> Luis Garcia, University of Utah<br />
+<b>Artifacts Evaluation Co-Chair:</b> Kaushal Kafle, University of South Florida<br />
+<b>Artifacts Evaluation Co-Chair:</b> Zion Basque, Arizona State University
+</p>
+
+<div class="font-serif-lg text-italic">
+<p>ACSAC solicits papers offering novel contributions in any aspect of applied security research. We encourage papers with results that are demonstrably useful for improving cybersecurity and that address lessons learned from practical applications. In particular, we encourage the submission of papers related to our hard topic theme: <a href="../hardtopic/">Security and Privacy of Agentic Systems</a>. Submitted papers must not substantially overlap with papers that have been published elsewhere or that have been simultaneously submitted to another journal or conference with proceedings and are under review. <b>Authors of accepted papers will be expected to present at the conference in person, with limited exceptions allowed on a case-by-case basis.</b></p>
+</div>
+
+<p><a href="https://papers.submit.acsac.org" class="acsac-button">Make Submission</a></p>
+<p><b>Reproduction and Replication (R+R) Track:</b> Security research is often criticized for the poor reproducibility of its results, a situation we aim to address through artifact evaluation. At the same time, reproduction and replication studies are often undervalued in academic publishing. Thus, in addition to regular papers and artifact evaluations, this year we are also soliciting studies that confirm, question, or clarify the results of previous research. These papers must contain the prefix “R+R:” in their title and check the corresponding option in the submission form.</p>
+
+<p>We encourage submissions to follow the ACM guidelines on reproducibility (different team, same experimental setup, i.e., artifact re-use) and replicability (different team, different experimental setup, i.e., artifact re-implementation). Note, however, that submissions need to go beyond re-running the artifacts provided by the original paper(s) or re-implementing their approach. We are looking for submissions that not only replicate existing studies but also critically assess, clarify and extend their findings and limitations. This includes, but is not limited to, the verification of existing research results, ensuring their validity and reliability across different contexts, lessons learned when applying research results in real-world (industry) settings, and the adaption of artifacts to contemporary cybersecurity challenges.</p>
+
+<p>Reproduction and replication papers will be held to the same scientific standards as original technical papers, will be reviewed by the full program committee, will appear in the proceedings, and will be presented at the conference as part of the technical program. We also particularly encourage these types of papers to provide their artifacts.</p>
+
+<p><b>Review Process:</b> Paper submissions will be judged based on novelty, relevance to the conference topics, technical correctness, quality of the evaluation, and presentation clarity. Papers will undergo a double-blind review process in two rounds. At the end of Round 1, papers for which a strong consensus towards rejection is reached will be notified of the early rejection decision, giving them the opportunity to improve their paper based on the reviewers’ feedback and to resubmit to other venues. Papers that advance to Round 2 will be assigned additional reviewers. At the end of Round 2, the authors of papers that advanced to this stage will have an opportunity to respond to the reviewers’ questions and comments. After the authors' response period, the papers will be further discussed by the Program Committee (PC) to reach a final decision.</p>
+
+<p>Three outcomes are possible: <i>Accepted, Minor Revision,</i> and <i>Rejected</i>. The Minor Revision decision is reserved to papers that can be considered as conditionally accepted, assuming improvements required by the reviewers are made within the available revision time window and are approved by the PC. A PC member will be assigned as shepherd for Minor Revision papers, to guide the authors through the revision process and to lead the discussion on the revised paper among the reviewers. The revision requirements may include both presentation improvements and additional experiments that the PC believes are necessary to significantly improve the paper and that should be feasible within a limited time frame. While Minor Revision papers that do not meet the required changes may be rejected, the expectation is that most papers will be able to satisfy the required improvements and be finally accepted into the conference program. Both the author's responses and the discussions around revision requirements for Minor Revision papers will be handled anonymously, via the paper submission system.</p>
+
+<p><b>Paper Artifacts:</b> Authors of accepted papers are expected to submit their software and data artifacts for formal evaluation by the <a href="artifacts/">Artifacts Evaluation Committee</a> and to make them publicly available to the entire community. During submission, authors of papers whose main contributions and experimental results rely primarily on new or reproduced artifacts (e.g., code and/or data) are expected to separately submit their artifacts for evaluation, if their paper is accepted, and should acknowledge this intention by ticking the related box on the submission platform. This acknowledgement will be visible to the reviewers and may therefore be taken into consideration during the review process. Authors who have justifiable reasons to not submit their artifacts for evaluation should add a comment in the corresponding comment box in the submission form. Additionally, during paper submission authors can <i>optionally</i> provide a URL pointing to a repository containing their paper artifacts. While artifacts will be formally evaluated only if the paper is accepted, as explained above, reviewers may also take into account the availability and quality of the paper artifacts during the main paper review process, before making a final decision (please refer to the paper submission form for additional details).</p>
+
+<p><i>Important:</i> When preparing the artifacts repository for inclusion in the paper submission form, please take extra care to not include authors’ information in the repository or artifacts content, so as not to break the anonymity of the paper submission. Additional information and recommendations on anonymizing the artifacts repository can be found <a href="hints.php">here</a>.</p>
+
+<p><b>Ethical Considerations:</b> Papers that might raise ethical concerns (e.g., papers that use human subjects, leverage potentially sensitive data, or describe experiments related to vulnerabilities in software or systems) must include an <i>Ethical Considerations</i> section that properly describes what procedures have been followed to minimize potential harm. Such papers should discuss the steps taken to avoid negatively affecting any third-parties, whether an institutional ethics committee reviewed the research, or how the authors have already or are planning to responsibly disclose the vulnerabilities to the appropriate software/system vendors or owners before publication.</p>
+
+<p><b>Paper Format:</b> Please ensure that your submission consists of a PDF file of no more than 11 double-column pages, excluding well-marked references and appendices limited to a maximum of 5 pages. The full PDF document must not exceed a total of 16 pages. Please note that PC members are not required to read the appendices and that page limits will be strictly enforced.</p>
+
+<p>Papers must be appropriately anonymized to enable the dual anonymous  review process. Author names and affiliations must not be included in the PDF submission. Authors can cite and refer to their own prior work, but must do so in the third person, as if it was written by someone else. In the rare case that citing previous work in the third person is not possible, please anonymize the reference and notify the Program Chairs.</p>
+
+<p>Submissions must be generated using the double-column IEEE format (see template available at <a href="https://www.ieee.org/conferences/publishing/templates.html" target="_blank">https://www.ieee.org/conferences/publishing/templates.html</a>). LaTeX submissions must use the IEEEtran.cls version 1.8b template  with the \documentclass[conference,compsoc]{IEEEtran} documentclass option. Papers should be formatted for US letter (not A4). All papers must be submitted exclusively through the paper submission system.</p>
+
+<p class="text-bold text-italic">All formatting guidelines and constraints (e.g., page limits and anonymity) will be strictly enforced. Modifying margins, line spacing, or font size is not allowed. Submissions not meeting these guidelines risk desk rejection without consideration of their merits. The Program Chairs will also desk reject papers that do not include enough content (e.g., are too short) or do not match the conference’s topics of interest below.</p>
+
+<p><b>Topics:</b> The main topics of interest to ACSAC include, but are not limited to</p>
+<ul>
+<li>Access Control, Assurance, Audit</li>
+<li>Anonymity, Privacy</li>
+<li>Application Security</li>
+<li>Automated Detection and Patching of Software Vulnerabilities</li>
+<li>Big Data for Security</li>
+<li>Cloud and Virtualization Security</li>
+<li>Cybercrime</li>
+<li>Cyber-Physical Systems, Embedded Systems, and IoT Security</li>
+<li>Data Integrity and Protection</li>
+<li>Denial of Service Attacks and Defenses</li>
+<li>Deployable Trustworthy Systems</li>
+<li>Digital Forensics</li>
+<li>Distributed Systems Security</li>
+<li>Enterprise Security Management and Incident Response</li>
+<li>Hardware and Supply Chain Security</li>
+<li>Identity Management</li>
+<li>Intrusion Detection and Prevention</li>
+<li>Machine Learning Security</li>
+<li>Malware</li>
+<li>Mobile/Wireless Security</li>
+<li>Network Security</li>
+<li>OS and Systems Security</li>
+<li>Resilience</li>
+<li>Security and Privacy of Agentic Systems (hard topic theme)</li>
+<li>Security Applications of Generative AI</li>
+<li>Software Security</li>
+<li>Software-defined Programmable Security</li>
+<li>Usability and Human-centered Security</li>
+<li>Web Security</li>
+</ul>
+
+<h3>Usage of LLMs</h3>
+
+<p>Authors may use large language models (LLMs) and other generative AI tools when preparing their submissions. However, all use must be disclosed, and authors bear full responsibility for the correctness, originality, and integrity of their work. Undisclosed or irresponsible use of LLMs is grounds for desk rejection. If LLMs are used, authors must include a separate, clearly marked section titled "LLM Usage Statement" at the end of the paper. This section does not count towards the page limit.</p>
+
+<p>We ask authors to adhere to three key criteria regarding the use of LLMs:</p>
+
+<p><b>Originality:</b> Authors are responsible for the entire content of their paper, including all text, tables, and figures. While tools may be used for writing, all content must be accurate and original to ensure the integrity of the research process. If LLMs were used for editorial purposes, authors must state: "LLMs were used for editorial purposes in this manuscript, and all outputs were inspected by the authors to ensure accuracy and originality."</p>
+
+<p><b>Transparency:</b> Authors must carefully consider the implications of using LLMs in their research. If LLMs are integral to the methodology, their use must be described explicitly. Any approach or method generated by an LLM must be validated by the authors. Authors must also discuss limitations introduced by the use of LLMs, for example challenges in reproducibility when the underlying model is not openly available.</p>
+
+<p><b>Responsibility:</b> Authors must ensure that LLMs and other generative AI tools are developed and used responsibly. Data collection for training and inference must respect ethical considerations such as consent, data ownership, bias, and intellectual property rights. Authors are also encouraged to be mindful of the environmental footprint of their experiments and to consider it in relation to their research goals and methodology.</p>
+
+<p>Failure to comply with these requirements is grounds for desk rejection without further review. As generative AI technology evolves rapidly, authors are encouraged to contact the PC chairs if they have questions about these guidelines or their application.</p>
+
+<h3>Conflicts of Interest</h3>
+
+<p>Authors are required to specify their conflicts of interest with Program Committee (PC) members when submitting a paper. It is the full responsibility of all authors of a paper to identify all and only their potential conflict-of-interest PC members, according to the following definition. A paper author has a conflict of interest with a PC member when and only when one or more of the following conditions holds:</p>
+
+<ul>
+<li>The PC member is an author of the paper.</li>
+<li>The PC member has been working at the same institution or company as one of the paper authors in the past two years.</li>
+<li>The PC member has been a collaborator of one of the paper authors in the past two years. Collaborations include being Co-PI on grants (either funded or pending) and being a coauthor on one of the paper author’s publications (either published or unpublished). Any ongoing collaboration, even if it has not produced a publication or a grant submission yet, counts as a conflict under this policy.</li>
+<li>The PC member is or was one of the paper author's primary thesis advisors, no matter how long ago.</li>
+<li>One of the paper’s authors is or was the PC member's primary thesis advisor, no matter how long ago.</li>
+<li>The PC member is a relative or close personal friend of one of the paper's authors.</li>
+</ul>
+
+<p>For any other situation where the authors feel they have a conflict with a PC member, they must explain the nature of the conflict to the PC chairs, who will mark the conflict if appropriate. The program chairs will review declared conflicts. Papers with incorrect or incomplete conflict of interest information as of the submission closing time are subject to immediate rejection.
+</p>
+
+<h3>Broadening Participation to Computing</h3>
+
+<p>ACSAC shares the IEEE Computer Society Broadening Participation in Computing goals. Authors are encouraged to consider participation issues as they prepare their submissions. For any suggestions, concerns, or complaints regarding biases or harassment, we encourage you to reach out to the Conference Chairs. All communications will be treated as confidential. </p>
+
+<h3>What makes a good ACSAC paper?</h3>
+<p>We've gone through the papers submitted in recent years, and have collected a set of <a href="what_makes_a_good_paper.php">characteristics of good ACSAC papers</a>. These should be read by anyone considering submitting a paper.</p>
+
+<h3>Do you have any other advice regarding writing papers?</h3>
+<p>Yes, they are enumerated <a href="hints.php">here</a>. This advice covers presentation, copyright issues, alternate places at ACSAC for your submission, and restrictions on submissions.</p>
+
+<h3>What awards are given for papers?</h3>
+<p>Accepted papers will be judged and ranked by the Program Committee. The best papers will be considered for the Distinguished Paper Award. In addition, the best papers whose artifacts are submitted for formal evaluation and are assigned a badge by the Artifacts Evaluation Committee will be considered for the Distinguished Paper with Artifacts Award.</p>
+
+<h3>Who is on the Program Committee?</h3>
+<p>The list of program committee members may be found <a href="../../committees/program/">here</a>.</p>
+<!--<p>The list of program committee members will be announced soon.</p>-->
+
+<h3>How do I submit a paper?</h3>
+<p>Please visit the <a href="https://papers.submit.acsac.org">paper submission website</a>, register an account and follow the submission instructions.</p>
+
+<h3>How do I get more information?</h3>
+<p>For additional information regarding papers, please <a href="/contact/?e=program">contact the Program Chairs</a>.</p>
+
+
+</div>
+
+</div>
+</div>
+</main>
+
+<footer class="acsac-footer" role="contentinfo">
+<div class="grid-container acsac-footer__return-to-top">
+<a href="#">Return to top</a>
+</div>
+<div class="acsac-footer__primary-section">
+<nav class="acsac-footer__nav">
+<ul class="add-list-reset grid-row grid-gap">
+<li class="mobile-lg:grid-col-4 desktop:grid-col-2 acsac-footer__primary-content"><a class="acsac-footer__primary-link" href="/conduct/">Code of Conduct</a></li>
+<li class="mobile-lg:grid-col-4 desktop:grid-col-2 acsac-footer__primary-content"><a class="acsac-footer__primary-link" href="/privacy/">Privacy Policy</a></li>
+<li class="mobile-lg:grid-col-4 desktop:grid-col-2 acsac-footer__primary-content"><a class="acsac-footer__primary-link" href="/faq/">FAQs</a></li>
+<li class="mobile-lg:grid-col-4 desktop:grid-col-2 acsac-footer__primary-content"><a class="acsac-footer__primary-link" href="/list/">Mailing List</a></li>
+<li class="mobile-lg:grid-col-4 desktop:grid-col-2 acsac-footer__primary-content"><a class="acsac-footer__primary-link" href="/contact/">Contact Us</a></li>
+</ul>
+</nav>
+</div>
+
+<div class="acsac-footer__secondary-section">
+<div class="grid-container">
+<div class="grid-row grid-gap">
+<div class="acsac-footer__logo grid-row mobile-lg:grid-col-10 mobile-lg:grid-gap-2">
+
+<div class="mobile-lg:grid-col-auto">
+<h3 class="acsac-footer__logo-heading">
+<p>An event by</p>
+<p>
+<a href="https://www.ieee.org"><img src="/2026/images/ieee.png" width="205" height="60" alt="IEEE logo" class="margin-x-2" /></a>
+<a href="https://www.computer.org"><img src="/2026/images/ieeecs.png" width="196" height="60" alt="IEEE Computer Society logo" class="margin-x-2" /></a>
+<a href="https://www.ieee-security.org"><img src="/2026/images/ieeetcsp.png" width="136" height="60" alt="IEEE TC on Security & Privacy logo" class="margin-x-2" /></a>
+</p>
+</h3>
+
+<h3>
+<p>With co-sponsorship from</p>
+<p class="margin-left-2"><a href="https://www.appliedcomputersecurity.org/"><img src="/images/acsa2-150x100.png" alt="Applied Computer Security Associates"></a></p>
+</h3>
+</div>
+
+</div>
+
+<div class="acsac-footer__contact-links mobile-lg:grid-col-2">
+<div class="acsac-footer__social-links grid-row grid-gap-1 margin-top-2">
+<div class="grid-col-auto margin-bottom-05">
+<a class="acsac-social-link acsac-social-link--bluesky" href="https://bsky.app/profile/acsacconf.bsky.social">
+<span>Bluesky</span>
+</a>
+</div>
+<div class="grid-col-auto margin-bottom-05">
+<a class="acsac-social-link acsac-social-link--mastodon" href="https://infosec.exchange/@ACSAC_Conf">
+<span>Mastodon</span>
+</a>
+</div>
+<div class="grid-col-auto margin-bottom-05">
+<a class="acsac-social-link acsac-social-link--facebook" href="https://www.facebook.com/acsaconf/">
+<span>Facebook</span>
+</a>
+</div>
+<div class="grid-col-auto margin-bottom-05">
+<a class="acsac-social-link acsac-social-link--x" href="https://x.com/ACSAC_Conf">
+<span>Twitter</span>
+</a>
+</div>
+<div class="grid-col-auto margin-bottom-05">
+<a class="acsac-social-link acsac-social-link--linkedin" href="https://www.linkedin.com/company/81522440">
+<span>YouTube</span>
+</a>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+</footer>
+
+<script src="/2026/main.min.js"></script>
+<script src="/2026/acsac.js"></script>
+
+</body>
+</html>

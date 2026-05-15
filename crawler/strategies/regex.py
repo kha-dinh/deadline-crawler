@@ -11,6 +11,7 @@ from bs4 import BeautifulSoup, XMLParsedAsHTMLWarning
 warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
 
 from crawler.config import resolve_url
+from crawler.labels import _match_label
 from crawler.models import CrawlResult
 from crawler.strategy import BaseStrategy
 
@@ -31,78 +32,6 @@ def _get_session() -> requests.Session:
         _thread_local.session = s
     return _thread_local.session
 
-# V10/V11: Canonical label map — maps raw CFP phrases → canonical labels.
-# Each canonical label has ≥1 phrase variant. Single source of truth.
-LABEL_MAP: dict[str, list[str]] = {
-    "abstract": [
-        "abstract registration",
-        "mandatory registration",
-        "register abstracts",
-        "abstracts due",
-        "abstract submission",
-        "abstract deadline",
-        "paper titles and abstracts due",
-        "abstract",  # bare label (e.g. researchr "(Mandatory) Abstract")
-    ],
-    "submission": [
-        "submission deadline",
-        "paper submission",
-        "paper submissions due",
-        "full paper submission",
-        "full paper deadline",
-        "manuscript submission deadline",
-        "submissions due",
-        "paper due",
-        "submission",  # bare label (e.g. researchr "Submission")
-    ],
-    "early_reject": [
-        "early reject",
-        "early rejection",
-        "early-reject",
-        "desk reject",
-    ],
-    "rebuttal_start": [
-        "rebuttal start",
-        "rebuttal period begin",
-        "rebuttal begins",
-        "rebuttal/revision",
-        "reviews available",
-        "author response start",
-        "author response period",
-        "authors response period",
-    ],
-    "rebuttal_end": [
-        "rebuttal end",
-        "rebuttal due",
-        "rebuttal deadline",
-        "author response due",
-        "author responses due",
-        "author response period ends",
-    ],
-    "notification": [
-        "author notification",
-        "notification to authors",
-        "notification of acceptance",
-        "acceptance notification",
-        "decision notification",
-        "decisions released",
-        "notification",
-    ],
-    "shepherd": [
-        "shepherd",
-        "shepherding",
-        "conditional accept",
-        "minor revision",
-    ],
-    "camera_ready": [
-        "camera ready",
-        "camera-ready",
-        "final paper",
-        "final version",
-        "final papers due",
-        "proceedings manuscript deadline",
-    ],
-}
 
 # Generic date pattern: matches "Month DD, YYYY" with optional ordinal suffix
 _GENERIC_DATE_RE = re.compile(
@@ -162,6 +91,7 @@ def _parse_deadline_date(text: str) -> str | None:
         "%B %d, %Y, %I:%M %p",
         "%B %d, %Y, %I:%M%p",
         "%B %d, %Y, %H:%M",
+        "%B %d, %Y %H:%M",
         "%B %d %Y, %H:%M",
         "%b %d, %Y, %I:%M:%S %p",
         "%b %d, %Y, %I:%M:%S%p",
@@ -170,6 +100,7 @@ def _parse_deadline_date(text: str) -> str | None:
         "%b %d, %Y, %I:%M %p",
         "%b %d, %Y, %I:%M%p",
         "%b %d, %Y, %H:%M",
+        "%b %d, %Y %H:%M",
         "%b %d %Y, %H:%M",
     ):
         try:
@@ -252,22 +183,6 @@ def _strip_html(html: str) -> str:
 
     return "\n".join(lines)
 
-
-def _match_label(text: str) -> str | None:
-    """Match a text fragment against LABEL_MAP, return canonical label or None.
-
-    Longest-match-wins: more specific phrases beat shorter overlapping ones
-    (e.g. "author response period ends" beats "author response period").
-    """
-    lower = text.lower()
-    best_label = None
-    best_len = 0
-    for label, phrases in LABEL_MAP.items():
-        for phrase in phrases:
-            if phrase in lower and len(phrase) > best_len:
-                best_label = label
-                best_len = len(phrase)
-    return best_label
 
 
 def _extract_deadlines_researchr(
@@ -383,6 +298,48 @@ _MONTHDAY_RE = re.compile(
     r"([A-Z][a-z]+\.?\s+\d+)(?:\s|,|$|-)"
 )
 
+# Compact range: "November 6–13, 2025" or "Nov 6-13, 2025"
+_DATE_RANGE_RE = re.compile(
+    r"([A-Z][a-z]+\.?\s+)(\d+)\s*[–\-]\s*(\d+)(,?\s*\d{4})"
+)
+# Expanded range: "April 27 - April 29, 2026" (repeated month name)
+_DATE_RANGE_EXPANDED_RE = re.compile(
+    r"([A-Z][a-z]+\.?\s+\d+)\s*[–\-]\s*([A-Z][a-z]+\.?\s+\d+)(,?\s*\d{4})?"
+)
+
+# When a range is detected, emit label + this partner label for the end date.
+_RANGE_LABEL_PAIRS: dict[str, str] = {
+    "rebuttal_start": "rebuttal_end",
+}
+
+
+def _split_date_range(text: str) -> tuple[str, str] | None:
+    """Split a date range string into (start, end) date strings.
+
+    Format 1 — compact same-month: "November 6–13, 2025" → ("November 6, 2025", "November 13, 2025")
+    Format 2 — expanded:           "April 27 - April 29, 2026" → ("April 27, 2026", "April 29, 2026")
+    Returns None if text is not a recognised date range.
+    """
+    text = text.strip()
+    # Format 1
+    m = _DATE_RANGE_RE.match(text)
+    if m:
+        month, day1, day2, year_part = m.groups()
+        month = month.strip()
+        year_clean = re.sub(r"^,?\s*", ", ", year_part.strip()) if year_part.strip() else ""
+        return f"{month} {day1}{year_clean}", f"{month} {day2}{year_clean}"
+    # Format 2 — expanded month range
+    m2 = _DATE_RANGE_EXPANDED_RE.match(text)
+    if m2:
+        start_raw, end_raw, year_part = m2.groups()
+        start_raw, end_raw = start_raw.strip(), end_raw.strip()
+        year_clean = re.sub(r"^,?\s*", ", ", year_part.strip()) if (year_part and year_part.strip()) else ""
+        # Append year to end; also to start if it lacks one
+        end_with_year = end_raw + year_clean if year_clean else end_raw
+        start_with_year = start_raw + year_clean if (year_clean and not re.search(r"\d{4}", start_raw)) else start_raw
+        return start_with_year, end_with_year
+    return None
+
 
 def _extract_deadlines_generic(html: str, year: int | None = None) -> list[dict]:
     """Generic two-pass deadline extraction (Phase A+C, T17).
@@ -398,13 +355,29 @@ def _extract_deadlines_generic(html: str, year: int | None = None) -> list[dict]
     deadlines = []
     seen_labels: set[str] = set()
 
-    # Pass 1: find all (line_index, parsed_date) tuples
+    # Pass 1: find all (line_index, parsed_date) tuples + range hits.
+    # Range lines are excluded from proximity label search in Pass 2b.
     date_hits: list[tuple[int, str]] = []
+    range_hits: list[tuple[int, str, str]] = []  # (line_idx, start_date, end_date)
+    range_line_indices: set[int] = set()          # lines consumed by ranges
     for i, line in enumerate(lines):
+        # Range detection takes priority: check before generic date pattern.
+        # This prevents lines like "Rebuttal period | April 27 - April 29, 2026"
+        # from being consumed as single-date hits (generic RE finds "April 29").
+        _rm = _DATE_RANGE_RE.search(line) or _DATE_RANGE_EXPANDED_RE.search(line)
+        if _rm:
+            rng = _split_date_range(_rm.group(0))
+            if rng:
+                ps = _parse_deadline_date(rng[0])
+                pe = _parse_deadline_date(rng[1])
+                if ps and pe:
+                    range_hits.append((i, ps, pe))
+                    range_line_indices.add(i)
+                    continue  # consumed as range; don't also add as date_hit
+
         m = _GENERIC_DATE_RE.search(line)
         if m:
             date_str = m.group(1) or m.group(2)
-            # Try tail from match start (may include time); fall back to date-only
             tail = line[m.start():]
             parsed = _parse_deadline_date(tail) or _parse_deadline_date(date_str)
             if parsed:
@@ -427,7 +400,21 @@ def _extract_deadlines_generic(html: str, year: int | None = None) -> list[dict]
             deadlines.append({"label": label, "date": parsed_date})
             matched_indices.add(line_idx)
 
-    # Pass 2b: proximity search for remaining unmatched dates
+    # Pass 2c: resolve range hits — same-line label match ONLY (no proximity).
+    # Real deadline ranges (rebuttal period) always have their label on the same line.
+    # Non-deadline ranges (conference dates, workshop dates) must not steal nearby labels.
+    for line_idx, start_date, end_date in range_hits:
+        label = _match_label(lines[line_idx])
+        if label and label not in seen_labels:
+            seen_labels.add(label)
+            deadlines.append({"label": label, "date": start_date})
+            partner = _RANGE_LABEL_PAIRS.get(label)
+            if partner and partner not in seen_labels:
+                seen_labels.add(partner)
+                deadlines.append({"label": partner, "date": end_date})
+
+    # Pass 2b: proximity search for remaining unmatched single-date hits.
+    # Skips range-hit lines as label sources to prevent label theft.
     for line_idx, parsed_date in date_hits:
         if line_idx in matched_indices:
             continue
@@ -436,7 +423,7 @@ def _extract_deadlines_generic(html: str, year: int | None = None) -> list[dict]
             if best_label:
                 break
             for check_idx in [line_idx - dist, line_idx + dist]:
-                if 0 <= check_idx < len(lines):
+                if 0 <= check_idx < len(lines) and check_idx not in range_line_indices:
                     label = _match_label(lines[check_idx])
                     if label and label not in seen_labels:
                         best_label = label
@@ -454,6 +441,45 @@ def _fetch(url: str) -> str:
     return resp.text
 
 
+# Phrases that indicate a page is a placeholder without real CFP content yet.
+_SCAFFOLDING_PHRASES: frozenset[str] = frozenset([
+    "coming soon",
+    "under construction",
+    "will be announced soon",
+    "to be announced soon",
+    "stay tuned",
+    "check back later",
+    "page not found",
+    "404 not found",
+    "website not found",
+    "site not found",
+])
+
+# Pages with fewer words than this (after HTML stripping) are likely placeholders.
+_MIN_CONTENT_WORDS = 75
+
+
+def _is_scaffolding(html: str) -> bool:
+    """Return True if page is a placeholder/scaffolding with no real CFP content.
+
+    Three signals:
+    - Phrase match: known placeholder phrases in the stripped text.
+    - Leading 404: stripped text starts with "404" — CMS 404 pages that don't
+      include "not found" verbatim (e.g. "404 - ConferenceName ...").
+    - Word count: fewer than _MIN_CONTENT_WORDS words AND no date patterns found
+      (a sparse page with real dates is a terse CFP, not scaffolding).
+    """
+    text = _strip_html(html)
+    lower = text.lower()
+    if any(phrase in lower for phrase in _SCAFFOLDING_PHRASES):
+        return True
+    if re.match(r"^\s*404\b", text):
+        return True
+    if len(text.split()) < _MIN_CONTENT_WORDS:
+        return not bool(_GENERIC_DATE_RE.search(text))
+    return False
+
+
 class RegexStrategy(BaseStrategy):
     name = "regex"
 
@@ -463,6 +489,9 @@ class RegexStrategy(BaseStrategy):
             raise ValueError(f"{conf['name']}: no URL configured")
 
         html = _fetch(url)
+
+        if _is_scaffolding(html):
+            raise ValueError(f"{conf['name']}: scaffolding/placeholder page detected at {url}")
 
         # Shared fields from main page
         date, place = self._extract_main_fields(conf, year, url, html)

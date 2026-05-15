@@ -7,7 +7,7 @@ from crawler.strategies.regex import (
     RegexStrategy, _parse_deadline_date,
     _extract_deadlines_generic, _extract_deadlines_researchr,
     _autodiscover_researchr, _match_label, _strip_html,
-    LABEL_MAP,
+    _split_date_range, _is_scaffolding,
 )
 from crawler.models import CrawlResult
 
@@ -59,6 +59,38 @@ from crawler.models import CrawlResult
 )
 def test_parse_deadline_date(input_text, expected):
     assert _parse_deadline_date(input_text) == expected
+
+
+# --- Date range splitting ---
+
+
+@pytest.mark.parametrize("text,expected", [
+    ("November 6–13, 2025", ("November 6, 2025", "November 13, 2025")),
+    ("April 16–23, 2026", ("April 16, 2026", "April 23, 2026")),
+    ("Nov 6-13, 2025", ("Nov 6, 2025", "Nov 13, 2025")),
+    ("June 5, 2025", None),   # single date → None
+    ("nonsense", None),
+])
+def test_split_date_range(text, expected):
+    assert _split_date_range(text) == expected
+
+
+def test_generic_extractor_range_produces_start_and_end():
+    html = """
+    <ul>
+      <li>Paper submission deadline: January 17, 2026</li>
+      <li>Rebuttal Period: November 6–13, 2025</li>
+      <li>Author notification: December 4, 2025</li>
+    </ul>
+    """
+    results = _extract_deadlines_generic(html, year=2026)
+    by_label = {d["label"]: d["date"] for d in results}
+    assert by_label.get("rebuttal_start") == "2025-11-06 23:59"
+    assert by_label.get("rebuttal_end") == "2025-11-13 23:59"
+
+
+def test_label_map_has_rebuttal_period():
+    assert _match_label("rebuttal period") == "rebuttal_start"
 
 
 # --- Strategy integration ---
@@ -185,9 +217,19 @@ def test_extract_no_url():
         strategy.extract(conf, 2026)
 
 
-@patch("crawler.strategies.regex.requests.get")
-def test_extract_no_matches(mock_get):
-    mock_get.return_value = MagicMock(text="<html>no deadlines here</html>")
+@patch("crawler.strategies.regex._fetch")
+def test_extract_no_matches(mock_fetch):
+    # Page has enough content to pass scaffolding check but no extractable deadlines.
+    mock_fetch.return_value = (
+        "<html><body><p>This is the call for papers page. We invite submissions "
+        "on a wide range of topics including security, privacy, and cryptography. "
+        "The program committee will review all papers using a double-blind process. "
+        "Authors should follow the submission guidelines carefully and ensure their "
+        "manuscripts conform to the required formatting. Papers must be original work "
+        "not published or currently under review elsewhere. Each submission will "
+        "receive at least three independent reviews from qualified experts in the field.</p>"
+        "</body></html>"
+    )
     strategy = RegexStrategy()
     conf = {
         "name": "Empty",
@@ -431,14 +473,14 @@ def test_extract_ndss_cycles_with_section(mock_get):
 
 def test_label_map_covers_all_v10():
     """V11: label map must cover all V10 canonical labels."""
-    v10_labels = {
-        "abstract", "submission", "early_reject", "rebuttal_start",
-        "rebuttal_end", "notification", "shepherd", "camera_ready",
-    }
-    assert set(LABEL_MAP.keys()) == v10_labels
-    # Each label must have at least one phrase
-    for label, phrases in LABEL_MAP.items():
-        assert len(phrases) >= 1, f"{label} has no phrases"
+    assert _match_label("abstract deadline") == "abstract"
+    assert _match_label("paper submission") == "submission"
+    assert _match_label("early rejection") == "early_reject"
+    assert _match_label("rebuttal period") == "rebuttal_start"
+    assert _match_label("rebuttal due") == "rebuttal_end"
+    assert _match_label("author notification") == "notification"
+    assert _match_label("shepherd") == "shepherd"
+    assert _match_label("camera ready") == "camera_ready"
 
 
 def test_match_label_basics():
@@ -747,3 +789,53 @@ def test_autodiscover_researchr_picks_research_track():
 def test_autodiscover_researchr_no_tr_href():
     html = "<ul><li>Submission: May 1, 2026</li></ul>"
     assert _autodiscover_researchr(html) == []
+
+
+# --- Scaffolding detection ---
+
+
+def test_is_scaffolding_coming_soon():
+    html = "<html><body><h1>Coming Soon</h1><p>Check back later.</p></body></html>"
+    assert _is_scaffolding(html) is True
+
+
+def test_is_scaffolding_under_construction():
+    html = "<html><body><p>This site is under construction.</p></body></html>"
+    assert _is_scaffolding(html) is True
+
+
+def test_is_scaffolding_few_words():
+    # Very sparse page — fewer than _MIN_CONTENT_WORDS
+    html = "<html><body><p>Hello world.</p></body></html>"
+    assert _is_scaffolding(html) is True
+
+
+def test_is_scaffolding_real_cfp():
+    # A page with enough content and no scaffolding phrases is not scaffolding
+    html = """<html><body>
+    <h1>Call for Papers</h1>
+    <p>We invite submissions on topics including security, systems, and networking.
+    Authors should submit original research papers. All submissions will be reviewed
+    by the program committee. Papers must be formatted according to the submission
+    guidelines and must not exceed twelve pages including references.</p>
+    <ul>
+      <li>Abstract deadline: March 1, 2026</li>
+      <li>Submission deadline: March 8, 2026</li>
+      <li>Notification: May 15, 2026</li>
+    </ul>
+    </body></html>"""
+    assert _is_scaffolding(html) is False
+
+
+@patch("crawler.strategies.regex._fetch")
+def test_is_scaffolding_raises_in_extract(mock_fetch):
+    """RegexStrategy.extract raises ValueError on scaffolding page."""
+    conf = {
+        "name": "TestConf",
+        "url": "https://example.com/{YYYY}",
+        "strategy": "regex",
+        "tags": ["SEC", "A*"],
+    }
+    mock_fetch.return_value = "<html><body><p>Coming soon</p></body></html>"
+    with pytest.raises(ValueError, match="scaffolding"):
+        RegexStrategy().extract(conf, 2026)

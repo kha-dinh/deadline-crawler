@@ -1,0 +1,548 @@
+
+
+<!DOCTYPE html>
+
+<html>
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>
+      ACM CCS 2026
+
+    </title>
+
+    <meta name="description" content="CCS2026">
+    <link rel="shortcut icon" type="image/png" href="../img/favicon.png">
+
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script> -->
+
+    <link rel="stylesheet" href="../assets/main.css">
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="alternate" type="application/rss+xml" title="ACM CCS 2026" href="https://www.sigsac.org/feed.xml">
+
+  </head>
+
+<body>
+
+  
+<div id="navbar"></div>
+
+<script>
+  fetch("../nav.html")
+    .then(r => r.text())
+    .then(d => {
+      document.getElementById("navbar").innerHTML = d;
+      if (typeof initNavbar === "function") initNavbar();
+
+    })
+    .catch(err => console.error("Fetch failed:", err));
+</script>
+
+
+  <header class="masthead" style="background-image: url('../img/1143.jpg');height:700px;">
+    
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="page-heading">
+             
+           <div id="site-header"></div>
+
+          <script>
+          fetch("../header.html")
+            .then(response => response.text())
+            .then(data => {
+              document.getElementById("site-header").innerHTML = data;
+            })
+            .catch(err => console.error("Failed to load header:", err));
+        </script>
+           
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div class="container">
+      <div class="row">
+        <!-- <div class="col-lg-15 col-md-20 mx-auto"> -->
+        <div class="col-xs-5 col-sm-10 col-lg-12">
+
+              <h1 id="call-for-papers">Call for Papers</h1>
+<!--              <p>(Please help <a href="https://docs.google.com/forms/d/e/1FAIpQLSdIUJ0RfisB9XlEKjzBVr5StwWbuBG1agMKJSFpENi6cHEwTw/viewform">nominate PC members</a>)</p>-->
+
+<p>The 33rd ACM Conference on Computer and Communications Security (CCS) seeks submissions presenting novel contributions related to all real-world aspects of computer security and privacy. Theoretical papers must make a convincing case for the relevance of their results to practice. Authors are encouraged to write the abstract and introduction of their paper in a way that makes the results accessible and compelling to a general computer-security researcher. In particular, authors should bear in mind that anyone on the program committee may be asked to review any paper.</p>
+
+<p>CCS has two review cycles in 2026. For each submission, one of the following decisions will be made:</p>
+
+<ul>
+  <li><strong>Accept</strong>: Papers in this category will be accepted for publication in the proceedings and presentation at the conference, possibly after making minor changes with the oversight of a shepherd.</li>
+  <li><strong>Minor revision</strong>: Papers in this category are considered to be promising but need some minor additional work (e.g., minor experiments, proofs to minor lemmas). Authors will be given the opportunity to revise such papers for inclusion in the same cycle, in which case they should clearly explain in a separate note how the revisions address the comments of the reviewers. The revised paper will then be re-evaluated, and either accepted or rejected.</li>
+  <li><strong>Reject</strong>: Papers in this category are declined for inclusion in the
+conference. Papers rejected from the first review cycle may not be
+submitted again (even in revised form) to the second review cycle. The
+only exception applies to papers that were <strong>administratively
+rejected</strong>: authors who received an Administrative Reject decision but
+did not receive any reviews may resubmit their paper to Cycle B.</li>
+</ul>
+
+<p>Authors of each accepted paper must ensure that at least one author registers for the conference, and that their paper is presented in-person at the conference.</p>
+
+<h2 id="submission-policies-and-instructions">Submission Policies and Instructions</h2>
+
+<h2 id="executive-summary">Executive Summary</h2>
+
+<p>All papers must adhere to the following rules (outlined more verbosely below). Papers found in violation of any of these requirements will be desk-rejected without review.</p>
+
+<p><strong><em>By registration deadline</em></strong></p>
+<ul>
+  <li>All papers MUST be registered in the respective HotCRP instance one week before the submission deadline, including the <strong>definitive</strong> title, the <strong>definitive</strong> abstract, the <strong>definitive</strong> track, and the <strong>definitive</strong> track justification.</li>
+  <li>Abstracts and titles MUST NOT be changed after the abstract registration deadline, on the HotCRP metadata.</li>
+  <li>Because abstracts and titles are used to match papers with reviewers, abstracts and titles MUST NOT be changed in the final submitted pdf. They MAY be adjusted in the camera-ready version upon acceptance.</li>
+  <li>A track MUST be selected and MUST NOT be changed after the registration deadline.</li>
+  <li>All papers MUST provide a track justification (non empty, not dubious) by the registration deadline. The track justification MUST NOT be changed after the registration deadline.</li>
+</ul>
+
+<p><strong><em>By submission deadline</em></strong></p>
+<ul>
+  <li>The list of authors MAY be changed after registration but CANNOT be changed after the submission deadline. In particular, NO author can be added once papers are accepted. The order of authors MAY be changed for the camera-ready version upon acceptance.</li>
+  <li>All papers MUST discuss Open Science. This MUST be in a separate appendix called &quot;Open Science&quot; (placed after the 12-page main content and the bibliography) that clearly lists where the artifacts necessary for evaluating the contributions of their submission are located. These artifacts MUST be made available at most 3 days after the time of submission, or their lack of availability should be explained by the submission deadline. In case there is no artifact, this should be stated in this section.</li>
+  <li>All papers with online artifacts MUST provide the URL of the anonymous artifact website by submission deadline in <strong>both</strong> the paper and HotCRP.</li>
+  <li>All papers <em>with potential ethical concerns</em> MUST have a discussion of research ethics. This MUST be in a separate appendix called &quot;Ethical Considerations&quot; (placed after the 12-page main content and the bibliography). In case of doubts on whether your paper has potential ethical concerns, add an appendix &quot;Ethical Considerations&quot;.</li>
+  <li>All papers MUST NOT reveal the identity of the authors (e.g., names, self-references with &quot;we&quot;, funding acknowledgements, deanonymizing Github repositories).</li>
+  <li>All papers MUST comply with the unaltered ACM LaTeX template. Any attempts to remove whitespace (e.g., negative vspaces, savetrees, titlesec, removing author blocks, etc.) or change the formatting defaults (e.g., fonts) are strictly forbidden. The Computing Classification System (CCS) information, such as concepts, keywords, or copyrights management information, DOI, ISBN, ACM reference format, must be retained, without any alteration, except keyword update.</li>
+  <li>All authors MUST provide their ORCIDs through the profile page on HotCRP by the submission deadline.</li>
+  <li>All authors MUST acknowledge the submission terms on HotCRP by the submission deadline.</li>
+  <li>Authors MUST NOT submit more than seven papers per cycle.</li>
+</ul>
+
+<p><strong><em>By online artifacts uploading deadline</em></strong></p>
+<ul>
+  <li>For Cycle B, CCS will pilot a 3 days grace period for artifacts provided through anonymous hosting services. After the artifact uploading deadline (May 2nd AoE), artifacts MUST be available at the provided URL and authors MUST NOT change the artifacts after the artifact uploading deadline.</li>
+</ul>
+
+<p><strong><em>Other</em></strong></p>
+<ul>
+  <li>At least one author of each accepted paper MUST register for and commit to attending the conference.</li>
+  <li>The chairs retain the right to desk-reject any submissions which attempt to disrupt the reviewing process (e.g., attempting prompt injections or crashing PDF viewers with malicious PDFs).</li>
+</ul>
+
+
+
+<h2 id="paper-submission-information">Paper Submission Information</h2>
+
+          <p>All submissions must be received by 11:59 PM AoE (UTC-12) on the day of the corresponding deadline. Submitted papers must not substantially overlap with papers that have been published or accepted for publication, or that are simultaneously in submission to a journal, conference, or workshop with published proceedings. All submissions should be properly anonymized. Papers should avoid revealing authors' identity in the text. When referring to their previous work, authors are required to cite their papers in the third person, without identifying themselves. In the unusual case in which a third-person reference is infeasible, authors can blind the reference itself. Papers not properly anonymized may be rejected without review. <strong>Authors may submit up to a maximum of 7 papers at each cycle.</strong></p>
+
+          <p>All submitted papers will be evaluated based on their merits, particularly their importance to practical aspects of computer and communications security and privacy, novelty, quality of execution, and presentation. Note that CCS does not accept SoK or survey papers.</p>
+
+            <p>Submissions must be a PDF file in double-column <a class="emphasis" href=https://www.acm.org/publications/proceedings-template>ACM format</a> using "sigconf" 2-column format, no more than 12 pages long, excluding the bibliography, well-marked appendices, and supplementary material. Note that reviewers are not required to read the appendices or any supplementary material. Authors should not change the font or the margins of the ACM format. The CCS information, such as concepts, keywords, or rights management information (e.g., DOI and ISBN), must be retained. The teaser figure is optional. Please refer to the sample-sigconf.tex and sample-sigconf.pdf in the ACM package (also mirrored <a class="emphasis" href="https://www.overleaf.com/latex/templates/association-for-computing-machinery-acm-sig-proceedings-template/bmvfhcdnxfty">here</a>) for the instructions. In order to clarify what is optional and what must be retained, we provide a minimal <a class="emphasis" href="https://members.loria.fr/VCortier/files/CCS2026/sample-ccs2026.tex">sample-ccs2026.tex</a> file and the corresponding <a class="emphasis" href="https://members.loria.fr/VCortier/files/CCS2026/sample-ccs2026.pdf">sample-ccs2026.pdf</a> file, obtained by compiling the ACM package. It contains the information that MUST be retained. Submissions not following the required format may be rejected without review.</p>
+
+          <p>Submitted papers may be rejected for being out of scope, at the discretion of the Program Chairs. Authors who have questions about whether their paper is in scope are encouraged to ask the Program Chairs in advance. No modifications to the author list on a paper may be made after submission.</p>
+
+<h2 id="ethical-considerations">Ethical Considerations</h2>
+
+          <p>Authors are expected to consider the ethical implications and potential societal impact of their work. Papers that raise ethical concerns, such as those involving human subjects, user data, or real-world vulnerability analysis, must include a dedicated "<strong>Ethical Considerations</strong>" section. This section should discuss the balance of risks vs. benefits and the steps taken to minimize potential harm (e.g., responsible disclosure, data anonymization). Note that institutional (IRB/ERB) approval is neither strictly necessary nor always sufficient to demonstrate ethical conduct; we expect authors to reason about the ethics of their work beyond ensuring institutional compliance. For detailed guidance on community standards, we follow the <a class="emphasis" href="https://www.usenix.org/conference/usenixsecurity26/call-for-papers#ethics">USENIX Security'26 Ethics Policy</a>. This section does not count toward the page limit and must be placed after the 12-page main content and bibliography.</p>
+
+<h2 id="open-science-policy">Open Science Policy</h2>
+
+          <p>This edition of ACM CCS adopts an Open Science policy to strengthen the transparency, reproducibility, and long-term impact of published research. Authors are expected to share the artifacts underlying their results (such as code, datasets, models, scripts, and documentation) whenever legally, ethically, and practically possible.</p>
+
+          <p>Each submitted paper <strong>must include an “Open Science” appendix</strong> that:</p>
+
+          <ul>
+            <li>Enumerates all artifacts needed to evaluate the paper’s core contributions (e.g., code, datasets, models, configuration files, scripts, documentation, benchmarks).</li>
+            <li>Clearly describes how the program committee can access each artifact during double-blind review (including anonymous URLs or credentials, where applicable).</li>
+            <li>Explicitly justifies any artifact that <strong>cannot</strong> be shared (e.g., due to licensing restrictions, responsible disclosure concerns, safety or privacy of study subjects, or deployment risks if adversarial methods are released prematurely). When full sharing is not possible, authors are encouraged to provide partial, synthetic, or redacted artifacts that still allow reviewers to assess the methodology.</li>
+              <li>In case no artifact is needed to evaluate the paper’s core contributions, the authors should state it explicitly.</li>
+          </ul>
+
+          <p>Artifacts listed in the Open Science appendix are considered part of the submission and will be used in the review process. If a claimed contribution depends on an artifact that is not available and not convincingly justified, reviewers may judge that the contribution cannot be adequately evaluated, which can negatively affect the final decision. The Open Science appendix is treated as an appendix and does not count toward the 12-page limit.</p>
+
+<h2 id="providing-artifacts-at-submission-time">Providing Artifacts at Submission Time, with a 3 day grace period for online artifacts</h2>
+          <p>Artifacts are <strong>required</strong> for submissions whose contributions fundamentally rely on an implementation, experimental evaluation, system, tool, or dataset. This includes, but is not limited to, papers that:</p>
+
+          <ol>
+            <li>Introduce a new system, library, or tool.</li>
+            <li>Present experimental results derived from an implementation.</li>
+            <li>Propose a new benchmark, dataset, or data collection methodology.</li>
+          </ol>
+
+          <p>If reviewers determine that a central contribution cannot be properly evaluated without accessing artifacts that are neither provided nor convincingly justified in the Open Science appendix (as required by the <strong>Open Science Policy</strong>), the paper may be rejected</p>
+
+          <p>All artifacts will be treated with the same strict confidentiality as the manuscript. Access is restricted to the assigned PC members, who may use artifacts <strong>only</strong> for the purpose of evaluating the paper. Any unauthorized use, sharing, or downloading for personal or professional purposes constitutes a serious ethical violation and may result in removal from the PC and additional sanctions (such as bans on future service or submissions).</p>
+
+          <p>To preserve anonymity in the double-blind review process:</p>
+
+          <ul>
+              <li>Authors <strong>should</strong> host artifacts on anonymous hosting services (e.g., <a href="https://anonymous.4open.science" style="text-decoration: underline;">https://anonymous.4open.science</a>) that do not expose identifying access logs (such as reviewer IP addresses) and do not allow authors to track or fingerprint individual visitors. 
+                <strong>Make sure the files will be available for the whole duration</strong> 
+                of the evaluation process (without any update). In particular, check the default repository expiration time, 
+                which may need to be changed.</li>
+              <li>Authors <strong>must not</strong> use self-managed or easily modifiable hosting solutions (such as personal websites, Google Sites, Google Drive, wikis, cloud buckets, or similar services) that allow them to dynamically update content or embed tracking mechanisms (e.g., JavaScript analytics, Google Analytics) that could monitor reviewer activity or compromise anonymity.</li>
+              <li>Authors are <strong>discouraged</strong> from using general-purpose platforms like Zenodo, Figshare, or non-anonymized GitHub repositories as their default choice, since their typical use does not provide sufficient anonymization for double-blind review. If such platforms are used, it is the sole responsibility of the authors to ensure that no identifying information is exposed (e.g., usernames, organization names, commit history) and that artifact access does not break anonymity.</li>
+              <li><strong>Anonymous URLs should be included directly in the submitted paper</strong> (e.g., in the Open Science appendix), and also provided in the submission form.</li>
+          </ul>
+
+          <p>For large artifacts that cannot feasibly be hosted anonymously (e.g., datasets > 1 GB), authors may provide a representative subset (such as a “toy” or validation dataset) sufficient to verify the methodology and core claims. In these cases, the Open Science appendix must explain why the full artifact cannot be shared anonymously and describe how the subset preserves the integrity and representativeness of the evaluation. Alternatively, for artifacts that cannot be reduced (e.g., large code),
+please contact the pc chairs. We may be able to provide you with a cloud
+storage hosted by one of our track chairs, hence preserving your identity.</p>
+
+            <p>(<strong>New for Cycle B</strong>) As CCS values artifacts, a 3 days grace period will be granted for artifacts provided through an anonymous website (e.g., <a href="https://anonymous.4open.science">https://anonymous.4open.science</a>). </p>
+
+            <ul>
+                <li>After May 2nd AoE, papers with empty or dubious artifacts at the provided URL will be desk-rejected. Similarly, any update after the artifact deadline will lead to desk rejection. Official timestamps such as the ones provided by <a href="https://anonymous.4open.science" style="text-decoration: underline;">https://anonymous.4open.science</a> are strongly encouraged. </li>
+                <li>The grace period applies to material submitted through the URL provided in the HotCRP form. Supplementary material provided through HotCRP CANNOT be updated within the grace period. </li>
+                <li>The artifacts MUST correspond to figures, experiments, results provided in the submitted paper. The paper CANNOT be updated after the submission deadline even if a discrepancy between the paper and the artifacts is discovered (in which case, the paper must be withdrawn).</li>
+            </ul>
+          <p>After acceptance, authors are encouraged to de-anonymize or replace the anonymous links with stable, citable repositories, consistent with the Open Science policy above, and to register their artifacts for optional Artifact Evaluation.</p>
+
+
+          <!--<h2 id="paper-format">Paper Format</h2>-->
+<!--<p>Submissions must be a PDF file in double-column <a href="https://www.acm.org/publications/proceedings-template">ACM format</a>, no more than 12 pages long, excluding the bibliography, well-marked appendices, and supplementary material. Note that reviewers are not required to read the appendices or any supplementary material. Authors should not change the font or the margins of the ACM format. Submissions not following the required format may be rejected without review.</p>-->
+
+<!--<h3 id="providing-artifacts-at-submission-time">Providing Artifacts at Submission Time</h3>-->
+<!--<p>Submissions whose claimed contributions rely on artifacts (e.g., code, models, data sets) are expected to make these accessible to the reviewers, unless there are good reasons not to, in which case these reasons must be mentioned in the submission. Submissions whose claimed contributions do not rely on artifacts do not need to submit artifacts. An anonymous link to a resource on the web is acceptable, provided the contents in the resource are also anonymized.</p>-->
+
+<h2 id="optional-artifact-evaluation">Optional Artifact Evaluation</h2>
+
+          <p>Beyond basic availability, ACM CCS offers an <strong>optional Artifact Evaluation (AE)</strong> process to recognize artifacts that are functional and support the reproducibility of the paper’s results.</p>
+
+          <p>Authors of accepted papers (including shepherd-approved and minor-revision papers) will have the option to submit their artifacts to the AE Committee for in-depth evaluation. The AEC will assess, as applicable:</p>
+
+          <ul>
+            <li>Whether the artifact is functional (e.g., code runs, scripts execute, datasets load).</li>
+            <li>Whether the artifact supports reproducing, within reasonable effort, the key results or claims in the paper.</li>
+          </ul>
+
+          <p>A separate call for artifacts will be issued after paper acceptance, detailing submission instructions, evaluation criteria, and timelines. Artifacts that successfully pass AE may receive a corresponding recognition (e.g., badges) in the conference proceedings and on the paper’s web page.</p>
+
+<h2 id="policy-on-the-use-of-generative-AI-and-LLMs">Policy on the Use of Generative AI and LLMs</h2>
+
+          <p>ACM CCS follows the ACM Policy on Authorship regarding the use of generative AI tools. Authors and reviewers must adhere to the following guidelines when using Large Language Models (LLMs) and other generative AI tools (e.g., ChatGPT, Claude, Copilot).</p>
+
+<h3 id="guidelines-for-authors">1. Guidelines for Authors</h3>
+
+          <p>The use of generative AI tools to assist in preparing submissions is permitted, provided that human authors retain full responsibility for the accuracy, originality, and integrity of the work. Generative AI tools cannot be listed as authors. By submitting to ACM CCS, authors affirm that they have critically reviewed all AI-assisted content as if they had written it themselves, including all text, figures, code, experimental data, and citations.</p>
+
+<h4 id="hallucinations-fabrication-and-falsification">Hallucinations, Fabrication, and Falsification</h4>
+
+          <p>Authors must carefully verify that all AI-generated content is accurate and supported by evidence. Submissions that contain hallucinated citations (e.g., references to non-existent or fabricated works), falsified or fabricated data, experiments, or results, or other invented claims presented as fact may be <strong>desk rejected</strong>. Such practices are treated as research misconduct (fabrication and falsification). In serious cases, suspected misconduct may be reported to the authors’ institutions and/or referred to relevant ACM bodies (such as the ACM Publications Board or ethics committees) for investigation, which may result in further sanctions, including bans on future submissions, retractions, or other disciplinary actions in accordance with ACM policy.</p>
+
+<h4 id="mandatory-disclosure-of-generative-AI-usage">Mandatory Disclosure of Generative AI Usage</h4>
+
+          <p>In accordance with ACM’s authorship policy, all uses of generative AI tools must be disclosed.</p>
+            <p>If AI tools were used only for minor editorial improvements (e.g., grammar, spelling, or light style polishing) a brief statement in the <strong>Acknowledgements Section</strong> is sufficient, such as: “This paper was edited for grammar using [Tool Name].”</p>
+            <p>If AI tools were used to generate or substantially rewrite substantive content (e.g., sentences or paragraphs in the main text, code, data, or detailed descriptions of experiments), authors <strong>must include</strong> a dedicated <strong>“Generative AI Usage”</strong> section (placed after the 12-page main content and the bibliography). This section should name the tools used, describe which parts of the paper were generated or heavily assisted (for instance, drafting portions of the introduction or producing an initial code skeleton), and explain how the authors validated the AI-generated content (for example, by manual verification, re-running experiments, or cross-checking citations).</p>
+
+<h3 id="guidelines-for-reviewers">2. Guidelines for Reviewers</h3>
+          <p>To protect the integrity and confidentiality of the peer-review process, reviewers must not upload any part of a submitted manuscript to public generative AI tools or LLM services. Under the ACM Peer Review Policy, submissions are confidential; providing the manuscript (or any portion of it, including abstract, figures, equations, tables, or code) to a third-party AI service is prohibited, as such systems may store, index, or train on the input without the authors’ consent.</p>
+          <p>Reviewers who choose to use AI tools to assist in drafting their reviews (for example, for grammar checking of their own text) may do so only if they refrain from including any content from the submission itself.</p>
+          <p>Violations of this policy are treated as serious breaches of confidentiality. Reviewers found to have uploaded submission content to public generative AI tools will be immediately removed from the Program Committee and reported to the ACM Publications Board or other relevant ACM bodies for investigation as an ethical misconduct matter. Potential consequences include bans on future reviewing or committee service, restrictions on future submissions, and other sanctions consistent with ACM policies and procedures.</p>
+          <p>By serving on the Program Committee or submitting a paper to ACM CCS, all participants agree to comply with this policy on the use of generative AI and LLMs.</p>
+
+          <!--<p>A published scientific paper consists of a constellation of artifacts that extend beyond the document itself: software, hardware, evaluation data and documentation, raw survey results, mechanized proofs, models, test suites, benchmarks, and so on. To emphasize the importance of such artifacts, the benefits to the authors and the community as a whole, and promote the reproducibility of experimental results, ACM CCS will, for the second time, introduce an optional artifact evaluation (AE) process, inspired by similar efforts at several other conferences. All authors of accepted papers (including shepherd approved and minor revisions) are encouraged to submit artifacts for AE. Each artifact submitted will be reviewed by the Artifact Evaluation Committee (AEC); a special call for artifacts will follow.</p>-->
+
+<h2 id="conference-tracks">Conference Tracks</h2>
+          <p>Like last year, the ACM CCS Conference features a multi-track format. Each track operates as a separate mini-conference, with its own Track Chairs and Track Program Committee. The overall process is managed by the Program Chairs (Véronique Cortier and Zhiqiang Lin). At the time of submission, authors must select one track, which should be the most relevant to the topic of the paper. We understand that some papers might span multiple topics. In specific cases, PC members might be asked to provide reviews for papers outside their track, in an effort to provide the best possible reviews to the authors. The chairs may decide to move a paper to another track.</p>
+<!--At the time of submission, authors must select one track, which should be the most relevant to the topic of the paper. We understand that some papers might span multiple topics. In specific cases, PC members might be asked to provide reviews for papers outside their track, in an effort to provide the best possible reviews to the authors. The chairs may decide to move a paper to another track.</p>-->
+
+<!--<p>This is the list of tracks and their Track Chairs:</p>-->
+
+
+<h2 id="program-co-chairs--ccs26-pc-chairsacmorg">Program Co-Chairs <a href="mailto:ccs26-pc-chairs@acm.org"><i class="fa fa-envelope" aria-hidden="true"></i> ccs26-pc-chairs@acm.org</a></h2>
+<ul>
+  <li>Véronique Cortier (CNRS, Loria)</li>
+  <li>Zhiqiang Lin (The Ohio State University, USA)</li>
+</ul>
+
+<h2 id="track-chairs">Track Chairs</h2>
+<ul>
+  <li>Software Security <a href="mailto:ccs26-software-track@acm.org"><i class="fa fa-envelope" aria-hidden="true"></i> ccs26-software-track@acm.org</a>
+    <ul>
+      <li>Zhiyun Qian (University of California, Riverside, USA)</li>
+      <li>Vasileios P. Kemerlis (Brown University, USA)</li>
+    </ul>
+  </li>
+  <li>Web Security <a href="mailto:ccs26-web-track@acm.org"><i class="fa fa-envelope" aria-hidden="true"></i> ccs26-web-track@acm.org</a>
+    <ul>
+      <li>Limin Jia (CMU, USA)</li>
+    </ul>
+  </li>
+  <li>Network Security <a href="mailto:ccs26-netsec-track@acm.org"><i class="fa fa-envelope" aria-hidden="true"></i> ccs26-netsec-track@acm.org</a>
+    <ul>
+      <li>Christian Rossow (CISPA, Germany)</li>
+    </ul>
+  </li>
+  <li>Security Usability and Measurement <a href="mailto:ccs26-usablesec-track@acm.org"><i class="fa fa-envelope" aria-hidden="true"></i> ccs26-usablesec-track@acm.org</a>
+    <ul>
+      <li>Mainack Mondal (IIT Kharagpur, India)</li>
+      <li>Michelle Mazurek (University of Maryland, USA)</li>
+    </ul>
+  </li>
+  <li>Security and Privacy of Machine Learning <a href="mailto:ccs26-mlsec-track@acm.org"><i class="fa fa-envelope" aria-hidden="true"></i> ccs26-mlsec-track@acm.org</a>
+    <ul>
+      <li>Shiqing Ma (UMass Amherst, USA)</li>
+      <li>Lea Schönherr (CISPA, Germany)</li>
+      <li>Fabio Pierazzi (University College London, UK)</li>
+    </ul>
+  </li>
+  <li>Formal Methods and Programming Languages <a href="mailto:ccs26-formal-track@acm.org"><i class="fa fa-envelope" aria-hidden="true"></i> ccs26-formal-track@acm.org</a>
+    <ul>
+      <li>Toby Murray (University of Melbourne, Australia)</li>
+    </ul>
+  </li>
+  <li>Hardware, Side Channels, and Cyber Physical Systems <a href="mailto:ccs26-hardware-track@acm.org"><i class="fa fa-envelope" aria-hidden="true"></i> ccs26-hardware-track@acm.org</a>
+    <ul>
+      <li>Christopher Fletcher (University of California, Berkeley, USA)</li>
+      <li>Alvaro Cardenas (University of California, Santa Cruz, USA)</li>
+    </ul>
+  </li>
+  <li>Applied Cryptography <a href="mailto:ccs26-crypto-track@acm.org"><i class="fa fa-envelope" aria-hidden="true"></i> ccs26-crypto-track@acm.org</a>
+    <ul>
+      <li>Dominique Schroeder (TU Wien, Austria)</li>
+      <li>Foteini Baldimtsi (George Mason University, USA)</li>
+    </ul>
+  </li>
+  <li>Blockchain and Distributed Systems <a href="mailto:ccs26-distributed-track@acm.org"><i class="fa fa-envelope" aria-hidden="true"></i> ccs26-distributed-track@acm.org</a>
+    <ul>
+      <li>Kartik Nayak (Duke University, USA)</li>
+    </ul>
+  </li>
+  <li>Privacy and Anonymity <a href="mailto:ccs26-privacy-track@acm.org"><i class="fa fa-envelope" aria-hidden="true"></i> ccs26-privacy-track@acm.org</a>
+    <ul>
+      <li>Thorsten Strufe (Karlsruhe Institute of Technology, Germany)</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="track-justification-statement">Track Justification Statement (Required)</h2>
+
+          <p>Each submission must include a brief statement (e.g., 200 words) in the appropriate section of HotCRP addressing:</p>
+
+          <ul>
+            <li><strong>Track selection justification:</strong> Why is your selected track the best match for your work?</li>
+          </ul>
+
+          <p>With this measure, we want to ensure that submissions are clearly aligned with the intended CCS track. For work spanning multiple tracks, simply choose the best fit and briefly explain your reasoning, and mention any fitting alternative tracks in your statement.</p>
+
+<h2 id="special-note-for-machine-learning-papers-submitting-to-CCS">Special note for Machine Learning papers submitting to CCS</h2>
+          <p>Machine learning has become pervasive across security and privacy research. To ensure papers are directed to the most appropriate tracks and to clarify what constitutes a good fit for CCS, we provide the following guidelines.</p>
+
+<h3 id="categorization-of-ML-Related-papers">Categorization of ML-Related Papers</h3>
+
+          <p><strong>ML for Security and Privacy Problems:</strong> If ML is used to solve a security or privacy issue, submit the paper in the track that better aligns with the <strong>primary field of the problem being addressed</strong>, <em>not</em> "Security and Privacy of ML".</p>
+
+          <p><em>Examples:</em></p>
+
+          <ul>
+            <li><a href="https://dl.acm.org/doi/pdf/10.1145/3658644.3670272" style="text-decoration: underline;"> Robust and Reliable Early-Stage Website Fingerprinting Attacks via Spatial-Temporal Distribution Analysis</a> - uses ML for website fingerprinting, fits the "Privacy and Anonymity" track</li>
+            <li><a href="https://dl.acm.org/doi/pdf/10.1145/3658644.3670375" style="text-decoration: underline;"> Rules Refine the Riddle: Global Explanation for Deep Learning-Based Anomaly Detection in Security Applications</a> covers a couple of "ML for security" domains, which can be motivated as a fit for the "Network Security" track</li>
+            <li><a href="https://arxiv.org/abs/2509.03350" style="text-decoration: underline;"> Exposing Privacy Risks in Anonymizing Clinical Data: Combinatorial Refinement Attacks on k-Anonymity Without Auxiliary Information</a> focuses on k-anonymity (Privacy and Anonymity Track)</li>
+            <li><a href="https://arxiv.org/pdf/2506.17162" style="text-decoration: underline;"> Analyzing PDFs like Binaries: Adversarially Robust PDF Malware Analysis via Intermediate Representation and Language Model</a> is primarily focused on the definition of a more robust malware detection system (Software Security Track)</li>
+            <li><a href="https://dl.acm.org/doi/pdf/10.1145/3658644.3670268" style="text-decoration: underline;"> Securely Training Decision Trees Efficiently</a>, which is primarily focused on privacy-preserving ML with a heavy cryptographic component (Applied Cryptography)</li>
+          </ul>
+
+          <p><strong>Security and Privacy of Machine Learning:</strong> If your work directly addresses the security or privacy of ML itself, the Security and Privacy of Machine Learning track is the right fit. This must also be stated in the Track Justification Statement, clarifying the authors' decision not to submit to a domain-specific track (e.g., Web Security, Software Security).</p>
+
+ <p>Relevant work investigates novel attacks (e.g., data poisoning, backdoors, adversarial examples, prompt injection, model inversion, membership inference) or defenses (e.g., attack detection, secure training methods, post-attack forensics) throughout the ML lifecycle under plausible threat models that could occur in practice, not based on unrealistic assumptions or unlikely scenarios.</p>
+
+          <p>All papers submitted to this track must provide a threat model that clearly articulates the (i) envisioned attacker(s), (ii) threat surfaces (e.g., system components including but not limited to the underlying machine learning algorithm), (iii) generality (e.g., demonstrating that the attack is not limited to a specific model but generalizes across model architectures or families.), and (iv) practicality of the attack. <strong>If the authors believe they still fit the "Security and Privacy of Machine Learning" track without the need for a threat model, they need to explicitly justify this in the Track Justification Statement.</strong></p>
+
+ <p>The paper evaluation needs to be linked to the threat model and scenario motivating the paper. Strong submissions produce generalizable contributions such as frameworks for risk assessment, attack patterns that generalize across models, systematic problem characterizations, or principled defenses with clear justification. Papers that present collections of examples or trial-and-error probes, or approaches lacking methodical rigor, will be considered out of scope.</p>
+
+ <p>Purely theoretical ML works without actionable security insights are out of scope, as are papers focusing on generic ML properties (e.g., robustness to natural noise) that lack clear security implications.</p>
+
+          <p><em>Examples of suitable papers:</em></p>
+
+          <ul>
+            <li>"<a href="https://dl.acm.org/doi/10.1145/3658644.3670267" style="text-decoration: underline;">Beowulf: Mitigating Model Extraction Attacks Via Reshaping Decision Regions</a>" - addresses model extraction attacks with practical defense, fits the "Security and Privacy of Machine Learning" Track</li>
+            <li>"<a href="https://dl.acm.org/doi/10.1145/3658644.3690306" style="text-decoration: underline;">Membership Inference Attacks Against In-Context Learning</a>" - focuses on the privacy of LLMs, fits the "Security and Privacy of Machine Learning" Track</li>
+            <li>"<a href="https://arxiv.org/pdf/2506.13972" style="text-decoration: underline;">Membership Inference Attacks as Privacy Tools: Reliability, Disparity and Ensemble</a>" focuses primarily on analyzing evaluations of membership inference attacks, and fits the "Security and Privacy of Machine Learning" track.</li>
+            <li>"<a href="https://dl.acm.org/doi/10.1145/3658644.3670361" style="text-decoration: underline;">Watch Out! Simple Horizontal Class Backdoor Can Trivially Evade Defense</a>" focuses on the security of ML models, proposing a new type of backdoor with a realistic threat model, which fits the "Security and Privacy of Machine Learning" track</li>
+          </ul>
+
+
+<h2 id="conflicts-of-interest">Conflicts of Interest</h2>
+<p>The conference requires cooperation from both authors and program committee members to ensure a fair review process. For this purpose, authors must report all program-committee members who, in their opinion, have a conflict of interest and therefore may not be able to provide an unbiased review. Mandatory declared conflicts of interest include current or former doctoral advisor/advisee, members of the same institution, close family members, and recent co-authors (within the past 2 years). For any other declared conflict, authors are required to explain the nature of the conflict to Program Chairs and the Track Chairs. The chairs reserve the right to request further explanation and can remove non-mandatory conflicts at their discretion.</p>
+
+          <p>Track Chairs are not allowed to submit papers to their own track, but may submit papers to other tracks, subject to the overall limit of 7 papers per cycle.</p>
+
+<p>Program-committee members who have a genuine conflict of interest with a paper, including the Program Chairs and the Track Chairs, will be excluded from evaluation and discussion of that paper. When all Track Chairs of a track have a conflict, the paper will be handled by the Program Chairs. When a Program Chair is conflicted, the other Co-Chair will be responsible for managing that paper. When both Program Chairs are in conflict, a committee member will be appointed to handle the paper. Program Chairs are not allowed to be authors or co-authors of any submissions.</p>
+
+<h2 id="policy-for-peer-review-integrity">Policy for Peer-Review Integrity</h2>
+          <p>All SIGSAC sponsored conferences and workshops are required to follow ACM policies against harassment activities (<a href="https://www.acm.org/about-acm/policy-against-harassment">https://www.acm.org/about-acm/policy-against-harassment</a>) and ACM Code of Ethics and Professional Conduct (<a href="https://www.acm.org/code-of-ethics">https://www.acm.org/code-of-ethics</a>). Also all authors, PC members, and non-PC reviewers are required to follow ACM Publications Policies (https://www.acm.org/publications/policies/toc). Particularly, we require all reviewers to uphold the integrity of the peer review process and avoid any form of conflict of interest (e.g., reviewer collusion rings). Those who violate these policies will be penalized according to ACM policies (<a href="https://www.acm.org/publications/policies/penalties-for-publication-violations">https://www.acm.org/publications/policies/penalties-for-publication-violations</a>). If you would like to report a violation, please contact the Program Chairs of the conference or the SIGSAC officers. We are committed to protecting the confidentiality of your communication.</p>
+
+
+<h2 id="withdrawal-policy">Withdrawal Policy</h2>
+          <p>Withdrawal of a paper is prohibited at any point prior to the official notification of the final decision (acceptance or rejection) being sent to the authors. By submitting a full paper (beyond the abstract-only stage), authors commit to seeing the submission for that cycle through the full review process; submitting only an abstract does not constitute a submission for this purpose.</p>
+
+
+<h2 id="important-dates">Important Dates</h2>
+<h3 id="first-review-cycle">First Review Cycle</h3>
+          <ul>
+            <li><strong>Abstract submission deadline</strong><br>Jan 7, 2026 <em>(Mandatory: all papers must have an abstract submitted by this date)</em></li>
+            <li><strong>Full paper submission deadline</strong><br>Jan 14, 2026</li>
+            <li><strong>Notification of early-rejection papers</strong><br>Feb 20, 2026</li>
+            <li><strong>Author rebuttal period</strong><br>Mar 17–20, 2026</li>
+            <li><strong>Rebuttal deadline</strong><br>Mar 20, 2026</li>
+            <li><strong>Author notification</strong><br>Apr 9, 2026</li>
+            <li><strong>Minor revision approval deadline</strong><br>June 5, 2026</li>
+            <li><strong>Camera ready deadline</strong><br>August 21, 2026</li>
+          </ul>
+
+<h3 id="second-review-cycle">Second Review Cycle</h3>
+          <ul>
+            <li><strong>Abstract submission deadline</strong><br>Apr 22, 2026 <em>(Mandatory: all papers must have a title, an abstract submitted and a track selected by this date)</em></li>
+            <li><strong>Full paper submission deadline</strong><br>Apr 29, 2026</li>
+              <li><strong>Online artifact deadline</strong><br>May 2, 2026</li>
+            <li><strong>Notification of early-rejection papers</strong><br><s>June 3, 2026</s> June 10, 2026</li>
+            <li><strong>Author rebuttal period</strong><br>June 29–July 1, 2026</li>
+            <li><strong>Rebuttal deadline</strong><br>July 1, 2026</li>
+            <li><strong>Author notification</strong><br>July 17, 2026</li>
+            <li><strong>Minor revision approval deadline</strong><br>Sept 6, 2026</li>
+            <li><strong>Camera ready deadline</strong><br>Sept 17, 2026</li>
+          </ul>
+<!-- <p><strong>Paper submission deadline: January 28th, 2024</strong></p> -->
+<!-- <style>-->
+<!--  .deadline-list {-->
+<!--    list-style: none;-->
+<!--    padding: 0;-->
+<!--    max-width: 600px; /* optional */-->
+<!--  }-->
+
+<!--  .deadline-list li {-->
+<!--    display: flex;-->
+<!--    justify-content: space-between;-->
+<!--    padding: 4px 0;-->
+<!--    border-bottom: 1px dotted #ddd; /* optional for clarity */-->
+<!--  }-->
+
+<!--  .deadline-list li strong:last-child {-->
+<!--    min-width: 150px; /* keeps right column aligned */-->
+<!--    text-align: right;-->
+<!--  }-->
+<!--</style>-->
+
+<!--<ul class="deadline-list">-->
+<!--  <li>Abstract submission deadline<strong>TBD</strong></li>-->
+<!--  <li><strong>Paper submission deadline</strong><strong>Jan 14th, 2026</strong></li>-->
+<!--  <li>Notification of early-rejection papers:<strong>TBD</strong></li>-->
+<!--  <li>Author rebuttal period:<strong>TBD</strong></li>-->
+<!--  <li>Rebuttal deadline:<strong>TBD</strong></li>-->
+<!--  <li>Author notification:<strong>TBD</strong></li>-->
+<!--</ul>-->
+
+<!--<h3 id="second-review-cycle">Second Review Cycle</h3>-->
+<!--<ul class="deadline-list">-->
+<!--  <li>Abstract submission deadline<strong>TBD</strong></li>-->
+<!--  <li><strong>Paper submission deadline</strong><strong>April 29th, 2026</strong></li>-->
+<!--  <li>Notification of early-rejection papers:<strong>TBD</strong></li>-->
+<!--  <li>Author rebuttal period:<strong>TBD</strong></li>-->
+<!--  <li>Rebuttal deadline:<strong>TBD</strong></li>-->
+<!--  <li>Author notification:<strong>TBD</strong></li>-->
+<!--</ul>-->
+
+
+
+
+<h2 id="submission-site">Submission Site</h2>
+          <ul>
+            <li>First review cycle: <a href="https://ccs2026a.hotcrp.com/" style="text-decoration: underline;">https://ccs2026a.hotcrp.com/</a></li>
+            <li>Second review cycle: <a href="https://ccs2026b.hotcrp.com/" style="text-decoration: underline;">https://ccs2026b.hotcrp.com/</a></li>
+          </ul>
+          <p><strong>Please Note:</strong> The official publication date is the first day of the conference. The official publication date affects the deadline for any patent filings related to published work.</p>
+<!--<p>Submissions for the first review cycle go to <a href="https://ccs2026a.hotcrp.com/">https://ccs2026a.hotcrp.com/</a> .</p>-->
+
+<!--<p>Submissions for the second review cycle go to <a href="https://ccs2026b.hotcrp.com/">https://ccs2026b.hotcrp.com/</a> .</p>-->
+
+<!--&lt;!&ndash; <p style="margin-top: -20px; padding-left: 10px;"><span style="color:#00008B;"><strong>&#8594; Submission site will be open one week before the deadline</strong></span></p> &ndash;&gt;-->
+
+
+<h2 id="community-standards-anti-Harassment">Community Standards & Anti-Harassment</h2>
+<p>ACM CCS is committed to promoting diversity and inclusion in our community. If you have suggestions, concerns, or complaints related to biases or sexual harassment, we encourage you to reach out to the Program Chairs. We are committed to protecting the anonymity of such reports and helping to address your concerns. We value your feedback and ideas to help us all build a healthier and more welcoming community.</p>
+
+<p>We encourage the authors to be mindful of not using language or examples that further the marginalization, stereotyping, or erasure of any group of people, especially historically under-represented groups (URGs) in computing. Of course, exclusionary treatment can arise unintentionally. Be vigilant and actively guard against such issues in your writing. Reviewers will also be empowered to monitor and demand changes if such issues arise in your submissions.</p>
+
+<!--<p>ACM CCS is committed to promoting diversity and inclusion in our community. If you have suggestions, concerns, or complaints related to biases or sexual harassment, we encourage you to reach out to the Program Chairs. We are committed to protecting the anonymity of such reports and helping to address your concerns. We value your feedback and ideas to help us all build a healthier and more welcoming community.</p>-->
+
+<!--<p>We encourage the authors to be mindful of not using language or examples that further the marginalization, stereotyping, or erasure of any group of people, especially historically marginalized and/or under-represented groups (URGs) in computing. Of course, exclusionary treatment can arise unintentionally. Be vigilant and actively guard against such issues in your writing. Reviewers will also be empowered to monitor and demand changes if such issues arise in your submissions. Please check the <a href="../diversity-and-inclusion.html">link</a> for more information.</p>-->
+
+<h2 id="agreements">Agreements</h2>
+<p>By submitting your article to an ACM Publication, you are hereby acknowledging that you and your co-authors are subject to all <a href="https://www.acm.org/publications/policies">ACM Publications Policies</a>, including <a href="https://www.acm.org/publications/policies/research-involving-human-participants-and-subjects">ACM’s new Publications Policy on Research Involving Human Participants and Subjects</a>. Alleged violations of this policy or any ACM Publications Policy will be investigated by ACM and may result in a full retraction of your paper, in addition to other potential penalties, as per ACM Publications Policy.</p>
+
+<p>Please ensure that you and your co-authors <a href="https://orcid.org/register">obtain an ORCID ID</a>, so you can complete the publishing process for your accepted paper. ACM has been involved in ORCID from the start and we have recently made a <a href="https://authors.acm.org/author-resources/orcid-faqs">commitment to collect ORCID IDs from all of our published authors</a>. We are committed to improve author discoverability, ensure proper attribution and contribute to ongoing community efforts around name normalization; your ORCID ID will help in these efforts.</p>
+
+<h2 id="important-update-on-ACM's-new-open-access-publishing-model-for-2026-ACM-conferences!"><u>Important update on ACM's new open access publishing model for 2026 ACM Conferences!</u></h2>
+          <p>Starting January 1, 2026, ACM will fully transition to Open Access. All ACM publications, including those from ACM-sponsored conferences, will be 100% Open Access. Authors will have two primary options for publishing Open Access articles with ACM: the ACM Open institutional model or by paying Article Processing Charges (APCs). With over 1,800 institutions already part of ACM Open, the majority of ACM-sponsored conference papers will not require APCs from authors or conferences (currently, around 70-75%).</p>
+
+          <p>Authors from institutions not participating in ACM Open will need to pay an APC to publish their papers, unless they qualify for a financial or discretionary waiver. To find out whether an APC applies to your article, please consult the list of <a href="https://libraries.acm.org/acmopen/open-participants">participating institutions</a> in ACM Open and review the <a href="https://www.acm.org/publications/policies/policy-on-open-access-apc-waivers-and-discounts">APC Waivers and Discounts Policy</a>. Please note that waivers are limited and granted based on specific criteria set by ACM.</p>
+
+<p>Understanding that this change could present financial challenges, ACM has approved a temporary subsidy for 2026 to ease the transition and allow more time for institutions to join ACM Open. Thanks to the subsidy, the APC will be as follows:</p>
+
+          <ul>
+            <li>$250 APC for ACM/SIG members</li>
+            <li>$350 for non-members</li>
+          </ul>
+
+          <p>This represents a <a href="https://www.acm.org/publications/openaccess">65% discount</a>, funded directly by ACM. Authors are encouraged to help advocate for their institutions to join ACM Open during this transition period.</p>
+
+          <p>This temporary subsidized pricing will apply to all conferences scheduled for 2026.</p>
+
+
+        </div>
+
+      </div>
+    </div>
+
+  <!-- Footer -->
+
+<!-- <hr> -->
+
+<footer>
+  <div class="container">
+    <div class="row" >
+      <div class="half_row">
+      <h2 class="title">About ACM CCS</h2>
+      <p>
+        The ACM Conference on Computer and Communications Security (CCS) is the <span class="emphasis">flagship annual conference</span> of the Special Interest Group on Security, Audit and Control (SIGSAC) of the Association for Computing Machinery (ACM). The conference brings together information security researchers, practitioners, developers, and users from all over the world to explore cutting-edge ideas and results.</p>
+      <p>
+        CCS will follow the <span class="emphasis" >ACM Policy Against Harassment at ACM Activities</span>. Please familiarize yourself with <a class="emphasis" href="https://www.acm.org/special-interest-groups/volunteer-resources/officers-manual/policy-against-discrimination-and-harassment">the ACM Policy Against Harassment</a> and <a class="emphasis" href="https://www.acm.org/about-acm/reporting-unacceptable-behavior">guide to Reporting Unacceptable Behavior</a>.
+      </p>
+      </div>
+      <div class="half_row" style="height:400px;width:400px;overflow-y:auto;float:left;" >
+        <div class='jekyll-twitter-plugin'><a class="twitter-timeline" data-width="400" data-tweet-limit="5" href="https://www.linkedin.com/in/acm-ccs-2026-the-hague/">CCS 26 LinkedIn</a>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</div>
+
+      </div>
+    </div>
+
+    <p class="copyright"> © 2025-2026 ACM/SIGSAC. All Rights Reserved.</p>
+  </div>
+</footer>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/superfish/1.7.10/js/superfish.min.js"></script>
+<script src="../assets/vendor/startbootstrap-clean-blog/js/scripts.js"></script>
+
+<script src="../assets/scripts.js"></script>
+
+
+
+
+</body>
+
+</html>
+
+
+
+<!-- Page Header -->
+
