@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 
-from crawler.config import load_conferences, resolve_url
+from crawler.config import load_conferences, resolve_conf_for_year, resolve_url
 from crawler.models import CrawlResult
 
 # Strategy registry — populated by strategy modules on import
@@ -55,11 +55,16 @@ def _ensure_strategies_loaded():
 def crawl_conference(conf: dict, year: int) -> list[CrawlResult]:
     """Crawl a single conference using its configured strategy.
 
+    Merges by_year overrides before dispatching (V13).
     Returns one CrawlResult per cycle (or one if no cycles).
+    Returns empty list if year cannot be resolved.
     """
     _ensure_strategies_loaded()
-    strategy = get_strategy(conf["strategy"])
-    return strategy.extract(conf, year)
+    resolved = resolve_conf_for_year(conf, year)
+    if resolved is None:
+        return []
+    strategy = get_strategy(resolved["strategy"])
+    return strategy.extract(resolved, year)
 
 
 def crawl_all(
@@ -78,7 +83,8 @@ def crawl_all(
     from concurrent.futures import ThreadPoolExecutor, as_completed
 
     if years is None:
-        years = [datetime.datetime.now().year]
+        current = datetime.datetime.now().year
+        years = [current, current + 1]
 
     _ensure_strategies_loaded()
     conferences = load_conferences(config_path)
@@ -103,6 +109,13 @@ def crawl_all(
         label = f"{conf['name']} {year}"
         local_results = []
         local_warnings = []
+
+        # V13: skip if year not resolvable
+        resolved = resolve_conf_for_year(conf, year)
+        if resolved is None:
+            local_warnings.append(f"{label}: no config for year (by_year has no {year} entry)")
+            return local_results, local_warnings
+
         try:
             conf_results = crawl_conference(conf, year)
             for r in conf_results:

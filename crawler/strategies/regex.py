@@ -43,6 +43,7 @@ LABEL_MAP: dict[str, list[str]] = {
         "reviews available",
         "author response start",
         "author response period",
+        "authors response period",
     ],
     "rebuttal_end": [
         "rebuttal end",
@@ -63,6 +64,7 @@ LABEL_MAP: dict[str, list[str]] = {
         "shepherd",
         "shepherding",
         "conditional accept",
+        "minor revision",
     ],
     "camera_ready": [
         "camera ready",
@@ -137,6 +139,8 @@ def _parse_deadline_date(text: str) -> str | None:
     for fmt in (
         "%B %d, %Y",     # August 26, 2025
         "%b %d, %Y",     # Aug 26, 2025
+        "%B %d %Y",      # August 26 2025 (no comma)
+        "%b %d %Y",      # Aug 26 2025 (no comma)
         "%d %B %Y",      # 23 April 2025
         "%d %b %Y",      # 23 Apr 2025
     ):
@@ -228,7 +232,13 @@ def _extract_deadlines_specific(deadline_specs: list[dict], html: str) -> list[d
     return deadlines
 
 
-def _extract_deadlines_generic(html: str) -> list[dict]:
+# Matches "Month DD" without year (e.g. "May 30", "July 14", "August 18-22")
+_MONTHDAY_RE = re.compile(
+    r"([A-Z][a-z]+\.?\s+\d+)(?:\s|,|$|-)"
+)
+
+
+def _extract_deadlines_generic(html: str, year: int | None = None) -> list[dict]:
     """Generic two-pass deadline extraction (Phase A+C, T17).
 
     Phase A: structure-preserving HTML→text (via _strip_html).
@@ -251,6 +261,14 @@ def _extract_deadlines_generic(html: str) -> list[dict]:
             parsed = _parse_deadline_date(date_str)
             if parsed:
                 date_hits.append((i, parsed))
+        elif year:
+            # Fallback: try month+day without year, append conference year
+            md = _MONTHDAY_RE.search(line)
+            if md:
+                date_with_year = f"{md.group(1)}, {year}"
+                parsed = _parse_deadline_date(date_with_year)
+                if parsed:
+                    date_hits.append((i, parsed))
 
     # Pass 2a: same-line matches first (prevents proximity from stealing labels)
     matched_indices: set[int] = set()
@@ -307,7 +325,7 @@ class RegexStrategy(BaseStrategy):
             # One CrawlResult per cycle
             results = []
             for cycle in cycles:
-                deadlines = self._extract_deadlines(cycle.get("selectors", {}), html)
+                deadlines = self._extract_deadlines(cycle.get("selectors", {}), html, year)
                 results.append(CrawlResult(
                     name=conf["name"],
                     year=year,
@@ -322,7 +340,7 @@ class RegexStrategy(BaseStrategy):
             return results
         else:
             # No cycles — single result using top-level selectors
-            deadlines = self._extract_deadlines(conf.get("selectors", {}), html)
+            deadlines = self._extract_deadlines(conf.get("selectors", {}), html, year)
             return [CrawlResult(
                 name=conf["name"],
                 year=year,
@@ -355,7 +373,7 @@ class RegexStrategy(BaseStrategy):
         return date, place
 
     @staticmethod
-    def _extract_deadlines(selectors: dict, html: str) -> list[dict]:
+    def _extract_deadlines(selectors: dict, html: str, year: int | None = None) -> list[dict]:
         # Optionally narrow HTML to a section first
         section_pattern = selectors.get("section")
         if section_pattern:
@@ -373,7 +391,7 @@ class RegexStrategy(BaseStrategy):
                 return result
 
         # Generic text-based extraction (T16)
-        return _extract_deadlines_generic(html)
+        return _extract_deadlines_generic(html, year=year)
 
     @staticmethod
     def _css_text(soup: BeautifulSoup, selector: str | None) -> str | None:

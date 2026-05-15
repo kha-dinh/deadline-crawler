@@ -533,6 +533,59 @@ def test_generic_extractor_reverse_format():
     assert "camera_ready" in labels
 
 
+def test_generic_extractor_dl_format():
+    """Phase A: generic extractor handles <dl>/<dt>/<dd> definition lists."""
+    html = """
+    <dl>
+      <dt>Abstract registration</dt><dd>March 26, 2026</dd>
+      <dt>Submission deadline</dt><dd>April 1, 2026</dd>
+      <dt>Author notification</dt><dd>July 3, 2026</dd>
+      <dt>Camera-ready deadline</dt><dd>August 28, 2026</dd>
+    </dl>
+    """
+    deadlines = _extract_deadlines_generic(html)
+    labels = {d["label"] for d in deadlines}
+    assert "abstract" in labels
+    assert "submission" in labels
+    assert "notification" in labels
+    assert "camera_ready" in labels
+
+
+def test_generic_extractor_ccs_br_format():
+    """Phase A: generic extractor handles <strong>label</strong><br>date in <li>."""
+    html = """
+    <ul>
+      <li><strong>Abstract submission deadline</strong><br>Jan 7, 2026</li>
+      <li><strong>Full paper submission deadline</strong><br>Jan 14, 2026</li>
+      <li><strong>Author notification</strong><br>Apr 9, 2026</li>
+      <li><strong>Camera ready deadline</strong><br>May 20, 2026</li>
+    </ul>
+    """
+    deadlines = _extract_deadlines_generic(html)
+    labels = {d["label"] for d in deadlines}
+    assert "abstract" in labels
+    assert "submission" in labels
+    assert "notification" in labels
+    assert "camera_ready" in labels
+    assert {"label": "abstract", "date": "2026-01-07 23:59"} in deadlines
+
+
+def test_generic_extractor_proximity_cross_line():
+    """Phase C: label on one line, date on next line — proximity search finds it."""
+    html = """
+    <p>Submission deadline</p>
+    <p>June 5, 2025</p>
+    <p>Author notification</p>
+    <p>September 9, 2025</p>
+    """
+    deadlines = _extract_deadlines_generic(html)
+    labels = {d["label"] for d in deadlines}
+    assert "submission" in labels
+    assert "notification" in labels
+    assert {"label": "submission", "date": "2025-06-05 23:59"} in deadlines
+    assert {"label": "notification", "date": "2025-09-09 23:59"} in deadlines
+
+
 def test_generic_extractor_no_dates():
     """Generic extractor returns empty on HTML with no dates."""
     html = "<p>No deadlines here, just prose about the conference.</p>"

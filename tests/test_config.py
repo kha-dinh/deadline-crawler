@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 import yaml
 
-from crawler.config import load_conferences, resolve_url, ConfigError
+from crawler.config import load_conferences, resolve_conf_for_year, resolve_url, ConfigError
 from crawler.strategy import get_strategy, _ensure_strategies_loaded
 
 
@@ -78,6 +78,76 @@ def test_resolve_url_yy():
 def test_resolve_url_none():
     entry = {"url": None}
     assert resolve_url(entry, 2026) is None
+
+
+# --- by_year resolution (V13) ---
+
+
+def test_resolve_conf_no_by_year():
+    """Without by_year, returns entry unchanged."""
+    entry = {"name": "X", "url": "https://x{YYYY}.org", "strategy": "regex", "tags": ["SEC"]}
+    assert resolve_conf_for_year(entry, 2026) is entry
+
+
+def test_resolve_conf_by_year_merge():
+    """Year-specific fields override top-level."""
+    entry = {
+        "name": "X",
+        "strategy": "regex",
+        "tags": ["SEC"],
+        "selectors": {"section": "old"},
+        "by_year": {
+            2025: {"url": "https://x2025.org", "selectors": {"section": "new"}},
+        },
+    }
+    merged = resolve_conf_for_year(entry, 2025)
+    assert merged["url"] == "https://x2025.org"
+    assert merged["selectors"]["section"] == "new"
+    assert merged["name"] == "X"  # top-level preserved
+    assert "by_year" not in merged  # stripped from result
+
+
+def test_resolve_conf_by_year_fallback_template():
+    """Year not in by_year but url has {YYYY} → returns entry."""
+    entry = {
+        "name": "X",
+        "url": "https://x{YYYY}.org",
+        "strategy": "regex",
+        "tags": ["SEC"],
+        "by_year": {2025: {"url": "https://x2025.org"}},
+    }
+    result = resolve_conf_for_year(entry, 2026)
+    assert result is entry  # fallback to template
+
+
+def test_resolve_conf_by_year_skip():
+    """Year not in by_year and no template → None (skip)."""
+    entry = {
+        "name": "X",
+        "strategy": "regex",
+        "tags": ["SEC"],
+        "by_year": {2025: {"url": "https://x2025.org"}},
+    }
+    assert resolve_conf_for_year(entry, 2026) is None
+
+
+def test_v7_by_year_no_url_valid(tmp_path):
+    """V7: entry with by_year but no top-level url should pass validation."""
+    entries = [{
+        "name": "X",
+        "strategy": "regex",
+        "tags": ["SEC"],
+        "by_year": {2025: {"url": "https://x2025.org"}},
+    }]
+    result = load_conferences(_write_conf(entries, tmp_path))
+    assert len(result) == 1
+
+
+def test_v7_no_url_no_by_year_invalid(tmp_path):
+    """V7: entry with neither url nor by_year should fail."""
+    entries = [{"name": "X", "strategy": "regex", "tags": ["SEC"]}]
+    with pytest.raises(ConfigError, match="must have 'url' or 'by_year'"):
+        load_conferences(_write_conf(entries, tmp_path))
 
 
 # --- Strategy dispatch ---

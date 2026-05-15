@@ -4,7 +4,7 @@ import yaml
 from pathlib import Path
 
 VALID_STRATEGIES = {"css", "regex", "llm", "static"}
-REQUIRED_FIELDS = {"name", "url", "strategy", "tags"}
+REQUIRED_FIELDS = {"name", "strategy", "tags"}
 
 
 class ConfigError(Exception):
@@ -36,11 +36,16 @@ def _validate_entry(entry: dict, index: int) -> None:
     if not isinstance(entry, dict):
         raise ConfigError(f"Entry {index}: must be a mapping, got {type(entry).__name__}")
 
-    # V7: required fields
+    # V7: required fields — url not required if by_year present
     missing = REQUIRED_FIELDS - set(entry.keys())
     if missing:
         raise ConfigError(
             f"Entry {index} ({entry.get('name', '?')}): missing required fields: {missing}"
+        )
+
+    if "url" not in entry and "by_year" not in entry:
+        raise ConfigError(
+            f"Entry {index} ({entry.get('name', '?')}): must have 'url' or 'by_year'"
         )
 
     # V8: strategy must be valid
@@ -50,6 +55,33 @@ def _validate_entry(entry: dict, index: int) -> None:
             f"Entry {index} ({entry['name']}): invalid strategy '{strategy}', "
             f"must be one of {VALID_STRATEGIES}"
         )
+
+
+def resolve_conf_for_year(entry: dict, year: int) -> dict | None:
+    """Merge by_year overrides into conf for target year (V13).
+
+    Returns merged conf dict, or None if year cannot be resolved
+    (year not in by_year and url has no template placeholders).
+    """
+    by_year = entry.get("by_year")
+    if not by_year:
+        return entry
+
+    year_conf = by_year.get(year)
+    if year_conf:
+        # Merge: year-specific fields override top-level
+        merged = dict(entry)
+        merged.pop("by_year", None)
+        merged.update(year_conf)
+        return merged
+
+    # Year not in by_year — fall back to top-level url if it has placeholders
+    url = entry.get("url", "")
+    if "{YYYY}" in url or "{YY}" in url:
+        return entry
+
+    # No template, no year entry → skip
+    return None
 
 
 def resolve_url(entry: dict, year: int) -> str | None:

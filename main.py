@@ -119,6 +119,7 @@ def cmd_validate(args):
 _RED = "\033[31m"
 _YELLOW = "\033[33m"
 _GREEN = "\033[32m"
+_DIM = "\033[2m"
 _RESET = "\033[0m"
 _BOLD = "\033[1m"
 
@@ -138,7 +139,7 @@ def _urgency_color(days: int | None) -> str:
     if days is None:
         return ""
     if days < 0:
-        return ""
+        return _DIM
     if days <= 7:
         return _RED
     if days <= 30:
@@ -207,11 +208,15 @@ def print_table(conferences: list[dict], now: datetime | None = None):
     # Print rows
     for row in rows:
         color = _urgency_color(row["_days_int"])
+        is_past = row["_days_int"] is not None and row["_days_int"] < 0
         reset = _RESET if color else ""
         parts = []
         for i, k in enumerate(keys):
             val = str(row[k]).ljust(widths[i])
-            if k in ("date", "days", "deadline") and color:
+            if is_past:
+                # Dim entire row for past/ongoing conferences
+                parts.append(f"{_DIM}{val}{_RESET}")
+            elif k in ("date", "days", "deadline") and color:
                 parts.append(f"{color}{val}{reset}")
             else:
                 parts.append(val)

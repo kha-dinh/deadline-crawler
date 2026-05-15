@@ -13,7 +13,7 @@ Crawl conference CFP pages and export structured deadline data (JSON/YAML). Per-
 
 ## §I Interfaces
 - I.conf: `conferences.yaml` — crawl config per conference: name, url, strategy, selectors/patterns, tags, metadata overrides. Selectors support optional `deadlines: [{label: str, pattern: str}]` for site-specific override; omit to use generic text extractor. `section` selector always required to narrow HTML to dates region. Optional `by_year: {YYYY: {url, selectors?, cycles?, overrides?}}` — per-year config for conferences with unpredictable URLs or layouts. Year-specific fields merge over top-level defaults. Replaces `url_fixed`
-- I.cli: CLI commands: `crawl [--conf NAME] [--year YEAR...] [--format json|yaml] [--output PATH]`, `list [--area X] [--tier N] [--days N]`, `show NAME`, `validate`. `--year` accepts comma-separated values (e.g. `--year 2026,2027`); crawls each conference for each year
+- I.cli: CLI commands: `crawl [--conf NAME] [--year YEAR...] [--format json|yaml] [--output PATH]`, `list [--area X] [--tier N] [--days N]`, `show [--input FILE]`, `validate`. `--year` accepts comma-separated values (e.g. `--year 2026,2027`); defaults to current year + next year; crawls each conference for each year
 - I.crawl: Crawler engine — loads strategy from I.conf, fetches page, extracts fields, exports directly
 - I.out: Terminal table or JSON output
 - I.web: `deadlines.yaml` — frontend-consumable output. Shape: `generated_at` + `conferences[]`. Each conference: `id` (slug), `name`, `year`, `description`, `link`, `area`, `tier`, `place`, `date` (event date ISO), `timezone` (default AoE), `deadlines[]` (`label`, `date`, `passed`), `tags[]`, `comment?`
@@ -49,7 +49,7 @@ Crawl conference CFP pages and export structured deadline data (JSON/YAML). Per-
 | T9 | — | (deferred) CLI: `list` command — filter by area/tier/days-until, table output | I.cli,I.out |
 | T10 | x | CLI: `validate` command — check output against invariants | V1,V2,V3,V4 |
 | T11 | x | output: terminal table w/ color for urgency (≤7d red, ≤30d yellow) | I.out |
-| T12 | x | CI: validate data.yaml on every commit | V1,V2,V3,V4 |
+| T12 | x | CI: validate on push + weekly crawl producing JSON/YAML artifacts | V1,V2,V3,V4 |
 | T13 | x | output: generate deadlines.json from data.yaml for frontend | I.web,I.yaml,V1,V2,V3 |
 | T14 | x | labeled deadlines: update CrawlResult.deadlines to list[dict{label,date}], update strategies + conf selectors | V2,I.conf,I.web |
 | T15 | x | CLI: `--year` flag — comma-separated, crawl each conf for each year | I.cli,I.crawl |
