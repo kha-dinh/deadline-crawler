@@ -1,6 +1,7 @@
 """Regex-based extraction strategy (T4, T16)."""
 
 import re
+import threading
 from datetime import datetime
 
 import requests
@@ -9,6 +10,23 @@ from bs4 import BeautifulSoup
 from crawler.config import resolve_url
 from crawler.models import CrawlResult
 from crawler.strategy import BaseStrategy
+
+# Thread-local HTTP session — reuses TCP connections within each worker thread.
+_thread_local = threading.local()
+
+
+def _get_session() -> requests.Session:
+    if not hasattr(_thread_local, "session"):
+        s = requests.Session()
+        adapter = requests.adapters.HTTPAdapter(
+            pool_connections=16,
+            pool_maxsize=16,
+        )
+        s.mount("https://", adapter)
+        s.mount("http://", adapter)
+        s.headers.update(_HEADERS)
+        _thread_local.session = s
+    return _thread_local.session
 
 # V10/V11: Canonical label map — maps raw CFP phrases → canonical labels.
 # Each canonical label has ≥1 phrase variant. Single source of truth.
@@ -21,14 +39,18 @@ LABEL_MAP: dict[str, list[str]] = {
         "abstract submission",
         "abstract deadline",
         "paper titles and abstracts due",
+        "abstract",  # bare label (e.g. researchr "(Mandatory) Abstract")
     ],
     "submission": [
         "submission deadline",
         "paper submission",
         "paper submissions due",
         "full paper submission",
+        "full paper deadline",
+        "manuscript submission deadline",
         "submissions due",
         "paper due",
+        "submission",  # bare label (e.g. researchr "Submission")
     ],
     "early_reject": [
         "early reject",
@@ -40,6 +62,7 @@ LABEL_MAP: dict[str, list[str]] = {
         "rebuttal start",
         "rebuttal period begin",
         "rebuttal begins",
+        "rebuttal/revision",
         "reviews available",
         "author response start",
         "author response period",
@@ -59,6 +82,7 @@ LABEL_MAP: dict[str, list[str]] = {
         "notification of acceptance",
         "acceptance notification",
         "decision notification",
+        "decisions released",
         "notification",
     ],
     "shepherd": [
@@ -73,6 +97,7 @@ LABEL_MAP: dict[str, list[str]] = {
         "final paper",
         "final version",
         "final papers due",
+        "proceedings manuscript deadline",
     ],
 }
 
@@ -176,7 +201,7 @@ def _strip_html(html: str) -> str:
     - Merging <dt> + <dd> pairs onto one line
     - Flattening <li> inline children (incl <strong>, <br>) onto one line
     """
-    soup = BeautifulSoup(html, "html.parser")
+    soup = BeautifulSoup(html, "lxml")
 
     # Remove script/style blocks and struck-through text (outdated dates)
     for tag in soup.find_all(["script", "style", "strike", "s"]):
@@ -202,10 +227,14 @@ def _strip_html(html: str) -> str:
         if dd:
             dd.decompose()
 
-    # Process <li>: flatten all inline children onto one line
+    # Process <li>: flatten leaf items; unwrap containers (nested lists)
     for li in soup.find_all("li"):
-        text = li.get_text(separator=" ", strip=True)
-        li.replace_with(text + "\n")
+        if li.find(["ul", "ol"]):
+            # List container — unwrap so nested <li> are processed individually
+            li.unwrap()
+        else:
+            text = li.get_text(separator=" ", strip=True)
+            li.replace_with(text + "\n")
 
     # Get remaining text with newlines at block boundaries
     text = soup.get_text(separator="\n")
@@ -247,9 +276,19 @@ def _extract_deadlines_researchr(
     cycle_filter: if set, only rows whose col2 contains this string are used
     (e.g. "First Cycle" / "Second Cycle" for ICSE multi-cycle).
     """
-    soup = BeautifulSoup(html, "html.parser")
-    deadlines = []
-    seen_labels: set[str] = set()
+    soup = BeautifulSoup(html, "lxml")
+    return _extract_deadlines_researchr_soup(track_slug, soup, cycle_filter)
+
+
+def _extract_deadlines_researchr_soup(
+    track_slug: str, soup: BeautifulSoup, cycle_filter: str | None = None
+) -> list[dict]:
+    """Soup-based inner implementation — reuses a pre-parsed tree.
+
+    Collects all (date, label) pairs for the track, sorts by date ascending,
+    then deduplicates keeping the earliest date per canonical label.
+    """
+    rows: list[tuple[str, str]] = []
 
     for tr in soup.find_all("tr"):
         href = tr.get("href", "")
@@ -264,21 +303,35 @@ def _extract_deadlines_researchr(
             continue
         parsed = _parse_deadline_date(date_text)
         label = _match_label(label_text)
-        if parsed and label and label not in seen_labels:
+        if parsed and label:
+            rows.append((parsed, label))
+
+    rows.sort(key=lambda x: x[0])
+    seen_labels: set[str] = set()
+    deadlines = []
+    for parsed, label in rows:
+        if label not in seen_labels:
             seen_labels.add(label)
             deadlines.append({"label": label, "date": parsed})
 
     return deadlines
 
 
-def _autodiscover_researchr(html: str, cycle_filter: str | None = None) -> list[dict]:
+def _autodiscover_researchr(
+    html: str, cycle_filter: str | None = None, conf_prefix: str | None = None
+) -> list[dict]:
     """Auto-discover best research track on a researchr.org dates page.
 
     Collects all unique track slugs from <tr href=...> attributes, scores each
-    by canonical label count (tiebreak: prefer slug containing "research"),
+    by (conf_prefix_match, canonical_label_count, research_or_papers_in_slug),
     returns deadlines from highest-scoring track.
+
+    conf_prefix: lowercase conference name (e.g. "pldi") used to prefer tracks
+    whose slug starts with the conference identifier over co-located workshops.
+
+    Parses HTML exactly once and reuses the soup for all slug evaluations.
     """
-    soup = BeautifulSoup(html, "html.parser")
+    soup = BeautifulSoup(html, "lxml")
     seen_slugs: list[str] = []
     for tr in soup.find_all("tr"):
         href = tr.get("href", "")
@@ -292,10 +345,13 @@ def _autodiscover_researchr(html: str, cycle_filter: str | None = None) -> list[
         return []
 
     best_result: list[dict] = []
-    best_score: tuple[int, bool] = (-1, False)
+    best_score: tuple[int, int, bool] = (-1, -1, False)
     for slug in seen_slugs:
-        result = _extract_deadlines_researchr(slug, html, cycle_filter)
-        score = (len(result), "research" in slug)
+        result = _extract_deadlines_researchr_soup(slug, soup, cycle_filter)
+        slug_lower = slug.lower()
+        prefix_match = 1 if (conf_prefix and slug_lower.startswith(conf_prefix)) else 0
+        has_papers = "research" in slug_lower or "papers" in slug_lower
+        score = (prefix_match, len(result), has_papers)
         if score > best_score:
             best_score = score
             best_result = result
@@ -390,7 +446,7 @@ def _extract_deadlines_generic(html: str, year: int | None = None) -> list[dict]
 
 
 def _fetch(url: str) -> str:
-    resp = requests.get(url, headers=_HEADERS, timeout=30)
+    resp = _get_session().get(url, timeout=30)
     resp.encoding = resp.apparent_encoding
     return resp.text
 
@@ -410,12 +466,13 @@ class RegexStrategy(BaseStrategy):
         overrides = conf.get("overrides", {})
 
         no_specific = conf.get("_no_specific", False)
+        conf_prefix = conf["name"].lower()
         cycles = conf.get("cycles")
         if cycles:
             # One CrawlResult per cycle
             results = []
             for cycle in cycles:
-                deadlines = self._extract_deadlines(cycle.get("selectors", {}), html, year, no_specific=no_specific)
+                deadlines = self._extract_deadlines(cycle.get("selectors", {}), html, year, no_specific=no_specific, conf_prefix=conf_prefix)
                 results.append(CrawlResult(
                     name=conf["name"],
                     year=year,
@@ -430,7 +487,7 @@ class RegexStrategy(BaseStrategy):
             return results
         else:
             # No cycles — single result using top-level selectors
-            deadlines = self._extract_deadlines(conf.get("selectors", {}), html, year, no_specific=no_specific)
+            deadlines = self._extract_deadlines(conf.get("selectors", {}), html, year, no_specific=no_specific, conf_prefix=conf_prefix)
             return [CrawlResult(
                 name=conf["name"],
                 year=year,
@@ -446,8 +503,12 @@ class RegexStrategy(BaseStrategy):
         self, conf: dict, year: int, cfp_url: str, cfp_html: str
     ) -> tuple[str | None, str | None]:
         main_selectors = conf.get("main_selectors")
+        # Static fallback: date/place can be hardcoded in conf (e.g. via by_year)
+        static_date = conf.get("date") or None
+        static_place = conf.get("place") or None
+
         if not main_selectors:
-            return None, None
+            return static_date, static_place
 
         url_main = resolve_url(
             {"url": conf.get("url_main", conf.get("url"))}, year
@@ -457,13 +518,17 @@ class RegexStrategy(BaseStrategy):
         else:
             main_html = cfp_html
 
-        soup = BeautifulSoup(main_html, "html.parser")
-        date = self._css_text(soup, main_selectors.get("date"))
-        place = self._css_text(soup, main_selectors.get("place"))
+        soup = BeautifulSoup(main_html, "lxml")
+        date = self._css_text(soup, main_selectors.get("date")) or static_date
+        place = self._css_text(soup, main_selectors.get("place")) or static_place
+        # Strip trailing place text from date if both share same parent element
+        # (e.g. researchr "div.place" has date text + <a>place</a>)
+        if date and place and date.endswith(place):
+            date = date[: -len(place)].strip()
         return date, place
 
     @staticmethod
-    def _extract_deadlines(selectors: dict, html: str, year: int | None = None, no_specific: bool = False) -> list[dict]:
+    def _extract_deadlines(selectors: dict, html: str, year: int | None = None, no_specific: bool = False, conf_prefix: str | None = None) -> list[dict]:
         # Optionally narrow HTML to a section first
         section_pattern = selectors.get("section")
         if section_pattern:
@@ -483,7 +548,7 @@ class RegexStrategy(BaseStrategy):
             if result:
                 return result
         else:
-            result = _autodiscover_researchr(html, cycle_filter)
+            result = _autodiscover_researchr(html, cycle_filter, conf_prefix=conf_prefix)
             if result:
                 return result
 

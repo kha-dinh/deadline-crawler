@@ -73,7 +73,7 @@ def crawl_all(
     config_path: str = "conferences.yaml",
     years: list[int] | None = None,
     name_filter: str | None = None,
-    workers: int = 4,
+    workers: int = 8,
     no_specific: bool = False,
 ) -> list[CrawlResult]:
     """Crawl all (or filtered) conferences from config.
@@ -126,7 +126,7 @@ def crawl_all(
                 if not r.deadlines:
                     local_warnings.append(f"{rlabel}: no deadlines extracted")
                 else:
-                    if len(r.deadlines) < 3:
+                    if len(r.deadlines) < 2:
                         local_warnings.append(f"{rlabel}: only {len(r.deadlines)} deadline(s) extracted")
                     local_results.append(r)
         except Exception as e:

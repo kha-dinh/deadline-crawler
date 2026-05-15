@@ -25,7 +25,7 @@ VALID_ENTRY = {
     ],
     "date": "Aug. 12-14",
     "place": "BALTIMORE, MD",
-    "tags": ["SEC", "TIER1"],
+    "tags": ["SEC", "A*"],
     "notification": ["2025-12-04", "2026-05-14"],
 }
 
@@ -71,14 +71,14 @@ class TestValidateEntry:
         assert any("deadline must be dict" in e for e in errors)
 
     def test_bad_area_code(self):
-        entry = {**VALID_ENTRY, "tags": ["INVALID", "TIER1"]}
+        entry = {**VALID_ENTRY, "tags": ["INVALID", "A*"]}
         errors = _validate_entry(entry)
         assert any("bad area code" in e for e in errors)
 
     def test_bad_tier(self):
         entry = {**VALID_ENTRY, "tags": ["SEC", "TIER3"]}
         errors = _validate_entry(entry)
-        assert any("bad tier" in e for e in errors)
+        assert any("bad core rank" in e for e in errors)
 
     def test_insufficient_tags(self):
         entry = {**VALID_ENTRY, "tags": ["SEC"]}
@@ -103,7 +103,7 @@ class TestTransformEntry:
     def test_area_tier_from_tags(self):
         result = transform_entry(VALID_ENTRY, NOW)
         assert result["area"] == "SEC"
-        assert result["tier"] == "TIER1"
+        assert result["tier"] == "A*"
 
     def test_timezone_defaults_aoe(self):
         result = transform_entry(VALID_ENTRY, NOW)
@@ -208,7 +208,7 @@ class TestGenerateFromResults:
                 year=2026,
                 link="https://example.com",
                 deadlines=[{"label": "submission", "date": "2025-08-26 23:59"}],
-                tags=["SEC", "TIER1"],
+                tags=["SEC", "A*"],
                 description="USENIX Security Symposium",
             ),
         ]
@@ -225,7 +225,7 @@ class TestGenerateFromResults:
                 year=2026,
                 link="https://example.com",
                 deadlines=[{"label": "submission", "date": "2025-08-26 23:59"}],
-                tags=["SEC", "TIER1"],
+                tags=["SEC", "A*"],
                 cycle="Cycle 1",
             ),
         ]
@@ -241,7 +241,7 @@ class TestGenerateFromResults:
                 year=2026,
                 link="https://example.com",
                 deadlines=[{"label": "submission", "date": "2025-08-26 23:59"}],
-                tags=["SEC", "TIER1"],
+                tags=["SEC", "A*"],
             ),
         ]
         out = tmp_path / "deadlines.json"

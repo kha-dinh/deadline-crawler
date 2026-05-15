@@ -21,7 +21,7 @@ def _write_conf(entries, tmp_path):
 
 def test_load_valid_config(tmp_path):
     entries = [
-        {"name": "TestConf", "url": "https://example.com", "strategy": "css", "tags": ["SEC", "TIER1"]},
+        {"name": "TestConf", "url": "https://example.com", "strategy": "css", "tags": ["SEC", "A*"]},
     ]
     result = load_conferences(_write_conf(entries, tmp_path))
     assert len(result) == 1

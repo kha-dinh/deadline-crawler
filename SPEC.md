@@ -5,24 +5,24 @@ Crawl conference CFP pages and export structured deadline data (JSON/YAML). Per-
 
 ## §C Constraints
 - C1: Crawler exports directly from crawl results — conferences.yaml is source of truth
-- C2: Focus areas: SEC, SYS, HW, SE/PL, GEN — tiered TIER1/TIER2
+- C2: Focus areas: SEC, SYS, HW, SE/PL, GEN — CORE ranked {A*, A, B, C}
 - C3: Deadlines default AoE unless `timezone` field set
 - C4: Minimal deps — no heavy framework
 - C5: Must work offline (query exported output) + online (crawl+export)
 - C6: Each conference has own crawl strategy (CSS selector, regex, LLM extract, etc.)
 
 ## §I Interfaces
-- I.conf: `conferences.yaml` — crawl config per conference: name, url, strategy, selectors/patterns, tags, metadata overrides. Selectors support optional `deadlines: [{label: str, pattern: str}]` for site-specific override; omit to use generic text extractor. `section` selector always required to narrow HTML to dates region. Optional `by_year: {YYYY: {url, selectors?, cycles?, overrides?}}` — per-year config for conferences with unpredictable URLs or layouts. Year-specific fields merge over top-level defaults. Replaces `url_fixed`
+- I.conf: `conferences.yaml` — crawl config per conference: name, url, strategy, selectors/patterns, tags, metadata overrides. `section` selector always required to narrow HTML to dates region. Optional `researchr_track: str` — track slug (supports `{YYYY}` template, e.g. `icse-{YYYY}-research-track`) for researchr.org dates pages. Optional `deadlines: [{label: str, pattern: str}]` — last-resort escape hatch ONLY; forbidden unless generic A+C extractor produces wrong/missing results (see V15); each block must have inline comment explaining why generic fails. Optional `by_year: {YYYY: {url, selectors?, cycles?, overrides?}}` — per-year config for conferences with unpredictable URLs or layouts. Year-specific fields merge over top-level defaults. Replaces `url_fixed`
 - I.cli: CLI commands: `crawl [--conf NAME] [--year YEAR...] [--format json|yaml] [--output PATH]`, `list [--area X] [--tier N] [--days N]`, `show [--input FILE]`, `validate`. `--year` accepts comma-separated values (e.g. `--year 2026,2027`); defaults to current year + next year; crawls each conference for each year
 - I.crawl: Crawler engine — loads strategy from I.conf, fetches page, extracts fields, exports directly
 - I.out: Terminal table or JSON output
 - I.web: `deadlines.yaml` — frontend-consumable output. Shape: `generated_at` + `conferences[]`. Each conference: `id` (slug), `name`, `year`, `description`, `link`, `area`, `tier`, `place`, `date` (event date ISO), `timezone` (default AoE), `deadlines[]` (`label`, `date`, `passed`), `tags[]`, `comment?`
-- I.strategy: Extract strategy — `regex` (pattern match). Two extraction modes: (1) **generic A+C extractor** — structure-preserving HTML→text (Phase A: table/dl/li flattening) + two-pass proximity search (Phase C: find dates then match nearby labels), no per-site patterns needed; (2) **site-specific regex** — per-conference patterns in I.conf, used as override escape hatch. Fallback chain: site-specific patterns (if defined) → generic A+C extractor → empty. Label map inverts V10: maps raw CFP phrases → canonical labels (e.g. "abstract registration" → `abstract`). Section selector remains only required site-specific config. Other strategies (css, llm, static) deferred
+- I.strategy: Extract strategy — `regex` (pattern match). Three extraction modes: (1) **researchr extractor** — structural BeautifulSoup parse of researchr.org dates pages; filters `<tr href=...>` rows by track slug, reads col0 (date) + col2 (label) via `_parse_deadline_date` + `_match_label`; two sub-modes: *explicit* (`researchr_track` set in selectors, supports `{YYYY}` template + optional `researchr_cycle` filter for multi-cycle conferences) and *auto-discover* (`_autodiscover_researchr` — collects all unique `<tr href>` slugs, scores each by canonical label count + "research" in slug tiebreak, picks best; fires automatically on any page with `<tr href>` rows, no config needed); (2) **generic A+C extractor** — structure-preserving HTML→text (Phase A: table/dl/li flattening) + two-pass proximity search (Phase C: find dates then match nearby labels); primary extractor for all standard CFP pages; (3) **site-specific regex** — per-conference `deadlines:` patterns in I.conf, last-resort escape hatch only (see V15). Extraction chain: explicit researchr_track (if set) → researchr auto-discover → generic A+C extractor → site-specific patterns (last resort, if defined) → empty. Label map inverts V10: maps raw CFP phrases → canonical labels (e.g. "abstract registration" → `abstract`). Section selector remains only required site-specific config. Other strategies (css, llm, static) deferred
 
 ## §V Invariants
 - V1: Every data.yaml entry MUST have: name, year, link, deadline (≥1), tags (≥1 area + tier)
 - V2: deadline[] items are dicts `{label: str, date: "YYYY-MM-DD HH:MM"}` — label is canonical (see V10)
-- V3: tags[] first element = area code {SEC,SYS,HW,SE,PL,GEN}, second = {TIER1,TIER2}
+- V3: tags[] first element = area code {SEC,SYS,HW,SE,PL,GEN}, second = CORE rank {A*,A,B,C}
 - V4: No duplicate (name, year) pairs in data.yaml
 - V5: (removed — no data.yaml intermediary)
 - V6: Past deadlines retained in output for historical reference
@@ -33,7 +33,12 @@ Crawl conference CFP pages and export structured deadline data (JSON/YAML). Per-
 - V11: Generic extractor label map MUST cover all V10 canonical labels. Each canonical label has ≥1 phrase variant. Map is single source of truth for text→label mapping
 - V12: Task completion requires: (1) unit tests pass (`uv run pytest tests/`), AND (2) smoke test pass (`uv run main.py crawl`) — all conferences must export with 0 skipped. Smoke test catches selector drift that unit tests with mocked HTML cannot
 - V13: When `by_year` present for target year, resolver MUST use year-specific config merged over top-level defaults. Year-specific fields take precedence. If year absent from `by_year` AND top-level `url` has no `{YYYY}` placeholder → skip conference for that year with warning
-- V14: Deadline dates SHOULD be chronologically ordered per canonical sequence: abstract ≤ submission ≤ early_reject ≤ rebuttal_start ≤ rebuttal_end ≤ notification ≤ shepherd ≤ camera_ready. Violation emits warning (not error) — some conferences have unusual timelines. Only labels present in entry are checked
+- V14: Deadline dates SHOULD be chronologically ordered per canonical sequence: abstract ≤ submission ≤ early_reject ≤ rebuttal_start ≤ rebuttal_end ≤ notification ≤ shepherd ≤ camera_ready. Violation emits warning (not error) — some conferences have unusual timelines. Only labels present in entry are checked. Known false positive: POPL assigns shepherds before final notification (early shepherd contact in their review process) — warning fires but data is correct; do not attempt to fix
+- V15: Generic A+C extractor is primary for all CFP pages. Site-specific `deadlines:` patterns MUST NOT be added unless generic produces wrong/missing results after reasonable tuning (LABEL_MAP extension, section selector adjustment). New `deadlines:` blocks require inline comment in conferences.yaml explaining why generic fails. Existing blocks MUST be removed when generic achieves correct extraction
+- V16: Entry with no `abstract` or `submission` label → warn (likely incomplete crawl; entry still valid)
+- V17: Duplicate label within single entry → error, reject entry (extractor bug)
+- V19: `link` empty or not valid HTTP/HTTPS URL → error, reject entry
+- V20: Entry with exactly 1 deadline → warn (likely partial crawl)
 
 ## §T Tasks
 | id | status | task | cites |
@@ -57,6 +62,9 @@ Crawl conference CFP pages and export structured deadline data (JSON/YAML). Per-
 | T17 | x | generic extractor v2: structure-preserving HTML strip (Phase A) + proximity-based label matching (Phase C). Compare generic vs site-specific output per conference; remove `deadlines:` blocks where generic matches, keep as override where it doesn't | I.strategy,V10,V11,§D |
 | T18 | x | `by_year` support: merge per-year config in config loader + resolve_url, remove `url_fixed`, update ASIACCS entry | I.conf,V7,V13 |
 | T19 | x | date-order warning: check deadline dates follow canonical label sequence, warn on violation | V14 |
+| T20 | x | researchr extractor: `_extract_deadlines_researchr` (explicit slug) + `_autodiscover_researchr` (auto-score all `<tr href>` slugs); auto-discover fires on any researchr page with no config; ICSE keeps explicit `researchr_track`+`researchr_cycle` for cycle filtering; FSE, ASE, ISSTA, ICST, MSR, ICSME, SANER `deadlines:` blocks removed | I.conf,I.strategy |
+| T21 | x | implement V16,V17,V19,V20 validators in `validate` command + call on crawl output | V16,V17,V19,V20 |
+| T22 | x | unit tests for V16,V17,V19,V20 validators | V16,V17,V19,V20 |
 
 ## §D Date Parsing Pipeline
 
@@ -74,7 +82,7 @@ Raw CFP text → V2 format (`YYYY-MM-DD HH:MM`). Lives in `crawler/strategies/re
    - Pass 1: scan all lines for date-like strings (`_GENERIC_DATE_RE`)
    - Pass 2: for each date, search context (same line + ±2 lines) for label phrase via LABEL_MAP
    - Nearest label wins; same label not assigned twice
-4. **Fallback chain**: site-specific patterns (if defined) → generic A+C extractor → empty
+4. **Extraction chain**: explicit researchr_track → researchr auto-discover → generic A+C extractor → site-specific patterns (last resort, if defined) → empty
 5. **Date parse** — captured date string → normalized `YYYY-MM-DD HH:MM`
 
 ### Normalization steps (in order)
@@ -135,9 +143,11 @@ Phase A (structure-preserving strip) + Phase C (proximity search) handle all kno
 | `label — date` | ASPLOS | A — separator preserve |
 | `label: <strong>date</strong>` | USENIX, OSDI, NSDI, EuroSys | A — inline flatten |
 | `<li>label: date</li>` | S&P | A — inline flatten |
+| `<tr href="/track-slug"><td>date</td><td>track</td><td>label</td></tr>` (multi-track table) | researchr.org (ICSE, FSE, ASE, ISSTA, ICST, MSR, ICSME, SANER) | researchr auto-discover — scores all `<tr href>` slugs by canonical label count, picks best. Generic A+C fails: multiple tracks share label keywords, first match may be wrong track |
 
-Most conferences only need `section` selector. Site-specific `deadlines:` patterns kept as override escape hatch, rarely needed.
+Most conferences only need `section` selector. Site-specific `deadlines:` patterns kept as override escape hatch, rarely needed. researchr.org pages handled automatically via `<tr href>` detection; explicit `researchr_track` + `researchr_cycle` only needed for multi-cycle conferences (ICSE).
 
 ## §B Bugs
 | id | date | cause | fix |
 |----|------|-------|-----|
+| B1 | 2026-05-14 | POPL: shepherd date < notification date triggers V14 warning — POPL assigns shepherds before final notification (non-standard review process); data correct | no code fix; V14 annotated with known exception |

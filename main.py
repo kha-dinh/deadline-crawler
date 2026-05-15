@@ -7,7 +7,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from crawler.strategy import crawl_all
-from crawler.output.generate import generate_from_results, _validate_entry
+from crawler.output.generate import generate_from_results, _validate_entry, _validate_entry_warnings
 
 
 def _parse_years(raw: str | None) -> list[int] | None:
@@ -80,7 +80,7 @@ def _output_to_entry(conf: dict) -> dict:
 
 
 def cmd_validate(args):
-    """Validate exported output against invariants V1-V4, V10."""
+    """Validate exported output against invariants V1-V4, V10, V16, V17, V19, V20."""
     data = _load_output_file(args.input)
     conferences = data.get("conferences", [])
 
@@ -90,6 +90,7 @@ def cmd_validate(args):
 
     seen = set()
     total_errors = 0
+    total_warnings = 0
 
     for conf in conferences:
         entry = _output_to_entry(conf)
@@ -107,8 +108,20 @@ def cmd_validate(args):
             for e in errors:
                 print(f"    {e}")
 
+        # V16, V20: warnings (don't reject)
+        warnings = _validate_entry_warnings(entry)
+        if warnings:
+            total_warnings += len(warnings)
+            print(f"⚠ {conf.get('name', '?')} ({conf.get('year', '?')}):")
+            for w in warnings:
+                print(f"    {w}")
+
+    summary_parts = [f"✓ {len(conferences)} conference(s) valid."] if total_errors == 0 else []
+    if total_warnings:
+        summary_parts.append(f"{total_warnings} warning(s).")
+
     if total_errors == 0:
-        print(f"✓ {len(conferences)} conference(s) valid.")
+        print(" ".join(summary_parts) if summary_parts else f"✓ {len(conferences)} conference(s) valid.")
     else:
         print(f"\n{total_errors} error(s) in {len(conferences)} conference(s).")
         sys.exit(1)
@@ -247,7 +260,7 @@ def main():
     crawl_p.add_argument("--year", default=None, help="Target year(s), comma-separated (e.g. 2026,2027)")
     crawl_p.add_argument("--format", "-f", choices=["json", "yaml"], default="json", help="Output format")
     crawl_p.add_argument("--output", "-o", help="Output file path")
-    crawl_p.add_argument("--workers", "-w", type=int, default=4, help="Parallel fetch threads (default: 4)")
+    crawl_p.add_argument("--workers", "-w", type=int, default=8, help="Parallel fetch threads (default: 8)")
     crawl_p.add_argument("--no-specific", action="store_true", default=False, help="Skip site-specific deadline patterns; use generic extractor only")
 
     # T10: validate command

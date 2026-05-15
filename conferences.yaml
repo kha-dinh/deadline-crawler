@@ -18,7 +18,7 @@
   url: https://www.usenix.org/conference/usenixsecurity{YY}/call-for-papers
   url_main: https://www.usenix.org/conference/usenixsecurity{YY}
   strategy: regex
-  tags: [SEC, TIER1]
+  tags: [SEC, A*]
   cycles:
     - name: "Cycle 1"
       selectors:
@@ -35,8 +35,11 @@
 - name: "IEEE S&P"
   # Pattern: sp{YYYY}.ieee-security.org — consistent across years
   url: https://sp{YYYY}.ieee-security.org/cfpapers.html
+  url_main: https://sp{YYYY}.ieee-security.org/
   strategy: regex
-  tags: [SEC, TIER1]
+  tags: [SEC, A*]
+  main_selectors:
+    date: "p.location"
   cycles:
     - name: "Cycle 1"
       selectors:
@@ -50,8 +53,12 @@
 - name: ACM CCS
   # Pattern: sigsac.org/ccs/CCS{YYYY} — consistent across years
   url: https://www.sigsac.org/ccs/CCS{YYYY}/call-for/call-for-papers.html
+  url_main: https://www.sigsac.org/ccs/CCS{YYYY}/
   strategy: regex
-  tags: [SEC, TIER1]
+  tags: [SEC, A*]
+  main_selectors:
+    date: "header.masthead .page-heading span.subheading:nth-of-type(1)"
+    place: "header.masthead .page-heading span.subheading:nth-of-type(2)"
   cycles:
     - name: "Cycle A"
       selectors:
@@ -65,8 +72,11 @@
 - name: NDSS
   # Pattern: ndss-symposium.org/ndss{YYYY}/... — consistent across years
   url: https://www.ndss-symposium.org/ndss{YYYY}/submissions/call-for-papers/
+  url_main: https://www.ndss-symposium.org/ndss{YYYY}/
   strategy: regex
-  tags: [SEC, TIER1]
+  tags: [SEC, A*]
+  main_selectors:
+    date: ".page-heading.green-heading .wp-block-column p"
   cycles:
     - name: "Summer"
       selectors:
@@ -82,19 +92,22 @@
 #   # Pattern: esorics{YYYY}.org → redirects to sciencesconf.org — unpredictable
 #   # Use by_year when enabling — host unpredictable
 #   strategy: regex
-#   tags: [SEC, TIER2]
+#   tags: [SEC, A]
 #   overrides:
 #     description: "European Symposium on Research in Computer Security"
 
 - name: ASIACCS
   # Host changes per year — use by_year for URL + selectors
   strategy: regex
-  tags: [SEC, TIER2]
+  tags: [SEC, A]
+  main_selectors:
+    date: ".header-bottom p"
   overrides:
     description: "ACM Asia Conference on Computer and Communications Security"
   by_year:
     2025:
       url: https://asiaccs2025.hust.edu.vn/call-for-papers/
+      url_main: https://asiaccs2025.hust.edu.vn/
       cycles:
         - name: "Cycle 1"
           selectors:
@@ -104,6 +117,7 @@
             section: "Cycle 2 Deadline</strong></h4>.*?(?=Submission Instructions|<h3)"
     2026:
       url: https://asiaccs2026.cse.iitkgp.ac.in/call-for-papers/
+      url_main: https://asiaccs2026.cse.iitkgp.ac.in/
       cycles:
         - name: "Cycle 1"
           selectors:
@@ -115,8 +129,11 @@
 - name: RAID
   # Pattern: raid{YYYY}.github.io — used through 2025; 2026+ use raid{YYYY}.org
   url: https://raid{YYYY}.github.io/call.html
+  url_main: https://raid{YYYY}.github.io/
   strategy: regex
-  tags: [SEC, TIER2]
+  tags: [SEC, A]
+  main_selectors:
+    date: "span.pill"
   selectors:
     section: "Important Dates</h2>.*?</table>"
   overrides:
@@ -124,27 +141,95 @@
   by_year:
     2026:
       url: https://raid2026.org/call.html
+      url_main: https://raid2026.org/
       selectors: {}
 
 - name: ACSAC
   # Pattern: acsac.org/{YYYY}/submissions/papers/ — consistent
   url: https://www.acsac.org/{YYYY}/submissions/papers/
+  url_main: https://www.acsac.org/{YYYY}/
   strategy: regex
-  tags: [SEC, TIER2]
+  tags: [SEC, A]
+  main_selectors:
+    date: "#extended-logo .font-heading-3xs"
   selectors:
     section: 'Call for Papers</h1>.*?(?=<b>Program Chair|<div class="font-serif")'
   overrides:
     description: "Annual Computer Security Applications Conference"
 
+- name: "IEEE EuroS&P"
+  # Pattern: eurosp{YYYY}.ieee-security.org — consistent across years
+  # Dates in <ul> after <h3>Important Dates & Decisions</h3> (no id); label: <strong>date</strong>
+  url: https://eurosp{YYYY}.ieee-security.org/cfp.html
+  url_main: https://eurosp{YYYY}.ieee-security.org/
+  strategy: regex
+  tags: [SEC, A]
+  main_selectors:
+    date: "p.location"
+  selectors:
+    section: "Important Dates.*?</ul>"
+  overrides:
+    description: "IEEE European Symposium on Security and Privacy"
+
+- name: PoPETs
+  # Pattern: petsymposium.org/cfp{YY}.php — 2-digit year; 4 rolling issues/year (journal-style)
+  # All issues in <div class="deadlines">; each issue is <p><b>Issue N</b><br>...dates...</p>
+  url: https://petsymposium.org/cfp{YY}.php
+  url_main: https://petsymposium.org/
+  strategy: regex
+  tags: [SEC, A]
+  main_selectors:
+    date: "div.pets-home > h3"
+  cycles:
+    - name: "Issue 1"
+      selectors:
+        section: "<b>Issue 1</b>.*?(?=<b>Issue 2</b>|</div>)"
+    - name: "Issue 2"
+      selectors:
+        section: "<b>Issue 2</b>.*?(?=<b>Issue 3</b>|</div>)"
+    - name: "Issue 3"
+      selectors:
+        section: "<b>Issue 3</b>.*?(?=<b>Issue 4</b>|</div>)"
+    - name: "Issue 4"
+      selectors:
+        section: "<b>Issue 4</b>.*?(?=</div>|$)"
+  overrides:
+    description: "Privacy Enhancing Technologies Symposium"
+
+- name: DIMVA
+  # Pattern: www.dimva.org/dimva{YYYY}/ — consistent across years; 2 submission cycles
+  # Nested <ul>: outer LI = "Cycle N:", inner LI = deadlines. Strikethrough = old date, <b> = extended
+  # Top-level section scopes to CFP block only (separate "Call for Posters" Important Dates further down)
+  url: https://www.dimva.org/dimva{YYYY}/
+  strategy: regex
+  tags: [SEC, A]
+  main_selectors:
+    date: "#header h4"
+  selectors:
+    section: "Call for Papers.*?(?=Call for Posters|<h2)"
+  cycles:
+    - name: "Cycle 1"
+      selectors:
+        section: "Cycle 1:.*?(?=Cycle 2:|$)"
+    - name: "Cycle 2"
+      selectors:
+        section: "Cycle 2:.*?(?=Camera ready|$)"
+  overrides:
+    description: "International Conference on Detection of Intrusions and Malware & Vulnerability Assessment"
+
 ########################  Systems — TIER1  ########################
 
 - name: SOSP
   # Pattern: sigops.org/s/conferences/sosp/{YYYY}/cfp.html — moved to ACM/SIGOPS
+  # Main page: .hero-container p.mb-4.pb-0 has "Date · Venue, City, Country" (combined)
   url: https://sigops.org/s/conferences/sosp/{YYYY}/cfp.html
+  url_main: https://sigops.org/s/conferences/sosp/{YYYY}/
   strategy: regex
-  tags: [SYS, TIER1]
+  tags: [SYS, A*]
   selectors:
     section: 'id="dates".*?</table>'
+  main_selectors:
+    date: ".hero-container p.mb-4.pb-0"
   overrides:
     description: "ACM Symposium on Operating Systems Principles"
 
@@ -154,7 +239,7 @@
   url: https://www.usenix.org/conference/osdi{YY}/call-for-papers
   url_main: https://www.usenix.org/conference/osdi{YY}
   strategy: regex
-  tags: [SYS, TIER1]
+  tags: [SYS, A*]
   selectors:
     section: "Important Dates</h2>.*?(?=<h2|Deadline and Submission)"
   main_selectors:
@@ -165,9 +250,11 @@
 
 - name: EuroSys
   # Pattern: {YYYY}.eurosys.org/cfp.html — consistent
+  # Main page: 2 .intro-lead-in divs — 1st=place, 2nd=date
   url: https://{YYYY}.eurosys.org/cfp.html
+  url_main: https://{YYYY}.eurosys.org/
   strategy: regex
-  tags: [SYS, TIER1]
+  tags: [SYS, A*]
   cycles:
     - name: "Spring"
       selectors:
@@ -175,21 +262,28 @@
     - name: "Fall"
       selectors:
         section: "Fall deadline</h3>.*?(?=<h2|<h3|$)"
+  main_selectors:
+    date: ".intro-lead-in:last-of-type"
+    place: ".intro-lead-in:first-of-type"
   overrides:
     description: "European Conference on Computer Systems"
 
 - name: ASPLOS
   # Pattern: asplos-conference.org/asplos{YYYY}/cfp/ — consistent
+  # Main page: p.site-description has "Place – Date" combined text
   url: https://www.asplos-conference.org/asplos{YYYY}/cfp/
+  url_main: https://www.asplos-conference.org/asplos{YYYY}/
   strategy: regex
-  tags: [SYS, TIER1]
+  tags: [SYS, A*]
   cycles:
     - name: "Spring"
       selectors:
-        section: "<p>Spring Cycle</p>.*?</ul>"
+        section: "<p>(?:Spring|April) Cycle</p>.*?</ul>"
     - name: "Summer"
       selectors:
-        section: "<p>Summer Cycle[^<]*</p>.*?</ul>"
+        section: "<p>(?:Summer|September) Cycle[^<]*</p>.*?</ul>"
+  main_selectors:
+    date: "p.site-description"
   overrides:
     description: "International Conference on Architectural Support for Programming Languages and Operating Systems"
 
@@ -198,7 +292,7 @@
   url: https://sigops.org/s/conferences/atc/{YYYY}/cfp.html
   url_main: https://www.usenix.org/conference/atc{YY}
   strategy: regex
-  tags: [SYS, TIER1]
+  tags: [SYS, A*]
   selectors:
     section: 'id="dates".*?</table>'
   main_selectors:
@@ -212,7 +306,7 @@
   url: https://www.usenix.org/conference/nsdi{YY}/call-for-papers
   url_main: https://www.usenix.org/conference/nsdi{YY}
   strategy: regex
-  tags: [SYS, TIER1]
+  tags: [SYS, A*]
   cycles:
     - name: "Spring"
       selectors:
@@ -225,6 +319,22 @@
     place: ".field-name-field-address-text .field-item"
   overrides:
     description: "USENIX Symposium on Networked Systems Design and Implementation"
+- name: SIGCOMM
+  # Pattern: conferences.sigcomm.org/sigcomm/{YYYY}/cfp/ — consistent
+  # Dates in <table class=compact-table> under <h2>Important Dates</h2> (no id); uses <th> not <td>
+  # Main page: first span.text-color-secondary=date, second=place
+  url: https://conferences.sigcomm.org/sigcomm/{YYYY}/cfp/
+  url_main: https://conferences.sigcomm.org/sigcomm/{YYYY}/
+  strategy: regex
+  tags: [SYS, A*]
+  selectors:
+    section: 'Important Dates</h2>.*?</table>'
+  main_selectors:
+    date: "span.text-color-secondary:first-of-type"
+    place: "span.text-color-secondary:last-of-type"
+  overrides:
+    description: "ACM SIGCOMM Conference on Data Communication"
+
 ########################  Systems — TIER2  ########################
 
 - name: FAST
@@ -232,7 +342,7 @@
   url: https://www.usenix.org/conference/fast{YY}/call-for-papers
   url_main: https://www.usenix.org/conference/fast{YY}
   strategy: regex
-  tags: [SYS, TIER2]
+  tags: [SYS, A]
   cycles:
     - name: "Spring"
       selectors:
@@ -250,7 +360,7 @@
 #   # Pattern varies: acm-socc.org — site unreachable as of 2025
 #   # Use by_year when enabling — host unpredictable
 #   strategy: regex
-#   tags: [SYS, TIER2]
+#   tags: [SYS, A]
 #   overrides:
 #     description: "ACM Symposium on Cloud Computing"
 
@@ -258,19 +368,78 @@
 #   # Pattern: middleware-conf.github.io/{YYYY}/ — no CFP page found
 #   # Use by_year when enabling — host unpredictable
 #   strategy: regex
-#   tags: [SYS, TIER2]
+#   tags: [SYS, A]
 #   overrides:
 #     description: "ACM/IFIP International Middleware Conference"
+
+- name: IMC
+  # Pattern: conferences.sigcomm.org/imc/{YYYY}/cfp/ — consistent; 2 submission cycles
+  # Cycles delimited by <h2>Cycle N Deadline</h2> (no id); rows use <td>
+  # Main page: .container.hero h2 — 1st=place, 2nd=date
+  url: https://conferences.sigcomm.org/imc/{YYYY}/cfp/
+  url_main: https://conferences.sigcomm.org/imc/{YYYY}/
+  strategy: regex
+  tags: [SYS, A]
+  cycles:
+    - name: "Cycle 1"
+      selectors:
+        section: 'Cycle 1 Deadline</h2>.*?(?=<h2)'
+        deadlines:
+          - label: abstract
+            pattern: '<td>Paper registration[^<]*</td>\s*<td>([^<]+)</td>'
+          - label: submission
+            pattern: '<td>Paper submission</td>\s*<td>([^<]+)</td>'
+          - label: early_reject
+            pattern: '<td>Early reject notification</td>\s*<td>([^<]+)</td>'
+          - label: notification
+            pattern: '<td>Notification</td>\s*<td>([^<]+)</td>'
+          - label: camera_ready
+            pattern: '<td>Shepherd approval[^<]*</td>\s*<td>([^<]+)</td>'
+    - name: "Cycle 2"
+      selectors:
+        section: 'Cycle 2 Deadline</h2>.*?(?=<h2)'
+        deadlines:
+          - label: abstract
+            pattern: '<td>Paper registration[^<]*</td>\s*<td>([^<]+)</td>'
+          - label: submission
+            pattern: '<td>Paper submission \(including[^<]*</td>\s*<td>([^<]+)</td>'
+          - label: early_reject
+            pattern: '<td>Early reject notification</td>\s*<td>([^<]+)</td>'
+          - label: notification
+            pattern: '<td>Notification</td>\s*<td>([^<]+)</td>'
+          - label: camera_ready
+            pattern: '<td>Shepherd approval[^<]*</td>\s*<td>([^<]+)</td>'
+  main_selectors:
+    date: ".container.hero h2:nth-of-type(2)"
+    place: ".container.hero h2:first-of-type"
+  overrides:
+    description: "ACM Internet Measurement Conference"
+
+- name: HotOS
+  # Biennial (odd years: 2025, 2027...) — use by_year; ACM SIGOPS-hosted
+  # Dates in <ul> under <h2>Key Dates</h2> (no id); label: date format in <li> items
+  strategy: regex
+  tags: [SYS, A]
+  by_year:
+    2025:
+      url: https://sigops.org/s/conferences/hotos/2025/cfp.html
+      selectors:
+        section: 'Key Dates</h2>.*?</ul>'
+    2027:
+      url: https://sigops.org/s/conferences/hotos/2027/cfp.html
+  overrides:
+    description: "Workshop on Hot Topics in Operating Systems"
 
 ########################  Software Engineering — TIER1  ########################
 
 - name: ICSE
   # Pattern: conf.researchr.org/dates/icse-{YYYY} — consistent
+  # Home page: div.place has "Date <a>City, Country</a>" — consistent across all researchr conferences
   url: https://conf.researchr.org/dates/icse-{YYYY}
+  url_main: https://conf.researchr.org/home/icse-{YYYY}
   strategy: regex
-  tags: [SE, TIER1]
+  tags: [SE, A*]
   # researchr.org dates page: each <tr> has href to track, 3 <td>s: date, track name, label
-  # Pattern: <tr...href="...TRACK"...><td>DATE<span...></td><td>NAME</td><td>LABEL</td></tr>
   cycles:
     - name: "Cycle 1"
       selectors:
@@ -280,6 +449,9 @@
       selectors:
         researchr_track: icse-{YYYY}-research-track
         researchr_cycle: "Second Cycle"
+  main_selectors:
+    date: "div.place"
+    place: "div.place a"
   by_year:
     2027:
       # ICSE 2027 dropped two-cycle format — single cycle, no "First/Second Cycle:" prefix
@@ -290,8 +462,12 @@
 - name: FSE
   # Pattern: conf.researchr.org/dates/fse-{YYYY} — consistent
   url: https://conf.researchr.org/dates/fse-{YYYY}
+  url_main: https://conf.researchr.org/home/fse-{YYYY}
   strategy: regex
-  tags: [SE, TIER1]
+  tags: [SE, A*]
+  main_selectors:
+    date: "div.place"
+    place: "div.place a"
   overrides:
     description: "ACM Joint European Software Engineering Conference and Symposium on the Foundations of Software Engineering"
 
@@ -299,8 +475,12 @@
   # Pattern: conf.researchr.org/dates/ase-{YYYY} — consistent
   # Track ID varies: ase-YYYY-papers (2025) vs ase-YYYY-research-track (2026) — auto-discovered
   url: https://conf.researchr.org/dates/ase-{YYYY}
+  url_main: https://conf.researchr.org/home/ase-{YYYY}
   strategy: regex
-  tags: [SE, TIER1]
+  tags: [SE, A*]
+  main_selectors:
+    date: "div.place"
+    place: "div.place a"
   overrides:
     description: "International Conference on Automated Software Engineering"
 
@@ -308,8 +488,12 @@
   # Pattern: conf.researchr.org/dates/issta-{YYYY} — consistent
   # Track ID varies: issta-YYYY-papers (2025) vs issta-YYYY-research-papers (2026) — auto-discovered
   url: https://conf.researchr.org/dates/issta-{YYYY}
+  url_main: https://conf.researchr.org/home/issta-{YYYY}
   strategy: regex
-  tags: [SE, TIER1]
+  tags: [SE, A*]
+  main_selectors:
+    date: "div.place"
+    place: "div.place a"
   overrides:
     description: "International Symposium on Software Testing and Analysis"
 
@@ -318,31 +502,226 @@
 - name: ICST
   # Pattern: conf.researchr.org/dates/icst-{YYYY} — consistent
   url: https://conf.researchr.org/dates/icst-{YYYY}
+  url_main: https://conf.researchr.org/home/icst-{YYYY}
   strategy: regex
-  tags: [SE, TIER2]
+  tags: [SE, A]
+  main_selectors:
+    date: "div.place"
+    place: "div.place a"
   overrides:
     description: "IEEE International Conference on Software Testing, Verification and Validation"
 
 - name: MSR
-  # Pattern: {YYYY}.msrconf.org/dates — consistent
+  # Pattern: {YYYY}.msrconf.org/dates — consistent; home page on researchr
   url: https://{YYYY}.msrconf.org/dates
+  url_main: https://conf.researchr.org/home/msr-{YYYY}
   strategy: regex
-  tags: [SE, TIER2]
+  tags: [SE, A]
+  main_selectors:
+    date: "div.place"
+    place: "div.place a"
   overrides:
     description: "IEEE/ACM International Conference on Mining Software Repositories"
 
 - name: ICSME
   # Pattern: conf.researchr.org/dates/icsme-{YYYY} — consistent
   url: https://conf.researchr.org/dates/icsme-{YYYY}
+  url_main: https://conf.researchr.org/home/icsme-{YYYY}
   strategy: regex
-  tags: [SE, TIER2]
+  tags: [SE, A]
+  main_selectors:
+    date: "div.place"
+    place: "div.place a"
   overrides:
     description: "IEEE International Conference on Software Maintenance and Evolution"
 
 - name: SANER
   # Pattern: conf.researchr.org/dates/saner-{YYYY} — consistent
   url: https://conf.researchr.org/dates/saner-{YYYY}
+  url_main: https://conf.researchr.org/home/saner-{YYYY}
   strategy: regex
-  tags: [SE, TIER2]
+  tags: [SE, A]
+  main_selectors:
+    date: "div.place"
+    place: "div.place a"
   overrides:
     description: "IEEE International Conference on Software Analysis, Evolution and Reengineering"
+
+- name: ICPC
+  # Pattern: conf.researchr.org/dates/icpc-{YYYY} — consistent; track: icpc-{YYYY}-research
+  url: https://conf.researchr.org/dates/icpc-{YYYY}
+  url_main: https://conf.researchr.org/home/icpc-{YYYY}
+  strategy: regex
+  tags: [SE, A]
+  selectors:
+    researchr_track: icpc-{YYYY}-research
+  main_selectors:
+    date: "div.place"
+    place: "div.place a"
+  overrides:
+    description: "IEEE International Conference on Program Comprehension"
+
+- name: SCAM
+  # Pattern: conf.researchr.org/dates/scam-{YYYY} — consistent; co-located with ICSME
+  # Track: scam-{YYYY}-research-track
+  url: https://conf.researchr.org/dates/scam-{YYYY}
+  url_main: https://conf.researchr.org/home/scam-{YYYY}
+  strategy: regex
+  tags: [SE, A]
+  selectors:
+    researchr_track: scam-{YYYY}-research-track
+  main_selectors:
+    date: "div.place"
+    place: "div.place a"
+  overrides:
+    description: "IEEE International Working Conference on Source Code Analysis and Manipulation"
+
+########################  Programming Languages — TIER1  ########################
+
+- name: PLDI
+  # sigplan.org track pages are JS-tab-rendered; use researchr dates page (static)
+  # Track auto-discovered as pldi-{YYYY}-papers by _autodiscover_researchr
+  url: https://conf.researchr.org/dates/pldi-{YYYY}
+  url_main: https://conf.researchr.org/home/pldi-{YYYY}
+  strategy: regex
+  tags: [PL, A*]
+  main_selectors:
+    date: "div.place"
+    place: "div.place a"
+  overrides:
+    description: "ACM SIGPLAN Conference on Programming Language Design and Implementation"
+
+- name: POPL
+  # sigplan.org track pages are JS-tab-rendered; use researchr dates page (static)
+  # Track auto-discovered; slug uses mixed case POPL-{YYYY}-popl-research-papers
+  url: https://conf.researchr.org/dates/popl-{YYYY}
+  url_main: https://conf.researchr.org/home/popl-{YYYY}
+  strategy: regex
+  tags: [PL, A*]
+  main_selectors:
+    date: "div.place"
+    place: "div.place a"
+  overrides:
+    description: "ACM SIGPLAN Symposium on Principles of Programming Languages"
+
+- name: OOPSLA
+  # Part of SPLASH — researchr slug is splash-{YYYY}, track is oopsla-{YYYY}
+  # 2-round rolling review; label column contains "Round 1"/"Round 2" for researchr_cycle filter
+  strategy: regex
+  tags: [PL, A*]
+  cycles:
+    - name: "Round 1"
+      selectors:
+        researchr_track: oopsla-{YYYY}
+        researchr_cycle: "Round 1"
+    - name: "Round 2"
+      selectors:
+        researchr_track: oopsla-{YYYY}
+        researchr_cycle: "Round 2"
+  url_main: https://conf.researchr.org/home/splash-{YYYY}
+  main_selectors:
+    date: "div.place"
+    place: "div.place a"
+  by_year:
+    2025:
+      url: https://conf.researchr.org/dates/splash-2025
+    2026:
+      url: https://conf.researchr.org/dates/splash-2026
+  overrides:
+    description: "ACM SIGPLAN International Conference on Object-Oriented Programming, Systems, Languages & Applications"
+
+- name: ICFP
+  # sigplan.org track pages are JS-tab-rendered; use researchr dates page (static)
+  # Track auto-discovered as icfp-{YYYY}-icfp-papers (2026) or icfp-{YYYY}-papers (2025)
+  strategy: regex
+  tags: [PL, A*]
+  url_main: https://conf.researchr.org/home/icfp-{YYYY}
+  main_selectors:
+    date: "div.place"
+    place: "div.place a"
+  by_year:
+    2025:
+      url: https://conf.researchr.org/dates/icfp-2025
+    2026:
+      url: https://conf.researchr.org/dates/icfp-2026
+  overrides:
+    description: "ACM SIGPLAN International Conference on Functional Programming"
+
+########################  Programming Languages — TIER2  ########################
+
+- name: ECOOP
+  # ecoop.org track pages are JS-tab-rendered; use researchr dates page (static)
+  # Track: ecoop-{YYYY}-technical-papers; 2-round review (label column contains "Round 1"/"Round 2")
+  url: https://conf.researchr.org/dates/ecoop-{YYYY}
+  url_main: https://conf.researchr.org/home/ecoop-{YYYY}
+  strategy: regex
+  tags: [PL, A]
+  cycles:
+    - name: "Round 1"
+      selectors:
+        researchr_track: ecoop-{YYYY}-technical-papers
+        researchr_cycle: "Round 1"
+    - name: "Round 2"
+      selectors:
+        researchr_track: ecoop-{YYYY}-technical-papers
+        researchr_cycle: "Round 2"
+  main_selectors:
+    date: "div.place"
+    place: "div.place a"
+  overrides:
+    description: "European Conference on Object-Oriented Programming"
+
+########################  Computer Architecture — TIER1  ########################
+
+- name: ISCA
+  # CFP sub-path varies between years (papers.php vs callforpapers.php) — use by_year
+  # 2026: table has 3 cols (label | Main Track | Industry Track); section isolates panel
+  strategy: regex
+  tags: [HW, A*]
+  by_year:
+    2025:
+      url: https://iscaconf.org/isca2025/submit/papers.php
+    2026:
+      url: https://iscaconf.org/isca2026/submit/callforpapers.php
+      selectors:
+        section: "Important Dates.*?</table>"
+  overrides:
+    description: "International Symposium on Computer Architecture"
+
+- name: MICRO
+  # Uses sequential edition numbers (not years): MICRO-58=2025, MICRO-59=2026 — use by_year
+  # 2026: deadlines in <ul> under <h4>Important Dates</h4>; section isolates the list
+  strategy: regex
+  tags: [HW, A*]
+  by_year:
+    2025:
+      url: https://www.microarch.org/micro58/submit/papers.php
+    2026:
+      url: https://www.microarch.org/micro59/submit/papers.php
+      selectors:
+        section: "Important Dates.*?</ul>"
+  overrides:
+    description: "IEEE/ACM International Symposium on Microarchitecture"
+
+- name: HPCA
+  # URL structure changed between years — use by_year
+  strategy: regex
+  tags: [HW, A*]
+  by_year:
+    2025:
+      url: https://hpca-conf.org/2025/call-for-papers/
+    2026:
+      url: https://2026.hpca-conf.org/track/hpca-2026-main-conference
+  overrides:
+    description: "IEEE International Symposium on High-Performance Computer Architecture"
+
+- name: DAC
+  # Pattern: dac.com/{YYYY}/program/research-manuscript-submissions — consistent
+  # Timeline uses <h3 id="date"> cards; section isolates the Timeline block
+  url: https://dac.com/{YYYY}/program/research-manuscript-submissions
+  strategy: regex
+  tags: [HW, A]
+  selectors:
+    section: 'Timeline.*?(?=</section>|</main>|<footer)'
+  overrides:
+    description: "Design Automation Conference"

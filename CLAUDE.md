@@ -50,7 +50,7 @@ Multi-cycle support: conferences with `cycles[]` in config produce one `CrawlRes
 
 - **V1**: Every entry needs: name, year, link, ≥1 deadline, tags (area + tier)
 - **V2**: Deadline format: `{label: str, date: "YYYY-MM-DD HH:MM"}`
-- **V3**: tags = `[area_code, tier]` where area ∈ {SEC,SYS,HW,SE,PL,GEN}, tier ∈ {TIER1,TIER2}
+- **V3**: tags = `[area_code, core_rank]` where area ∈ {SEC,SYS,HW,SE,PL,GEN}, core_rank ∈ {A*,A,B,C}
 - **V7**: conferences.yaml entries require: name, url, strategy, tags
 - **V8**: strategy ∈ {regex, css, llm, static}
 - **V10**: Canonical deadline labels: abstract, submission, early_reject, rebuttal_start, rebuttal_end, notification, shepherd, camera_ready

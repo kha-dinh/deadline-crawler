@@ -7,6 +7,7 @@ import json
 import re
 from datetime import datetime, timezone
 from pathlib import Path
+from urllib.parse import urlparse
 
 import yaml
 from rich.console import Console
@@ -64,15 +65,27 @@ LABEL_ORDER = [
 
 
 def _validate_entry(entry: dict) -> list[str]:
-    """Validate data.yaml entry against V1, V2, V3, V10. Return list of errors."""
+    """Validate entry against V1, V2, V3, V10, V17, V19. Return list of errors."""
     errors = []
-    for field in ("name", "year", "link"):
+    for field in ("name", "year"):
         if not entry.get(field):
             errors.append(f"missing {field}")
+
+    # V19: link must be non-empty, valid HTTP/HTTPS URL
+    link = entry.get("link", "")
+    if not link:
+        errors.append("missing link")
+    else:
+        parsed = urlparse(link)
+        if parsed.scheme not in ("http", "https") or not parsed.netloc:
+            errors.append(f"link must be HTTP/HTTPS URL: {link}")
 
     deadlines = entry.get("deadline", [])
     if not deadlines:
         errors.append("missing deadline (need ≥1)")
+
+    # V17: no duplicate labels
+    seen_labels: set[str] = set()
     for d in deadlines:
         if not isinstance(d, dict):
             errors.append(f"deadline must be dict, got: {d}")
@@ -83,17 +96,37 @@ def _validate_entry(entry: dict) -> list[str]:
         label = d.get("label", "")
         if label not in VALID_LABELS:
             errors.append(f"bad deadline label: {label}")
+        if label in seen_labels:
+            errors.append(f"duplicate deadline label: {label}")
+        seen_labels.add(label)
 
     tags = entry.get("tags", [])
     if len(tags) < 2:
-        errors.append("tags need ≥2 elements (area + tier)")
+        errors.append("tags need ≥2 elements (area + core rank)")
     else:
         if tags[0] not in {"SEC", "SYS", "HW", "SE", "PL", "GEN"}:
             errors.append(f"bad area code: {tags[0]}")
-        if tags[1] not in {"TIER1", "TIER2"}:
-            errors.append(f"bad tier: {tags[1]}")
+        if tags[1] not in {"A*", "A", "B", "C"}:
+            errors.append(f"bad core rank: {tags[1]}")
 
     return errors
+
+
+def _validate_entry_warnings(entry: dict) -> list[str]:
+    """V16, V20: warn on possibly incomplete crawl. Return list of warning strings."""
+    warnings = []
+    deadlines = entry.get("deadline", [])
+    labels = {d["label"] for d in deadlines if isinstance(d, dict) and "label" in d}
+
+    # V16: no abstract or submission = likely incomplete
+    if not (labels & {"abstract", "submission"}):
+        warnings.append("no abstract or submission deadline (possibly incomplete crawl)")
+
+    # V20: exactly 1 deadline = likely partial
+    if len(deadlines) == 1:
+        warnings.append("only 1 deadline found (possibly partial crawl)")
+
+    return warnings
 
 
 def _check_date_order(entry: dict) -> list[str]:
@@ -195,12 +228,13 @@ def generate_from_results(
         if errors:
             _stderr.print(f"  [bold red]⚠ skipping[/] {entry.get('name', '?')}: {'; '.join(errors)}")
             continue
+        name = entry.get("name", "?")
+        # V16, V20: warn on possibly incomplete crawl results
+        for w in _validate_entry_warnings(entry):
+            _stderr.print(f"  [bold yellow]⚠[/] {name}: {w}")
         # V14: warn on date order violations
-        date_warnings = _check_date_order(entry)
-        if date_warnings:
-            name = entry.get("name", "?")
-            for w in date_warnings:
-                _stderr.print(f"  [bold yellow]⚠[/] {name}: {w}")
+        for w in _check_date_order(entry):
+            _stderr.print(f"  [bold yellow]⚠[/] {name}: {w}")
         conferences.append(transform_entry(entry, now))
 
     result = {

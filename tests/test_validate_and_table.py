@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from main import cmd_validate, _output_to_entry, print_table, _days_until, _urgency_color
-from crawler.output.generate import _check_date_order
+from crawler.output.generate import _check_date_order, _validate_entry, _validate_entry_warnings
 
 
 # --- T10: validate ---
@@ -19,9 +19,9 @@ def _make_valid_conf():
         "year": 2026,
         "link": "https://example.com",
         "area": "SEC",
-        "tier": "TIER1",
+        "tier": "A*",
         "deadlines": [{"label": "submission", "date": "2026-06-01 23:59", "passed": False}],
-        "tags": ["SEC", "TIER1"],
+        "tags": ["SEC", "A*"],
     }
 
 
@@ -33,7 +33,7 @@ def test_output_to_entry_shape():
     assert entry["link"] == "https://example.com"
     assert len(entry["deadline"]) == 1
     assert entry["deadline"][0]["label"] == "submission"
-    assert entry["tags"] == ["SEC", "TIER1"]
+    assert entry["tags"] == ["SEC", "A*"]
 
 
 def test_validate_valid_file(tmp_path, capsys):
@@ -119,7 +119,7 @@ def test_print_table_output(capsys):
             "name": "ConfA",
             "year": 2026,
             "area": "SEC",
-            "tier": "TIER1",
+            "tier": "A*",
             "deadlines": [
                 {"label": "submission", "date": "2026-01-05 23:59", "passed": False},
             ],
@@ -128,7 +128,7 @@ def test_print_table_output(capsys):
             "name": "ConfB",
             "year": 2026,
             "area": "SYS",
-            "tier": "TIER2",
+            "tier": "A",
             "deadlines": [
                 {"label": "abstract", "date": "2026-02-15 23:59", "passed": False},
             ],
@@ -189,6 +189,162 @@ def test_check_date_order_equal_dates():
     assert _check_date_order(entry) == []
 
 
+# --- V17: duplicate labels ---
+
+
+def test_v17_duplicate_label_error():
+    """V17: same label twice in one entry → error."""
+    entry = {
+        "name": "Conf", "year": 2026, "link": "https://example.com",
+        "tags": ["SEC", "A*"],
+        "deadline": [
+            {"label": "submission", "date": "2026-06-01 23:59"},
+            {"label": "submission", "date": "2026-07-01 23:59"},
+        ],
+    }
+    errors = _validate_entry(entry)
+    assert any("duplicate deadline label" in e for e in errors)
+
+
+def test_v17_no_duplicate_ok():
+    """V17: distinct labels → no duplicate error."""
+    entry = {
+        "name": "Conf", "year": 2026, "link": "https://example.com",
+        "tags": ["SEC", "A*"],
+        "deadline": [
+            {"label": "abstract", "date": "2026-05-01 23:59"},
+            {"label": "submission", "date": "2026-06-01 23:59"},
+        ],
+    }
+    errors = _validate_entry(entry)
+    assert not any("duplicate" in e for e in errors)
+
+
+# --- V19: URL validation ---
+
+
+def test_v19_valid_https_url():
+    """V19: valid HTTPS URL → no error."""
+    entry = {
+        "name": "Conf", "year": 2026, "link": "https://conf.example.com/2026",
+        "tags": ["SEC", "A*"],
+        "deadline": [{"label": "submission", "date": "2026-06-01 23:59"}],
+    }
+    errors = _validate_entry(entry)
+    assert not any("link" in e for e in errors)
+
+
+def test_v19_valid_http_url():
+    """V19: plain HTTP URL → no error."""
+    entry = {
+        "name": "Conf", "year": 2026, "link": "http://conf.example.com/cfp",
+        "tags": ["SEC", "A*"],
+        "deadline": [{"label": "submission", "date": "2026-06-01 23:59"}],
+    }
+    errors = _validate_entry(entry)
+    assert not any("link must be" in e for e in errors)
+
+
+def test_v19_missing_link():
+    """V19: empty link → missing link error."""
+    entry = {
+        "name": "Conf", "year": 2026, "link": "",
+        "tags": ["SEC", "A*"],
+        "deadline": [{"label": "submission", "date": "2026-06-01 23:59"}],
+    }
+    errors = _validate_entry(entry)
+    assert any("missing link" in e for e in errors)
+
+
+def test_v19_non_http_scheme():
+    """V19: ftp:// URL → error."""
+    entry = {
+        "name": "Conf", "year": 2026, "link": "ftp://example.com/cfp",
+        "tags": ["SEC", "A*"],
+        "deadline": [{"label": "submission", "date": "2026-06-01 23:59"}],
+    }
+    errors = _validate_entry(entry)
+    assert any("link must be HTTP/HTTPS" in e for e in errors)
+
+
+def test_v19_no_scheme():
+    """V19: bare path → error."""
+    entry = {
+        "name": "Conf", "year": 2026, "link": "example.com/cfp",
+        "tags": ["SEC", "A*"],
+        "deadline": [{"label": "submission", "date": "2026-06-01 23:59"}],
+    }
+    errors = _validate_entry(entry)
+    assert any("link must be HTTP/HTTPS" in e for e in errors)
+
+
+# --- V16: no abstract/submission warning ---
+
+
+def test_v16_warn_no_abstract_or_submission():
+    """V16: entry with only notification → warn."""
+    entry = {
+        "name": "Conf", "year": 2026, "link": "https://example.com",
+        "tags": ["SEC", "A*"],
+        "deadline": [{"label": "notification", "date": "2026-08-01 23:59"}],
+    }
+    warnings = _validate_entry_warnings(entry)
+    assert any("no abstract or submission" in w for w in warnings)
+
+
+def test_v16_no_warn_has_submission():
+    """V16: entry with submission → no V16 warning."""
+    entry = {
+        "name": "Conf", "year": 2026, "link": "https://example.com",
+        "tags": ["SEC", "A*"],
+        "deadline": [{"label": "submission", "date": "2026-06-01 23:59"}],
+    }
+    warnings = _validate_entry_warnings(entry)
+    assert not any("no abstract or submission" in w for w in warnings)
+
+
+def test_v16_no_warn_has_abstract():
+    """V16: entry with abstract → no V16 warning."""
+    entry = {
+        "name": "Conf", "year": 2026, "link": "https://example.com",
+        "tags": ["SEC", "A*"],
+        "deadline": [
+            {"label": "abstract", "date": "2026-05-01 23:59"},
+            {"label": "notification", "date": "2026-08-01 23:59"},
+        ],
+    }
+    warnings = _validate_entry_warnings(entry)
+    assert not any("no abstract or submission" in w for w in warnings)
+
+
+# --- V20: single deadline warning ---
+
+
+def test_v20_warn_single_deadline():
+    """V20: exactly 1 deadline → warn."""
+    entry = {
+        "name": "Conf", "year": 2026, "link": "https://example.com",
+        "tags": ["SEC", "A*"],
+        "deadline": [{"label": "submission", "date": "2026-06-01 23:59"}],
+    }
+    warnings = _validate_entry_warnings(entry)
+    assert any("only 1 deadline" in w for w in warnings)
+
+
+def test_v20_no_warn_multiple_deadlines():
+    """V20: 2+ deadlines → no V20 warning."""
+    entry = {
+        "name": "Conf", "year": 2026, "link": "https://example.com",
+        "tags": ["SEC", "A*"],
+        "deadline": [
+            {"label": "abstract", "date": "2026-05-01 23:59"},
+            {"label": "submission", "date": "2026-06-01 23:59"},
+        ],
+    }
+    warnings = _validate_entry_warnings(entry)
+    assert not any("only 1 deadline" in w for w in warnings)
+
+
 def test_print_table_sort_by_urgency(capsys):
     """Soonest deadline first."""
     now = datetime(2026, 1, 1, 0, 0, tzinfo=timezone.utc)
@@ -197,14 +353,14 @@ def test_print_table_sort_by_urgency(capsys):
             "name": "Later",
             "year": 2026,
             "area": "SEC",
-            "tier": "TIER1",
+            "tier": "A*",
             "deadlines": [{"label": "submission", "date": "2026-06-01 23:59", "passed": False}],
         },
         {
             "name": "Sooner",
             "year": 2026,
             "area": "SYS",
-            "tier": "TIER1",
+            "tier": "A*",
             "deadlines": [{"label": "submission", "date": "2026-01-03 23:59", "passed": False}],
         },
     ]

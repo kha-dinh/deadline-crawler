@@ -5,7 +5,8 @@ from unittest.mock import patch, MagicMock
 
 from crawler.strategies.regex import (
     RegexStrategy, _parse_deadline_date,
-    _extract_deadlines_generic, _match_label, _strip_html,
+    _extract_deadlines_generic, _extract_deadlines_researchr,
+    _autodiscover_researchr, _match_label, _strip_html,
     LABEL_MAP,
 )
 from crawler.models import CrawlResult
@@ -89,7 +90,7 @@ USENIX_CONF = {
     "url": "https://www.usenix.org/conference/usenixsecurity{YY}/call-for-papers",
     "url_main": "https://www.usenix.org/conference/usenixsecurity{YY}",
     "strategy": "regex",
-    "tags": ["SEC", "TIER1"],
+    "tags": ["SEC", "A*"],
     "cycles": [
         {
             "name": "Cycle 1",
@@ -146,7 +147,7 @@ def test_extract_usenix_cycles(mock_get):
         assert r.date == "August 12\u201314, 2026"
         assert r.place == "Baltimore, MD, USA"
         assert r.description == "USENIX Security Symposium"
-        assert r.tags == ["SEC", "TIER1"]
+        assert r.tags == ["SEC", "A*"]
 
 
 # --- No cycles (single-selector fallback) ---
@@ -155,7 +156,7 @@ SIMPLE_CONF = {
     "name": "SimpleConf",
     "url": "https://example.com/cfp",
     "strategy": "regex",
-    "tags": ["GEN", "TIER2"],
+    "tags": ["GEN", "A"],
     "selectors": {
         "deadlines": [
             {"label": "submission", "pattern": r"Deadline:\s*<b>(.*?)</b>"},
@@ -166,9 +167,9 @@ SIMPLE_CONF = {
 SIMPLE_HTML = '<p>Deadline: <b>March 15, 2026</b></p>'
 
 
-@patch("crawler.strategies.regex.requests.get")
-def test_extract_no_cycles(mock_get):
-    mock_get.return_value = MagicMock(text=SIMPLE_HTML)
+@patch("crawler.strategies.regex._fetch")
+def test_extract_no_cycles(mock_fetch):
+    mock_fetch.return_value = SIMPLE_HTML
     strategy = RegexStrategy()
     results = strategy.extract(SIMPLE_CONF, 2026)
 
@@ -227,7 +228,7 @@ SP_CONF = {
     "name": "S&P",
     "url": "https://sp{YYYY}.ieee-security.org/cfpapers.html",
     "strategy": "regex",
-    "tags": ["SEC", "TIER1"],
+    "tags": ["SEC", "A*"],
     "cycles": [
         {
             "name": "Cycle 1",
@@ -304,7 +305,7 @@ CCS_CONF = {
     "name": "CCS",
     "url": "https://www.sigsac.org/ccs/CCS{YYYY}/call-for/call-for-papers.html",
     "strategy": "regex",
-    "tags": ["SEC", "TIER1"],
+    "tags": ["SEC", "A*"],
     "cycles": [
         {
             "name": "Cycle A",
@@ -372,7 +373,7 @@ NDSS_CONF = {
     "name": "NDSS",
     "url": "https://www.ndss-symposium.org/ndss{YYYY}/submissions/call-for-papers/",
     "strategy": "regex",
-    "tags": ["SEC", "TIER1"],
+    "tags": ["SEC", "A*"],
     "cycles": [
         {
             "name": "Summer",
@@ -612,9 +613,9 @@ def test_fallback_chain_specific_first():
         },
     }
 
-    @patch("crawler.strategies.regex.requests.get")
-    def run(mock_get):
-        mock_get.return_value = MagicMock(text=html)
+    @patch("crawler.strategies.regex._fetch")
+    def run(mock_fetch):
+        mock_fetch.return_value = html
         strategy = RegexStrategy()
         results = strategy.extract(conf, 2025)
         assert len(results) == 1
@@ -645,9 +646,9 @@ def test_fallback_chain_generic_when_specific_empty():
         },
     }
 
-    @patch("crawler.strategies.regex.requests.get")
-    def run(mock_get):
-        mock_get.return_value = MagicMock(text=html)
+    @patch("crawler.strategies.regex._fetch")
+    def run(mock_fetch):
+        mock_fetch.return_value = html
         strategy = RegexStrategy()
         results = strategy.extract(conf, 2025)
         assert len(results) == 1
@@ -678,9 +679,9 @@ def test_fallback_chain_generic_when_no_patterns():
         },
     }
 
-    @patch("crawler.strategies.regex.requests.get")
-    def run(mock_get):
-        mock_get.return_value = MagicMock(text=html)
+    @patch("crawler.strategies.regex._fetch")
+    def run(mock_fetch):
+        mock_fetch.return_value = html
         strategy = RegexStrategy()
         results = strategy.extract(conf, 2026)
         assert len(results) == 1
@@ -689,3 +690,60 @@ def test_fallback_chain_generic_when_no_patterns():
         assert "submission" in labels
 
     run()
+
+
+# --- researchr.org extractor (T20) ---
+
+_RESEARCHR_HTML = """
+<table>
+  <tr href="/dates/fse-2026/fse-2026-workshops">
+    <td>January 10, 2026</td><td>FSE Workshops</td><td>Paper Submission</td>
+  </tr>
+  <tr href="/dates/fse-2026/fse-2026-research-papers">
+    <td>February 1, 2026</td><td>FSE Research Papers</td><td>Abstract Submission</td>
+  </tr>
+  <tr href="/dates/fse-2026/fse-2026-research-papers">
+    <td>February 8, 2026</td><td>FSE Research Papers</td><td>Paper Submission</td>
+  </tr>
+  <tr href="/dates/fse-2026/fse-2026-research-papers">
+    <td>April 1, 2026</td><td>FSE Research Papers</td><td>Notification to authors</td>
+  </tr>
+</table>
+"""
+
+
+def test_extract_deadlines_researchr_explicit_slug():
+    result = _extract_deadlines_researchr("fse-2026-research-papers", _RESEARCHR_HTML)
+    labels = {d["label"] for d in result}
+    assert labels == {"abstract", "submission", "notification"}
+    # Workshop row excluded
+    assert all(d["date"] != "2026-01-10 23:59" for d in result)
+
+
+def test_extract_deadlines_researchr_cycle_filter():
+    html = """
+    <table>
+      <tr href="/dates/icse-2026/icse-2026-research-track">
+        <td>January 15, 2026</td><td>ICSE Research Track</td><td>First Cycle: Abstract Submission</td>
+      </tr>
+      <tr href="/dates/icse-2026/icse-2026-research-track">
+        <td>March 15, 2026</td><td>ICSE Research Track</td><td>Second Cycle: Abstract Submission</td>
+      </tr>
+    </table>
+    """
+    c1 = _extract_deadlines_researchr("icse-2026-research-track", html, "First Cycle")
+    c2 = _extract_deadlines_researchr("icse-2026-research-track", html, "Second Cycle")
+    assert len(c1) == 1 and c1[0]["date"] == "2026-01-15 23:59"
+    assert len(c2) == 1 and c2[0]["date"] == "2026-03-15 23:59"
+
+
+def test_autodiscover_researchr_picks_research_track():
+    result = _autodiscover_researchr(_RESEARCHR_HTML)
+    labels = {d["label"] for d in result}
+    # Should pick research-papers track (more labels + "research" in slug)
+    assert labels == {"abstract", "submission", "notification"}
+
+
+def test_autodiscover_researchr_no_tr_href():
+    html = "<ul><li>Submission: May 1, 2026</li></ul>"
+    assert _autodiscover_researchr(html) == []
