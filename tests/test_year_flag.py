@@ -54,7 +54,7 @@ def test_crawl_all_multi_year(mock_ensure, mock_load, mock_crawl):
 @patch("crawler.strategy.load_conferences")
 @patch("crawler.strategy._ensure_strategies_loaded")
 def test_crawl_all_default_year(mock_ensure, mock_load, mock_crawl):
-    """None years defaults to current year."""
+    """None years defaults to current year + next year."""
     mock_load.return_value = [
         {"name": "ConfA", "strategy": "regex"},
     ]
@@ -62,7 +62,8 @@ def test_crawl_all_default_year(mock_ensure, mock_load, mock_crawl):
 
     crawl_all(years=None)
 
-    assert mock_crawl.call_count == 1
-    year_arg = mock_crawl.call_args.args[1]
     import datetime
-    assert year_arg == datetime.datetime.now().year
+    current = datetime.datetime.now().year
+    assert mock_crawl.call_count == 2
+    years_called = [call.args[1] for call in mock_crawl.call_args_list]
+    assert sorted(years_called) == [current, current + 1]
