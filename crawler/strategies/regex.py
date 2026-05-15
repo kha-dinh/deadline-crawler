@@ -11,6 +11,7 @@ from bs4 import BeautifulSoup, XMLParsedAsHTMLWarning
 warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
 
 from crawler.config import resolve_url
+from crawler.labels import _match_label
 from crawler.models import CrawlResult
 from crawler.strategy import BaseStrategy
 
@@ -31,80 +32,6 @@ def _get_session() -> requests.Session:
         _thread_local.session = s
     return _thread_local.session
 
-# V10/V11: Canonical label map — maps raw CFP phrases → canonical labels.
-# Each canonical label has ≥1 phrase variant. Single source of truth.
-LABEL_MAP: dict[str, list[str]] = {
-    "abstract": [
-        "abstract registration",
-        "mandatory registration",
-        "register abstracts",
-        "abstracts due",
-        "abstract submission",
-        "abstract deadline",
-        "paper titles and abstracts due",
-        "abstract",  # bare label (e.g. researchr "(Mandatory) Abstract")
-    ],
-    "submission": [
-        "submission deadline",
-        "paper submission",
-        "paper submissions due",
-        "full paper submission",
-        "full paper deadline",
-        "manuscript submission deadline",
-        "submissions due",
-        "paper due",
-        "submission",  # bare label (e.g. researchr "Submission")
-    ],
-    "early_reject": [
-        "early reject",
-        "early rejection",
-        "early-reject",
-        "desk reject",
-    ],
-    "rebuttal_start": [
-        "rebuttal start",
-        "rebuttal period begin",
-        "rebuttal period",
-        "rebuttal begins",
-        "rebuttal/revision",
-        "reviews available",
-        "author response start",
-        "author response period",
-        "authors response period",
-    ],
-    "rebuttal_end": [
-        "rebuttal end",
-        "rebuttal due",
-        "rebuttal deadline",
-        "author response due",
-        "author responses due",
-        "author response period ends",
-    ],
-    "notification": [
-        "author notification",
-        "notification to authors",
-        "notification of acceptance",
-        "acceptance notification",
-        "decision notification",
-        "decisions released",
-        "notification",
-    ],
-    "shepherd": [
-        "shepherd",
-        "shepherding",
-        "conditional accept",
-        "minor revision",
-        "revision deadline",
-    ],
-    "camera_ready": [
-        "camera ready",
-        "camera-ready",
-        "final paper",
-        "final version",
-        "final papers due",
-        "proceedings manuscript deadline",
-    ],
-}
 
 # Generic date pattern: matches "Month DD, YYYY" with optional ordinal suffix
 _GENERIC_DATE_RE = re.compile(
@@ -254,35 +181,6 @@ def _strip_html(html: str) -> str:
 
     return "\n".join(lines)
 
-
-# Phrases that indicate a non-deadline event — skip label matching for these lines.
-# e.g. "Submission Site Opens" should not match the bare "submission" phrase.
-_SKIP_PHRASES: frozenset[str] = frozenset([
-    "site opens",
-    "portal opens",
-    "system opens",
-    "opens for submission",
-])
-
-
-def _match_label(text: str) -> str | None:
-    """Match a text fragment against LABEL_MAP, return canonical label or None.
-
-    Longest-match-wins: more specific phrases beat shorter overlapping ones
-    (e.g. "author response period ends" beats "author response period").
-    Returns None if text contains a _SKIP_PHRASES entry (non-deadline event).
-    """
-    lower = text.lower()
-    if any(skip in lower for skip in _SKIP_PHRASES):
-        return None
-    best_label = None
-    best_len = 0
-    for label, phrases in LABEL_MAP.items():
-        for phrase in phrases:
-            if phrase in lower and len(phrase) > best_len:
-                best_label = label
-                best_len = len(phrase)
-    return best_label
 
 
 def _extract_deadlines_researchr(
@@ -556,20 +454,24 @@ _SCAFFOLDING_PHRASES: frozenset[str] = frozenset([
 ])
 
 # Pages with fewer words than this (after HTML stripping) are likely placeholders.
-_MIN_CONTENT_WORDS = 20
+_MIN_CONTENT_WORDS = 75
 
 
 def _is_scaffolding(html: str) -> bool:
     """Return True if page is a placeholder/scaffolding with no real CFP content.
 
-    Two signals:
+    Three signals:
     - Phrase match: known placeholder phrases in the stripped text.
+    - Leading 404: stripped text starts with "404" — CMS 404 pages that don't
+      include "not found" verbatim (e.g. "404 - ConferenceName ...").
     - Word count: fewer than _MIN_CONTENT_WORDS words AND no date patterns found
       (a sparse page with real dates is a terse CFP, not scaffolding).
     """
     text = _strip_html(html)
     lower = text.lower()
     if any(phrase in lower for phrase in _SCAFFOLDING_PHRASES):
+        return True
+    if re.match(r"^\s*404\b", text):
         return True
     if len(text.split()) < _MIN_CONTENT_WORDS:
         return not bool(_GENERIC_DATE_RE.search(text))

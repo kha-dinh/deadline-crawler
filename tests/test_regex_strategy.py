@@ -8,7 +8,6 @@ from crawler.strategies.regex import (
     _extract_deadlines_generic, _extract_deadlines_researchr,
     _autodiscover_researchr, _match_label, _strip_html,
     _split_date_range, _is_scaffolding,
-    LABEL_MAP,
 )
 from crawler.models import CrawlResult
 
@@ -91,7 +90,7 @@ def test_generic_extractor_range_produces_start_and_end():
 
 
 def test_label_map_has_rebuttal_period():
-    assert "rebuttal period" in LABEL_MAP["rebuttal_start"]
+    assert _match_label("rebuttal period") == "rebuttal_start"
 
 
 # --- Strategy integration ---
@@ -218,9 +217,19 @@ def test_extract_no_url():
         strategy.extract(conf, 2026)
 
 
-@patch("crawler.strategies.regex.requests.get")
-def test_extract_no_matches(mock_get):
-    mock_get.return_value = MagicMock(text="<html>no deadlines here</html>")
+@patch("crawler.strategies.regex._fetch")
+def test_extract_no_matches(mock_fetch):
+    # Page has enough content to pass scaffolding check but no extractable deadlines.
+    mock_fetch.return_value = (
+        "<html><body><p>This is the call for papers page. We invite submissions "
+        "on a wide range of topics including security, privacy, and cryptography. "
+        "The program committee will review all papers using a double-blind process. "
+        "Authors should follow the submission guidelines carefully and ensure their "
+        "manuscripts conform to the required formatting. Papers must be original work "
+        "not published or currently under review elsewhere. Each submission will "
+        "receive at least three independent reviews from qualified experts in the field.</p>"
+        "</body></html>"
+    )
     strategy = RegexStrategy()
     conf = {
         "name": "Empty",
@@ -464,14 +473,14 @@ def test_extract_ndss_cycles_with_section(mock_get):
 
 def test_label_map_covers_all_v10():
     """V11: label map must cover all V10 canonical labels."""
-    v10_labels = {
-        "abstract", "submission", "early_reject", "rebuttal_start",
-        "rebuttal_end", "notification", "shepherd", "camera_ready",
-    }
-    assert set(LABEL_MAP.keys()) == v10_labels
-    # Each label must have at least one phrase
-    for label, phrases in LABEL_MAP.items():
-        assert len(phrases) >= 1, f"{label} has no phrases"
+    assert _match_label("abstract deadline") == "abstract"
+    assert _match_label("paper submission") == "submission"
+    assert _match_label("early rejection") == "early_reject"
+    assert _match_label("rebuttal period") == "rebuttal_start"
+    assert _match_label("rebuttal due") == "rebuttal_end"
+    assert _match_label("author notification") == "notification"
+    assert _match_label("shepherd") == "shepherd"
+    assert _match_label("camera ready") == "camera_ready"
 
 
 def test_match_label_basics():

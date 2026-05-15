@@ -21,6 +21,7 @@ from bs4 import BeautifulSoup, XMLParsedAsHTMLWarning
 warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
 
 from crawler.config import resolve_url
+from crawler.labels import _match_label
 from crawler.models import CrawlResult
 from crawler.strategy import BaseStrategy
 from crawler.strategies.regex import (
@@ -29,7 +30,7 @@ from crawler.strategies.regex import (
     _DATE_RANGE_EXPANDED_RE,
     _RANGE_LABEL_PAIRS,
     _fetch,
-    _match_label,
+    _is_scaffolding,
     _parse_deadline_date,
     _split_date_range,
 )
@@ -125,6 +126,10 @@ class CssStrategy(BaseStrategy):
             raise ValueError(f"{conf['name']}: no URL configured")
 
         html = _fetch(url)
+
+        if _is_scaffolding(html):
+            raise ValueError(f"{conf['name']}: scaffolding/placeholder page detected at {url}")
+
         date, place = self._extract_main_fields(conf, year, url, html)
         overrides = conf.get("overrides", {})
 

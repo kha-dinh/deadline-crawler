@@ -1,0 +1,84 @@
+# Canonical label map for CFP deadline phrase matching (V10/V11).
+# Maps canonical labels → list of phrases (case-insensitive substring match).
+# Longest-match-wins: more specific phrases beat shorter overlapping ones.
+#
+# Special key _skip: phrases that mark non-deadline lines (e.g. "site opens").
+# Lines containing a skip phrase are ignored entirely.
+
+_skip:
+  - site opens
+  - portal opens
+  - system opens
+  - opens for submission
+
+abstract:
+  - abstract registration
+  - mandatory registration
+  - register abstracts
+  - abstracts due
+  - abstract submission
+  - abstract deadline
+  - paper titles and abstracts due
+  - paper registration   # USENIX: "Paper registrations due"
+  - abstract             # bare label (e.g. researchr "(Mandatory) Abstract")
+
+submission:
+  - submission deadline
+  - paper submission
+  - paper submissions due
+  - full paper submission
+  - full paper deadline
+  - manuscript submission deadline
+  - submissions due
+  - paper due
+  - submission           # bare label (e.g. researchr "Submission")
+
+early_reject:
+  - early reject
+  - early rejection
+  - early-reject
+  - desk reject
+
+rebuttal_start:
+  - rebuttal start
+  - rebuttal period begin
+  - rebuttal period
+  - rebuttal begins
+  - rebuttal/revision
+  - reviews available
+  - author response start
+  - author response period
+  - authors response period
+
+rebuttal_end:
+  - rebuttal end
+  - rebuttal due
+  - rebuttal deadline
+  - author response due
+  - author responses due
+  - author response period ends
+  - major revision deadline
+
+notification:
+  - author notification
+  - notification to authors
+  - notification of acceptance
+  - acceptance notification
+  - decision notification
+  - decisions released
+  - notification
+
+shepherd:
+  - shepherd
+  - shepherding
+  - conditional accept
+  - minor revision
+  - revision deadline
+
+camera_ready:
+  - camera ready
+  - camera-ready
+  - final paper
+  - final version
+  - final papers due
+  - proceedings manuscript deadline
