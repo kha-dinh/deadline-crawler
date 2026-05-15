@@ -10,6 +10,7 @@ _skip:
   - portal opens
   - system opens
   - opens for submission
+  - affiliated event   # IACR Eurocrypt: "Affiliated events submission deadline" is not a paper deadline
 
 abstract:
   - abstract registration
@@ -39,6 +40,7 @@ early_reject:
   - early-reject
   - desk reject
   - early notification  # pre-rebuttal decision (e.g. SIGCOMM 2026)
+  - first round notification  # IACR conferences: pre-rebuttal decision before final notification
 
 rebuttal_start:
   - rebuttal start
@@ -55,6 +57,7 @@ rebuttal_end:
   - rebuttal end
   - rebuttal due
   - rebuttal deadline
+  - rebuttal period ends  # IACR Eurocrypt: separate row for end of rebuttal window
   - author response due
   - author responses due
   - author response period ends

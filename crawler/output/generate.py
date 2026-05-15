@@ -104,7 +104,7 @@ def _validate_entry(entry: dict) -> list[str]:
     if len(tags) < 2:
         errors.append("tags need ≥2 elements (area + core rank)")
     else:
-        if tags[0] not in {"SEC", "SYS", "HW", "SE", "PL", "GEN"}:
+        if tags[0] not in {"SEC", "SYS", "HW", "SE", "PL", "GEN", "CRYPTO"}:
             errors.append(f"bad area code: {tags[0]}")
         if tags[1] not in {"A*", "A", "B", "C"}:
             errors.append(f"bad core rank: {tags[1]}")
