@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="30th annual conference on public key cryptography" />
+
+<!-- Generic bootstrap -->
+<link href="https://iacr.org/libs/css/bootstrap/bootstrap-5.3.0-dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Styling -->
+<link rel="stylesheet" href="/2027/styles/main.css?v=2">
+<link id="style" rel="stylesheet" href="/2027/styles/teal_theme.css">
+<!-- dark mode! coming soon...I hope -->
+<!-- <script type="module" src="/2027/js/color-modes.js"></script> -->
+<!-- metadata for googlebot -->
+<script type="application/ld+json">
+  {
+    "@id": "https://pkc.iacr.org/2027",
+    "@context": "http://schema.org/",
+    "@type": "Event",
+    "startDate": "Mar 1, 2027",
+    "endDate": "2027-03-04",
+    "location": {
+      "@context": "http://schema.org",
+      "@type": "Place",
+      "address": {
+        "@context": "http://schema.org",
+        "@type": "PostalAddress",
+        "addressLocality": "Taipei",
+        "addressCountry": "Taiwan"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "121.6118",
+        "longitude": "25.04126"
+      },
+      "name": "Conference Venue"
+    },
+    "organizer": {
+      "@context": "http://schema.org",
+      "@type": "NGO",
+      "legalName": "International Association for Cryptologic Research",
+      "alternateName": "IACR",
+      "sameAs": "https://iacr.org/",
+      "naics": "813920",
+      "logo": "https://iacr.org/img/logo/iacrlogo_small.png"
+    },
+    "name": "PKC 2027",
+    "description": "30th annual conference on public key cryptography",
+    "image": "https://iacr.org/img/logo/iacrlogo_small.png"
+  }
+</script>
+<!-- open graph for facebook. There is no type for event. -->
+<meta property="og:type" content="event" />
+<meta property="og:url" content="https://pkc.iacr.org/2027" />
+<meta property="event:start_time" content="Mar 1, 2027" />
+<meta property="event:end_time" content="2027-03-04" />
+<meta property="og:description" content="30th annual conference on public key cryptography" />
+<meta property="og:image" content="https://iacr.org/img/logo/iacrlogo_small_og.png" />
+<meta property="og:latitude" content="121.6118" />
+<meta property="og:longitude" content="25.04126" />
+<!-- metadata for twitter. -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@iacr_news" />
+<meta name="twitter:description" content="30th annual conference on public key cryptography" />
+<meta property="twitter:image" content="https://iacr.org/img/logo/iacr_wordmark_twitter.png" />
+<!-- apple format for iMessage and search -->
+<link rel="apple-touch-icon" href="https://iacr.org/img/logo/iacrlogo_small.png">
+<script>
+  // This makes the meta variables available in javascript as well as PHP.
+  var meta={
+    "id": 6222,
+    "name": "30th annual conference on public key cryptography",
+    "shortName": "PKC 2027",
+    "dates": "March 1-4, 2027",
+    "location": "Taipei, Taiwan",
+    "year": 2027,
+    "startdate": "Mar 1, 2027",
+    "enddate": "2027-03-04",
+    "submitdate": "Aug 3, 2026",
+    "city": "Taipei",
+    "country": "Taiwan",
+    "finalNotif": "Nov 19, 2026",
+    "firstRound": "Sep 28, 2026",
+    "rebuttalDue": "Oct 5, 2026",
+    "finalVers": "Dec 10, 2026",
+    "latitude": 121.6118,
+    "longitude": 25.04126,
+    "eventtype": "pkc",
+    "_comment": "Be careful editing this file. It must be valid JSON.",
+    "_source": "https:\/\/www.iacr.org\/cryptodb\/pc",
+    "PC_CHAIRS": [
+        {
+            "name": "Tung Chou",
+            "affiliation": "Academia Sinica",
+            "country": "Taiwan"
+        },
+        {
+            "name": "Ryo Nishimaki",
+            "affiliation": "NTT Social Informatics Laboratories",
+            "country": "Japan"
+        }
+    ],
+    "GENERAL_CHAIRS": [
+        {
+            "name": "Kai-Min Chung",
+            "affiliation": "Academia Sinica",
+            "country": "Taiwan"
+        },
+        {
+            "name": "Bo-Yin Yang",
+            "affiliation": "Academia Sinica",
+            "country": "Taiwan"
+        }
+    ],
+    "url": "https:\/\/pkc.iacr.org\/2027"
+};</script>
+  <meta property="og:title" content="PKC 2027" />
+  <meta name="twitter:title" content="PKC 2027" />
+
+  <title>
+    PKC 2027  </title>
+
+  <style>
+    .bi {
+      width: 1em;
+      height: 1em;
+      fill: currentcolor;
+    }
+
+    .color-modes .dropdown-menu {
+      padding: 0.25rem;
+    }
+
+    .color-modes .dropdown-menu li+li {
+      margin-top: 0.125rem;
+    }
+
+    .color-modes .dropdown-item {
+      border-radius: 0.25rem;
+    }
+
+    .color-modes .active {
+      font-weight: 600;
+    }
+
+    .color-modes .active .bi {
+      display: block !important;
+    }
+  </style>
+
+</head>
+
+<body class="home">
+  <!-- stop nasty flash when dark mode loads -->
+<!-- <script>
+  const theme = localStorage.getItem('theme') || 'light';
+  document.documentElement.dataset.appliedMode = theme;
+</script> -->
+
+<!-- BEGIN nav -->
+<div id="pageTop">
+  <header id="conf_id" class="headerImg">
+    <div class="headerGradient">
+      <div class="pageTopContainer">
+        <div id="titlesLogoDiv" class="d-flex justify-content-between align-items-center">
+          <!-- TODO: likely add .ms-md-3 after fixing layout -->
+          <div class="headerConferenceName">
+            <h1 class="headerTitle">
+              PKC 2027            </h1>
+          </div>
+          <div class="headerLogo">
+            <a href="https://iacr.org/">
+              <img id="logo" class="d-none d-lg-block mx-auto" src="https://iacr.org/img/logo/iacrlogo_small.png" title="International Association for Cryptologic Research">
+            </a>
+          </div>
+          <!-- TODO: likely add .me-md-3 after fixing layout -->
+          <div class="headerInfo">
+            <h3 class="headerInfoTop">
+              March 1-4, 2027            </h3>
+            <h3 class="headerInfoBottom">
+              Taipei, Taiwan            </h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <nav id="mainNavRow" class="navbar navbar-expand-md">
+    <button class="navbar-toggler mt-1 ms-3 collapsed nofocus" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="icon-bar top-bar"></span>
+      <span class="icon-bar middle-bar"></span>
+      <span class="icon-bar bottom-bar"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav" role="navigation">
+      <ul id="nav-ul" class="navbar-nav">
+        <li class="nav-item mt-2 mt-md-0">
+          <a class="nav-link" href="/2027/">
+            Home
+          </a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
+            Technical program
+          </a>
+          <div class="dropdown-menu">
+            <!-- <a class="dropdown-item" href="/2027/program.php">
+              Main program
+            </a> -->
+            <!-- <a class="dropdown-item" href="/2027/awards.php">
+              Awards
+            </a> -->
+            <!-- <a class="dropdown-item" href="/2027/affiliated.php">
+              Affiliated events
+            </a> -->
+            <!-- <a class="dropdown-item" href="/2027/invitedtalks.php">
+              Invited talks
+            </a>
+            <a class="dropdown-item" href="/2027/rumpsession.php">
+              Rump session
+            </a> -->
+            <!-- <hr>
+            <a class="dropdown-item" href="/2027/acceptedpapers.php">
+              Accepted papers
+            </a> -->
+            <a class="dropdown-item" href="/2027/callforpapers.php">
+              Call for papers
+            </a>
+            <a class="dropdown-item" href="/2027/aipolicy.php">
+              AI tool policy
+            </a>
+            <a class="dropdown-item" href="/2027/papersubmission.php">
+              Paper submission
+            </a>
+          </div>
+        </li>
+        <!-- <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
+            Attend
+          </a> -->
+        <!-- TODO: this is apparently supposed to be a ul not a div for the dropdown menu. also why are they so far left?? -->
+        <!-- <div class="dropdown-menu">
+            <a class="dropdown-item" href="/2027/registration.php">
+              Registration
+            </a> -->
+        <!-- <a class="dropdown-item" href="/2027/travel.php">
+              Venue & travel
+            </a> -->
+        <!-- <a class="dropdown-item" href="/2027/accommodations.php">
+              Accommodations
+            </a>
+            <a class="dropdown-item" href="/2027/tourism.php">
+              Tourism
+            </a> -->
+        <!-- <a class="dropdown-item" href="/2027/support.php">
+              Financial support
+            </a>
+            <a class="dropdown-item" href="/2027/visas.php">
+              Visas
+            </a> -->
+        <!-- <a class="dropdown-item" href="/2027/virtual.php">
+              Remote attendance
+            </a>
+            <a class="dropdown-item" href="/2027/swag.php">
+              Swag
+            </a>
+            <a class="dropdown-item" href="/2027/conduct.php">
+              Code of conduct
+            </a> -->
+        <!-- </div>
+        </li> -->
+        <li class="nav-item">
+          <a class="nav-link" href="/2027/sponsors.php">
+            Sponsors
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/2027/contact.php">
+            Contact
+          </a>
+        </li>
+        <!-- <li class="nav-item dropdown color-modes">
+          <a class="nav-link" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static">
+            <svg class="bi my-1 theme-icon-active">
+              <use href="#circle-half"></use>
+            </svg>
+            <span id="bd-theme-text"></span>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="bd-theme" style="--bs-dropdown-min-width: 8rem;">
+            <li>
+              <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light">
+                <svg class="bi me-2 opacity-50 theme-icon">
+                  <use href="#sun-fill"></use>
+                </svg>
+                Light
+                <svg class="bi ms-auto d-none">
+                  <use href="#check2"></use>
+                </svg>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark">
+                <svg class="bi me-2 opacity-50 theme-icon">
+                  <use href="#moon-stars-fill"></use>
+                </svg>
+                Dark
+                <svg class="bi ms-auto d-none">
+                  <use href="#check2"></use>
+                </svg>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="auto">
+                <svg class="bi me-2 opacity-50 theme-icon">
+                  <use href="#circle-half"></use>
+                </svg>
+                Auto
+                <svg class="bi ms-auto d-none">
+                  <use href="#check2"></use>
+                </svg>
+              </button>
+            </li>
+          </ul>
+        </li> -->
+      </ul>
+    </div>
+  </nav>
+</div>
+<!-- END OF nav -->
+
+<noscript>
+  <div class="container">
+    <h2>
+      This site is designed for browsers with javascript.
+    </h2>
+    <h3>
+      The dates, name, and location for the conference are
+      <a href="json/metadata.json">in a json file.</a>
+    </h3>
+  </div>
+</noscript>  <!-- for dark mode -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+    <symbol id="check2" viewBox="0 0 16 16">
+      <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" />
+    </symbol>
+    <symbol id="circle-half" viewBox="0 0 16 16">
+      <path d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z" />
+    </symbol>
+    <symbol id="moon-stars-fill" viewBox="0 0 16 16">
+      <path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z" />
+      <path d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L13.863.1z" />
+    </symbol>
+    <symbol id="sun-fill" viewBox="0 0 16 16">
+      <path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z" />
+    </symbol>
+  </svg>
+
+  <!-- regular content continues below -->
+  <main class="container-lg px-4 px-lg-3">
+
+    <!-- NOTE: below is placeholder content. please replace contents with
+      your own content when ready. this content serves to give you an idea of
+      what the structure of this page has looked like in the past -->
+    <p>
+      PKC 2027 will take place in
+      Taipei, Taiwan      on March 1-4, 2027.
+      PKC 2027 is organized by
+      <a href="https://iacr.org/">the International Association for
+        Cryptologic Research</a> (IACR). This will be the 30th annual conference on public key cryptography.
+    </p>
+
+    <!-- NOTE: when registration is open, uncomment the giant
+      registration button below. If you need more than one link, uncomment
+      the div with three buttons below -->
+    <!-- <a href="registration.php" class="btn customBtn-warm btn-lg
+      blockBtn w-50 mx-auto mb-4">
+      Register now
+    </a> -->
+
+    <!-- NOTE: these buttons are for when you need more than just one
+      front and center call to action -->
+    <!-- <div class="d-flex flex-wrap justify-content-center justify-content-lg-between">
+      <a href="affiliated.php" class="btn customBtn-warm btn-lg px-lg-5 mb-3 mb-lg-4">
+        Affiliated events
+      </a>
+      <a href="program.php" class="btn customBtn-cool btn-lg px-lg-5 mb-3 mb-lg-4">
+        Conference program
+      </a>
+      <a href="rumpsession.php" class="btn customBtn-warm btn-lg px-lg-5 mb-3 mb-lg-4">
+        Rump session
+      </a>
+    </div> -->
+
+    <!-- <div class="row">
+      <div class="col-lg-6">
+        <p class="alert customAlert-warm">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste ut, aliquid perferendis nihil consectetur porro veritatis quo minus delectus natus deserunt veniam repellendus vitae quis commodi a quia impedit dolorum?
+        </p>
+      </div>
+      <div class="col-lg-6">
+        <p class="alert customAlert-cool">
+          <img src="images/icons/info.svg" class="icon" alt="info icon" /> Diigo balihoo mobly palantir, woopra. Loopt eduvant dopplr koofers jiglu, bebo xobni. Squidoo fleck, babblely zooomr zoosk meevee. Etsy prezi jibjab vuvox trulia sclipo zlio, mobly sifteo ebay mozy. Disqus xanga spotify zynga, kazaa gsnap ebay palantir. Jaiku, zappos blippy. Joyent waze yoono voki, wikia. Elgg ebay lanyrd, insala.
+        </p>
+      </div>
+    </div> -->
+
+    <div class="row">
+      <div class="col-md-6">
+        <article class="customCard">
+  <h4 class="customCardHeader">
+    Important dates
+  </h4>
+   <div class="customCardRow row">
+  <h6 class="dateTitle col-5 col-md-6 col-lg-4">
+    Aug 3, 2026
+  </h6>
+  <p class="col-7 col-md-6 col-lg-8">
+    Submission deadline
+  </p>
+</div>   <div class="customCardRow row">
+  <h6 class="dateTitle col-5 col-md-6 col-lg-4">
+    Sep 28, 2026
+  </h6>
+  <p class="col-7 col-md-6 col-lg-8">
+    First round notification
+  </p>
+</div>   <div class="customCardRow row">
+  <h6 class="dateTitle col-5 col-md-6 col-lg-4">
+    Oct 5, 2026
+  </h6>
+  <p class="col-7 col-md-6 col-lg-8">
+    Rebuttal deadline
+  </p>
+</div>   <div class="customCardRow row">
+  <h6 class="dateTitle col-5 col-md-6 col-lg-4">
+    Nov 19, 2026
+  </h6>
+  <p class="col-7 col-md-6 col-lg-8">
+    Final notification
+  </p>
+</div>   <div class="customCardRow row">
+  <h6 class="dateTitle col-5 col-md-6 col-lg-4">
+    Dec 10, 2026
+  </h6>
+  <p class="col-7 col-md-6 col-lg-8">
+    Final versions due
+  </p>
+</div>  <!-- An example of a custom date not in metadata.json. -->
+  <!--
+  <div class="customCardRow row">
+    <h6 class="dateTitle col-5 col-md-4">
+      1 Jan 1970
+    </h6>
+    <p class="col-7 col-md-8">
+      Custom date description
+    </p>
+  </div>
+  -->
+   <div class="customCardRow row">
+  <h6 class="dateTitle col-5 col-md-6 col-lg-4">
+    Mar 1, 2027
+  </h6>
+  <p class="col-7 col-md-6 col-lg-8">
+    Conference begins
+  </p>
+</div>  <div class="customCardFooter text-start small">
+    <img src="images/icons/info.svg" class="icon" alt="info icon" /> All deadlines are 23:59:59 anywhere on earth (AoE)
+  </div>
+</article>
+      </div>
+
+      <div class="col-md-6 mt-4 mt-md-0">
+        <article class="customCard">
+          <h4 class="customCardHeader">
+            Website updates
+          </h4>
+          <!-- NOTE: copy the commented-out block below to add a row to announce when you add new info to the site -->
+          <!-- <div class="customCardRow row">
+            <h6 class="dateTitle col-5 col-md-6 col-lg-4">
+              # MONTH 202X
+            </h6>
+            <p class="col-7 col-md-6 col-lg-8">
+              Some sort of update
+            </p>
+          </div> -->
+          <div class="customCardRow row">
+            <h6 class="dateTitle col-5 col-md-6 col-lg-4">
+              Apr 17, 2026
+            </h6>
+            <p class="col-7 col-md-6 col-lg-8">
+              Website launched. Please note that the conference dates are currently 
+              tentative. The <a href="callforpapers.php">call for papers</a> is 
+              available at this time.
+            </p>
+          </div>
+        </article>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="text-center footer">
+  <small>
+    PKC 2027<br>
+    <a href="https://iacr.org/copyright.html">Copyright &copy;
+      2026</a>
+    <span class="d-none d-md-inline">by the </span><a href="https://iacr.org/"><span class="d-md-none">IACR</span>
+      <span class="d-none d-md-inline">International Association for
+        Cryptologic Research</span></a>
+    <span class="d-none d-md-inline">&bull; </span><br class="d-md-none">
+    <a href="https://iacr.org/privacy.html">Privacy Policy</a>
+  </small>
+</footer>
+
+<script src="https://iacr.org/libs/js/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://iacr.org/libs/css/bootstrap/bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js"></script></body>
+
+</html>

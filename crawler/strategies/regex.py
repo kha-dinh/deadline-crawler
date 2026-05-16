@@ -440,9 +440,11 @@ def _extract_deadlines_generic(html: str, year: int | None = None) -> list[dict]
     # Pass 2c: resolve range hits — same-line label match ONLY (no proximity).
     # Real deadline ranges (rebuttal period) always have their label on the same line.
     # Non-deadline ranges (conference dates, workshop dates) must not steal nearby labels.
+    # Only emit if label is range-appropriate (rebuttal_start); prevents CVPR-style
+    # one-big-line Important Dates tables from assigning a range date to `abstract`.
     for line_idx, start_date, end_date in range_hits:
         label = _match_label(lines[line_idx])
-        if label and label not in seen_labels:
+        if label and label in _RANGE_LABEL_PAIRS and label not in seen_labels:
             seen_labels.add(label)
             deadlines.append({"label": label, "date": start_date})
             partner = _RANGE_LABEL_PAIRS.get(label)
