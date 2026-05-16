@@ -883,3 +883,470 @@
       url: https://2025.ijcai.org/call-for-papers/
     2026:
       url: https://2026.ijcai.org/ijcai-ecai-2026-call-for-papers-main-track/
+
+########################  ML — NLP  ########################
+
+- name: ACL
+  core_acronym: ACL
+  # URL scheme: {YYYY}.aclweb.org — year in subdomain, no stable template → by_year
+  # ACL uses ARR exclusively: submit to ARR on rolling cycle, then commit to ACL.
+  # Key dates for 2026: ARR submission Jan 5 2026, commitment Mar 14 2026,
+  # notification Apr 4 2026, camera-ready Apr 19 2026.
+  # Conference: July 2-7, 2026 in Vienna, Austria.
+  strategy: regex
+  tags: [ML]
+  description: "Annual Meeting of the Association for Computational Linguistics"
+  by_year:
+    2026:
+      url: https://2026.aclweb.org/calls/main_conference_papers/
+      url_main: https://2026.aclweb.org/
+
+- name: EMNLP
+  core_acronym: EMNLP
+  # URL scheme: {YYYY}.emnlp.org — year in subdomain, no stable template → by_year
+  # EMNLP uses ARR exclusively (same two-stage process as ACL).
+  # Key dates for 2026: ARR submission May 25 2026, commitment Aug 2 2026,
+  # notification Aug 20 2026, camera-ready Sep 20 2026.
+  # Conference: October 24-29, 2026.
+  strategy: regex
+  tags: [ML]
+  description: "Conference on Empirical Methods in Natural Language Processing"
+  by_year:
+    2026:
+      url: https://2026.emnlp.org/calls/main_conference_papers/
+      url_main: https://2026.emnlp.org/
+
+########################  ML — Computer Vision  ########################
+
+- name: ICCV
+  core_acronym: ICCV
+  # Biennial: odd years only (2025, 2027, ...).
+  # URL pattern: iccv.thecvf.com/Conferences/{YYYY}/Dates — consistent with CVPR.
+  # 2025 dates: registration Mar 3, submission Mar 7, notification Jun 25 (all HST).
+  url: https://iccv.thecvf.com/Conferences/{YYYY}/Dates
+  url_main: https://iccv.thecvf.com/Conferences/{YYYY}
+  strategy: regex
+  tags: [ML]
+  description: "IEEE/CVF International Conference on Computer Vision"
+  by_year:
+    2025:
+      url: https://iccv.thecvf.com/Conferences/2025/Dates
+      url_main: https://iccv.thecvf.com/Conferences/2025
+    2027:
+      # CFP page not yet announced; placeholder — update when live
+      url: https://iccv.thecvf.com/Conferences/2027/Dates
+      url_main: https://iccv.thecvf.com/Conferences/2027
+
+- name: ECCV
+  core_acronym: ECCV
+  # Biennial: even years only (2026, 2028, ...).
+  # URL pattern: eccv.ecva.net/Conferences/{YYYY}/Dates — consistent across cycles.
+  # 2026: registration Feb 26, submission Mar 5, supplemental Mar 12,
+  #        rebuttal deadline May 11, notification Jun 17, camera-ready Jun 26.
+  # Conference: Sep 8-12, 2026 in Malmö, Sweden.
+  url: https://eccv.ecva.net/Conferences/{YYYY}/Dates
+  url_main: https://eccv.ecva.net/Conferences/{YYYY}
+  strategy: regex
+  tags: [ML]
+  description: "European Conference on Computer Vision"
+  by_year:
+    2026:
+      url: https://eccv.ecva.net/Conferences/2026/Dates
+      url_main: https://eccv.ecva.net/Conferences/2026
+
+########################  ML — Learning Theory / Planning / Reasoning  ########################
+
+- name: COLT
+  core_acronym: COLT
+  # URL pattern: learningtheory.org/colt{YYYY}/cfp.html
+  # 2026: submission Feb 4 (AoE), notification on or before May 4, conference Jun 29 - Jul 3
+  # in San Diego, USA.
+  url: https://learningtheory.org/colt{YYYY}/cfp.html
+  url_main: https://learningtheory.org/colt{YYYY}/
+  strategy: regex
+  tags: [ML]
+  description: "Annual Conference on Learning Theory"
+
+- name: ICAPS
+  core_acronym: ICAPS
+  # URL pattern: icaps{YY}.icaps-conference.org/calls/cfp/ — 2-digit year in subdomain
+  # 2026 dates: abstract Dec 2 2025, paper Dec 8 2025, notification Feb 20 2026.
+  # Conference: Jun 27 - Jul 2, 2026 in Dublin.
+  url: https://icaps{YY}.icaps-conference.org/calls/cfp/
+  url_main: https://icaps{YY}.icaps-conference.org/
+  strategy: regex
+  tags: [ML]
+  description: "International Conference on Automated Planning and Scheduling"
+
+- name: KR
+  core_acronym: KR
+  # URL pattern: kr.org/KR{YYYY}/ — 4-digit year with uppercase KR prefix
+  # 2026 dates: abstract Feb 8, paper Feb 13, notification Apr 13, camera-ready May 3.
+  # Conference: Jul 20-23, 2026 in Lisbon, Portugal.
+  url: https://kr.org/KR{YYYY}/call_main_track.html
+  url_main: https://kr.org/KR{YYYY}/
+  strategy: regex
+  tags: [ML]
+  description: "International Conference on Principles of Knowledge Representation and Reasoning"
+  by_year:
+    2026:
+      url: https://kr.org/KR2026/call_main_track.html
+      url_main: https://kr.org/KR2026/
+
+########################  Security — Formal Verification  ########################
+
+- name: CAV
+  # Pattern: conferences.i-cav.org/{YYYY}/cfp/ — consistent Jekyll static site
+  # Verified for 2025 and 2026; deadlines as plain bulleted lists under "IMPORTANT DATES".
+  # Strategy: regex — generic A+C extractor handles plain-text bullet lists well.
+  url: http://conferences.i-cav.org/{YYYY}/cfp/
+  url_main: http://conferences.i-cav.org/{YYYY}/
+  strategy: regex
+  tags: [SEC]
+  description: "International Conference on Computer Aided Verification"
+
+########################  Systems — Databases  ########################
+
+- name: SIGMOD
+  core_acronym: SIGMOD
+  # Pattern: {YYYY}.sigmod.org — confirmed consistent for 2025 and 2026
+  # 4 rolling quarterly submission rounds.
+  url: https://{YYYY}.sigmod.org/calls_papers_important_dates.shtml
+  url_main: https://{YYYY}.sigmod.org/
+  strategy: regex
+  tags: [SYS]
+  description: "ACM Special Interest Group on Management of Data Conference"
+  cycles:
+    - name: "Round 1"
+      section: "Round 1.*?(?=Round 2|<h2|PODS)"
+    - name: "Round 2"
+      section: "Round 2.*?(?=Round 3|<h2)"
+    - name: "Round 3"
+      section: "Round 3.*?(?=Round 4|<h2)"
+    - name: "Round 4"
+      section: "Round 4.*?(?=PODS|Industrial|Demonstration|<h2|$)"
+
+- name: VLDB
+  core_acronym: VLDB
+  # Pattern: vldb.org/{YYYY}/ — consistent for 2025 and 2026
+  # Rolling monthly Research Track; generic extractor captures table rows.
+  url: https://vldb.org/{YYYY}/important-dates.html
+  url_main: https://vldb.org/{YYYY}/
+  strategy: regex
+  tags: [SYS]
+  description: "International Conference on Very Large Databases"
+
+- name: PODS
+  core_acronym: PODS
+  # Co-located with SIGMOD; same {YYYY}.sigmod.org host, separate CFP path.
+  # 2 submission cycles (June + December).
+  url: https://{YYYY}.sigmod.org/calls_papers_pods_research.shtml
+  url_main: https://{YYYY}.sigmod.org/
+  strategy: regex
+  tags: [SYS]
+  description: "ACM SIGMOD-SIGACT-SIGART Symposium on Principles of Database Systems"
+  cycles:
+    - name: "Cycle 1"
+      section: "FIRST SUBMISSION CYCLE.*?(?=SECOND SUBMISSION CYCLE|<h2|$)"
+    - name: "Cycle 2"
+      section: "SECOND SUBMISSION CYCLE.*?(?=<h2|$)"
+
+- name: ICDE
+  core_acronym: ICDE
+  # URL pattern is INCONSISTENT across years; use by_year.
+  #   2025: ieee-icde.org/2025/
+  #   2026: icde2026.github.io
+  strategy: regex
+  tags: [SYS]
+  description: "IEEE International Conference on Data Engineering"
+  by_year:
+    2026:
+      url: https://icde2026.github.io/important-dates.html
+      url_main: https://icde2026.github.io/
+      cycles:
+        - name: "Round 1"
+          section: "First Round.*?(?=Second Round|<h2|$)"
+        - name: "Round 2"
+          section: "Second Round.*?(?=<h2|$)"
+
+- name: SIGMETRICS
+  core_acronym: SIGMETRICS
+  # Pattern: sigmetrics.org/sigmetrics{YYYY}/ — consistent for 2025 and 2026
+  # 3 submission cycles: Summer (Jul), Fall (Oct), Winter (Jan).
+  url: https://www.sigmetrics.org/sigmetrics{YYYY}/call_for_papers.html
+  url_main: https://www.sigmetrics.org/sigmetrics{YYYY}/
+  strategy: regex
+  tags: [SYS]
+  description: "ACM SIGMETRICS Conference on Measurement and Modeling of Computer Systems"
+  cycles:
+    - name: "Summer"
+      section: "Summer:?\\s*</?(b|strong)>.*?(?=Fall:|<h[23]|$)"
+    - name: "Fall"
+      section: "Fall:?\\s*</?(b|strong)>.*?(?=Winter:|<h[23]|$)"
+    - name: "Winter"
+      section: "Winter:?\\s*</?(b|strong)>.*?(?=<h[23]|$)"
+
+- name: PODC
+  core_acronym: PODC
+  # Pattern: podc.org/podc{YYYY}/call-for-papers/ — consistent for 2025 and 2026
+  # Single submission round; plain <ul> list. Generic extractor sufficient.
+  url: https://www.podc.org/podc{YYYY}/call-for-papers/
+  url_main: https://www.podc.org/podc{YYYY}/
+  strategy: regex
+  tags: [SYS]
+  description: "ACM Symposium on Principles of Distributed Computing"
+
+########################  Systems — Networking  ########################
+
+- name: INFOCOM
+  # Pattern: infocom{YYYY}.ieee-infocom.org — consistent; Drupal CMS returns HTTP 418 to scrapers.
+  # 2027: abstract Jul 17, paper Jul 24 2026; notif Dec 1 2026; conf Honolulu.
+  url: https://infocom{YYYY}.ieee-infocom.org/call-papers
+  url_main: https://infocom{YYYY}.ieee-infocom.org/
+  strategy: regex
+  tags: [SYS]
+  description: "IEEE International Conference on Computer Communications"
+  by_year:
+    2027:
+      url: https://infocom2027.ieee-infocom.org/call-papers
+      url_main: https://infocom2027.ieee-infocom.org/
+
+- name: MOBICOM
+  # Pattern: www.sigmobile.org/mobicom/{YYYY}/cfp.html — consistent across years.
+  # 2 submission cycles (Summer + Winter) delimited by <h3> headings.
+  url: https://www.sigmobile.org/mobicom/{YYYY}/cfp.html
+  url_main: https://www.sigmobile.org/mobicom/{YYYY}/
+  strategy: regex
+  tags: [SYS]
+  description: "ACM International Conference on Mobile Computing and Networking"
+  cycles:
+    - name: "Summer"
+      section: "(?i)summer[^<]*</h3>.*?(?=(?i)winter[^<]*</h3>|<h2)"
+    - name: "Winter"
+      section: "(?i)winter[^<]*</h3>.*?(?=<h2|$)"
+
+- name: PERCOM
+  # Domain percom.org stable; dates page: percom.org/dates/ (rolling — always upcoming edition).
+  # Use by_year to pin per-edition.
+  strategy: regex
+  tags: [SYS]
+  description: "IEEE International Conference on Pervasive Computing and Communications"
+  by_year:
+    2027:
+      url: https://percom.org/dates/
+      url_main: https://percom.org/
+
+- name: WWW
+  core_acronym: WWW
+  # Pattern: www2{YYYY}.thewebconf.org — literal "www2" prefix; cannot use {YYYY} template alone.
+  # Must use by_year with explicit URLs.
+  strategy: regex
+  tags: [SYS]
+  description: "International World Wide Web Conference (The Web Conference)"
+  by_year:
+    2026:
+      url: https://www2026.thewebconf.org/calls/research-tracks.html
+      url_main: https://www2026.thewebconf.org/
+    2027:
+      url: https://www2027.thewebconf.org/calls/research-tracks.html
+      url_main: https://www2027.thewebconf.org/
+
+- name: SIGIR
+  # Domain changes per year (sigir2025.dei.unipd.it, sigir2026.org, …); use by_year.
+  # 2026: abstract Jan 15, paper Jan 22; conf Jul 20-24 2026, Melbourne.
+  strategy: regex
+  tags: [SYS]
+  description: "ACM International Conference on Research and Development in Information Retrieval"
+  by_year:
+    2026:
+      url: https://sigir2026.org/en-AU/pages/submissions/full-papers-track
+      url_main: https://sigir2026.org/en-AU
+
+- name: ICDM
+  # Domain changes per year; use by_year.
+  # 2026: abstract May 30, paper Jun 6 2026; conf Nov 12-15 2026, Shenyang.
+  strategy: regex
+  tags: [ML]
+  description: "IEEE International Conference on Data Mining"
+  by_year:
+    2026:
+      url: http://icdm2026.neu.edu.cn/CallforResearchTrack/list.htm
+      url_main: http://icdm2026.neu.edu.cn/
+
+- name: KDD
+  # Pattern: kdd{YYYY}.kdd.org — consistent.
+  # 2 cycles (August/Cycle-1 + February/Cycle-2) in tab panels.
+  url: https://kdd{YYYY}.kdd.org/research-track-call-for-papers/
+  url_main: https://kdd{YYYY}.kdd.org/
+  strategy: regex
+  tags: [SYS]
+  description: "ACM International Conference on Knowledge Discovery and Data Mining"
+  cycles:
+    - name: "Cycle 1 (August)"
+      section: "(?i)august[^<]*(?:cycle|deadline)[^<]*</[^>]+>.*?(?=(?i)february[^<]*(?:cycle|deadline)|$)"
+    - name: "Cycle 2 (February)"
+      section: "(?i)february[^<]*(?:cycle|deadline)[^<]*</[^>]+>.*?(?=<h[23]|$)"
+
+########################  Programming Languages — Theory  ########################
+
+- name: STOC
+  core_acronym: STOC
+  # Pattern: acm-stoc.org/stoc{YYYY}/stoc{YYYY}-cfp.html — consistent
+  # Dates in <p> with <b>/<strong> labels; generic A+C extractor handles well.
+  url: https://acm-stoc.org/stoc{YYYY}/stoc{YYYY}-cfp.html
+  url_main: https://acm-stoc.org/stoc{YYYY}/
+  strategy: regex
+  tags: [PL]
+  description: "ACM Symposium on Theory of Computing"
+
+- name: FOCS
+  # Pattern: focs.computer.org/{YYYY}/ — consistent domain; WordPress site.
+  # CFP slug inconsistent (WordPress artifact); use by_year for CFP URL.
+  url_main: https://focs.computer.org/{YYYY}/
+  strategy: regex
+  tags: [PL]
+  description: "IEEE Symposium on Foundations of Computer Science"
+  by_year:
+    2025:
+      url: https://focs.computer.org/2025/call-for-papers/
+    2026:
+      # "call-for-papers-2" slug is a WordPress artifact on the 2026 site
+      url: https://focs.computer.org/2026/call-for-papers-2/
+
+- name: SODA
+  # SIAM-hosted; stable URL suffix per year (soda{YY}).
+  # Deadlines mid-July of prior year; by_year required.
+  strategy: regex
+  tags: [PL]
+  description: "ACM/SIAM Symposium on Discrete Algorithms"
+  by_year:
+    2026:
+      url: https://www.siam.org/conferences-events/siam-conferences/soda26/submissions/
+    2027:
+      url: https://www.siam.org/conferences-events/siam-conferences/soda27/
+
+- name: LICS
+  # Pattern: lics.siglog.org/lics{YY}/ — consistent 2-digit year; cfp.php
+  # Dates in <dl><dt>/<dd> pairs; generic A+C extractor handles well.
+  url: https://lics.siglog.org/lics{YY}/cfp.php
+  url_main: https://lics.siglog.org/lics{YY}/
+  strategy: regex
+  tags: [PL]
+  description: "IEEE Symposium on Logic in Computer Science"
+
+- name: ICALP
+  # Host changes every year — use by_year.
+  # 2026: Royal Holloway, co-located with PODC+SPAA.
+  strategy: regex
+  tags: [PL]
+  description: "International Colloquium on Automata, Languages and Programming"
+  by_year:
+    2025:
+      url: https://conferences.au.dk/icalp2025/submission-guidelines
+      url_main: https://conferences.au.dk/icalp2025
+    2026:
+      url: https://icalppodcspaa2026.cs.rhul.ac.uk/icalp/
+      url_main: https://icalppodcspaa2026.cs.rhul.ac.uk/icalp/
+
+- name: SoCG
+  core_acronym: SoCG
+  # Host changes every year — use by_year.
+  # 2026: cgweek26.computational-geometry.org (CG Week domain, New Brunswick NJ).
+  strategy: regex
+  tags: [PL]
+  description: "International Symposium on Computational Geometry"
+  by_year:
+    2025:
+      url: https://socg25.github.io/socg.html
+      url_main: https://socg25.github.io/
+    2026:
+      url: https://cgweek26.computational-geometry.org/contribute/
+      url_main: https://cgweek26.computational-geometry.org/
+
+########################  General — HCI / Graphics / Robotics  ########################
+
+- name: CHI
+  core_acronym: CHI
+  # URL: chi{YYYY}.acm.org — path differs per edition (/for-authors/ vs /authors/); by_year.
+  strategy: regex
+  tags: [GEN]
+  description: "ACM CHI Conference on Human Factors in Computing Systems"
+  by_year:
+    2026:
+      url: https://chi2026.acm.org/authors/papers/
+      url_main: https://chi2026.acm.org/
+
+- name: UIST
+  # Pattern: uist.acm.org/{YYYY}/cfp/ — consistent across years
+  url: https://uist.acm.org/{YYYY}/cfp/
+  url_main: https://uist.acm.org/{YYYY}/
+  strategy: regex
+  tags: [GEN]
+  description: "ACM Symposium on User Interface Software and Technology"
+
+- name: SIGGRAPH
+  # Pattern: s{YYYY}.siggraph.org — consistent (s2025, s2026, …)
+  url: https://s{YYYY}.siggraph.org/program/technical-papers/
+  url_main: https://s{YYYY}.siggraph.org/
+  strategy: regex
+  tags: [GEN]
+  description: "ACM SIGGRAPH Conference on Computer Graphics and Interactive Techniques"
+
+- name: SIGGRAPH Asia
+  core_acronym: SiggraphA
+  # Pattern: asia.siggraph.org/{YYYY}/ — consistent across years
+  url: https://asia.siggraph.org/{YYYY}/submissions/technical-papers/
+  url_main: https://asia.siggraph.org/{YYYY}/
+  strategy: regex
+  tags: [GEN]
+  description: "ACM SIGGRAPH Asia — Annual Conference on Computer Graphics and Interactive Techniques in Asia"
+
+- name: ACM Multimedia
+  core_acronym: ACMMM
+  # Pattern: {YYYY}.acmmm.org — consistent across years
+  url: https://{YYYY}.acmmm.org/site/important-dates.html
+  url_main: https://{YYYY}.acmmm.org/
+  strategy: regex
+  tags: [GEN]
+  description: "ACM International Conference on Multimedia"
+
+- name: HRI
+  # Pattern: humanrobotinteraction.org/{YYYY}/ — consistent across years
+  url: https://humanrobotinteraction.org/{YYYY}/full-papers/
+  url_main: https://humanrobotinteraction.org/{YYYY}/
+  strategy: regex
+  tags: [GEN]
+  description: "ACM/IEEE International Conference on Human-Robot Interaction"
+
+- name: ISMAR
+  # Pattern: ieeeismar.net/{YYYY}/ — consistent across years
+  url: https://www.ieeeismar.net/{YYYY}/call-for-papers/
+  url_main: https://www.ieeeismar.net/{YYYY}/
+  strategy: regex
+  tags: [GEN]
+  description: "IEEE/ACM International Symposium on Mixed and Augmented Reality"
+
+- name: "IEEE VR"
+  core_acronym: VR
+  # Pattern: ieeevr.org/{YYYY}/ — consistent across years
+  url: https://ieeevr.org/{YYYY}/contribute/papers/
+  url_main: https://ieeevr.org/{YYYY}/
+  strategy: regex
+  tags: [GEN]
+  description: "IEEE Conference on Virtual Reality and 3D User Interfaces"
+
+- name: ICRA
+  # Pattern: {YYYY}.ieee-icra.org — consistent across years
+  url: https://{YYYY}.ieee-icra.org/contribute/
+  url_main: https://{YYYY}.ieee-icra.org/
+  strategy: regex
+  tags: [GEN]
+  description: "IEEE International Conference on Robotics and Automation"
+
+- name: EC
+  # Pattern: ec{YY}.sigecom.org — consistent (ec25, ec26, …); 2-digit year
+  url: https://ec{YY}.sigecom.org/call-for-contributions-acm/papers/
+  url_main: https://ec{YY}.sigecom.org/
+  strategy: regex
+  tags: [GEN]
+  description: "ACM Conference on Economics and Computation"
