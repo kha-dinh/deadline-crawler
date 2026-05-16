@@ -509,8 +509,9 @@ def _extract_deadlines_generic(html: str, year: int | None = None) -> list[dict]
         if len(lines[line_idx].split()) > 12:
             continue
         best_label = None
+        nearest_seen = False
         for dist in range(1, 3):  # ±1, ±2 lines
-            if best_label:
+            if best_label or nearest_seen:
                 break
             for check_idx in [line_idx - dist, line_idx + dist]:
                 if 0 <= check_idx < len(lines) and check_idx not in range_line_indices:
@@ -520,8 +521,13 @@ def _extract_deadlines_generic(html: str, year: int | None = None) -> list[dict]
                     if len(candidate_line.split()) > 12:
                         continue
                     label = _match_label(candidate_line)
-                    if label and label not in seen_labels:
-                        best_label = label
+                    if label:
+                        if label not in seen_labels:
+                            best_label = label
+                        else:
+                            # Nearest label already consumed — this date is
+                            # a duplicate of an already-matched deadline.
+                            nearest_seen = True
                         break
         if best_label:
             seen_labels.add(best_label)

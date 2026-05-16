@@ -7,7 +7,13 @@
 
 _skip:
   - site opens
+  - site open
   - portal opens
+  - there is no
+  - art submission
+  - art acceptance
+  - tutorial proposal
+  - workshop proposal
   - system opens
   - opens for submission
   - affiliated event   # IACR Eurocrypt: "Affiliated events submission deadline" is not a paper deadline
