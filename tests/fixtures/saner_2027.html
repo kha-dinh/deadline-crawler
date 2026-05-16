@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="https://conf.researchr.org/favicon.ico?28d37e6d7e5e12d24c39bdba0f4f3cfd" rel="shortcut icon" type="image/x-icon" />
 <link href="https://conf.researchr.org/stylesheets/common_.css?d7bcca3579a066193caf560ede9d6399" rel="stylesheet" type="text/css" />
-<title>Important Dates - SANER 2027</title>
+<title>SANER 2027 - Research Track - SANER 2027</title>
 <script type="text/javascript">var show_webdsl_debug=false;</script>
 <script type="text/javascript">var contextpath="https://conf.researchr.org";</script>
 <link rel="stylesheet" href="https://conf.researchr.org/stylesheets/bootstrap/css/bootstrap.min.css?7f89537eaf606bff49f5cc1a7c24dbca" type="text/css" /><link rel="stylesheet" href="https://conf.researchr.org/stylesheets/conf.css?33bf65c5303f4c846f061e45e2b2d641" type="text/css" /><link rel="stylesheet" href="https://conf.researchr.org/getFile/cd557a60-1d3c-4f7e-b69b-8253da6dbe0a/logobar-2.css?1773106326310" type="text/css" /><link rel="stylesheet" href="https://conf.researchr.org/stylesheets/theme.bootstrap_3.min.css?6867e70881e6ed2c03b6c9cf9c3152e0" type="text/css" /><script type="text/javascript" src="//code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -15,17 +15,86 @@
 <script type="text/javascript" src="https://conf.researchr.org/javascript/bootstrap/js/bootstrap.min.js?2f34b630ffe30ba2ff2b91e3f3c322a1"></script>
 <script type="text/javascript" src="https://conf.researchr.org/javascript/notify.min.js?e86d399917a84b69a4683f504c7a7813"></script>
 <script type="text/javascript" src="https://conf.researchr.org/javascript/ajax.js?2dbd1cc4f8f2d52ae9c879d7346f4f8a"></script>
-<meta  prefix='og: http://ogp.me/ns#' property='og:description' content='The 34th IEEE International Conference on Software Analysis, Evolution and Reengineering
+<meta  prefix='og: http://ogp.me/ns#' property='og:description' content='Call for Papers
+The Research Track of the 34rd edition of the IEEE International Conference on Software Analysis, Evolution, and Reengineering (SANER 2027) invites high-quality submissions of papers describing original and unpublished research. We encourage submissions describing various types of research, e.g., empirical, theoretical, and tool-oriented work. The topics of the submissions should be of direct interest to the software analysis, evolution, and reengineering community (including researchers, practitioners, educators).
+Conference Focus and Strategic Themes
+SANER 2027 particular ...'>
+<script type="text/javascript">var ignoreHashChange = false;
+    function hashChangeFunc(){
+      // show active tab on hash in url
+      if (window.location.hash !== ''){
+        var hashTargetAll = $('a[href="' + window.location.hash + '"]');
+        if(hashTargetAll.length){
+          var hashTarget = hashTargetAll.filter('[data-toggle="tab"]')
+          if( hashTarget.length ){
+            hashTarget = hashTarget.first();
+            hashTarget.tab('show');
+          } else {
+            hashTarget = hashTargetAll.first();
+          }
+          // and open parent tabs in case the target element is nested in a tab
+          var parentPane = hashTarget.closest( '.tab-pane' );
+          if(parentPane.length){
+            $('.nav a[href="#'+ parentPane.attr('id') +'"]').tab('show');
+          }
+          var parentCollapse = hashTarget.closest( '.panel-collapse:not(.in)' ).collapse('show');
+        }
+      }
+      return false;
+    }
 
-The IEEE International Conference on Software Analysis, Evolution and Reengineering (SANER) is the premier event on the theory and practice of recovering information from existing software and systems. The event explores innovative methods to extract the many kinds of information that can be recovered from software, software engineering documents, and systems artifacts, and examines innovative ways of using this information in system renewal and program understanding.
-SANER promotes discussion and int ...'>
+    $(document).ready(function(){
+      var tabFromRequestUrl = window.location.hash !== '' ? $('a[href="' + window.location.hash + '"][data-toggle="tab"]') : [];
+      var initUrlHash = window.location.hash;
+      hashChangeFunc()
+      if( tabFromRequestUrl.length ){
+        //Prevent the browser to auto-scroll to the anchor of the tab
+        window.location.hash = "";
+      }
+      //make in-page #links open the tabs
+      if ($._data( $(window)[0], 'events' ).hashchange == undefined){
+        $(window).on('hashchange', hashChangeFunc);
+      }
+      if(tabFromRequestUrl.length){
+        setTimeout( function(){
+          ignoreHashChange = true;
+          history.replaceState(null, null, initUrlHash);
+          ignoreHashChange = false;
+        }, 10 );
+      }
+    });
+    var autoTabFunction = function(node){
+      var isActivatingFirstTab = false;
+      // remember the hash in the URL without jumping
+      $('a[data-toggle="tab"]:not(.no-hash):not(.bound)').addClass('bound').on('shown.bs.tab', function(e){
+        if(!isActivatingFirstTab){
+          var newhash = '#' + $(e.target).attr('href').substr(1);
+          if(history.replaceState){
+            history.replaceState(null, null, newhash);
+          } else{
+            location.hash = newhash;
+          }
+        }
+      });
+
+      //When no tab is active, set the first one to active
+      $(node).find('.nav-tabs:not(.bound), .nav-pills:not(.bound)').addClass('bound').each(function(){
+        if( $(this).children().length > 0 && 1 > $(this).find('.active').length){
+          const firstItem = $(this).find('a[data-toggle="tab"]').first();
+          isActivatingFirstTab = true;
+          firstItem.tab('show');
+          isActivatingFirstTab = false;
+        }
+      });
+    }
+  </script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-4G0QWEKVQS"></script>
 <script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-4G0QWEKVQS', {'cookie_domain': 'auto', 'anonymizeIp': true });gtag('config', 'UA-9607501-2', {'cookie_domain': 'auto', 'anonymizeIp': true });</script>
-<meta name='description' content='The 34th IEEE International Conference on Software Analysis, Evolution and Reengineering
-
-The IEEE International Conference on Software Analysis, Evolution and Reengineering (SANER) is the premier event on the theory and practice of recovering information from existing software and systems. The event explores innovative methods to extract the many kinds of information that can be recovered from software, software engineering documents, and systems artifacts, and examines innovative ways of using this information in system renewal and program understanding.
-SANER promotes discussion and int ...'>
-<meta prefix='og: http://ogp.me/ns#' property='og:title' content='Important Dates - SANER 2027'>
+<meta prefix='og: http://ogp.me/ns#' property='og:title' content='SANER 2027 - Research Track - SANER 2027'>
+<meta name='description' content='Call for Papers
+The Research Track of the 34rd edition of the IEEE International Conference on Software Analysis, Evolution, and Reengineering (SANER 2027) invites high-quality submissions of papers describing original and unpublished research. We encourage submissions describing various types of research, e.g., empirical, theoretical, and tool-oriented work. The topics of the submissions should be of direct interest to the software analysis, evolution, and reengineering community (including researchers, practitioners, educators).
+Conference Focus and Strategic Themes
+SANER 2027 particular ...'>
 <script type="text/javascript">function addEventModalLoadOnClick( containerNode ){
         $(containerNode).find( "a[data-event-modal]" ).on("click", function(e){
           var eventId = $(this).data("event-modal"); 
@@ -58,7 +127,209 @@ SANER promotes discussion and int ...'>
       }
     </script>
 </head>
-<body id="dates"><div class="frame"><div class="logobar"><div class="container"><a href="https://conf.researchr.org/home/saner-2027" class="navbar-brand navigate"><span class="brand-text">SANER 2027</span></a><div class="place">Tue 9 - Fri 12 March 2027 <a href="https://conf.researchr.org/venue/saner-2027/saner-2027-venue" class="navigate">Richmond, Virginia, United States</a></div></div></div><div class="navbar navbar-default"><div class="container"><div class="navbar-header"><button type="button" data-toggle="collapse" data-target="#navigationbar" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button></div><div id="navigationbar" class="navigationbar collapse navbar-collapse"><ul class="block nav navbar-nav"><li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle">Attending <span class="caret"></span></a><ul class="block dropdown-menu"><li class="block"><a href="https://conf.researchr.org/venue/saner-2027/saner-2027-venue" class="navigate">Venue: Virginia Commonwealth University</a></li></ul></li><li class="block"><a href="https://conf.researchr.org/track/saner-2027/saner-2027-papers" class="navigate">Track/Call</a></li><li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle">Organization <span class="caret"></span></a><ul class="block dropdown-menu multi-column columns-1"><div class="row"><div class="col-sm-12"><ul class="block multi-column-dropdown"><li class="block dropdown-header">SANER 2027 Committees</li><li class="block"><a href="https://conf.researchr.org/committee/saner-2027/saner-2027-organizing-committee" class="navigate">Organizing Committee</a></li><li class="block"><a href="https://conf.researchr.org/committee/saner-2027/saner-2027-steering-committee" class="navigate">Steering Committee</a></li><li class="block dropdown-header">Track Committees  </li><li class="block"><a href="https://conf.researchr.org/committee/saner-2027/saner-2027-papers-program-committee" class="navigate">Program Committee</a></li><li class="block dropdown-header">Contributors</li><li class="block"><a href="https://conf.researchr.org/people-index/saner-2027" class="navigate"><span class="glyphicon glyphicon-search"></span><sup><span class="glyphicon glyphicon-user"></span></sup> People Index</a></li></ul></div></div></ul></li><li class="block"><a href="https://conf.researchr.org/search/saner-2027//all" class="navigate"><span class="glyphicon glyphicon-search"></span><span class="hidden-sm"> Search</span></a></li><li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle"><span class="hidden-sm">Series <span class="caret"></span></span><span title="Series" class="visible-sm"><span class="glyphicon glyphicon-repeat"></span> <span class="caret"></span></span></a><ul class="block dropdown-menu"><li class="block"><a href="https://conf.researchr.org/series/saner" class="navigate"><span class="glyphicon glyphicon-home"></span> Series</a></li><li class="block divider"></li><li class="block"><span class="text-muted" style="margin-left: 2px;"><span class="glyphicon glyphicon-hand-right"></span> SANER 2027</span></li><li class="block"><a href="https://conf.researchr.org/home/saner-2026" class="navigate">SANER 2026</a></li><li class="block"><a href="https://conf.researchr.org/home/saner-2025" class="navigate">SANER 2025</a></li><li class="block"><a href="https://conf.researchr.org/home/saner-2024" class="navigate">SANER 2024</a></li></ul></li></ul><div class="navbar-right"><ul class="block nav navbar-nav"><li class="block"><a href="https://conf.researchr.org/signin/saner-2027/https%3A%5Es%5Esconf.researchr.org%5Esdates%5Essaner-2027" rel="nofollow" class="navigate">Sign in</a></li><li class="block"><a href="https://conf.researchr.org/signup/saner-2027" class="navigate">Sign up</a></li></ul></div></div></div></div><div id="content" class="container"><div class="page-header"><span class="text-muted small"><span class="glyphicon glyphicon-home"></span> <a href="https://conf.researchr.org/home/saner-2027" class="navigate">SANER 2027</a> (<a href="https://conf.researchr.org/series/saner" class="navigate">series</a>) / </span><h1>Important Dates</h1></div><div class="row"><div class="col-sm-10"><table class="table table-hover"><thead><tr><th>When</th><th>Track</th><th>What</th></tr></thead></table></div></div><div id="messages-placeholder" class="alert alert-warning" style="display:none;"><a data-dismiss="alert" class="close">x</a><em>Fri 15 May 20:06</em></div></div><div id="notifications-ph" class="webdsl-placeholder"></div><div id="event-modal-loader" class="webdsl-placeholder"><form name="form_131600131703c411e65b13378d08eb1f6672b5a0259" id="form_131600131703c411e65b13378d08eb1f6672b5a0259" action="https://conf.researchr.org/eventDetailsModalByAjaxConferenceEdition" accept-charset="UTF-8" method="POST" class="hidden"><input type="hidden" name="form_131600131703c411e65b13378d08eb1f6672b5a0259" value="1" /><input type="hidden" name="context" value="saner-2027" /><input name="ae03f7f6f951d515a297b161e922205d" type="text" value="" class="inputString form-control event-id-input"/><button style="position: absolute; left: -9999px; width: 1px; height: 1px;" onclick='javascript:serverInvoke("https://conf.researchr.org/eventDetailsModalByAjaxConferenceEdition","eventDetailsModalByAjaxConferenceEdition_ia0_3c411e65b13378d08eb1f6672b5a0259", [{"name":"context", "value":"saner-2027"},],"form_131600131703c411e65b13378d08eb1f6672b5a0259", this.nextSibling, false,"event-modal-loader"); return false;'></button><a submitid="eventDetailsModalByAjaxConferenceEdition_ia0_3c411e65b13378d08eb1f6672b5a0259" href="javascript:void(0)" onclick="javascript:loadImageElem=this;$(this.previousSibling).click()" id="load-modal-action"></a></form></div><div id="event-star-form" class="webdsl-placeholder"><form name="form_509860938088b48fd14544d4239b498a2cf339e02b" id="form_509860938088b48fd14544d4239b498a2cf339e02b" action="https://conf.researchr.org/eventStarByAjaxConferenceEdition" accept-charset="UTF-8" method="POST" class="hidden"><input type="hidden" name="form_509860938088b48fd14544d4239b498a2cf339e02b" value="1" /><input type="hidden" name="context" value="saner-2027" /><input name="a0b55aa29cf9431a9461b359872014e3" type="text" value="" class="inputString form-control event-id-input"/><button style="position: absolute; left: -9999px; width: 1px; height: 1px;" onclick='javascript:serverInvoke("https://conf.researchr.org/eventStarByAjaxConferenceEdition","eventStarByAjaxConferenceEdition_ia0_88b48fd14544d4239b498a2cf339e02b", [{"name":"context", "value":"saner-2027"},],"form_509860938088b48fd14544d4239b498a2cf339e02b", this.nextSibling, false,"event-star-form"); return false;'></button><a submitid="eventStarByAjaxConferenceEdition_ia0_88b48fd14544d4239b498a2cf339e02b" href="javascript:void(0)" onclick="javascript:loadImageElem=this;$(this.previousSibling).click()" id="star-event-action"></a></form></div><div id="event-modals" class="webdsl-placeholder"></div><script type="text/javascript">(function(){
+<body id="track"><div class="frame"><div class="logobar"><div class="container"><a href="https://conf.researchr.org/home/saner-2027" class="navbar-brand navigate"><span class="brand-text">SANER 2027</span></a><div class="place">Tue 9 - Fri 12 March 2027 <a href="https://conf.researchr.org/venue/saner-2027/saner-2027-venue" class="navigate">Richmond, Virginia, United States</a></div></div></div><div class="navbar navbar-default"><div class="container"><div class="navbar-header"><button type="button" data-toggle="collapse" data-target="#navigationbar" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button></div><div id="navigationbar" class="navigationbar collapse navbar-collapse"><ul class="block nav navbar-nav"><li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle">Attending <span class="caret"></span></a><ul class="block dropdown-menu"><li class="block"><a href="https://conf.researchr.org/venue/saner-2027/saner-2027-venue" class="navigate">Venue: Virginia Commonwealth University</a></li></ul></li><li class="block"><a href="https://conf.researchr.org/track/saner-2027/saner-2027-papers" class="navigate">Track/Call</a></li><li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle">Organization <span class="caret"></span></a><ul class="block dropdown-menu multi-column columns-1"><div class="row"><div class="col-sm-12"><ul class="block multi-column-dropdown"><li class="block dropdown-header">SANER 2027 Committees</li><li class="block"><a href="https://conf.researchr.org/committee/saner-2027/saner-2027-organizing-committee" class="navigate">Organizing Committee</a></li><li class="block"><a href="https://conf.researchr.org/committee/saner-2027/saner-2027-steering-committee" class="navigate">Steering Committee</a></li><li class="block dropdown-header">Track Committees  </li><li class="block"><a href="https://conf.researchr.org/committee/saner-2027/saner-2027-papers-program-committee" class="navigate">Program Committee</a></li><li class="block dropdown-header">Contributors</li><li class="block"><a href="https://conf.researchr.org/people-index/saner-2027" class="navigate"><span class="glyphicon glyphicon-search"></span><sup><span class="glyphicon glyphicon-user"></span></sup> People Index</a></li></ul></div></div></ul></li><li class="block"><a href="https://conf.researchr.org/search/saner-2027//all" class="navigate"><span class="glyphicon glyphicon-search"></span><span class="hidden-sm"> Search</span></a></li><li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle"><span class="hidden-sm">Series <span class="caret"></span></span><span title="Series" class="visible-sm"><span class="glyphicon glyphicon-repeat"></span> <span class="caret"></span></span></a><ul class="block dropdown-menu"><li class="block"><a href="https://conf.researchr.org/series/saner" class="navigate"><span class="glyphicon glyphicon-home"></span> Series</a></li><li class="block divider"></li><li class="block"><span class="text-muted" style="margin-left: 2px;"><span class="glyphicon glyphicon-hand-right"></span> SANER 2027</span></li><li class="block"><a href="https://conf.researchr.org/home/saner-2026" class="navigate">SANER 2026</a></li><li class="block"><a href="https://conf.researchr.org/home/saner-2025" class="navigate">SANER 2025</a></li><li class="block"><a href="https://conf.researchr.org/home/saner-2024" class="navigate">SANER 2024</a></li></ul></li></ul><div class="navbar-right"><ul class="block nav navbar-nav"><li class="block"><a href="https://conf.researchr.org/signin/saner-2027/https%3A%5Es%5Esconf.researchr.org%5Estrack%5Essaner-2027%5Essaner-2027-papers" rel="nofollow" class="navigate">Sign in</a></li><li class="block"><a href="https://conf.researchr.org/signup/saner-2027" class="navigate">Sign up</a></li></ul></div></div></div></div><div id="content" class="container"><div class="page-header"><span class="text-muted small"><span class="glyphicon glyphicon-home"></span> <a href="https://conf.researchr.org/home/saner-2027" class="navigate">SANER 2027</a> (<a href="https://conf.researchr.org/series/saner" class="navigate">series</a>) / </span><h1>Research Track<span class="pull-right small h1">SANER 2027</span></h1></div><div class="row"><div class="col-sm-8"><ul id="tab" class="nav nav-pills"><li><a href="#About" data-toggle="tab">About</a></li><li><a href="#Call-for-Papers" data-toggle="tab">Call for Papers</a></li><li><a href="#Preprint-Guidelines" data-toggle="tab">Preprint Guidelines</a></li></ul><script type="text/javascript">(function(){
+    var post_process_function = function(n){ var node=(n&&n.nodeType === 1)?n:document; autoTabFunction(node); };
+    var original_post_process_func = ajax_post_process;
+    ajax_post_process = function(){
+      original_post_process_func.apply(this,arguments);
+      post_process_function.apply(this,arguments);
+    };
+    $(document).ready( post_process_function );
+  })();   
+  </script><div class="tab-content"><div id="About" class="tab-pane "><h1><a href="#call-for-papers" id="call-for-papers" class="anchor-link">Call for Papers</a></h1>
+<p>The Research Track of the 34rd edition of the IEEE International Conference on Software Analysis, Evolution, and Reengineering (SANER 2027) invites high-quality submissions of papers describing original and unpublished research. We encourage submissions describing various types of research, e.g., empirical, theoretical, and tool-oriented work. The topics of the submissions should be of direct interest to the software analysis, evolution, and reengineering community (including researchers, practitioners, educators).</p>
+<h2><a href="#conference-focus-and-strategic-themes" id="conference-focus-and-strategic-themes" class="anchor-link">Conference Focus and Strategic Themes</a></h2>
+<p>SANER 2027 particularly welcomes contributions aligned with emerging and transformative directions in software engineering. We strongly encourage submissions that contribute to one or more of the following themes:</p>
+<ul>
+<li><strong>AI for Software Engineering (AI4SE):</strong> Foundations, techniques, and tools leveraging AI to support software maintenance and evolution.</li>
+<li><strong>Agentic AI in Software Engineering:</strong> Autonomous and semi-autonomous agents transforming how software is evolved and maintained.</li>
+<li><strong>Human-AI Interaction and Developer Experience:</strong> Understanding how developers collaborate with AI systems, including cognitive, social, and experiential aspects of AI-assisted software engineering in the context of software maintenance and evolution.</li>
+</ul>
+<p>These themes reflect a broader vision of the future of software engineering, where AI is not only a tool but an active participant in the development process.</p>
+<h2><a href="#topics-of-interest" id="topics-of-interest" class="anchor-link">Topics of Interest</a></h2>
+<p>Topics of interest include, but are not limited to:</p>
+<ul>
+<li>AI for Software Engineering and Software Engineering for AI (see note below);</li>
+<li>Generative AI and LLMs applied to software analysis, evolution, and reengineering;</li>
+<li>Agentic AI systems and autonomous software engineering workflows;</li>
+<li>Human-AI collaboration, developer experience, and socio-technical aspects of AI-assisted software evolution;</li>
+<li>Software Analysis, Parsing, and Fact Extraction;</li>
+<li>Software Maintenance and Evolution, Evolution Analysis;</li>
+<li>Software Reverse Engineering and Reengineering;</li>
+<li>Program Comprehension;</li>
+<li>Software Architecture Recovery and Reverse Architecting;</li>
+<li>Program Transformation and Refactoring;</li>
+<li>Mining Software Repositories and Software Analytics;</li>
+<li>Software Visualization;</li>
+<li>Software Reconstruction and Migration;</li>
+<li>Program Repair;</li>
+<li>Software Release Engineering, Continuous Integration and Delivery;</li>
+<li>Software Security, Safety, Reliability and Quality Analysis;</li>
+<li>Software Tools for Software Evolution and Maintenance;</li>
+<li>Technical Debt</li>
+<li>Human factors and legal aspects in Software Analysis, Evolution, and Reengineering;</li>
+<li>Empirical studies in Software Analysis, Evolution, and Reengineering;</li>
+<li>Education and Training in Software Analysis, Evolution, and Reengineering.</li>
+</ul>
+<p>All papers must be full papers.</p>
+<h2><a href="#papers-involving-ai-and-ml" id="papers-involving-ai-and-ml" class="anchor-link">Papers Involving AI and ML</a></h2>
+<p>Papers involving AI or ML must either:</p>
+<p>(a) concern a software system as a whole, or a subsystem, and not simply its AI or ML component</p>
+<p>(b) consider software evolution/maintenance artifacts</p>
+<p>(c) target a novel context for a software evolution/maintenance task</p>
+<p>(d) study human, social, socio-technical, and organizational aspects in the evolution/maintenance of AI- or ML-intensive software systems (see also “Scoping Software Engineering for AI: The TSE Perspective”, 10.1109/TSE.2024.3470368)</p>
+<p>Papers must explicitly explain how they address a software evolution/maintenance problem.</p>
+<p>Papers not meeting these criteria may be more suitable for AI- or ML-focused venues instead and may be desk-rejected.</p>
+<h2><a href="#special-issue" id="special-issue" class="anchor-link">Special Issue</a></h2>
+<p>TBD.</p>
+<h2><a href="#evaluation-criteria" id="evaluation-criteria" class="anchor-link">Evaluation Criteria</a></h2>
+<p>Research papers will be reviewed by at least three members of the Program Committee.</p>
+<p>Submissions will be evaluated based on the following criteria:</p>
+<ul>
+<li><strong>Originality and novelty:</strong> The extent to which the contribution is sufficiently original and is clearly explained with respect to the state-of-the-art;</li>
+<li><strong>Importance of contribution and significance:</strong> The extent to which the paper’s contributions are important with respect to open software engineering challenges, or how the paper’s contributions may impact the field of software analysis, evolution and reengineering;</li>
+<li><strong>Soundness:</strong> The extent to which the paper’s contributions are supported by rigorous application of appropriate research methods;</li>
+<li><strong>Open Science and Verifiability:</strong> The extent to which the paper includes sufficient information to support independent verification or replication of the paper’s claimed contributions;</li>
+<li><strong>Presentation:</strong> The extent to which the paper’s quality of writing meets the standards of SANER, including clear descriptions and explanations, appropriate use of the English language, absence of major ambiguity, clearly readable figures and tables, and adherence to the formatting instructions provided below.</li>
+</ul>
+<h2><a href="#submission-instructions" id="submission-instructions" class="anchor-link">Submission Instructions</a></h2>
+<p>Submitted papers must have been neither previously accepted for publication nor concurrently submitted for review in another journal, book, conference, or workshop. All submissions must come in PDF format and conform, at the time of submission, to the IEEE Conference Proceedings Formatting Guidelines (title in 24pt font and full text in 10pt font, LaTEX users must use <code>\documentclass[10pt,conference]{IEEEtran}</code> without including the compsoc or compsocconf option. IEEE paper templates can be accessed from their official location. Also, papers must comply with the IEEE Policy on Authorship. All submissions must be in English. Submissions should not exceed 10 pages (with 2 additional pages for references only) and should be uploaded electronically in PDF format via EasyChair</p>
+<p>All papers must be submitted in PDF format through the web-based submission system <a href="https://easychair.org/my/conference?conf=saner2027">https://easychair.org/my/conference?conf=saner2027</a>. After clicking on “Make a New Submission,” you will be presented with a list of all available tracks. Be sure to select the correct track (i.e., Research Track).</p>
+<p>Submissions that do not adhere to these limits or that violate the formatting guidelines will be desk-rejected without review.</p>
+<h2><a href="#use-of-genai" id="use-of-genai" class="anchor-link">Use of GenAI</a></h2>
+<p>Submissions must follow the latest “IEEE Submission and Peer Review Policy” and “ACM Policy on Authorship” (with associated FAQ, which includes a policy regarding the use of generative AI tools and technologies, such as ChatGPT.</p>
+<h2><a href="#double-blind-review" id="double-blind-review" class="anchor-link">Double-blind Review</a></h2>
+<p>SANER 2027 follows a full double-anonymous review process. To be compliant with the double-anonymous policy, submitted papers must adhere to the following rules (largely reused from ASE 2017 and SANER 2027 double-anonymous instructions):</p>
+<ul>
+<li>Author names and affiliations must be omitted;</li>
+<li>References to authors’ own related work must be in the third person. (For example, not We build on our previous work… but rather We build on the work of…);</li>
+<li>There may be cases in which the current submission is a clear follow-up of one of your previous works, and despite what was recommended in the previous point, reviewers will associate authorship of such a previous work with the current submission. In this case, you may decide to anonymize the reference itself at submission time. For example: based on previous results [10] .. where the reference is reported as [10] Anonymous Authors. Omitted per double-blind reviewing. In doing so, however, please make sure that the SANER 2026 submission is self-contained and that its content can be reviewed and understood without accessing the previous paper;</li>
+<li>Do not include acknowledgments of people, grants, organizations, etc. that would give away your identity. You may, of course, add these acknowledgments in the camera-ready version;</li>
+<li>If you use an identifiable naming convention for your work, such as a project name, use a different name for your submission, which you may indicate has been changed for double-blind reviewing. This includes names that may unblind individual authors and their institutions. For example, if your project is called GoogleDeveloperHelper, which makes it clear the work was done at Google, for the submission version, use the name DeveloperHelper or BigCompanyDeveloperHelper instead;</li>
+<li>Avoid revealing the institution affiliations of authors or at which the work was performed. For example, if the evaluation includes a user study conducted with undergraduates from the CS 101 class that you teach, you might say “The study participants consist of 200 students in an introductory CS course”. You can of course add the institutional information to the camera-ready. Similar suggestions apply to work conducted in specific organizations (e.g., industrial studies). In such cases, avoid mentioning the organization’s name. Instead, you may refer to the organization as Org or Company. When appropriate and when this does not help too much in revealing the company’s name, you might mention the context (e.g., financial organization, game development company, etc.);</li>
+<li>Avoid linking directly to code repositories or tool deployments which can reveal your identity. Whenever possible, please use the EasyChair additional material field to submit a <code>.zip</code> or <code>.tgz</code> file including additional material. This is of course possible for small attachments. In other cases, you may post anonymized links (with a warning that the following link may reveal authors’ identities), including links to anonymized code or deployments. When creating such repositories, a good practice can be asking somebody in your team to test the anonymization of the repository and its content. If the anonymization is difficult to achieve and you still want to provide the availability of data/tools, you can simply state that you will link to the code or deployment in the camera-ready version. Program committee members are asked to keep into account the double-blind policy when reviewing papers, and therefore not require full availability of artifacts at submission time.</li>
+</ul>
+<p>Submissions that do not adhere to the above guidelines will be desk-rejected without review. It is the responsibility of the authors to ensure that their papers and any supplementary material are prepared for a double-blind review.</p>
+<h2><a href="#open-science" id="open-science" class="anchor-link">Open Science</a></h2>
+<p>SANER 2027 supports an Open Science policy. We encourage all contributing authors to disclose (anonymized and curated) data/artifacts to increase reproducibility. While sharing research artifacts is not mandatory for submission or acceptance, authors should include a Data Availability statement after the Conclusions section in a section named “Data Availability”. This statement should be used to:</p>
+<ul>
+<li>To make their artifact available (via a link to an anonymous repository) and provide instructions on how to access this data in the paper; or</li>
+<li>To include an explanation as to why this is not possible or desirable; and</li>
+<li>To indicate why the authors do not intend to make their data or study materials publicly available upon acceptance, if that is the case.</li>
+</ul>
+<p>We encourage authors to consider disclosing the source code and datasets used within their paper, including extractors, survey data, etc. By sharing this information your contribution will be more impactful because others can follow up on your work and cite it. Please consider using Zenodo, Figshare, or other services that provide DOIs and allow anonymous and semi-anonymous methods of archiving software and datasets. These datasets, anonymized through Zenodo and other services, should be linked within the paper itself. Instructions for double-blind friendly uploading of datasets are available here: <a href="https://github.com/dgraziotin/disclose-data-dbr-first-then-opendata">https://github.com/dgraziotin/disclose-data-dbr-first-then-opendata</a>.</p>
+<h2><a href="#accepted-papers" id="accepted-papers" class="anchor-link">Accepted Papers</a></h2>
+<p>All accepted papers will be included in the IEEE Digital Library as part of the SANER 2027 conference proceedings, provided that at least one author registers for SANER 2027 (full registration, not student registration) and presents the paper at the conference. Papers that are not presented will be removed from the proceedings. The authors of accepted papers are encouraged to incorporate reviewers’ comments as much as possible in the camera-ready version. After acceptance, the list of authors cannot be changed under any circumstances, and the author list in the camera-ready version must be identical to that of the submitted paper. Paper titles cannot be changed unless approved by the Program Co-Chairs, and title changes are only allowed if recommended by reviewers for clarity or accuracy.</p>
+<h2><a href="#important-dates" id="important-dates" class="anchor-link">Important Dates</a></h2>
+<ul>
+<li><strong>Abstract submission (mandatory):</strong> Mon 21 Sep 2026</li>
+<li><strong>Paper submission deadline:</strong> Fri 25 Sept 2026</li>
+<li><strong>Notifications:</strong> Tue 1 Dec 2026</li>
+<li><strong>Author registration deadline:</strong> Fri 8 Jan 2027</li>
+<li><strong>Camera Ready:</strong> Fri 8 Jan 2027</li>
+</ul>
+</div><div id="Call-for-Papers" class="tab-pane "><h2>Call for Papers</h2><p><p>The Research Track of the 34rd edition of the IEEE International Conference on Software Analysis, Evolution, and Reengineering (SANER 2027) invites high-quality submissions of papers describing original and unpublished research. We encourage submissions describing various types of research, e.g., empirical, theoretical, and tool-oriented work. The topics of the submissions should be of direct interest to the software analysis, evolution, and reengineering community (including researchers, practitioners, educators).</p>
+<h3><a href="#conference-focus-and-strategic-themes" id="conference-focus-and-strategic-themes" class="anchor-link">Conference Focus and Strategic Themes</a></h3>
+<p>SANER 2027 particularly welcomes contributions aligned with emerging and transformative directions in software engineering. We strongly encourage submissions that contribute to one or more of the following themes:</p>
+<ul>
+<li><strong>AI for Software Engineering (AI4SE):</strong> Foundations, techniques, and tools leveraging AI to support software maintenance and evolution.</li>
+<li><strong>Agentic AI in Software Engineering:</strong> Autonomous and semi-autonomous agents transforming how software is evolved and maintained.</li>
+<li><strong>Human-AI Interaction and Developer Experience:</strong> Understanding how developers collaborate with AI systems, including cognitive, social, and experiential aspects of AI-assisted software engineering in the context of software maintenance and evolution.</li>
+</ul>
+<p>These themes reflect a broader vision of the future of software engineering, where AI is not only a tool but an active participant in the development process.</p>
+<h3><a href="#topics-of-interest" id="topics-of-interest" class="anchor-link">Topics of Interest</a></h3>
+<p>Topics of interest include, but are not limited to:</p>
+<ul>
+<li>AI for Software Engineering and Software Engineering for AI (see note below);</li>
+<li>Generative AI and LLMs applied to software analysis, evolution, and reengineering;</li>
+<li>Agentic AI systems and autonomous software engineering workflows;</li>
+<li>Human-AI collaboration, developer experience, and socio-technical aspects of AI-assisted software evolution;</li>
+<li>Software Analysis, Parsing, and Fact Extraction;</li>
+<li>Software Maintenance and Evolution, Evolution Analysis;</li>
+<li>Software Reverse Engineering and Reengineering;</li>
+<li>Program Comprehension;</li>
+<li>Software Architecture Recovery and Reverse Architecting;</li>
+<li>Program Transformation and Refactoring;</li>
+<li>Mining Software Repositories and Software Analytics;</li>
+<li>Software Visualization;</li>
+<li>Software Reconstruction and Migration;</li>
+<li>Program Repair;</li>
+<li>Software Release Engineering, Continuous Integration and Delivery;</li>
+<li>Software Security, Safety, Reliability and Quality Analysis;</li>
+<li>Software Tools for Software Evolution and Maintenance;</li>
+<li>Technical Debt</li>
+<li>Human factors and legal aspects in Software Analysis, Evolution, and Reengineering;</li>
+<li>Empirical studies in Software Analysis, Evolution, and Reengineering;</li>
+<li>Education and Training in Software Analysis, Evolution, and Reengineering.</li>
+</ul>
+<p>All papers must be full papers.</p>
+<h3><a href="#papers-involving-ai-and-ml" id="papers-involving-ai-and-ml" class="anchor-link">Papers Involving AI and ML</a></h3>
+<p>Papers involving AI or ML must either:</p>
+<p>(a) concern a software system as a whole, or a subsystem, and not simply its AI or ML component</p>
+<p>(b) consider software evolution/maintenance artifacts</p>
+<p>(c) target a novel context for a software evolution/maintenance task</p>
+<p>(d) study human, social, socio-technical, and organizational aspects in the evolution/maintenance of AI- or ML-intensive software systems (see also “Scoping Software Engineering for AI: The TSE Perspective”, 10.1109/TSE.2024.3470368)</p>
+<p>Papers must explicitly explain how they address a software evolution/maintenance problem.</p>
+<p>Papers not meeting these criteria may be more suitable for AI- or ML-focused venues instead and may be desk-rejected.</p>
+<h3><a href="#special-issue" id="special-issue" class="anchor-link">Special Issue</a></h3>
+<p>TBD.</p>
+<h3><a href="#evaluation-criteria" id="evaluation-criteria" class="anchor-link">Evaluation Criteria</a></h3>
+<p>Research papers will be reviewed by at least three members of the Program Committee.</p>
+<p>Submissions will be evaluated based on the following criteria:</p>
+<ul>
+<li><strong>Originality and novelty:</strong> The extent to which the contribution is sufficiently original and is clearly explained with respect to the state-of-the-art;</li>
+<li><strong>Importance of contribution and significance:</strong> The extent to which the paper’s contributions are important with respect to open software engineering challenges, or how the paper’s contributions may impact the field of software analysis, evolution and reengineering;</li>
+<li><strong>Soundness:</strong> The extent to which the paper’s contributions are supported by rigorous application of appropriate research methods;</li>
+<li><strong>Open Science and Verifiability:</strong> The extent to which the paper includes sufficient information to support independent verification or replication of the paper’s claimed contributions;</li>
+<li><strong>Presentation:</strong> The extent to which the paper’s quality of writing meets the standards of SANER, including clear descriptions and explanations, appropriate use of the English language, absence of major ambiguity, clearly readable figures and tables, and adherence to the formatting instructions provided below.</li>
+</ul>
+<h3><a href="#submission-instructions" id="submission-instructions" class="anchor-link">Submission Instructions</a></h3>
+<p>Submitted papers must have been neither previously accepted for publication nor concurrently submitted for review in another journal, book, conference, or workshop. All submissions must come in PDF format and conform, at the time of submission, to the IEEE Conference Proceedings Formatting Guidelines (title in 24pt font and full text in 10pt font, LaTEX users must use <code>\documentclass[10pt,conference]{IEEEtran}</code> without including the compsoc or compsocconf option. IEEE paper templates can be accessed from their official location. Also, papers must comply with the IEEE Policy on Authorship. All submissions must be in English. Submissions should not exceed 10 pages (with 2 additional pages for references only) and should be uploaded electronically in PDF format via EasyChair</p>
+<p>All papers must be submitted in PDF format through the web-based submission system <a href="https://easychair.org/my/conference?conf=saner2027">https://easychair.org/my/conference?conf=saner2027</a>. After clicking on “Make a New Submission,” you will be presented with a list of all available tracks. Be sure to select the correct track (i.e., Research Track).</p>
+<p>Submissions that do not adhere to these limits or that violate the formatting guidelines will be desk-rejected without review.</p>
+<h3><a href="#use-of-genai" id="use-of-genai" class="anchor-link">Use of GenAI</a></h3>
+<p>Submissions must follow the latest “IEEE Submission and Peer Review Policy” and “ACM Policy on Authorship” (with associated FAQ, which includes a policy regarding the use of generative AI tools and technologies, such as ChatGPT.</p>
+<h3><a href="#double-blind-review" id="double-blind-review" class="anchor-link">Double-blind Review</a></h3>
+<p>SANER 2027 follows a full double-anonymous review process. To be compliant with the double-anonymous policy, submitted papers must adhere to the following rules (largely reused from ASE 2017 and SANER 2027 double-anonymous instructions):</p>
+<ul>
+<li>Author names and affiliations must be omitted;</li>
+<li>References to authors’ own related work must be in the third person. (For example, not We build on our previous work… but rather We build on the work of…);</li>
+<li>There may be cases in which the current submission is a clear follow-up of one of your previous works, and despite what was recommended in the previous point, reviewers will associate authorship of such a previous work with the current submission. In this case, you may decide to anonymize the reference itself at submission time. For example: based on previous results [10] .. where the reference is reported as [10] Anonymous Authors. Omitted per double-blind reviewing. In doing so, however, please make sure that the SANER 2026 submission is self-contained and that its content can be reviewed and understood without accessing the previous paper;</li>
+<li>Do not include acknowledgments of people, grants, organizations, etc. that would give away your identity. You may, of course, add these acknowledgments in the camera-ready version;</li>
+<li>If you use an identifiable naming convention for your work, such as a project name, use a different name for your submission, which you may indicate has been changed for double-blind reviewing. This includes names that may unblind individual authors and their institutions. For example, if your project is called GoogleDeveloperHelper, which makes it clear the work was done at Google, for the submission version, use the name DeveloperHelper or BigCompanyDeveloperHelper instead;</li>
+<li>Avoid revealing the institution affiliations of authors or at which the work was performed. For example, if the evaluation includes a user study conducted with undergraduates from the CS 101 class that you teach, you might say “The study participants consist of 200 students in an introductory CS course”. You can of course add the institutional information to the camera-ready. Similar suggestions apply to work conducted in specific organizations (e.g., industrial studies). In such cases, avoid mentioning the organization’s name. Instead, you may refer to the organization as Org or Company. When appropriate and when this does not help too much in revealing the company’s name, you might mention the context (e.g., financial organization, game development company, etc.);</li>
+<li>Avoid linking directly to code repositories or tool deployments which can reveal your identity. Whenever possible, please use the EasyChair additional material field to submit a <code>.zip</code> or <code>.tgz</code> file including additional material. This is of course possible for small attachments. In other cases, you may post anonymized links (with a warning that the following link may reveal authors’ identities), including links to anonymized code or deployments. When creating such repositories, a good practice can be asking somebody in your team to test the anonymization of the repository and its content. If the anonymization is difficult to achieve and you still want to provide the availability of data/tools, you can simply state that you will link to the code or deployment in the camera-ready version. Program committee members are asked to keep into account the double-blind policy when reviewing papers, and therefore not require full availability of artifacts at submission time.</li>
+</ul>
+<p>Submissions that do not adhere to the above guidelines will be desk-rejected without review. It is the responsibility of the authors to ensure that their papers and any supplementary material are prepared for a double-blind review.</p>
+<h3><a href="#open-science" id="open-science" class="anchor-link">Open Science</a></h3>
+<p>SANER 2027 supports an Open Science policy. We encourage all contributing authors to disclose (anonymized and curated) data/artifacts to increase reproducibility. While sharing research artifacts is not mandatory for submission or acceptance, authors should include a Data Availability statement after the Conclusions section in a section named “Data Availability”. This statement should be used to:</p>
+<ul>
+<li>To make their artifact available (via a link to an anonymous repository) and provide instructions on how to access this data in the paper; or</li>
+<li>To include an explanation as to why this is not possible or desirable; and</li>
+<li>To indicate why the authors do not intend to make their data or study materials publicly available upon acceptance, if that is the case.</li>
+</ul>
+<p>We encourage authors to consider disclosing the source code and datasets used within their paper, including extractors, survey data, etc. By sharing this information your contribution will be more impactful because others can follow up on your work and cite it. Please consider using Zenodo, Figshare, or other services that provide DOIs and allow anonymous and semi-anonymous methods of archiving software and datasets. These datasets, anonymized through Zenodo and other services, should be linked within the paper itself. Instructions for double-blind friendly uploading of datasets are available here: <a href="https://github.com/dgraziotin/disclose-data-dbr-first-then-opendata">https://github.com/dgraziotin/disclose-data-dbr-first-then-opendata</a>.</p>
+<h3><a href="#accepted-papers" id="accepted-papers" class="anchor-link">Accepted Papers</a></h3>
+<p>All accepted papers will be included in the IEEE Digital Library as part of the SANER 2027 conference proceedings, provided that at least one author registers for SANER 2027 (full registration, not student registration) and presents the paper at the conference. Papers that are not presented will be removed from the proceedings. The authors of accepted papers are encouraged to incorporate reviewers’ comments as much as possible in the camera-ready version. After acceptance, the list of authors cannot be changed under any circumstances, and the author list in the camera-ready version must be identical to that of the submitted paper. Paper titles cannot be changed unless approved by the Program Co-Chairs, and title changes are only allowed if recommended by reviewers for clarity or accuracy.</p>
+<h3><a href="#important-dates" id="important-dates" class="anchor-link">Important Dates</a></h3>
+<ul>
+<li><strong>Abstract submission (mandatory):</strong> Mon 21 Sep 2026</li>
+<li><strong>Paper submission deadline:</strong> Fri 25 Sept 2026</li>
+<li><strong>Notifications:</strong> Tue 1 Dec 2026</li>
+<li><strong>Author registration deadline:</strong> Fri 8 Jan 2027</li>
+<li><strong>Camera Ready:</strong> Fri 8 Jan 2027</li>
+</ul>
+</p></div><div id="Preprint-Guidelines" class="tab-pane "><div class="page-header"><h1>Preprint Guidelines</h1></div><p>To ensure a fair and unbiased double-blind review process, authors must comply with the following guidelines regarding the handling of non-anonymized versions. A non-anonymized version is considered any publicly available document (e.g., on arXiv) that contains essentially the same scientific content as the submitted paper, even if it differs in minor ways such as the title, paper structure or organization, length, or formatting.</p>
+<p><b>Preprints Posted Before the Anonymity Period</b></p>
+<p>Authors may make a non-anonymized version of their paper publicly available before the anonymity period. The anonymity period starts one month before the submission deadline and ends when the paper is accepted, rejected, or withdrawn. However, in such cases, authors are responsible for minimizing the risk that reviewers can easily link the submitted paper to a public version.</p>
+<p>Specifically, authors must: * Take care to prevent the submitted manuscript from being associated with the non-anonymized version. * Avoid reusing distinctive phrases (e.g., title, keywords) from the submitted manuscript that would make the non-anonymized version easily discoverable via search engines. * Not update the non-anonymized version during the anonymity period. * Not actively promote the non-anonymized version (e.g., via social media, blogs, or mailing lists). * Not reference, cite, or link to the non-anonymized version within the submitted manuscript.</p>
+<p><b>Post-Publication Preprint Policy (IEEE Guidelines)</b></p>
+<p>Upon acceptance and publication by IEEE, authors must update any publicly available non-anonymized version in one of the following ways: * Replace it with the full IEEE citation, including the Digital Object Identifier (DOI), or * Post the accepted version of the paper (i.e., the author’s final version before IEEE formatting), along with the DOI. The IEEE-published version itself must not be posted.</p>
+<p>IEEE will provide each author with a preprint version of the article that includes the DOI, IEEE copyright notice, and a statement confirming that the article has been accepted. Authors may post this version in accordance with IEEE’s guidelines.</p>
+<p>For details, see: <a href="https://conferences.ieeeauthorcenter.ieee.org/get-published/post-your-paper/">https://conferences.ieeeauthorcenter.ieee.org/get-published/post-your-paper/</a></p>
+<p><b>Questions</b></p>
+<p>If you have any questions about pre-prints for your track, please contact the relevant track chairs.</p>
+</div></div></div><div class="col-sm-4 sidebar"><div class="panel panel-primary"><div class="panel-heading clearfix"><div class="panel-title"><a href="https://conf.researchr.org/committee/saner-2027/saner-2027-papers-program-committee" class="navigate">Program Committee</a></div></div><ul class="list-group"><li class="list-group-item">No members yet</li></ul></div></div></div><div id="messages-placeholder" class="alert alert-warning" style="display:none;"><a data-dismiss="alert" class="close">x</a><em>Sat 16 May 02:22</em></div></div><div id="notifications-ph" class="webdsl-placeholder"></div><div id="event-modal-loader" class="webdsl-placeholder"><form name="form_131600131703c411e65b13378d08eb1f6672b5a0259" id="form_131600131703c411e65b13378d08eb1f6672b5a0259" action="https://conf.researchr.org/eventDetailsModalByAjaxConferenceEdition" accept-charset="UTF-8" method="POST" class="hidden"><input type="hidden" name="form_131600131703c411e65b13378d08eb1f6672b5a0259" value="1" /><input type="hidden" name="context" value="saner-2027" /><input name="ae03f7f6f951d515a297b161e922205d" type="text" value="" class="inputString form-control event-id-input"/><button style="position: absolute; left: -9999px; width: 1px; height: 1px;" onclick='javascript:serverInvoke("https://conf.researchr.org/eventDetailsModalByAjaxConferenceEdition","eventDetailsModalByAjaxConferenceEdition_ia0_3c411e65b13378d08eb1f6672b5a0259", [{"name":"context", "value":"saner-2027"},],"form_131600131703c411e65b13378d08eb1f6672b5a0259", this.nextSibling, false,"event-modal-loader"); return false;'></button><a submitid="eventDetailsModalByAjaxConferenceEdition_ia0_3c411e65b13378d08eb1f6672b5a0259" href="javascript:void(0)" onclick="javascript:loadImageElem=this;$(this.previousSibling).click()" id="load-modal-action"></a></form></div><div id="event-star-form" class="webdsl-placeholder"><form name="form_509860938088b48fd14544d4239b498a2cf339e02b" id="form_509860938088b48fd14544d4239b498a2cf339e02b" action="https://conf.researchr.org/eventStarByAjaxConferenceEdition" accept-charset="UTF-8" method="POST" class="hidden"><input type="hidden" name="form_509860938088b48fd14544d4239b498a2cf339e02b" value="1" /><input type="hidden" name="context" value="saner-2027" /><input name="a0b55aa29cf9431a9461b359872014e3" type="text" value="" class="inputString form-control event-id-input"/><button style="position: absolute; left: -9999px; width: 1px; height: 1px;" onclick='javascript:serverInvoke("https://conf.researchr.org/eventStarByAjaxConferenceEdition","eventStarByAjaxConferenceEdition_ia0_88b48fd14544d4239b498a2cf339e02b", [{"name":"context", "value":"saner-2027"},],"form_509860938088b48fd14544d4239b498a2cf339e02b", this.nextSibling, false,"event-star-form"); return false;'></button><a submitid="eventStarByAjaxConferenceEdition_ia0_88b48fd14544d4239b498a2cf339e02b" href="javascript:void(0)" onclick="javascript:loadImageElem=this;$(this.previousSibling).click()" id="star-event-action"></a></form></div><div id="event-modals" class="webdsl-placeholder"></div><script type="text/javascript">(function(){
     var post_process_function = function(n){ var node=(n&&n.nodeType === 1)?n:document; addEventModalLoadOnClick(node); addStarredEventOnClick(node); };
     var original_post_process_func = ajax_post_process;
     ajax_post_process = function(){

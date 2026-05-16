@@ -69,9 +69,10 @@ def _build_cycle_selectors(conf: dict, cycle: dict) -> dict:
 
 
 # Generic date pattern: matches "Month DD, YYYY" with optional ordinal suffix
+# Group 2 allows optional comma between month and year to handle "6 May, 2026" format
 _GENERIC_DATE_RE = re.compile(
     r"([A-Z][a-z]+\.?\s+\d+\w*,?\s+\d{4})"
-    r"|(\d+\w*\s+[A-Z][a-z]+\.?\s+\d{4})"
+    r"|(\d+\w*\s+[A-Z][a-z]+\.?,?\s+\d{4})"
 )
 
 _HEADERS = {
@@ -154,6 +155,8 @@ def _parse_deadline_date(text: str) -> str | None:
         "%b %d %Y",      # Aug 26 2025 (no comma)
         "%d %B %Y",      # 23 April 2025
         "%d %b %Y",      # 23 Apr 2025
+        "%d %B, %Y",     # 6 May, 2026 (comma after month)
+        "%d %b, %Y",     # 6 May, 2026 abbreviated (comma after month)
     ):
         try:
             dt = datetime.strptime(cleaned.strip(), fmt)
@@ -178,16 +181,39 @@ def _strip_html(html: str) -> str:
     for tag in soup.find_all(["script", "style", "strike", "s"]):
         tag.decompose()
 
-    # Replace <br> with space to keep inline content on one line
-    for br in soup.find_all("br"):
-        br.replace_with(" ")
+    # Process <tr>: join cells with ' | ', but handle <br>-column tables specially.
+    # If all cells in a <tr> have the same number of <br>-separated items (≥2),
+    # emit one line per pair (CVPR-style parallel label/date columns).
+    _BR_MARKER = "\x00BR\x00"
 
-    # Process <tr>: join cells with ' | '
+    def _cell_br_parts(cell) -> list[str]:
+        """Split a cell's text by <br> boundaries using a unique in-text marker."""
+        import copy
+        clone = copy.copy(cell)
+        for br in clone.find_all("br"):
+            br.replace_with(_BR_MARKER)
+        return [p.strip() for p in clone.get_text(separator="", strip=True).split(_BR_MARKER) if p.strip()]
+
     for tr in soup.find_all("tr"):
         cells = tr.find_all(["td", "th"])
-        if cells:
+        if not cells:
+            continue
+        # Get <br>-split items per cell
+        cell_parts = [_cell_br_parts(cell) for cell in cells]
+        # Check if all cells have ≥2 items and the same count → parallel column table
+        counts = [len(p) for p in cell_parts]
+        if len(cells) >= 2 and min(counts) >= 2 and min(counts) == max(counts):
+            lines = []
+            for row_items in zip(*cell_parts):
+                lines.append(" | ".join(row_items))
+            tr.replace_with("\n".join(lines) + "\n")
+        else:
             text = " | ".join(c.get_text(separator=" ", strip=True) for c in cells)
             tr.replace_with(text + "\n")
+
+    # Replace <br> with space to keep remaining inline content on one line
+    for br in soup.find_all("br"):
+        br.replace_with(" ")
 
     # Process <dt>/<dd> pairs: merge onto one line
     for dt in soup.find_all("dt"):
