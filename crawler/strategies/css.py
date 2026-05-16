@@ -30,6 +30,7 @@ from crawler.strategies.regex import (
     _DATE_RANGE_RE,
     _DATE_RANGE_EXPANDED_RE,
     _RANGE_LABEL_PAIRS,
+    _check_date_year_sanity,
     _fetch,
     _is_scaffolding,
     _parse_deadline_date,
@@ -178,6 +179,7 @@ class CssStrategy(BaseStrategy):
                 deadlines = _extract_deadlines_css(
                     _build_cycle_selectors(conf, cycle), html, year
                 )
+                _check_date_year_sanity(deadlines, year, conf["name"], url)
                 results.append(
                     CrawlResult(
                         name=conf["name"],
@@ -196,6 +198,7 @@ class CssStrategy(BaseStrategy):
             deadlines = _extract_deadlines_css(
                 conf.get("selectors", {}), html, year
             )
+            _check_date_year_sanity(deadlines, year, conf["name"], url)
             return [
                 CrawlResult(
                     name=conf["name"],
