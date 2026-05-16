@@ -11,6 +11,7 @@ _skip:
   - system opens
   - opens for submission
   - affiliated event   # IACR Eurocrypt: "Affiliated events submission deadline" is not a paper deadline
+  - invite submission  # IJCAI body text: "We invite submissions for..." is not a deadline line
 
 abstract:
   - abstract registration
