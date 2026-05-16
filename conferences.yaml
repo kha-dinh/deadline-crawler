@@ -137,9 +137,9 @@
       strategy: regex
       cycles:
         - name: "Cycle 1"
-          section: '<strong>Cycle 1</strong>.*?(?=<strong>Cycle 2</strong>)'
+          section: "<strong>Cycle 1</strong>.*?(?=<strong>Cycle 2</strong>)"
         - name: "Cycle 2"
-          section: '<strong>Cycle 2</strong>.*?</ul>'
+          section: "<strong>Cycle 2</strong>.*?</ul>"
 
 - name: "IEEE S&P"
   core_acronym: SP
@@ -421,7 +421,7 @@
   url_main: https://www.usenix.org/conference/nsdi{YY}
   strategy: css
   tags: [SYS]
-  core_rank: A*  # ICORE2026 lists 'National: USA' (not a standard rank); A* reflects actual standing
+  core_rank: A* # ICORE2026 lists 'National: USA' (not a standard rank); A* reflects actual standing
   description: "USENIX Symposium on Networked Systems Design and Implementation"
   # event_selectors: implicit from usenix.org url_main
   selectors:
@@ -498,7 +498,7 @@
     place: ".container.hero h2:first-of-type"
   cycles:
     - name: "Cycle 1"
-      section: 'Cycle 1 Deadline</h2>.*?(?=<h2)'
+      section: "Cycle 1 Deadline</h2>.*?(?=<h2)"
       deadlines:
         - label: abstract
           pattern: '<td>Paper registration[^<]*</td>\s*<td>([^<]+)</td>'
@@ -511,7 +511,7 @@
         - label: camera_ready
           pattern: '<td>Shepherd approval[^<]*</td>\s*<td>([^<]+)</td>'
     - name: "Cycle 2"
-      section: 'Cycle 2 Deadline</h2>.*?(?=<h2)'
+      section: "Cycle 2 Deadline</h2>.*?(?=<h2)"
       deadlines:
         - label: abstract
           pattern: '<td>Paper registration[^<]*</td>\s*<td>([^<]+)</td>'
@@ -593,7 +593,6 @@
   # event_selectors: implicit from conf.researchr.org url_main
 
 ########################  Software Engineering — TIER2  ########################
-
 - name: ICST
   # Pattern: conf.researchr.org/dates/icst-{YYYY} — consistent
   url: https://conf.researchr.org/dates/icst-{YYYY}
@@ -658,7 +657,6 @@
     researchr_track: scam-{YYYY}-research-track
 
 ########################  Programming Languages — TIER1  ########################
-
 - name: PLDI
   # sigplan.org track pages are JS-tab-rendered; use researchr dates page (static)
   # Track auto-discovered as pldi-{YYYY}-papers by _autodiscover_researchr
@@ -1269,7 +1267,7 @@
   core_acronym: CHI
   # URL: chi{YYYY}.acm.org — path differs per edition (/for-authors/ vs /authors/); by_year.
   strategy: regex
-  tags: [GEN]
+  tags: [OTHER]
   description: "ACM CHI Conference on Human Factors in Computing Systems"
   by_year:
     2026:
@@ -1281,7 +1279,7 @@
   url: https://uist.acm.org/{YYYY}/cfp/
   url_main: https://uist.acm.org/{YYYY}/
   strategy: regex
-  tags: [GEN]
+  tags: [OTHER]
   description: "ACM Symposium on User Interface Software and Technology"
 
 - name: SIGGRAPH
@@ -1289,7 +1287,7 @@
   url: https://s{YYYY}.siggraph.org/program/technical-papers/
   url_main: https://s{YYYY}.siggraph.org/
   strategy: regex
-  tags: [GEN]
+  tags: [OTHER]
   description: "ACM SIGGRAPH Conference on Computer Graphics and Interactive Techniques"
 
 - name: SIGGRAPH Asia
@@ -1298,7 +1296,7 @@
   url: https://asia.siggraph.org/{YYYY}/submissions/technical-papers/
   url_main: https://asia.siggraph.org/{YYYY}/
   strategy: regex
-  tags: [GEN]
+  tags: [OTHER]
   description: "ACM SIGGRAPH Asia — Annual Conference on Computer Graphics and Interactive Techniques in Asia"
 
 - name: ACM Multimedia
@@ -1307,7 +1305,7 @@
   url: https://{YYYY}.acmmm.org/site/important-dates.html
   url_main: https://{YYYY}.acmmm.org/
   strategy: regex
-  tags: [GEN]
+  tags: [OTHER]
   description: "ACM International Conference on Multimedia"
 
 - name: HRI
@@ -1315,7 +1313,7 @@
   url: https://humanrobotinteraction.org/{YYYY}/full-papers/
   url_main: https://humanrobotinteraction.org/{YYYY}/
   strategy: regex
-  tags: [GEN]
+  tags: [OTHER]
   description: "ACM/IEEE International Conference on Human-Robot Interaction"
 
 - name: ISMAR
@@ -1323,7 +1321,7 @@
   url: https://www.ieeeismar.net/{YYYY}/call-for-papers/
   url_main: https://www.ieeeismar.net/{YYYY}/
   strategy: regex
-  tags: [GEN]
+  tags: [OTHER]
   description: "IEEE/ACM International Symposium on Mixed and Augmented Reality"
 
 - name: "IEEE VR"
@@ -1332,7 +1330,7 @@
   url: https://ieeevr.org/{YYYY}/contribute/papers/
   url_main: https://ieeevr.org/{YYYY}/
   strategy: regex
-  tags: [GEN]
+  tags: [OTHER]
   description: "IEEE Conference on Virtual Reality and 3D User Interfaces"
 
 - name: ICRA
@@ -1340,7 +1338,7 @@
   url: https://{YYYY}.ieee-icra.org/contribute/
   url_main: https://{YYYY}.ieee-icra.org/
   strategy: regex
-  tags: [GEN]
+  tags: [OTHER]
   description: "IEEE International Conference on Robotics and Automation"
 
 - name: EC
@@ -1348,5 +1346,5 @@
   url: https://ec{YY}.sigecom.org/call-for-contributions-acm/papers/
   url_main: https://ec{YY}.sigecom.org/
   strategy: regex
-  tags: [GEN]
+  tags: [OTHER]
   description: "ACM Conference on Economics and Computation"
