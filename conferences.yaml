@@ -84,6 +84,10 @@
   strategy: css
   tags: [CRYPTO]
   description: "IACR International Conference on Practice and Theory in Public-Key Cryptography"
+  # IACR header: .headerInfoTop=date, .headerInfoBottom=place (same page as CFP)
+  event_selectors:
+    date: ".headerInfoTop"
+    place: ".headerInfoBottom"
   selectors:
     section_css: "article.customCard:first-of-type"
     items: "div.customCardRow"
@@ -97,6 +101,10 @@
   strategy: css
   tags: [CRYPTO]
   description: "Workshop on Cryptographic Hardware and Embedded Systems"
+  # IACR header: .headerInfoTop=date, .headerInfoBottom=place (same page as CFP)
+  event_selectors:
+    date: ".headerInfoTop"
+    place: ".headerInfoBottom"
   selectors:
     section_css: "article.customCard:first-of-type"
     items: "div.customCardRow"
@@ -353,9 +361,10 @@
   strategy: regex
   tags: [SYS]
   description: "European Conference on Computer Systems"
+  # nth-last-child: date=2nd-from-last, place=3rd-from-last (before photo-credit div)
   event_selectors:
-    date: ".intro-lead-in:last-of-type"
-    place: ".intro-lead-in:first-of-type"
+    date: ".intro-text .intro-lead-in:nth-last-child(2)"
+    place: ".intro-text .intro-lead-in:nth-last-child(3)"
   cycles:
     - name: "Spring"
       section: "Spring deadline</h3>.*?(?=Fall deadline</h3>|<h2)"
@@ -620,6 +629,10 @@
   tags: [SE]
   description: "IEEE International Conference on Software Analysis, Evolution and Reengineering"
   # event_selectors: implicit from conf.researchr.org url_main
+  by_year:
+    2027:
+      # Researchr /dates/ page empty for 2027; dates published on track page instead
+      url: https://conf.researchr.org/track/saner-2027/saner-2027-papers
 
 - name: ICPC
   # Pattern: conf.researchr.org/dates/icpc-{YYYY} — consistent; track: icpc-{YYYY}-research
@@ -849,16 +862,14 @@
 
 - name: AAAI
   core_acronym: AAAI
-  # URL uses aaai-{YY} pattern (no {YY} template support) — use by_year
+  url: https://aaai.org/conference/aaai/aaai-{YY}/
   # WordPress Gutenberg blocks; regex generic A+C as safe fallback
   strategy: regex
   tags: [ML]
   description: "AAAI Conference on Artificial Intelligence"
-  by_year:
-    2026:
-      url: https://aaai.org/conference/aaai/aaai-26/main-technical-track-call/
-    2027:
-      url: https://aaai.org/conference/aaai/aaai-27/main-technical-track-call/
+  # p.date-time has combined "date | place" string; no separate place element
+  event_selectors:
+    date: "p.date-time"
 
 - name: IJCAI
   core_acronym: IJCAI
