@@ -29,10 +29,17 @@ jobs:
       - name: Validate
         run: uv run python main.py validate --input output/deadlines.json
 
-      - name: Commit and push output
+      - name: Push output to output branch
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add output/deadlines.json output/deadlines.yaml
-          git diff --cached --quiet || git commit -m "update crawled deadlines [skip ci]"
-          git push
+          if git fetch origin output:refs/heads/output 2>/dev/null; then
+            git worktree add /tmp/out output
+          else
+            git worktree add --orphan /tmp/out output
+            git -C /tmp/out rm -rf . 2>/dev/null || true
+          fi
+          cp output/deadlines.json output/deadlines.yaml /tmp/out/
+          git -C /tmp/out add deadlines.json deadlines.yaml
+          git -C /tmp/out diff --cached --quiet || git -C /tmp/out commit -m "update crawled deadlines [skip ci]"
+          git -C /tmp/out push origin output

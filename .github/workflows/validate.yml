@@ -3,12 +3,10 @@ name: Validate deadlines
 on:
   push:
     paths:
-      - "output/**"
       - "crawler/**"
       - "tests/**"
   pull_request:
     paths:
-      - "output/**"
       - "crawler/**"
       - "tests/**"
 
