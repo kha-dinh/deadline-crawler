@@ -1,119 +1,33 @@
 {
-  "generated_at": "2026-05-15T18:56:28.637898+00:00",
+  "generated_at": "2026-05-16T02:38:44.570470+00:00",
   "conferences": [
     {
-      "id": "acm-ccs-2026-cycle-a",
-      "name": "ACM CCS 2026 (Cycle A)",
+      "id": "podc-2026",
+      "name": "PODC 2026",
       "year": 2026,
-      "description": "ACM Conference on Computer and Communications Security",
-      "link": "https://www.sigsac.org/ccs/CCS2026/call-for/call-for-papers.html",
-      "area": "SEC",
+      "description": "ACM Symposium on Principles of Distributed Computing",
+      "link": "https://www.podc.org/podc2026/call-for-papers/",
+      "area": "SYS",
       "tier": "A*",
-      "place": "The Hague, The Netherlands.",
-      "date": "November 15-19, 2026",
+      "place": "",
+      "date": "",
       "timezone": "AoE",
       "deadlines": [
         {
           "label": "abstract",
-          "date": "2026-01-07 23:59",
-          "passed": true
+          "date": "2026-02-11 23:59"
         },
         {
           "label": "submission",
-          "date": "2026-01-14 23:59",
-          "passed": true
-        },
-        {
-          "label": "early_reject",
-          "date": "2026-02-20 23:59",
-          "passed": true
-        },
-        {
-          "label": "rebuttal_start",
-          "date": "2026-03-17 23:59",
-          "passed": true
-        },
-        {
-          "label": "rebuttal_end",
-          "date": "2026-03-20 23:59",
-          "passed": true
+          "date": "2026-02-16 23:59"
         },
         {
           "label": "notification",
-          "date": "2026-04-09 23:59",
-          "passed": true
-        },
-        {
-          "label": "shepherd",
-          "date": "2026-06-05 23:59",
-          "passed": false
-        },
-        {
-          "label": "camera_ready",
-          "date": "2026-08-21 23:59",
-          "passed": false
+          "date": "2026-04-29 23:59"
         }
       ],
       "tags": [
-        "SEC",
-        "A*"
-      ]
-    },
-    {
-      "id": "acm-ccs-2026-cycle-b",
-      "name": "ACM CCS 2026 (Cycle B)",
-      "year": 2026,
-      "description": "ACM Conference on Computer and Communications Security",
-      "link": "https://www.sigsac.org/ccs/CCS2026/call-for/call-for-papers.html",
-      "area": "SEC",
-      "tier": "A*",
-      "place": "The Hague, The Netherlands.",
-      "date": "November 15-19, 2026",
-      "timezone": "AoE",
-      "deadlines": [
-        {
-          "label": "abstract",
-          "date": "2026-04-22 23:59",
-          "passed": true
-        },
-        {
-          "label": "submission",
-          "date": "2026-04-29 23:59",
-          "passed": true
-        },
-        {
-          "label": "early_reject",
-          "date": "2026-06-10 23:59",
-          "passed": false
-        },
-        {
-          "label": "rebuttal_start",
-          "date": "2026-06-29 23:59",
-          "passed": false
-        },
-        {
-          "label": "rebuttal_end",
-          "date": "2026-07-01 23:59",
-          "passed": false
-        },
-        {
-          "label": "notification",
-          "date": "2026-07-17 23:59",
-          "passed": false
-        },
-        {
-          "label": "shepherd",
-          "date": "2026-09-06 23:59",
-          "passed": false
-        },
-        {
-          "label": "camera_ready",
-          "date": "2026-09-17 23:59",
-          "passed": false
-        }
-      ],
-      "tags": [
-        "SEC",
+        "SYS",
         "A*"
       ]
     }

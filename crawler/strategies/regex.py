@@ -524,6 +524,29 @@ _SCAFFOLDING_PHRASES: frozenset[str] = frozenset([
 _MIN_CONTENT_WORDS = 75
 
 
+def _check_date_year_sanity(deadlines: list[dict], year: int, name: str, url: str) -> None:
+    """Raise ValueError if all extracted dates are stale (>1 year before target year).
+
+    Catches pages that exist but show historical CFP data (e.g. PODC 2027 page
+    showing 2018 deadlines). Only fires when deadlines are non-empty — an empty
+    list is handled elsewhere.
+    """
+    if not deadlines:
+        return
+    date_years = []
+    for d in deadlines:
+        raw = d.get("date", "")
+        if raw and len(raw) >= 4 and raw[:4].isdigit():
+            date_years.append(int(raw[:4]))
+    if not date_years:
+        return
+    if max(date_years) < year - 1:
+        raise ValueError(
+            f"{name}: stale CFP detected — extracted dates are from {max(date_years)}"
+            f" but target year is {year} (url: {url})"
+        )
+
+
 def _is_scaffolding(html: str) -> bool:
     """Return True if page is a placeholder/scaffolding with no real CFP content.
 
@@ -569,6 +592,7 @@ class RegexStrategy(BaseStrategy):
             results = []
             for cycle in cycles:
                 deadlines = self._extract_deadlines(_build_cycle_selectors(conf, cycle), html, year, no_specific=no_specific, conf_prefix=conf_prefix)
+                _check_date_year_sanity(deadlines, year, conf["name"], url)
                 results.append(CrawlResult(
                     name=conf["name"],
                     year=year,
@@ -584,6 +608,7 @@ class RegexStrategy(BaseStrategy):
         else:
             # No cycles — single result using top-level selectors
             deadlines = self._extract_deadlines(conf.get("selectors", {}), html, year, no_specific=no_specific, conf_prefix=conf_prefix)
+            _check_date_year_sanity(deadlines, year, conf["name"], url)
             return [CrawlResult(
                 name=conf["name"],
                 year=year,
