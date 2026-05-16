@@ -177,9 +177,29 @@ def _strip_html(html: str) -> str:
     """
     soup = BeautifulSoup(html, "lxml")
 
-    # Remove script/style blocks and struck-through text (outdated dates)
-    for tag in soup.find_all(["script", "style", "strike", "s"]):
+    # Remove script/style blocks
+    for tag in soup.find_all(["script", "style"]):
         tag.decompose()
+
+    # Handle strikethrough: remove struck text only when a non-struck date
+    # exists alongside it (e.g. "~03 Dec~ 10 Dec (extended!)").
+    # Otherwise preserve it — past deadlines are still valid data.
+    _DATE_SNIFF_RE = re.compile(
+        r"\b\d{1,2}\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\w*\b"
+        r"|\b(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\w*\s+\d{1,2}\b"
+        r"|\b\d{4}[-/]\d{2}[-/]\d{2}\b",
+        re.IGNORECASE,
+    )
+    for tag in soup.find_all(["s", "strike"]):
+        parent = tag.parent
+        if parent:
+            # Check if parent has date text outside the struck element
+            siblings_text = "".join(
+                sib.get_text() for sib in parent.children if sib is not tag
+            )
+            if _DATE_SNIFF_RE.search(siblings_text):
+                tag.decompose()  # superseded by non-struck date
+            # else: keep struck text (it's the only date available)
 
     # Process <tr>: join cells with ' | ', but handle <br>-column tables specially.
     # If all cells in a <tr> have the same number of <br>-separated items (≥2),
@@ -480,8 +500,13 @@ def _extract_deadlines_generic(html: str, year: int | None = None) -> list[dict]
 
     # Pass 2b: proximity search for remaining unmatched single-date hits.
     # Skips range-hit lines as label sources to prevent label theft.
+    # Also skips dates embedded in long prose (>12 words) — these are
+    # incidental mentions, not structured deadline entries.
     for line_idx, parsed_date in date_hits:
         if line_idx in matched_indices:
+            continue
+        # Date on a long prose line is not a deadline entry
+        if len(lines[line_idx].split()) > 12:
             continue
         best_label = None
         for dist in range(1, 3):  # ±1, ±2 lines
@@ -489,7 +514,12 @@ def _extract_deadlines_generic(html: str, year: int | None = None) -> list[dict]
                 break
             for check_idx in [line_idx - dist, line_idx + dist]:
                 if 0 <= check_idx < len(lines) and check_idx not in range_line_indices:
-                    label = _match_label(lines[check_idx])
+                    candidate_line = lines[check_idx]
+                    # Skip long prose lines — label keywords in running
+                    # text are not actual deadline labels.
+                    if len(candidate_line.split()) > 12:
+                        continue
+                    label = _match_label(candidate_line)
                     if label and label not in seen_labels:
                         best_label = label
                         break

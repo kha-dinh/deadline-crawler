@@ -42,6 +42,7 @@ Crawl conference CFP pages and export structured deadline data (JSON/YAML). Per-
 - V21: If entry `date` field non-empty and contains a 4-digit year, that year MUST match entry `year`. Violation → warn (not error) — some conferences span year-end (e.g. Dec/Jan event)
 - V22: Strategy MUST run `_is_scaffolding(html)` immediately after fetch, before extraction chain. Scaffolding = placeholder/404 page with no real CFP content. Detection: (1) known phrases ("coming soon", "under construction", "page not found", "404 not found", etc.); (2) stripped text starts with `404`; (3) word count &lt; 75 AND no date patterns present. Scaffolding → raise `ValueError` (caught by `crawl_all` as warning). Silent empty deadlines MUST NOT be returned for scaffold pages. Both `regex` and `css` strategies enforce this
 - V23: Output `deadlines[]` array MUST be sorted by canonical `LABEL_ORDER` (abstract, submission, early_reject, rebuttal_start, rebuttal_end, notification, shepherd, camera_ready). Sort applied in `transform_entry` (generate.py) after extraction. Extractor insertion order is irrelevant — output order always canonical
+- V24: Strikethrough (`<s>`, `<strike>`) dates MUST be preserved unless a non-struck date exists alongside (superseded). Past deadlines are valid data (V6). Prose lines (>12 words) with incidental date mentions MUST NOT be matched in proximity search (Pass 2b) — prevents false positives from body text
 
 ## §T Tasks
 | id | status | task | cites |
@@ -82,6 +83,7 @@ Raw CFP text → V2 format (`YYYY-MM-DD HH:MM`). Lives in `crawler/strategies/re
 
 1. **Section narrow** — `section` regex isolates dates region from full HTML
 2. **Structure-preserving HTML→text (Phase A)** — convert HTML to text while keeping label+date paired:
+   - `<s>`/`<strike>`: decompose only when parent also contains a non-struck date (superseded by extension); otherwise unwrap/preserve (past deadlines valid per V6/V24)
    - `<tr>`: join `<td>`/`<th>` cells with ` | `, emit as single line
    - `<dl>`: merge `<dt>` + `<dd>` onto one line
    - `<li>`: flatten all inline children (incl `<strong>`, `<br>`) onto one line
@@ -89,6 +91,7 @@ Raw CFP text → V2 format (`YYYY-MM-DD HH:MM`). Lives in `crawler/strategies/re
 3. **Two-pass proximity extraction (Phase C)**:
    - Pass 1: scan all lines for date-like strings (`_GENERIC_DATE_RE`)
    - Pass 2: for each date, search context (same line + ±2 lines) for label phrase via LABEL_MAP
+   - Prose filter (V24): date lines >12 words skipped in proximity search; label lines >12 words also skipped
    - Nearest label wins; same label not assigned twice
 4. **Extraction chain**: explicit researchr_track → researchr auto-discover → generic A+C extractor → site-specific patterns (last resort, if defined) → empty
 5. **Date parse** — captured date string → normalized `YYYY-MM-DD HH:MM`
@@ -161,3 +164,4 @@ Most conferences only need `section` selector. Site-specific `deadlines:` patter
 | B1 | 2026-05-14 | POPL: shepherd date < notification date triggers V14 warning — POPL assigns shepherds before final notification (non-standard review process); data correct | no code fix; V14 annotated with known exception |
 | B2 | 2026-05-15 | SIGCOMM: rebuttal_end > notification triggers V14 warning — SIGCOMM has "early notification" (accept/reject/revision) before rebuttal period, then final "review results notification" after; only the earlier one gets the `notification` label (first-match-wins); data correct | no code fix; process quirk |
 | B3 | 2026-05-15 | CCS 2026: rebuttal_start listed after rebuttal_end in output — `transform_entry` preserved extraction order; extractor found `rebuttal_end` first (date range "Mar 17–20" → end date matched `rebuttal_end` label on next line before start date matched `rebuttal_start`) | sort `out_deadlines` by `LABEL_ORDER` in `transform_entry`; added V23 |
+| B4 | 2026-05-16 | WWW 2026: false positive `notification: 2026-01-01` — all real dates in `<s>` tags (past conf), `_strip_html` decomposed them; body text "Starting January 1, 2026" matched proximity label "notification" from sentence fragment on adjacent line | (1) preserve `<s>` unless non-struck date coexists (V24); (2) skip prose lines >12 words as date/label sources in Pass 2b |
