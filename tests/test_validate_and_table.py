@@ -21,7 +21,6 @@ def _make_valid_conf():
         "area": "SEC",
         "tier": "A*",
         "deadlines": [{"label": "submission", "date": "2026-06-01 23:59"}],
-        "tags": ["SEC", "A*"],
     }
 
 
@@ -33,7 +32,7 @@ def test_output_to_entry_shape():
     assert entry["link"] == "https://example.com"
     assert len(entry["deadline"]) == 1
     assert entry["deadline"][0]["label"] == "submission"
-    assert entry["tags"] == ["SEC", "A*"]
+    assert entry["tags"] == ["SEC", "A*"]  # reconstructed from area+tier
 
 
 def test_validate_valid_file(tmp_path, capsys):
