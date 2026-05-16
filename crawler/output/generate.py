@@ -46,11 +46,6 @@ def _slugify(name: str) -> str:
     return slug.strip("-")
 
 
-def _is_passed(deadline_str: str, now: datetime) -> bool:
-    """Check if a deadline string (V2 format) is in the past."""
-    dt = datetime.strptime(deadline_str, "%Y-%m-%d %H:%M")
-    return dt < now.replace(tzinfo=None)
-
 
 VALID_LABELS = {
     "abstract", "submission", "early_reject", "rebuttal_start",
@@ -174,7 +169,6 @@ def transform_entry(entry: dict, now: datetime) -> dict:
             {
                 "label": d["label"],
                 "date": d["date"],
-                "passed": _is_passed(d["date"], now),
             }
         )
     out_deadlines.sort(key=lambda d: LABEL_ORDER.index(d["label"]) if d["label"] in LABEL_ORDER else len(LABEL_ORDER))
