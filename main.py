@@ -275,9 +275,9 @@ def print_table(conferences: list[dict], now: datetime | None = None):
         next_dl = None
         next_days = None
         for d in conf.get("deadlines", []):
-            if d.get("passed"):
-                continue
             days = _days_until(d["date"], now)
+            if days is not None and days < 0:
+                continue
             if days is not None and (next_days is None or days < next_days):
                 next_dl = d
                 next_days = days

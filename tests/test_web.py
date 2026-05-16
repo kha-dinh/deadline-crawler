@@ -114,17 +114,10 @@ class TestTransformEntry:
         result = transform_entry(entry, NOW)
         assert result["timezone"] == "UTC"
 
-    def test_passed_flag(self):
+    def test_no_passed_field(self):
         result = transform_entry(VALID_ENTRY, NOW)
-        # 2025-08-26 is past relative to 2026-05-14
-        assert result["deadlines"][0]["passed"] is True
-        # 2026-02-05 is also past relative to 2026-05-14
-        assert result["deadlines"][1]["passed"] is True
-
-    def test_future_deadline_not_passed(self):
-        entry = {**VALID_ENTRY, "deadline": [{"label": "submission", "date": "2027-01-01 23:59"}]}
-        result = transform_entry(entry, NOW)
-        assert result["deadlines"][0]["passed"] is False
+        assert "passed" not in result["deadlines"][0]
+        assert "passed" not in result["deadlines"][1]
 
     def test_deadline_labels(self):
         result = transform_entry(VALID_ENTRY, NOW)

@@ -20,7 +20,7 @@ def _make_valid_conf():
         "link": "https://example.com",
         "area": "SEC",
         "tier": "A*",
-        "deadlines": [{"label": "submission", "date": "2026-06-01 23:59", "passed": False}],
+        "deadlines": [{"label": "submission", "date": "2026-06-01 23:59"}],
         "tags": ["SEC", "A*"],
     }
 
@@ -126,7 +126,7 @@ def test_print_table_output(capsys):
             "area": "SEC",
             "tier": "A*",
             "deadlines": [
-                {"label": "submission", "date": "2026-01-05 23:59", "passed": False},
+                {"label": "submission", "date": "2026-01-05 23:59"},
             ],
         },
         {
@@ -135,7 +135,7 @@ def test_print_table_output(capsys):
             "area": "SYS",
             "tier": "A",
             "deadlines": [
-                {"label": "abstract", "date": "2026-02-15 23:59", "passed": False},
+                {"label": "abstract", "date": "2026-02-15 23:59"},
             ],
         },
     ]
@@ -401,14 +401,14 @@ def test_print_table_sort_by_urgency(capsys):
             "year": 2026,
             "area": "SEC",
             "tier": "A*",
-            "deadlines": [{"label": "submission", "date": "2026-06-01 23:59", "passed": False}],
+            "deadlines": [{"label": "submission", "date": "2026-06-01 23:59"}],
         },
         {
             "name": "Sooner",
             "year": 2026,
             "area": "SYS",
             "tier": "A*",
-            "deadlines": [{"label": "submission", "date": "2026-01-03 23:59", "passed": False}],
+            "deadlines": [{"label": "submission", "date": "2026-01-03 23:59"}],
         },
     ]
     print_table(conferences, now=now)
