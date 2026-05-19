@@ -1070,9 +1070,9 @@
   description: "ACM International Conference on Mobile Computing and Networking"
   cycles:
     - name: "Summer"
-      section: "(?i)summer[^<]*</h3>.*?(?=(?i)winter[^<]*</h3>|<h2)"
+      section: "(?i)summer.*?deadlines.*?</th>.*?(?=winter.*?deadlines.*?</th>|</table>)"
     - name: "Winter"
-      section: "(?i)winter[^<]*</h3>.*?(?=<h2|$)"
+      section: "(?i)winter.*?deadlines.*?</th>.*?(?=</table>|$)"
 
 - name: PERCOM
   # Domain percom.org stable; dates page: percom.org/dates/ (rolling — always upcoming edition).
@@ -1123,16 +1123,11 @@
       url_main: http://icdm2026.neu.edu.cn/
 
 - name: KDD
-  # Pattern: kdd{YYYY}.kdd.org — CFP discovered from base
+  # Pattern: kdd{YYYY}.kdd.org — discovery follows "Research Track: Call for Papers" link
   url: https://kdd{YYYY}.kdd.org/
   strategy: regex
   tags: [SYS]
   description: "ACM International Conference on Knowledge Discovery and Data Mining"
-  cycles:
-    - name: "Cycle 1 (August)"
-      section: "(?i)august[^<]*(?:cycle|deadline)[^<]*</[^>]+>.*?(?=(?i)february[^<]*(?:cycle|deadline)|$)"
-    - name: "Cycle 2 (February)"
-      section: "(?i)february[^<]*(?:cycle|deadline)[^<]*</[^>]+>.*?(?=<h[23]|$)"
 
 ########################  Programming Languages — Theory  ########################
 
