@@ -8,7 +8,7 @@ from crawler.ranks import load_ranks, lookup, _VALID_RANKS
 
 _stderr = Console(stderr=True)
 
-VALID_STRATEGIES = {"css", "regex", "llm", "static"}
+VALID_STRATEGIES = {"css", "regex", "xpath", "llm", "static"}
 REQUIRED_FIELDS = {"name", "strategy", "tags"}
 
 
@@ -61,10 +61,7 @@ def _inject_rank(entry: dict, ranks: dict[str, str]) -> dict:
         rank = csv_rank
     elif fallback in _VALID_RANKS:
         if csv_rank is not None:
-            _stderr.print(
-                f"[dim]rank fallback[/] {entry['name']}: CORE CSV rank {csv_rank!r} invalid, "
-                f"using core_rank={fallback!r}"
-            )
+            pass  # expected — some CORE entries have non-standard ranks (e.g. "National: USA")
         rank = fallback
     else:
         _stderr.print(

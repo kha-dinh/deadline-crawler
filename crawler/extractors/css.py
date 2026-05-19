@@ -1,14 +1,12 @@
-"""CSS selector-based extraction strategy (T3).
+"""CSS selector-based extraction functions (T3).
+
+Pure functions — no network I/O. Takes HTML strings, returns deadline data.
 
 Config shape (selectors block):
   section_css: "div.important-dates"  # CSS selector to narrow DOM (optional)
   items: "tr"                          # CSS selector for each deadline item
   label: "td:first-child"             # CSS sub-selector for label within item (optional)
   date: "td:last-child"               # CSS sub-selector for date within item (optional)
-
-If label/date sub-selectors are omitted, full item text is used:
-  label — matched via LABEL_MAP (_match_label)
-  date  — extracted via _GENERIC_DATE_RE + _parse_deadline_date
 """
 
 from __future__ import annotations
@@ -16,26 +14,18 @@ from __future__ import annotations
 import warnings
 from datetime import datetime
 
-import requests
 from bs4 import BeautifulSoup, XMLParsedAsHTMLWarning
 
 warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
 
-from crawler.config import resolve_url
 from crawler.labels import _match_label
-from crawler.models import CrawlResult
-from crawler.strategy import BaseStrategy
-from crawler.strategies.regex import (
+from crawler.extractors.regex import (
     _GENERIC_DATE_RE,
     _DATE_RANGE_RE,
     _DATE_RANGE_EXPANDED_RE,
     _RANGE_LABEL_PAIRS,
-    _check_date_year_sanity,
-    _fetch,
-    _is_scaffolding,
+    _MONTHDAY_RE,
     _parse_deadline_date,
-    _resolve_event_selectors,
-    _build_cycle_selectors,
     _split_date_range,
 )
 
@@ -69,7 +59,7 @@ def _extract_deadlines_css(selectors: dict, html: str, year: int | None = None) 
 
     deadlines: list[dict] = []
     seen_labels: set[str] = set()
-    inferred_year_labels: set[str] = set()  # labels whose date year was inferred via _MONTHDAY_RE
+    inferred_year_labels: set[str] = set()
 
     for item in items:
         item_text = item.get_text(separator=" ", strip=True)
@@ -87,7 +77,6 @@ def _extract_deadlines_css(selectors: dict, html: str, year: int | None = None) 
         if date_sel:
             date_el = item.select_one(date_sel)
             date_text = date_el.get_text(strip=True) if date_el else ""
-            # Check for date range (compact or expanded format)
             _rm = _DATE_RANGE_RE.search(date_text) or _DATE_RANGE_EXPANDED_RE.search(date_text)
             range_result = _split_date_range(_rm.group(0)) if _rm else None
             if range_result:
@@ -104,7 +93,6 @@ def _extract_deadlines_css(selectors: dict, html: str, year: int | None = None) 
                 continue
             parsed = _parse_deadline_date(date_text)
         else:
-            # Check for date range in full item text before trying single-date extraction
             _rm = _DATE_RANGE_RE.search(item_text) or _DATE_RANGE_EXPANDED_RE.search(item_text)
             range_result = _split_date_range(_rm.group(0)) if _rm else None
             if range_result:
@@ -125,7 +113,6 @@ def _extract_deadlines_css(selectors: dict, html: str, year: int | None = None) 
                 tail = item_text[m.start():]
                 parsed = _parse_deadline_date(tail) or _parse_deadline_date(date_str)
             elif year:
-                from crawler.strategies.regex import _MONTHDAY_RE
                 md = _MONTHDAY_RE.search(item_text)
                 parsed = _parse_deadline_date(f"{md.group(1)}, {year}") if md else None
                 year_inferred = parsed is not None
@@ -138,10 +125,7 @@ def _extract_deadlines_css(selectors: dict, html: str, year: int | None = None) 
             if year_inferred:
                 inferred_year_labels.add(label)
 
-    # Post-process: fix year-inference errors for conferences where submission year ≠
-    # conference year (e.g. ICLR — submission Sep Y-1, notification Jan Y). When
-    # _MONTHDAY_RE assigns the conference year to a month-only date, abstract/submission
-    # may land after notification. Only correct dates whose year was inferred (not explicit).
+    # Post-process: fix year-inference errors
     notif = next((d["date"] for d in deadlines if d["label"] == "notification"), None)
     if notif:
         for d in deadlines:
@@ -155,91 +139,3 @@ def _extract_deadlines_css(selectors: dict, html: str, year: int | None = None) 
                     pass
 
     return deadlines
-
-
-class CssStrategy(BaseStrategy):
-    name = "css"
-
-    def extract(self, conf: dict, year: int) -> list[CrawlResult]:
-        url = resolve_url(conf, year)
-        if not url:
-            raise ValueError(f"{conf['name']}: no URL configured")
-
-        html = _fetch(url)
-
-        if _is_scaffolding(html):
-            raise ValueError(f"{conf['name']}: scaffolding/placeholder page detected at {url}")
-
-        date, place = self._extract_main_fields(conf, year, url, html)
-
-        cycles = conf.get("cycles")
-        if cycles:
-            results = []
-            for cycle in cycles:
-                deadlines = _extract_deadlines_css(
-                    _build_cycle_selectors(conf, cycle), html, year
-                )
-                _check_date_year_sanity(deadlines, year, conf["name"], url)
-                results.append(
-                    CrawlResult(
-                        name=conf["name"],
-                        year=year,
-                        link=url,
-                        deadlines=deadlines,
-                        cycle=cycle.get("name"),
-                        date=date,
-                        place=place,
-                        description=conf.get("description"),
-                        tags=list(conf.get("tags", [])),
-                    )
-                )
-            return results
-        else:
-            deadlines = _extract_deadlines_css(
-                conf.get("selectors", {}), html, year
-            )
-            _check_date_year_sanity(deadlines, year, conf["name"], url)
-            return [
-                CrawlResult(
-                    name=conf["name"],
-                    year=year,
-                    link=url,
-                    deadlines=deadlines,
-                    date=date,
-                    place=place,
-                    description=conf.get("description"),
-                    tags=list(conf.get("tags", [])),
-                )
-            ]
-
-    def _extract_main_fields(
-        self, conf: dict, year: int, cfp_url: str, cfp_html: str
-    ) -> tuple[str | None, str | None]:
-        event_selectors = _resolve_event_selectors(conf)
-        static_date = conf.get("date") or None
-        static_place = conf.get("place") or None
-
-        if not event_selectors:
-            return static_date, static_place
-
-        url_main = resolve_url(
-            {"url": conf.get("url_main", conf.get("url"))}, year
-        )
-        if url_main and url_main != cfp_url:
-            main_html = _fetch(url_main)
-        else:
-            main_html = cfp_html
-
-        soup = BeautifulSoup(main_html, "lxml")
-        date = self._css_text(soup, event_selectors.get("date")) or static_date
-        place = self._css_text(soup, event_selectors.get("place")) or static_place
-        if date and place and date.endswith(place):
-            date = date[: -len(place)].strip()
-        return date, place
-
-    @staticmethod
-    def _css_text(soup: BeautifulSoup, selector: str | None) -> str | None:
-        if not selector:
-            return None
-        el = soup.select_one(selector)
-        return el.get_text(strip=True) if el else None

@@ -7,7 +7,6 @@ import pytest
 import yaml
 
 from crawler.config import load_conferences, resolve_conf_for_year, resolve_url, ConfigError
-from crawler.strategy import get_strategy, _ensure_strategies_loaded
 
 
 # --- Config loading tests (V7, V8) ---
@@ -148,18 +147,3 @@ def test_v7_no_url_no_by_year_invalid(tmp_path):
     entries = [{"name": "X", "strategy": "regex", "tags": ["SEC"]}]
     with pytest.raises(ConfigError, match="must have 'url' or 'by_year'"):
         load_conferences(_write_conf(entries, tmp_path))
-
-
-# --- Strategy dispatch ---
-
-
-def test_all_strategies_registered():
-    _ensure_strategies_loaded()
-    for name in ("css", "regex", "llm", "static"):
-        strategy = get_strategy(name)
-        assert strategy.name == name
-
-
-def test_unknown_strategy_raises():
-    with pytest.raises(KeyError, match="Unknown strategy"):
-        get_strategy("nonexistent")

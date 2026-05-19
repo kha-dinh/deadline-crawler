@@ -356,20 +356,34 @@
 - name: EuroSys
   # Pattern: {YYYY}.eurosys.org/cfp.html — consistent
   # Main page: 2 .intro-lead-in divs — 1st=place, 2nd=date
+  # 2027+: <h3>Spring/Fall deadline</h3> followed by <ul> — xpath targets ul[1]
+  # 2026: flat <li> siblings of <h3> (no <ul> wrapper) — regex generic A+C handles it
   url: https://{YYYY}.eurosys.org/cfp.html
   url_main: https://{YYYY}.eurosys.org/
-  strategy: regex
+  strategy: xpath
   tags: [SYS]
   description: "European Conference on Computer Systems"
   # nth-last-child: date=2nd-from-last, place=3rd-from-last (before photo-credit div)
   event_selectors:
     date: ".intro-text .intro-lead-in:nth-last-child(2)"
     place: ".intro-text .intro-lead-in:nth-last-child(3)"
+  selectors:
+    items: ".//li"
   cycles:
     - name: "Spring"
-      section: "Spring deadline</h3>.*?(?=Fall deadline</h3>|<h2)"
+      # Case varies: "Spring Deadline" (2027) vs "Spring deadline" (2026) — use translate() for case-insensitive
+      section_xpath: "//h3[contains(translate(text(),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'spring')]/following-sibling::ul[1]"
     - name: "Fall"
-      section: "Fall deadline</h3>.*?(?=<h2|<h3|$)"
+      section_xpath: "//h3[contains(translate(text(),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'fall')]/following-sibling::ul[1]"
+  by_year:
+    2026:
+      # 2026 uses flat <li> siblings (no <ul> wrapper); fall back to regex generic A+C
+      strategy: regex
+      cycles:
+        - name: "Spring"
+          section: "Spring deadline</h3>.*?(?=Fall deadline</h3>|<h2)"
+        - name: "Fall"
+          section: "Fall deadline</h3>.*?(?=<h2|<h3|$)"
 
 - name: ASPLOS
   # Pattern: asplos-conference.org/asplos{YYYY}/cfp/ — consistent
@@ -486,43 +500,30 @@
 
 - name: IMC
   # Pattern: conferences.sigcomm.org/imc/{YYYY}/cfp/ — consistent; 2 submission cycles
-  # Cycles delimited by <h2>Cycle N Deadline</h2> (no id); rows use <td>
+  # Cycles delimited by <h2 id="cycle-N-...">; each followed by <table> with 2-col <td> rows
   # Main page: .container.hero h2 — 1st=place, 2nd=date
   url: https://conferences.sigcomm.org/imc/{YYYY}/cfp/
   url_main: https://conferences.sigcomm.org/imc/{YYYY}/
-  strategy: regex
+  strategy: xpath
   tags: [SYS]
   description: "ACM Internet Measurement Conference"
   event_selectors:
     date: ".container.hero h2:nth-of-type(2)"
     place: ".container.hero h2:first-of-type"
+  selectors:
+    # Cycle 2 table has extra rows (Replicability Track, Conference, publication date);
+    # xpath filter skips them to prevent "Notification for Replicability" stealing notification label
+    label: "td[1]"
+    date: "td[2]"
   cycles:
     - name: "Cycle 1"
-      section: "Cycle 1 Deadline</h2>.*?(?=<h2)"
-      deadlines:
-        - label: abstract
-          pattern: '<td>Paper registration[^<]*</td>\s*<td>([^<]+)</td>'
-        - label: submission
-          pattern: '<td>Paper submission</td>\s*<td>([^<]+)</td>'
-        - label: early_reject
-          pattern: '<td>Early reject notification</td>\s*<td>([^<]+)</td>'
-        - label: notification
-          pattern: '<td>Notification</td>\s*<td>([^<]+)</td>'
-        - label: camera_ready
-          pattern: '<td>Shepherd approval[^<]*</td>\s*<td>([^<]+)</td>'
+      section_xpath: "//h2[contains(text(),'Cycle 1')]/following-sibling::table[1]"
+      items: ".//tr"
     - name: "Cycle 2"
-      section: "Cycle 2 Deadline</h2>.*?(?=<h2)"
-      deadlines:
-        - label: abstract
-          pattern: '<td>Paper registration[^<]*</td>\s*<td>([^<]+)</td>'
-        - label: submission
-          pattern: '<td>Paper submission \(including[^<]*</td>\s*<td>([^<]+)</td>'
-        - label: early_reject
-          pattern: '<td>Early reject notification</td>\s*<td>([^<]+)</td>'
-        - label: notification
-          pattern: '<td>Notification</td>\s*<td>([^<]+)</td>'
-        - label: camera_ready
-          pattern: '<td>Shepherd approval[^<]*</td>\s*<td>([^<]+)</td>'
+      section_xpath: "//h2[contains(text(),'Cycle 2')]/following-sibling::table[1]"
+      # Skip noise rows: starts-with filters "Expression of Interest" and "Notification for the Replicability"
+      # while keeping "Paper registration (... Replicability Track)" which contains valid deadline data
+      items: ".//tr[not(starts-with(normalize-space(td[1]),'Expression')) and not(starts-with(normalize-space(td[1]),'Notification for')) and not(starts-with(normalize-space(td[1]),'Official')) and not(starts-with(normalize-space(td[1]),'Conference'))]"
 
 - name: HotOS
   # Biennial (odd years: 2025, 2027...) — use by_year; ACM SIGOPS-hosted
@@ -1009,6 +1010,7 @@
   core_acronym: SIGMOD
   # Pattern: {YYYY}.sigmod.org — confirmed consistent for 2025 and 2026
   # 4 rolling quarterly submission rounds.
+  # HTML varies: 2026 uses <li> items with <strong><i> round headers; generic A+C handles both
   url: https://{YYYY}.sigmod.org/calls_papers_important_dates.shtml
   url_main: https://{YYYY}.sigmod.org/
   strategy: regex

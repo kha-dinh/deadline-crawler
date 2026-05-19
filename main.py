@@ -8,8 +8,7 @@ from pathlib import Path
 
 from rich.console import Console
 
-from crawler.strategy import crawl_all
-from crawler.output.generate import generate_from_results, _validate_entry, _validate_entry_warnings
+from crawler.output.generate import _validate_entry, _validate_entry_warnings
 
 _stderr = Console(stderr=True)
 
@@ -21,50 +20,23 @@ def _parse_years(raw: str | None) -> list[int] | None:
     return [int(y.strip()) for y in raw.split(",")]
 
 
-def _patch_fetch_with_fixtures(fixtures_dir: Path, config: str, name_filter: str | None, years: list[int]):
-    """Monkey-patch _fetch in both strategy modules to load from local fixture files."""
-    import crawler.strategies.regex as _regex_mod
-    import crawler.strategies.css as _css_mod
-    from crawler.config import load_conferences, resolve_conf_for_year, resolve_url as _resolve_url
-
-    url_map: dict[str, Path] = {}
-    for conf in load_conferences(config):
-        if name_filter and conf["name"].lower() != name_filter.lower():
-            continue
-        for year in years:
-            resolved = resolve_conf_for_year(conf, year)
-            if resolved is None:
-                continue
-            slug = _slugify_name(conf["name"])
-            cfp_url = _resolve_url(resolved, year)
-            if cfp_url:
-                p = fixtures_dir / f"{slug}_{year}.html"
-                if p.exists():
-                    url_map[cfp_url] = p
-            url_main_tmpl = resolved.get("url_main")
-            if url_main_tmpl:
-                main_url = _resolve_url({"url": url_main_tmpl}, year)
-                if main_url and main_url != cfp_url:
-                    p = fixtures_dir / f"{slug}_{year}_main.html"
-                    if p.exists():
-                        url_map[main_url] = p
-
-    missing = []
-
-    def _fixture_fetch(url: str) -> str:
-        if url in url_map:
-            return url_map[url].read_text(encoding="utf-8")
-        missing.append(url)
-        raise FileNotFoundError(f"No fixture for URL: {url}\nRun: uv run python main.py fetch")
-
-    _regex_mod._fetch = _fixture_fetch
-    _css_mod._fetch = _fixture_fetch
-    return url_map, missing
-
-
 def cmd_crawl(args):
-    """Crawl conferences and export output."""
-    years = _parse_years(args.year)
+    """Crawl conferences and export output via Scrapy."""
+    import os
+    from scrapy.crawler import CrawlerProcess
+    from scrapy.utils.project import get_project_settings
+
+    os.environ.setdefault("SCRAPY_SETTINGS_MODULE", "deadline_crawler.settings")
+    settings = get_project_settings()
+
+    # Apply CLI args to Scrapy settings
+    settings.set("CONFERENCE_CONFIG", args.config)
+    settings.set("OUTPUT_FORMAT", args.format)
+    settings.set("STRICT_MODE", args.strict)
+    settings.set("CONCURRENT_REQUESTS", args.workers)
+
+    out_path = args.output or f"output/deadlines.{args.format}"
+    settings.set("OUTPUT_PATH", out_path)
 
     if args.fixtures:
         fixtures_dir = Path(args.fixtures)
@@ -72,41 +44,22 @@ def cmd_crawl(args):
             _stderr.print(f"[bold red]✗[/] Fixtures dir not found: {fixtures_dir}")
             _stderr.print("Run: uv run python main.py fetch")
             sys.exit(1)
-        import datetime as _dt
-        effective_years = years or [_dt.datetime.now().year, _dt.datetime.now().year + 1]
-        url_map, _ = _patch_fetch_with_fixtures(fixtures_dir, args.config, args.conf, effective_years)
-        _stderr.print(f"[dim]Using fixtures from {fixtures_dir}/ ({len(url_map)} URL(s) mapped)[/]")
+        settings.set("FIXTURES_DIR", str(fixtures_dir))
+        _stderr.print(f"[dim]Using fixtures from {fixtures_dir}/[/]")
 
-    try:
-        results = crawl_all(
-            config_path=args.config,
-            years=years,
-            name_filter=args.conf,
-            workers=args.workers,
-            no_specific=args.no_specific,
-        )
-    except Exception as e:
-        _stderr.print(f"[bold red]✗[/] Crawl failed: {e}")
-        sys.exit(1)
+    # Spider args
+    spider_kwargs = {
+        "config": args.config,
+    }
+    years = _parse_years(args.year)
+    if years:
+        spider_kwargs["years"] = years
+    if args.conf:
+        spider_kwargs["conf"] = args.conf
 
-    if not results:
-        print("No results.")
-        return
-
-    try:
-        output = generate_from_results(
-            results,
-            output_path=args.output,
-            fmt=args.format,
-            strict=args.strict,
-        )
-    except ValueError as e:
-        _stderr.print(f"[bold red]✗[/] {e}")
-        sys.exit(1)
-
-    n = len(output["conferences"])
-    out_path = args.output or f"output/deadlines.{args.format}"
-    print(f"\nExported {n} conference(s) → {out_path}")
+    process = CrawlerProcess(settings)
+    process.crawl("conferences", **spider_kwargs)
+    process.start()
 
 
 # --- T10: validate command ---
@@ -331,7 +284,6 @@ def print_table(conferences: list[dict], now: datetime | None = None):
         for i, k in enumerate(keys):
             val = str(row[k]).ljust(widths[i])
             if is_past:
-                # Dim entire row for past/ongoing conferences
                 parts.append(f"{_DIM}{val}{_RESET}")
             elif k in ("date", "days", "deadline") and color:
                 parts.append(f"{color}{val}{reset}")
@@ -360,10 +312,24 @@ def _slugify_name(name: str) -> str:
     return s.strip("-")
 
 
+def _fetch_url(url: str) -> str:
+    """Fetch a URL and return text content. Used by fetch command."""
+    import requests
+    headers = {
+        "User-Agent": (
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) "
+            "Chrome/120.0.0.0 Safari/537.36"
+        )
+    }
+    resp = requests.get(url, headers=headers, timeout=30)
+    resp.encoding = resp.apparent_encoding
+    return resp.text
+
+
 def cmd_fetch(args):
     """Fetch CFP HTML pages and save as test fixtures."""
     from crawler.config import load_conferences, resolve_conf_for_year, resolve_url
-    from crawler.strategies.regex import _fetch
 
     outdir = Path(args.outdir)
     outdir.mkdir(parents=True, exist_ok=True)
@@ -394,7 +360,7 @@ def cmd_fetch(args):
             cfp_path = outdir / f"{slug}_{year}.html"
 
             try:
-                html = _fetch(cfp_url)
+                html = _fetch_url(cfp_url)
                 cfp_path.write_text(html, encoding="utf-8")
                 print(f"✓ {conf['name']} {year} → {cfp_path}")
                 saved += 1
@@ -409,7 +375,7 @@ def cmd_fetch(args):
                 if main_url and main_url != cfp_url:
                     main_path = outdir / f"{slug}_{year}_main.html"
                     try:
-                        main_html = _fetch(main_url)
+                        main_html = _fetch_url(main_url)
                         main_path.write_text(main_html, encoding="utf-8")
                         print(f"  ↳ main → {main_path}")
                     except Exception as e:
