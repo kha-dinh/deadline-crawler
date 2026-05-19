@@ -1,6 +1,8 @@
 """Conference deadline spider — reads conferences.yaml, dispatches to extractors."""
 
 import datetime
+import re
+from urllib.parse import urljoin, urlparse
 
 import scrapy
 
@@ -17,6 +19,30 @@ from crawler.extractors.regex import (
 from crawler.extractors.css import _extract_deadlines_css
 from crawler.extractors.xpath import _extract_deadlines_xpath
 from deadline_crawler.items import ConferenceItem
+
+# CFP link discovery patterns — scored by relevance
+_CFP_HREF_PATTERNS = [
+    (r'\bcfp\b', 10),
+    (r'call[-_]?for[-_]?papers?', 10),
+    (r'call[-_]papers', 8),
+    (r'important[-_]?dates?', 7),
+    (r'call[-_]?for[-_]?contributions?', 6),
+    (r'call[-_]?for[-_]?submissions?', 6),
+    (r'\bsubmissions?\b', 4),
+    (r'\bdeadlines?\b', 5),
+    (r'\bpapers?\b', 2),
+]
+
+_CFP_TEXT_PATTERNS = [
+    (r'call\s+for\s+papers?', 10),
+    (r'\bcfp\b', 10),
+    (r'important\s+dates?', 7),
+    (r'call\s+for\s+contributions?', 6),
+    (r'call\s+for\s+submissions?', 6),
+    (r'submission\s+deadline', 5),
+]
+
+_MAX_DISCOVER_DEPTH = 2
 
 
 class ConferencesSpider(scrapy.Spider):
@@ -121,6 +147,50 @@ class ConferencesSpider(scrapy.Spider):
         if progress_ext:
             progress_ext.advance(self)
 
+    def _find_cfp_link(self, response):
+        """Scan page for CFP-like links, return best URL or None."""
+        base_domain = urlparse(response.url).netloc
+        candidates = []
+
+        for link in response.css("a[href]"):
+            href = link.attrib.get("href", "").strip()
+            if not href or href.startswith(("#", "mailto:", "javascript:")):
+                continue
+
+            abs_url = urljoin(response.url, href)
+            # Skip off-domain links
+            if urlparse(abs_url).netloc != base_domain:
+                continue
+            # Skip self-links
+            if abs_url.rstrip("/") == response.url.rstrip("/"):
+                continue
+
+            text = link.css("::text").get() or ""
+            text = text.strip()
+            href_lower = href.lower()
+            text_lower = text.lower()
+
+            score = 0
+            for pattern, pts in _CFP_HREF_PATTERNS:
+                if re.search(pattern, href_lower):
+                    score += pts
+            for pattern, pts in _CFP_TEXT_PATTERNS:
+                if re.search(pattern, text_lower):
+                    score += pts
+
+            if score > 0:
+                candidates.append((score, abs_url, text))
+
+        if not candidates:
+            return None
+
+        candidates.sort(key=lambda x: -x[0])
+        best_score, best_url, best_text = candidates[0]
+        self.logger.debug(
+            f"CFP discovery: best link '{best_text}' ({best_url}) score={best_score}"
+        )
+        return best_url
+
     def parse_cfp(self, response, conf, year):
         if response.status != 200:
             label = f"{conf['name']} {year}"
@@ -149,7 +219,62 @@ class ConferencesSpider(scrapy.Spider):
                 errback=self.handle_error,
             )
         else:
-            yield from self._extract(conf, year, response.text, response.url, main_html=None)
+            # Try extraction, fall back to CFP discovery if no deadlines found
+            items = list(self._extract(conf, year, response.text, response.url, main_html=None))
+            has_deadlines = any(item.get("deadlines") for item in items)
+            if has_deadlines:
+                yield from items
+            elif conf.get("discover_cfp", True):
+                cfp_url = self._find_cfp_link(response)
+                if cfp_url:
+                    self.logger.debug(f"{conf['name']} {year}: discovering CFP at {cfp_url}")
+                    yield scrapy.Request(
+                        cfp_url,
+                        callback=self.parse_discovered_cfp,
+                        cb_kwargs={
+                            "conf": conf,
+                            "year": year,
+                            "base_html": response.text,
+                            "base_url": response.url,
+                            "depth": 1,
+                        },
+                        dont_filter=True,
+                        errback=self.handle_error,
+                    )
+
+    def parse_discovered_cfp(self, response, conf, year, base_html, base_url, depth=1):
+        """Parse a discovered CFP page. Chains discovery up to _MAX_DISCOVER_DEPTH."""
+        if response.status != 200:
+            label = f"{conf['name']} {year}"
+            self.errors.append((label, f"HTTP {response.status} from discovered CFP {response.url}"))
+            return
+
+        if _is_scaffolding(response.text):
+            return
+
+        # Try extraction from discovered page
+        items = list(self._extract(conf, year, response.text, response.url, main_html=base_html))
+        has_deadlines = any(item.get("deadlines") for item in items)
+        if has_deadlines:
+            yield from items
+        elif depth < _MAX_DISCOVER_DEPTH and conf.get("discover_cfp", True):
+            # Chain: try discovering CFP link from this intermediate page
+            cfp_url = self._find_cfp_link(response)
+            if cfp_url and cfp_url.rstrip("/") != base_url.rstrip("/"):
+                self.logger.debug(f"{conf['name']} {year}: chained discovery depth={depth+1} at {cfp_url}")
+                yield scrapy.Request(
+                    cfp_url,
+                    callback=self.parse_discovered_cfp,
+                    cb_kwargs={
+                        "conf": conf,
+                        "year": year,
+                        "base_html": base_html,
+                        "base_url": base_url,
+                        "depth": depth + 1,
+                    },
+                    dont_filter=True,
+                    errback=self.handle_error,
+                )
 
     def parse_with_main(self, response, conf, year, cfp_html, cfp_url):
         if response.status != 200:
