@@ -38,6 +38,9 @@ def cmd_crawl(args):
     out_path = args.output or f"output/deadlines.{args.format}"
     settings.set("OUTPUT_PATH", out_path)
 
+    if args.cache:
+        settings.set("HTTPCACHE_ENABLED", True)
+
     if args.fixtures:
         fixtures_dir = Path(args.fixtures)
         if not fixtures_dir.exists():
@@ -76,6 +79,7 @@ def _load_output_file(path: str) -> dict:
             return json.load(f)
         else:
             import yaml
+
             return yaml.safe_load(f)
 
 
@@ -86,8 +90,7 @@ def _output_to_entry(conf: dict) -> dict:
         "year": conf.get("year", ""),
         "link": conf.get("link", ""),
         "deadline": [
-            {"label": d["label"], "date": d["date"]}
-            for d in conf.get("deadlines", [])
+            {"label": d["label"], "date": d["date"]} for d in conf.get("deadlines", [])
         ],
         "tags": conf.get("tags", []),
     }
@@ -96,6 +99,7 @@ def _output_to_entry(conf: dict) -> dict:
 def cmd_validate(args):
     """Validate exported output against invariants V1-V4, V10, V14, V16, V17, V19, V20."""
     from crawler.output.generate import _check_date_order, _check_v16, _check_v20
+
     data = _load_output_file(args.input)
     conferences = data.get("conferences", [])
 
@@ -119,7 +123,9 @@ def cmd_validate(args):
 
         if errors:
             total_errors += len(errors)
-            _stderr.print(f"[bold red]✗[/] {conf.get('name', '?')} ({conf.get('year', '?')}):")
+            _stderr.print(
+                f"[bold red]✗[/] {conf.get('name', '?')} ({conf.get('year', '?')}):"
+            )
             for e in errors:
                 _stderr.print(f"    {e}")
 
@@ -153,7 +159,11 @@ def cmd_validate(args):
                     _stderr.print(f"[bold yellow]⚠[/] {name} ({year}): {w}")
 
         # V21: always warn only
-        other_warnings = [w for w in _validate_entry_warnings(entry) if w not in v16_issues and w not in v20_issues]
+        other_warnings = [
+            w
+            for w in _validate_entry_warnings(entry)
+            if w not in v16_issues and w not in v20_issues
+        ]
         if other_warnings:
             total_warnings += len(other_warnings)
             for w in other_warnings:
@@ -172,14 +182,22 @@ def cmd_validate(args):
                 for w in order_issues:
                     _stderr.print(f"[bold yellow]⚠[/] {name} ({year}): {w}")
 
-    summary_parts = [f"✓ {len(conferences)} conference(s) valid."] if total_errors == 0 else []
+    summary_parts = (
+        [f"✓ {len(conferences)} conference(s) valid."] if total_errors == 0 else []
+    )
     if total_warnings:
         summary_parts.append(f"{total_warnings} warning(s).")
 
     if total_errors == 0:
-        print(" ".join(summary_parts) if summary_parts else f"✓ {len(conferences)} conference(s) valid.")
+        print(
+            " ".join(summary_parts)
+            if summary_parts
+            else f"✓ {len(conferences)} conference(s) valid."
+        )
     else:
-        _stderr.print(f"\n[bold red]{total_errors} error(s)[/] in {len(conferences)} conference(s).")
+        _stderr.print(
+            f"\n[bold red]{total_errors} error(s)[/] in {len(conferences)} conference(s)."
+        )
         sys.exit(1)
 
 
@@ -245,22 +263,26 @@ def print_table(conferences: list[dict], now: datetime | None = None):
         dl_date = next_dl["date"] if next_dl else "—"
         days_str = f"{next_days}d" if next_days is not None else "—"
 
-        rows.append({
-            "name": conf.get("name", "?"),
-            "year": str(conf.get("year", "")),
-            "area": conf.get("area", ""),
-            "tier": conf.get("tier", ""),
-            "deadline": dl_label,
-            "date": dl_date,
-            "days": days_str,
-            "_days_int": next_days,
-        })
+        rows.append(
+            {
+                "name": conf.get("name", "?"),
+                "year": str(conf.get("year", "")),
+                "area": conf.get("area", ""),
+                "tier": conf.get("tier", ""),
+                "deadline": dl_label,
+                "date": dl_date,
+                "days": days_str,
+                "_days_int": next_days,
+            }
+        )
 
     # Sort by days (soonest first), None/past at end
-    rows.sort(key=lambda r: (
-        r["_days_int"] is None or r["_days_int"] < 0,
-        r["_days_int"] if r["_days_int"] is not None else 9999,
-    ))
+    rows.sort(
+        key=lambda r: (
+            r["_days_int"] is None or r["_days_int"] < 0,
+            r["_days_int"] if r["_days_int"] is not None else 9999,
+        )
+    )
 
     # Column widths
     headers = ["Name", "Year", "Area", "Tier", "Next Deadline", "Date", "Days"]
@@ -304,9 +326,11 @@ def cmd_show(args):
 
 # --- fetch command: download CFP pages as fixtures ---
 
+
 def _slugify_name(name: str) -> str:
     """Simple slug: lowercase, non-alphanumeric → hyphen, strip edges."""
     import re
+
     s = name.lower()
     s = re.sub(r"[^a-z0-9]+", "-", s)
     return s.strip("-")
@@ -315,6 +339,7 @@ def _slugify_name(name: str) -> str:
 def _fetch_url(url: str) -> str:
     """Fetch a URL and return text content. Used by fetch command."""
     import requests
+
     headers = {
         "User-Agent": (
             "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
@@ -393,30 +418,92 @@ def main():
 
     crawl_p = sub.add_parser("crawl", help="Crawl conferences and export output")
     crawl_p.add_argument("--conf", help="Crawl single conference by name")
-    crawl_p.add_argument("--config", default="conferences.yaml", help="Config file path")
-    crawl_p.add_argument("--year", default=None, help="Target year(s), comma-separated (e.g. 2026,2027)")
-    crawl_p.add_argument("--format", "-f", choices=["json", "yaml"], default="json", help="Output format")
+    crawl_p.add_argument(
+        "--config", default="conferences.yaml", help="Config file path"
+    )
+    crawl_p.add_argument(
+        "--year", default=None, help="Target year(s), comma-separated (e.g. 2026,2027)"
+    )
+    crawl_p.add_argument(
+        "--format", "-f", choices=["json", "yaml"], default="json", help="Output format"
+    )
     crawl_p.add_argument("--output", "-o", help="Output file path")
-    crawl_p.add_argument("--workers", "-w", type=int, default=8, help="Parallel fetch threads (default: 8)")
-    crawl_p.add_argument("--no-specific", action="store_true", default=False, help="Skip site-specific deadline patterns; use generic extractor only")
-    crawl_p.add_argument("--fixtures", metavar="DIR", nargs="?", const="tests/fixtures", default=None, help="Load HTML from local fixtures instead of fetching live (default dir: tests/fixtures)")
-    crawl_p.add_argument("--strict", action="store_true", default=False, help="Treat date order violations (V14) as errors instead of warnings")
+    crawl_p.add_argument(
+        "--workers",
+        "-w",
+        type=int,
+        default=16,
+        help="Parallel fetch threads (default: 8)",
+    )
+    crawl_p.add_argument(
+        "--no-specific",
+        action="store_true",
+        default=False,
+        help="Skip site-specific deadline patterns; use generic extractor only",
+    )
+    crawl_p.add_argument(
+        "--fixtures",
+        metavar="DIR",
+        nargs="?",
+        const="tests/fixtures",
+        default=None,
+        help="Load HTML from local fixtures instead of fetching live (default dir: tests/fixtures)",
+    )
+    crawl_p.add_argument(
+        "--strict",
+        action="store_true",
+        default=False,
+        help="Treat date order violations (V14) as errors instead of warnings",
+    )
+    crawl_p.add_argument(
+        "--cache",
+        action="store_true",
+        default=False,
+        help="Enable HTTP cache (RFC2616 policy) to skip re-downloads",
+    )
 
     # T10: validate command
-    validate_p = sub.add_parser("validate", help="Validate exported output against invariants")
-    validate_p.add_argument("--input", "-i", default="output/deadlines.json", help="Exported file to validate")
-    validate_p.add_argument("--strict", action="store_true", default=False, help="Treat date order violations (V14) as errors instead of warnings")
+    validate_p = sub.add_parser(
+        "validate", help="Validate exported output against invariants"
+    )
+    validate_p.add_argument(
+        "--input",
+        "-i",
+        default="output/deadlines.json",
+        help="Exported file to validate",
+    )
+    validate_p.add_argument(
+        "--strict",
+        action="store_true",
+        default=False,
+        help="Treat date order violations (V14) as errors instead of warnings",
+    )
 
     # T11: show command (table output)
     show_p = sub.add_parser("show", help="Show conferences as colored table")
-    show_p.add_argument("--input", "-i", default="output/deadlines.json", help="Exported file to display")
+    show_p.add_argument(
+        "--input",
+        "-i",
+        default="output/deadlines.json",
+        help="Exported file to display",
+    )
 
     # fetch command: download CFP pages as test fixtures
-    fetch_p = sub.add_parser("fetch", help="Download CFP pages as HTML fixtures for testing")
+    fetch_p = sub.add_parser(
+        "fetch", help="Download CFP pages as HTML fixtures for testing"
+    )
     fetch_p.add_argument("--conf", help="Fetch single conference by name")
-    fetch_p.add_argument("--config", default="conferences.yaml", help="Config file path")
-    fetch_p.add_argument("--year", default="2026", help="Target year(s), comma-separated (default: 2026)")
-    fetch_p.add_argument("--outdir", default="tests/fixtures", help="Output directory for fixtures (default: tests/fixtures)")
+    fetch_p.add_argument(
+        "--config", default="conferences.yaml", help="Config file path"
+    )
+    fetch_p.add_argument(
+        "--year", default="2026", help="Target year(s), comma-separated (default: 2026)"
+    )
+    fetch_p.add_argument(
+        "--outdir",
+        default="tests/fixtures",
+        help="Output directory for fixtures (default: tests/fixtures)",
+    )
 
     args = parser.parse_args()
 

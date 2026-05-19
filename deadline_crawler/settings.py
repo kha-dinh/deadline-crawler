@@ -42,12 +42,18 @@ DOWNLOADER_MIDDLEWARES = {
     "deadline_crawler.middlewares.FixtureDownloaderMiddleware": 1,
 }
 
-# Extensions — progress bar
+# Extensions — progress bar + stats summary
 EXTENSIONS = {
     "deadline_crawler.extensions.ProgressExtension": 500,
+    "deadline_crawler.extensions.StatsExtension": 501,
 }
 
-# HTTP cache — disabled by default, enable for continuous monitoring
+# AutoThrottle — adaptive delay based on server response time
+AUTOTHROTTLE_ENABLED = True
+AUTOTHROTTLE_START_DELAY = 1
+AUTOTHROTTLE_MAX_DELAY = 10
+
+# HTTP cache — disabled by default, enable with --cache flag
 HTTPCACHE_ENABLED = False
 HTTPCACHE_DIR = ".scrapy_cache"
 HTTPCACHE_POLICY = "scrapy.extensions.httpcache.RFC2616Policy"
