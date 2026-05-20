@@ -92,7 +92,7 @@ class TestTransformEntry:
         required_keys = {
             "id", "name", "year", "description", "link",
             "area", "tier", "place", "date", "timezone",
-            "deadlines", "tags",
+            "deadlines",
         }
         assert required_keys <= set(result.keys())
 

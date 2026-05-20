@@ -47,6 +47,8 @@ def _slugify(name: str) -> str:
 
 
 
+VALID_AREA_CODES = {"SEC", "SYS", "HW", "SE", "PL", "GEN", "CRYPTO", "ML"}
+
 VALID_LABELS = {
     "abstract", "submission", "early_reject", "rebuttal_start",
     "rebuttal_end", "notification", "shepherd", "camera_ready",
@@ -99,7 +101,7 @@ def _validate_entry(entry: dict) -> list[str]:
     if len(tags) < 2:
         errors.append("tags need ≥2 elements (area + core rank)")
     else:
-        if not tags[0]:
+        if tags[0] not in VALID_AREA_CODES:
             errors.append(f"bad area code: {tags[0]}")
         if tags[1] not in {"A*", "A", "B", "C"}:
             errors.append(f"bad core rank: {tags[1]}")
