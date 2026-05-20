@@ -70,10 +70,15 @@ class TestValidateEntry:
         errors = _validate_entry(entry)
         assert any("deadline must be dict" in e for e in errors)
 
-    def test_bad_area_code(self):
+    def test_empty_area_code(self):
         entry = {**VALID_ENTRY, "tags": ["", "A*"]}
         errors = _validate_entry(entry)
-        assert any("bad area code" in e for e in errors)
+        assert any("empty area code" in e for e in errors)
+
+    def test_custom_area_code_ok(self):
+        entry = {**VALID_ENTRY, "tags": ["AI", "A*"]}
+        errors = _validate_entry(entry)
+        assert not any("area" in e for e in errors)
 
     def test_bad_tier(self):
         entry = {**VALID_ENTRY, "tags": ["SEC", "TIER3"]}
