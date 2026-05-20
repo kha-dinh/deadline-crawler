@@ -1128,6 +1128,8 @@
   strategy: regex
   tags: [SYS]
   description: "ACM International Conference on Knowledge Discovery and Data Mining"
+  selectors:
+    section: '(?is)important dates.*?</ul>'  # B6: isolate dates section from conference date prose
 
 ########################  Programming Languages — Theory  ########################
 
@@ -1213,6 +1215,8 @@
   strategy: regex
   tags: [OTHER]
   description: "ACM Symposium on User Interface Software and Technology"
+  selectors:
+    section: '(?s)<h2 id="papers">.*?(?=<h2 id="posters")'  # isolate Papers track from Posters/Demos/Workshops
 
 - name: SIGGRAPH
   # Pattern: s{YYYY}.siggraph.org — consistent (s2025, s2026, …)
