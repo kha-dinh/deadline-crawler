@@ -1,9 +1,9 @@
 """Tests for CSS selector extraction strategy (T3)."""
 
 import pytest
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 
-from crawler.strategies.css import CssStrategy, _extract_deadlines_css
+from crawler.extractors.css import _extract_deadlines_css
 from crawler.models import CrawlResult
 
 
@@ -182,7 +182,7 @@ def test_monthday_fallback_uses_year():
     assert by_label.get("submission") == "2026-03-08 23:59"
 
 
-# --- CssStrategy integration ---
+# --- crawl_conference integration via compat ---
 
 CONF = {
     "name": "TestConf",
@@ -196,10 +196,10 @@ CONF = {
 }
 
 
-def test_css_strategy_extract_returns_crawl_result():
-    with patch("crawler.strategies.css._fetch", return_value=LIST_HTML):
-        strategy = CssStrategy()
-        results = strategy.extract(CONF, 2026)
+def test_crawl_conference_returns_crawl_result():
+    from crawler.compat import crawl_conference
+    with patch("crawler.compat._fetch", return_value=LIST_HTML):
+        results = crawl_conference(CONF, 2026)
     assert len(results) == 1
     r = results[0]
     assert isinstance(r, CrawlResult)
@@ -209,12 +209,12 @@ def test_css_strategy_extract_returns_crawl_result():
     assert len(r.deadlines) >= 2
 
 
-def test_css_strategy_no_url_raises():
+def test_crawl_conference_no_url_raises():
+    from crawler.compat import crawl_conference
     conf = {**CONF, "url": ""}
-    with patch("crawler.strategies.css._fetch", return_value=LIST_HTML):
-        strategy = CssStrategy()
+    with patch("crawler.compat._fetch", return_value=LIST_HTML):
         with pytest.raises(ValueError, match="no URL configured"):
-            strategy.extract(conf, 2026)
+            crawl_conference(conf, 2026)
 
 
 CYCLE_HTML = """
@@ -258,10 +258,10 @@ CYCLE_CONF = {
 }
 
 
-def test_css_strategy_cycles():
-    with patch("crawler.strategies.css._fetch", return_value=CYCLE_HTML):
-        strategy = CssStrategy()
-        results = strategy.extract(CYCLE_CONF, 2026)
+def test_crawl_conference_cycles():
+    from crawler.compat import crawl_conference
+    with patch("crawler.compat._fetch", return_value=CYCLE_HTML):
+        results = crawl_conference(CYCLE_CONF, 2026)
     assert len(results) == 2
     assert results[0].cycle == "Cycle 1"
     assert results[1].cycle == "Cycle 2"

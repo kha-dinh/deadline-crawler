@@ -13,6 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
 
       - name: Install uv
         uses: astral-sh/setup-uv@v4
@@ -20,8 +22,8 @@ jobs:
       - name: Install dependencies
         run: uv sync
 
-      - name: Crawl (JSON)
-        run: uv run python main.py crawl --format json --output output/deadlines.json
+      - name: Crawl (JSON) with diff
+        run: uv run python main.py crawl --format json --output output/deadlines.json --diff --change-log output/changes.jsonl
 
       - name: Crawl (YAML)
         run: uv run python main.py crawl --format yaml --output output/deadlines.yaml
@@ -40,6 +42,7 @@ jobs:
             git -C /tmp/out rm -rf . 2>/dev/null || true
           fi
           cp output/deadlines.json output/deadlines.yaml /tmp/out/
-          git -C /tmp/out add deadlines.json deadlines.yaml
+          if [ -f output/changes.jsonl ]; then cp output/changes.jsonl /tmp/out/; fi
+          git -C /tmp/out add deadlines.json deadlines.yaml changes.jsonl 2>/dev/null || git -C /tmp/out add deadlines.json deadlines.yaml
           git -C /tmp/out diff --cached --quiet || git -C /tmp/out commit -m "update crawled deadlines [skip ci]"
           git -C /tmp/out push origin output
