@@ -147,9 +147,19 @@ class ConferencesSpider(scrapy.Spider):
         if progress_ext:
             progress_ext.advance(self)
 
-    def _find_cfp_link(self, response):
-        """Scan page for CFP-like links, return best URL or None."""
+    def _find_cfp_link(self, response, year=None):
+        """Scan page for CFP-like links, return best URL or None.
+
+        If *year* is given, reject links whose path contains a different
+        four-digit year (e.g. ndss2027 when crawling 2026) to prevent
+        CFP discovery from crossing year boundaries.
+        """
         base_domain = urlparse(response.url).netloc
+        # Build set of other years to reject (±3 window, excluding target year)
+        if year is not None:
+            other_years = {str(y) for y in range(year - 3, year + 4) if y != year}
+        else:
+            other_years = set()
         candidates = []
 
         for link in response.css("a[href]"):
@@ -164,6 +174,12 @@ class ConferencesSpider(scrapy.Spider):
             # Skip self-links
             if abs_url.rstrip("/") == response.url.rstrip("/"):
                 continue
+            # Skip links containing a different year in the path
+            if other_years:
+                url_path = urlparse(abs_url).path
+                found_years = set(re.findall(r'20\d{2}', url_path))
+                if found_years and not found_years & {str(year)}:
+                    continue
 
             text = link.css("::text").get() or ""
             text = text.strip()
@@ -225,7 +241,7 @@ class ConferencesSpider(scrapy.Spider):
             if has_deadlines:
                 yield from items
             elif conf.get("discover_cfp", True):
-                cfp_url = self._find_cfp_link(response)
+                cfp_url = self._find_cfp_link(response, year=year)
                 if cfp_url:
                     self.logger.debug(f"{conf['name']} {year}: discovering CFP at {cfp_url}")
                     yield scrapy.Request(
@@ -259,7 +275,7 @@ class ConferencesSpider(scrapy.Spider):
             yield from items
         elif depth < _MAX_DISCOVER_DEPTH and conf.get("discover_cfp", True):
             # Chain: try discovering CFP link from this intermediate page
-            cfp_url = self._find_cfp_link(response)
+            cfp_url = self._find_cfp_link(response, year=year)
             if cfp_url and cfp_url.rstrip("/") != base_url.rstrip("/"):
                 self.logger.debug(f"{conf['name']} {year}: chained discovery depth={depth+1} at {cfp_url}")
                 yield scrapy.Request(
