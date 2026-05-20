@@ -43,6 +43,7 @@ Crawl conference CFP pages and export structured deadline data (JSON/YAML). Per-
 - V21: If entry `date` field non-empty and contains a 4-digit year, that year MUST match entry `year`. Violation → warn (not error) — some conferences span year-end (e.g. Dec/Jan event)
 - V22: Spider MUST run `_is_scaffolding(html)` in `parse_cfp()` immediately after fetch, before extraction. Scaffolding = placeholder/404 page with no real CFP content. Detection: (1) known phrases ("coming soon", "under construction", "page not found", "404 not found", etc.); (2) stripped text starts with `404`; (3) word count &lt; 75 AND no date patterns present. Scaffolding → log warning and skip (no items yielded). Compat layer (`crawl_conference()`) raises `ValueError` for scaffolding. Silent empty deadlines MUST NOT be returned for scaffold pages
 - V23: Output `deadlines[]` array MUST be sorted by canonical `LABEL_ORDER` (abstract, submission, early_reject, rebuttal_start, rebuttal_end, notification, shepherd, camera_ready). Sort applied in `transform_entry` (generate.py) after extraction. Extractor insertion order is irrelevant — output order always canonical
+- V24: Strikethrough (`<s>`, `<strike>`) dates MUST be preserved unless a non-struck date exists alongside (superseded). Past deadlines are valid data (V6). Prose lines (>12 words) with incidental date mentions MUST NOT be matched in proximity search (Pass 2b) — prevents false positives from body text
 
 ## §T Tasks
 | id | status | task | cites |
