@@ -35,14 +35,16 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          if git fetch origin output:refs/heads/output 2>/dev/null; then
-            git worktree add /tmp/out output
-          else
-            git worktree add --orphan /tmp/out output
-            git -C /tmp/out rm -rf . 2>/dev/null || true
-          fi
+          mkdir -p /tmp/out
           cp output/deadlines.json output/deadlines.yaml /tmp/out/
           if [ -f output/changes.jsonl ]; then cp output/changes.jsonl /tmp/out/; fi
-          git -C /tmp/out add deadlines.json deadlines.yaml changes.jsonl 2>/dev/null || git -C /tmp/out add deadlines.json deadlines.yaml
-          git -C /tmp/out diff --cached --quiet || git -C /tmp/out commit -m "update crawled deadlines [skip ci]"
-          git -C /tmp/out push origin output
+          if git fetch origin output 2>/dev/null; then
+            git checkout output
+          else
+            git checkout --orphan output
+            git rm -rf . 2>/dev/null || true
+          fi
+          cp /tmp/out/* .
+          git add deadlines.json deadlines.yaml changes.jsonl 2>/dev/null || git add deadlines.json deadlines.yaml
+          git diff --cached --quiet || git commit -m "update crawled deadlines [skip ci]"
+          git push origin output
