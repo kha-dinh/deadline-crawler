@@ -83,3 +83,7 @@ OUTPUT_PATH = None
 STRICT_MODE = False
 # Fixture mode: path to fixtures dir, or None to disable
 FIXTURES_DIR = None
+# Diff mode: path to baseline output file for change detection, or None
+DIFF_BASELINE = None
+# Change log: path to JSONL changelog file, or None
+CHANGE_LOG = None

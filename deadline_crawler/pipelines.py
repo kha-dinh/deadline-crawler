@@ -157,6 +157,8 @@ class OutputPipeline:
         self.items = []
         self.fmt = "json"
         self.output_path = None
+        self.diff_baseline = None
+        self.change_log = None
 
     @classmethod
     def from_crawler(cls, crawler):
@@ -164,6 +166,8 @@ class OutputPipeline:
         pipe.crawler = crawler
         pipe.fmt = crawler.settings.get("OUTPUT_FORMAT", "json")
         pipe.output_path = crawler.settings.get("OUTPUT_PATH")
+        pipe.diff_baseline = crawler.settings.get("DIFF_BASELINE")
+        pipe.change_log = crawler.settings.get("CHANGE_LOG")
         return pipe
 
     def process_item(self, item):
@@ -198,3 +202,25 @@ class OutputPipeline:
                 f.write("\n")
 
         _stderr.print(f"Exported {len(conferences)} conference(s) → {output_path}")
+
+        # Diff against baseline if enabled
+        if self.diff_baseline:
+            from crawler.output.diff import (
+                diff_conferences,
+                format_changes,
+                load_baseline,
+                write_changelog,
+            )
+
+            baseline = load_baseline(self.diff_baseline)
+            changes = diff_conferences(baseline, conferences)
+            if changes:
+                _stderr.print(f"\n[bold cyan]Changes ({len(changes)}):[/]")
+                for line in format_changes(changes):
+                    _stderr.print(line)
+            else:
+                _stderr.print("[dim]No changes from baseline[/]")
+
+            if self.change_log and changes:
+                write_changelog(changes, self.change_log)
+                _stderr.print(f"[dim]Changelog → {self.change_log}[/]")

@@ -41,6 +41,13 @@ def cmd_crawl(args):
     if args.cache:
         settings.set("HTTPCACHE_ENABLED", True)
 
+    if args.diff is not None:
+        baseline = args.diff if args.diff else out_path
+        settings.set("DIFF_BASELINE", baseline)
+
+    if args.change_log:
+        settings.set("CHANGE_LOG", args.change_log)
+
     if args.fixtures:
         fixtures_dir = Path(args.fixtures)
         if not fixtures_dir.exists():
@@ -460,6 +467,20 @@ def main():
         action="store_true",
         default=False,
         help="Enable HTTP cache (RFC2616 policy) to skip re-downloads",
+    )
+    crawl_p.add_argument(
+        "--diff",
+        metavar="BASELINE",
+        nargs="?",
+        const="",
+        default=None,
+        help="Diff against baseline output (default: output file itself)",
+    )
+    crawl_p.add_argument(
+        "--change-log",
+        metavar="PATH",
+        default=None,
+        help="Write change log as JSONL to PATH",
     )
 
     # T10: validate command
