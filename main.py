@@ -99,7 +99,7 @@ def _output_to_entry(conf: dict) -> dict:
         "deadline": [
             {"label": d["label"], "date": d["date"]} for d in conf.get("deadlines", [])
         ],
-        "tags": conf.get("tags", []),
+        "tags": [v for v in [conf.get("area", ""), conf.get("tier", "")] if v],
     }
 
 

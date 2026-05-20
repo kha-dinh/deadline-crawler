@@ -71,7 +71,7 @@ class TestValidateEntry:
         assert any("deadline must be dict" in e for e in errors)
 
     def test_bad_area_code(self):
-        entry = {**VALID_ENTRY, "tags": ["INVALID", "A*"]}
+        entry = {**VALID_ENTRY, "tags": ["", "A*"]}
         errors = _validate_entry(entry)
         assert any("bad area code" in e for e in errors)
 
