@@ -264,6 +264,8 @@ def generate_from_results(
             raise ValueError(f"Date order violation in {name} {year} (use --no-strict to downgrade to warning)")
         conferences.append(transform_entry(entry, now))
 
+    conferences.sort(key=lambda c: c["name"].lower())
+
     result = {
         "generated_at": now.isoformat(),
         "conferences": conferences,
@@ -315,6 +317,8 @@ def generate_output(
             name = entry.get("name", "?")
             raise ValueError(f"Invalid entry '{name}': {'; '.join(errors)}")
         conferences.append(transform_entry(entry, now))
+
+    conferences.sort(key=lambda c: c["name"].lower())
 
     result = {
         "generated_at": now.isoformat(),
