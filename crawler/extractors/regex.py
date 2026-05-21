@@ -1,11 +1,12 @@
-"""Regex-based extraction strategy (T4, T16)."""
+"""Regex-based extraction functions (T4, T16).
+
+Pure functions — no network I/O. Takes HTML strings, returns deadline data.
+"""
 
 import re
-import threading
 import warnings
 from datetime import datetime
 
-import requests
 from bs4 import BeautifulSoup, XMLParsedAsHTMLWarning
 
 warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
@@ -13,24 +14,6 @@ warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
 from crawler.config import resolve_url
 from crawler.labels import _match_label
 from crawler.models import CrawlResult
-from crawler.strategy import BaseStrategy
-
-# Thread-local HTTP session — reuses TCP connections within each worker thread.
-_thread_local = threading.local()
-
-
-def _get_session() -> requests.Session:
-    if not hasattr(_thread_local, "session"):
-        s = requests.Session()
-        adapter = requests.adapters.HTTPAdapter(
-            pool_connections=16,
-            pool_maxsize=16,
-        )
-        s.mount("https://", adapter)
-        s.mount("http://", adapter)
-        s.headers.update(_HEADERS)
-        _thread_local.session = s
-    return _thread_local.session
 
 
 # T25: implicit event_selectors defaults keyed by url_main domain pattern
@@ -177,17 +160,32 @@ def _strip_html(html: str) -> str:
     """
     soup = BeautifulSoup(html, "lxml")
 
-    # Remove script/style blocks and struck-through text (outdated dates)
-    for tag in soup.find_all(["script", "style", "strike", "s"]):
+    # Remove script/style blocks
+    for tag in soup.find_all(["script", "style"]):
         tag.decompose()
 
+    # Handle strikethrough: remove struck text only when a non-struck date
+    # exists alongside it (e.g. "~03 Dec~ 10 Dec (extended!)").
+    # Otherwise preserve it — past deadlines are still valid data.
+    _DATE_SNIFF_RE = re.compile(
+        r"\b\d{1,2}\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\w*\b"
+        r"|\b(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\w*\s+\d{1,2}\b"
+        r"|\b\d{4}[-/]\d{2}[-/]\d{2}\b",
+        re.IGNORECASE,
+    )
+    for tag in soup.find_all(["s", "strike"]):
+        parent = tag.parent
+        if parent:
+            siblings_text = "".join(
+                sib.get_text() for sib in parent.children if sib is not tag
+            )
+            if _DATE_SNIFF_RE.search(siblings_text):
+                tag.decompose()
+
     # Process <tr>: join cells with ' | ', but handle <br>-column tables specially.
-    # If all cells in a <tr> have the same number of <br>-separated items (≥2),
-    # emit one line per pair (CVPR-style parallel label/date columns).
     _BR_MARKER = "\x00BR\x00"
 
     def _cell_br_parts(cell) -> list[str]:
-        """Split a cell's text by <br> boundaries using a unique in-text marker."""
         import copy
         clone = copy.copy(cell)
         for br in clone.find_all("br"):
@@ -198,9 +196,7 @@ def _strip_html(html: str) -> str:
         cells = tr.find_all(["td", "th"])
         if not cells:
             continue
-        # Get <br>-split items per cell
         cell_parts = [_cell_br_parts(cell) for cell in cells]
-        # Check if all cells have ≥2 items and the same count → parallel column table
         counts = [len(p) for p in cell_parts]
         if len(cells) >= 2 and min(counts) >= 2 and min(counts) == max(counts):
             lines = []
@@ -211,11 +207,9 @@ def _strip_html(html: str) -> str:
             text = " | ".join(c.get_text(separator=" ", strip=True) for c in cells)
             tr.replace_with(text + "\n")
 
-    # Replace <br> with space to keep remaining inline content on one line
     for br in soup.find_all("br"):
         br.replace_with(" ")
 
-    # Process <dt>/<dd> pairs: merge onto one line
     for dt in soup.find_all("dt"):
         dd = dt.find_next_sibling("dd")
         dt_text = dt.get_text(strip=True)
@@ -224,19 +218,14 @@ def _strip_html(html: str) -> str:
         if dd:
             dd.decompose()
 
-    # Process <li>: flatten leaf items; unwrap containers (nested lists)
     for li in soup.find_all("li"):
         if li.find(["ul", "ol"]):
-            # List container — unwrap so nested <li> are processed individually
             li.unwrap()
         else:
             text = li.get_text(separator=" ", strip=True)
             li.replace_with(text + "\n")
 
-    # Get remaining text with newlines at block boundaries
     text = soup.get_text(separator="\n")
-
-    # Clean up entities and whitespace
     text = text.replace("&nbsp;", " ").replace("&amp;", "&").replace("&#8212;", "—")
     lines = []
     for line in text.split("\n"):
@@ -247,16 +236,10 @@ def _strip_html(html: str) -> str:
     return "\n".join(lines)
 
 
-
 def _extract_deadlines_researchr(
     track_slug: str, html: str, cycle_filter: str | None = None
 ) -> list[dict]:
-    """Extract deadlines from researchr.org dates page (T20).
-
-    Filters <tr href="...track_slug..."> rows, reads col0 (date) + col2 (label).
-    cycle_filter: if set, only rows whose col2 contains this string are used
-    (e.g. "First Cycle" / "Second Cycle" for ICSE multi-cycle).
-    """
+    """Extract deadlines from researchr.org dates page (T20)."""
     soup = BeautifulSoup(html, "lxml")
     return _extract_deadlines_researchr_soup(track_slug, soup, cycle_filter)
 
@@ -264,11 +247,7 @@ def _extract_deadlines_researchr(
 def _extract_deadlines_researchr_soup(
     track_slug: str, soup: BeautifulSoup, cycle_filter: str | None = None
 ) -> list[dict]:
-    """Soup-based inner implementation — reuses a pre-parsed tree.
-
-    Collects all (date, label) pairs for the track, sorts by date ascending,
-    then deduplicates keeping the earliest date per canonical label.
-    """
+    """Soup-based inner implementation — reuses a pre-parsed tree."""
     rows: list[tuple[str, str]] = []
 
     for tr in soup.find_all("tr"):
@@ -301,17 +280,7 @@ def _extract_deadlines_researchr_soup(
 def _autodiscover_researchr(
     html: str, cycle_filter: str | None = None, conf_prefix: str | None = None
 ) -> list[dict]:
-    """Auto-discover best research track on a researchr.org dates page.
-
-    Collects all unique track slugs from <tr href=...> attributes, scores each
-    by (conf_prefix_match, canonical_label_count, research_or_papers_in_slug),
-    returns deadlines from highest-scoring track.
-
-    conf_prefix: lowercase conference name (e.g. "pldi") used to prefer tracks
-    whose slug starts with the conference identifier over co-located workshops.
-
-    Parses HTML exactly once and reuses the soup for all slug evaluations.
-    """
+    """Auto-discover best research track on a researchr.org dates page."""
     soup = BeautifulSoup(html, "lxml")
     seen_slugs: list[str] = []
     for tr in soup.find_all("tr"):
@@ -377,27 +346,19 @@ _RANGE_LABEL_PAIRS: dict[str, str] = {
 
 
 def _split_date_range(text: str) -> tuple[str, str] | None:
-    """Split a date range string into (start, end) date strings.
-
-    Format 1 — compact same-month: "November 6–13, 2025" → ("November 6, 2025", "November 13, 2025")
-    Format 2 — expanded:           "April 27 - April 29, 2026" → ("April 27, 2026", "April 29, 2026")
-    Returns None if text is not a recognised date range.
-    """
+    """Split a date range string into (start, end) date strings."""
     text = text.strip()
-    # Format 1
     m = _DATE_RANGE_RE.match(text)
     if m:
         month, day1, day2, year_part = m.groups()
         month = month.strip()
         year_clean = re.sub(r"^,?\s*", ", ", year_part.strip()) if year_part.strip() else ""
         return f"{month} {day1}{year_clean}", f"{month} {day2}{year_clean}"
-    # Format 2 — expanded month range
     m2 = _DATE_RANGE_EXPANDED_RE.match(text)
     if m2:
         start_raw, end_raw, year_part = m2.groups()
         start_raw, end_raw = start_raw.strip(), end_raw.strip()
         year_clean = re.sub(r"^,?\s*", ", ", year_part.strip()) if (year_part and year_part.strip()) else ""
-        # Append year to end; also to start if it lacks one
         end_with_year = end_raw + year_clean if year_clean else end_raw
         start_with_year = start_raw + year_clean if (year_clean and not re.search(r"\d{4}", start_raw)) else start_raw
         return start_with_year, end_with_year
@@ -405,28 +366,16 @@ def _split_date_range(text: str) -> tuple[str, str] | None:
 
 
 def _extract_deadlines_generic(html: str, year: int | None = None) -> list[dict]:
-    """Generic two-pass deadline extraction (Phase A+C, T17).
-
-    Phase A: structure-preserving HTML→text (via _strip_html).
-    Phase C: two-pass proximity search:
-      Pass 1 — find all lines with date-like strings.
-      Pass 2 — for each date, search same line + ±2 lines for label phrase.
-      Nearest label wins; same label not assigned twice.
-    """
+    """Generic two-pass deadline extraction (Phase A+C, T17)."""
     text = _strip_html(html)
     lines = text.split("\n")
     deadlines = []
     seen_labels: set[str] = set()
 
-    # Pass 1: find all (line_index, parsed_date) tuples + range hits.
-    # Range lines are excluded from proximity label search in Pass 2b.
     date_hits: list[tuple[int, str]] = []
-    range_hits: list[tuple[int, str, str]] = []  # (line_idx, start_date, end_date)
-    range_line_indices: set[int] = set()          # lines consumed by ranges
+    range_hits: list[tuple[int, str, str]] = []
+    range_line_indices: set[int] = set()
     for i, line in enumerate(lines):
-        # Range detection takes priority: check before generic date pattern.
-        # This prevents lines like "Rebuttal period | April 27 - April 29, 2026"
-        # from being consumed as single-date hits (generic RE finds "April 29").
         _rm = _DATE_RANGE_RE.search(line) or _DATE_RANGE_EXPANDED_RE.search(line)
         if _rm:
             rng = _split_date_range(_rm.group(0))
@@ -436,7 +385,7 @@ def _extract_deadlines_generic(html: str, year: int | None = None) -> list[dict]
                 if ps and pe:
                     range_hits.append((i, ps, pe))
                     range_line_indices.add(i)
-                    continue  # consumed as range; don't also add as date_hit
+                    continue
 
         m = _GENERIC_DATE_RE.search(line)
         if m:
@@ -446,7 +395,6 @@ def _extract_deadlines_generic(html: str, year: int | None = None) -> list[dict]
             if parsed:
                 date_hits.append((i, parsed))
         elif year:
-            # Fallback: try month+day without year, append conference year
             md = _MONTHDAY_RE.search(line)
             if md:
                 date_with_year = f"{md.group(1)}, {year}"
@@ -454,7 +402,7 @@ def _extract_deadlines_generic(html: str, year: int | None = None) -> list[dict]
                 if parsed:
                     date_hits.append((i, parsed))
 
-    # Pass 2a: same-line matches first (prevents proximity from stealing labels)
+    # Pass 2a: same-line matches first
     matched_indices: set[int] = set()
     for line_idx, parsed_date in date_hits:
         label = _match_label(lines[line_idx])
@@ -463,11 +411,7 @@ def _extract_deadlines_generic(html: str, year: int | None = None) -> list[dict]
             deadlines.append({"label": label, "date": parsed_date})
             matched_indices.add(line_idx)
 
-    # Pass 2c: resolve range hits — same-line label match ONLY (no proximity).
-    # Real deadline ranges (rebuttal period) always have their label on the same line.
-    # Non-deadline ranges (conference dates, workshop dates) must not steal nearby labels.
-    # Only emit if label is range-appropriate (rebuttal_start); prevents CVPR-style
-    # one-big-line Important Dates tables from assigning a range date to `abstract`.
+    # Pass 2c: resolve range hits
     for line_idx, start_date, end_date in range_hits:
         label = _match_label(lines[line_idx])
         if label and label in _RANGE_LABEL_PAIRS and label not in seen_labels:
@@ -478,32 +422,34 @@ def _extract_deadlines_generic(html: str, year: int | None = None) -> list[dict]
                 seen_labels.add(partner)
                 deadlines.append({"label": partner, "date": end_date})
 
-    # Pass 2b: proximity search for remaining unmatched single-date hits.
-    # Skips range-hit lines as label sources to prevent label theft.
+    # Pass 2b: proximity search
     for line_idx, parsed_date in date_hits:
         if line_idx in matched_indices:
             continue
+        if len(lines[line_idx].split()) > 12:
+            continue
         best_label = None
-        for dist in range(1, 3):  # ±1, ±2 lines
-            if best_label:
+        nearest_seen = False
+        for dist in range(1, 3):
+            if best_label or nearest_seen:
                 break
             for check_idx in [line_idx - dist, line_idx + dist]:
                 if 0 <= check_idx < len(lines) and check_idx not in range_line_indices:
-                    label = _match_label(lines[check_idx])
-                    if label and label not in seen_labels:
-                        best_label = label
+                    candidate_line = lines[check_idx]
+                    if len(candidate_line.split()) > 12:
+                        continue
+                    label = _match_label(candidate_line)
+                    if label:
+                        if label not in seen_labels:
+                            best_label = label
+                        else:
+                            nearest_seen = True
                         break
         if best_label:
             seen_labels.add(best_label)
             deadlines.append({"label": best_label, "date": parsed_date})
 
     return deadlines
-
-
-def _fetch(url: str) -> str:
-    resp = _get_session().get(url, timeout=30)
-    resp.encoding = resp.apparent_encoding
-    return resp.text
 
 
 # Phrases that indicate a page is a placeholder without real CFP content yet.
@@ -520,17 +466,11 @@ _SCAFFOLDING_PHRASES: frozenset[str] = frozenset([
     "site not found",
 ])
 
-# Pages with fewer words than this (after HTML stripping) are likely placeholders.
 _MIN_CONTENT_WORDS = 75
 
 
 def _check_date_year_sanity(deadlines: list[dict], year: int, name: str, url: str) -> None:
-    """Raise ValueError if all extracted dates are stale (>1 year before target year).
-
-    Catches pages that exist but show historical CFP data (e.g. PODC 2027 page
-    showing 2018 deadlines). Only fires when deadlines are non-empty — an empty
-    list is handled elsewhere.
-    """
+    """Raise ValueError if all extracted dates are stale (>1 year before target year)."""
     if not deadlines:
         return
     date_years = []
@@ -548,15 +488,7 @@ def _check_date_year_sanity(deadlines: list[dict], year: int, name: str, url: st
 
 
 def _is_scaffolding(html: str) -> bool:
-    """Return True if page is a placeholder/scaffolding with no real CFP content.
-
-    Three signals:
-    - Phrase match: known placeholder phrases in the stripped text.
-    - Leading 404: stripped text starts with "404" — CMS 404 pages that don't
-      include "not found" verbatim (e.g. "404 - ConferenceName ...").
-    - Word count: fewer than _MIN_CONTENT_WORDS words AND no date patterns found
-      (a sparse page with real dates is a terse CFP, not scaffolding).
-    """
+    """Return True if page is a placeholder/scaffolding with no real CFP content."""
     text = _strip_html(html)
     lower = text.lower()
     if any(phrase in lower for phrase in _SCAFFOLDING_PHRASES):
@@ -568,123 +500,130 @@ def _is_scaffolding(html: str) -> bool:
     return False
 
 
-class RegexStrategy(BaseStrategy):
-    name = "regex"
+def _css_text(soup: BeautifulSoup, selector: str | None) -> str | None:
+    """Extract text from first CSS selector match."""
+    if not selector:
+        return None
+    el = soup.select_one(selector)
+    return el.get_text(strip=True) if el else None
 
-    def extract(self, conf: dict, year: int) -> list[CrawlResult]:
-        url = resolve_url(conf, year)
-        if not url:
-            raise ValueError(f"{conf['name']}: no URL configured")
 
-        html = _fetch(url)
+def extract_main_fields(
+    conf: dict, year: int, cfp_url: str, cfp_html: str, main_html: str | None = None
+) -> tuple[str | None, str | None]:
+    """Extract event date and place from main page HTML.
 
-        if _is_scaffolding(html):
-            raise ValueError(f"{conf['name']}: scaffolding/placeholder page detected at {url}")
+    Standalone version of the old Strategy._extract_main_fields.
+    When main_html is None, uses cfp_html as fallback.
+    """
+    event_selectors = _resolve_event_selectors(conf)
+    static_date = conf.get("date") or None
+    static_place = conf.get("place") or None
 
-        # Shared fields from main page
-        date, place = self._extract_main_fields(conf, year, url, html)
+    if not event_selectors:
+        return static_date, static_place
 
-        no_specific = conf.get("_no_specific", False)
-        conf_prefix = conf["name"].lower()
-        cycles = conf.get("cycles")
-        if cycles:
-            # One CrawlResult per cycle
-            results = []
-            for cycle in cycles:
-                deadlines = self._extract_deadlines(_build_cycle_selectors(conf, cycle), html, year, no_specific=no_specific, conf_prefix=conf_prefix)
-                _check_date_year_sanity(deadlines, year, conf["name"], url)
-                results.append(CrawlResult(
-                    name=conf["name"],
-                    year=year,
-                    link=url,
-                    deadlines=deadlines,
-                    cycle=cycle.get("name"),
-                    date=date,
-                    place=place,
-                    description=conf.get("description"),
-                    tags=list(conf.get("tags", [])),
-                ))
-            return results
-        else:
-            # No cycles — single result using top-level selectors
-            deadlines = self._extract_deadlines(conf.get("selectors", {}), html, year, no_specific=no_specific, conf_prefix=conf_prefix)
-            _check_date_year_sanity(deadlines, year, conf["name"], url)
-            return [CrawlResult(
-                name=conf["name"],
-                year=year,
-                link=url,
-                deadlines=deadlines,
-                date=date,
-                place=place,
-                description=conf.get("description"),
-                tags=list(conf.get("tags", [])),
-            )]
-
-    def _extract_main_fields(
-        self, conf: dict, year: int, cfp_url: str, cfp_html: str
-    ) -> tuple[str | None, str | None]:
-        event_selectors = _resolve_event_selectors(conf)
-        # Static fallback: date/place can be hardcoded in conf (e.g. via by_year)
-        static_date = conf.get("date") or None
-        static_place = conf.get("place") or None
-
-        if not event_selectors:
-            return static_date, static_place
-
+    # If no separate main_html provided, check if url_main differs from cfp_url
+    if main_html is None:
         url_main = resolve_url(
             {"url": conf.get("url_main", conf.get("url"))}, year
         )
         if url_main and url_main != cfp_url:
-            main_html = _fetch(url_main)
+            # Spider should have fetched this — if not, fall back to cfp_html
+            main_html = cfp_html
         else:
             main_html = cfp_html
 
-        soup = BeautifulSoup(main_html, "lxml")
-        date = self._css_text(soup, event_selectors.get("date")) or static_date
-        place = self._css_text(soup, event_selectors.get("place")) or static_place
-        # Strip trailing place text from date if both share same parent element
-        # (e.g. researchr "div.place" has date text + <a>place</a>)
-        if date and place and date.endswith(place):
-            date = date[: -len(place)].strip()
-        return date, place
+    soup = BeautifulSoup(main_html, "lxml")
+    date = _css_text(soup, event_selectors.get("date")) or static_date
+    place = _css_text(soup, event_selectors.get("place")) or static_place
+    if date and place and date.endswith(place):
+        date = date[: -len(place)].strip()
+    return date, place
 
-    @staticmethod
-    def _extract_deadlines(selectors: dict, html: str, year: int | None = None, no_specific: bool = False, conf_prefix: str | None = None) -> list[dict]:
-        # Optionally narrow HTML to a section first
-        section_pattern = selectors.get("section")
-        if section_pattern:
-            m = re.search(section_pattern, html, re.DOTALL | re.IGNORECASE)
-            if m:
-                html = m.group(0)
-            else:
-                return []
 
-        # Fallback chain: researchr_track → researchr auto-discover → site-specific → generic
-        cycle_filter = selectors.get("researchr_cycle")
-        track_slug = selectors.get("researchr_track")
-        if track_slug:
-            if year:
-                track_slug = track_slug.replace("{YYYY}", str(year))
-            result = _extract_deadlines_researchr(track_slug, html, cycle_filter)
-            if result:
-                return result
+def extract_main_fields_xpath(
+    conf: dict, year: int, cfp_url: str, cfp_html: str, main_html: str | None = None
+) -> tuple[str | None, str | None]:
+    """Extract event date and place using XPath/CSS selectors on lxml tree.
+
+    Used by XPath strategy — uses lxml instead of BeautifulSoup.
+    """
+    import lxml.html
+
+    event_selectors = _resolve_event_selectors(conf)
+    static_date = conf.get("date") or None
+    static_place = conf.get("place") or None
+
+    if not event_selectors:
+        return static_date, static_place
+
+    if main_html is None:
+        url_main = resolve_url(
+            {"url": conf.get("url_main", conf.get("url"))}, year
+        )
+        if url_main and url_main != cfp_url:
+            main_html = cfp_html
         else:
-            result = _autodiscover_researchr(html, cycle_filter, conf_prefix=conf_prefix)
-            if result:
-                return result
+            main_html = cfp_html
 
-        deadline_specs = selectors.get("deadlines", [])
-        if deadline_specs and not no_specific:
-            result = _extract_deadlines_specific(deadline_specs, html)
-            if result:
-                return result
+    doc = lxml.html.fromstring(main_html)
 
-        # Generic text-based extraction (T16)
-        return _extract_deadlines_generic(html, year=year)
-
-    @staticmethod
-    def _css_text(soup: BeautifulSoup, selector: str | None) -> str | None:
-        if not selector:
+    def _xpath_text(doc, expr: str | None) -> str | None:
+        if not expr:
             return None
-        el = soup.select_one(selector)
-        return el.get_text(strip=True) if el else None
+        if not expr.startswith("/") and not expr.startswith("("):
+            from lxml.cssselect import CSSSelector
+            sel = CSSSelector(expr)
+            els = sel(doc)
+            return ((els[0].text_content() or "").strip()) if els else None
+        els = doc.xpath(expr)
+        if not els:
+            return None
+        if isinstance(els[0], str):
+            return els[0].strip() or None
+        return ((els[0].text_content() or "").strip()) or None
+
+    date = _xpath_text(doc, event_selectors.get("date")) or static_date
+    place = _xpath_text(doc, event_selectors.get("place")) or static_place
+    if date and place and date.endswith(place):
+        date = date[: -len(place)].strip()
+    return date, place
+
+
+def extract_deadlines_regex(
+    selectors: dict, html: str, year: int | None = None,
+    no_specific: bool = False, conf_prefix: str | None = None
+) -> list[dict]:
+    """Regex extraction dispatch — researchr → site-specific → generic.
+
+    Standalone version of old RegexStrategy._extract_deadlines.
+    """
+    section_pattern = selectors.get("section")
+    if section_pattern:
+        m = re.search(section_pattern, html, re.DOTALL | re.IGNORECASE)
+        if m:
+            html = m.group(0)
+        else:
+            return []
+
+    cycle_filter = selectors.get("researchr_cycle")
+    track_slug = selectors.get("researchr_track")
+    if track_slug:
+        if year:
+            track_slug = track_slug.replace("{YYYY}", str(year))
+        result = _extract_deadlines_researchr(track_slug, html, cycle_filter)
+        if result:
+            return result
+    else:
+        result = _autodiscover_researchr(html, cycle_filter, conf_prefix=conf_prefix)
+        if result:
+            return result
+
+    deadline_specs = selectors.get("deadlines", [])
+    if deadline_specs and not no_specific:
+        result = _extract_deadlines_specific(deadline_specs, html)
+        if result:
+            return result
+
+    return _extract_deadlines_generic(html, year=year)

@@ -7,9 +7,16 @@
 
 _skip:
   - site opens
+  - site open          # CHI: "Submission site open: July 31" (B5)
   - portal opens
   - system opens
   - opens for submission
+  - there is no        # prose: "there is no registration deadline"
+  - art submission     # ECCV: art track contaminates paper track (B7)
+  - art acceptance     # ECCV: art track notification (B7)
+  - for art            # ECCV: "deadline for art submissions"
+  - tutorial proposal  # ECCV/other: tutorial CFP not paper deadline (B7)
+  - workshop proposal  # ECCV/other: workshop CFP not paper deadline (B7)
   - affiliated event   # IACR Eurocrypt: "Affiliated events submission deadline" is not a paper deadline
   - invite submission  # IJCAI body text: "We invite submissions for..." is not a deadline line
 
@@ -35,6 +42,7 @@ submission:
   - full papers due
   - papers due
   - paper due
+  - paper deadline        # KDD: "Paper Deadline: February 8"
   - submission           # bare label (e.g. researchr "Submission")
 
 early_reject:
@@ -44,6 +52,7 @@ early_reject:
   - desk reject
   - early notification  # pre-rebuttal decision (e.g. SIGCOMM 2026)
   - first round notification  # IACR conferences: pre-rebuttal decision before final notification
+  - first-round decisions  # EC: "First-round decisions sent to authors" (pre-rebuttal)
   - summary reject  # IJCAI: "Summary reject notification"
   - phase 1 rejection  # AAAI: "Phase 1 rejection notification"
 
@@ -69,6 +78,7 @@ rebuttal_end:
   - major revision deadline
 
 notification:
+  - final paper decisions  # EC: "Final paper decisions sent to authors" — must beat camera_ready's "final paper"
   - author notification
   - notification to authors
   - notification of acceptance

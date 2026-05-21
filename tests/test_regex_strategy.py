@@ -1,14 +1,16 @@
 """Tests for regex extraction strategy (T4, T16)."""
 
 import pytest
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 
-from crawler.strategies.regex import (
-    RegexStrategy, _parse_deadline_date,
+from crawler.extractors.regex import (
+    _parse_deadline_date,
     _extract_deadlines_generic, _extract_deadlines_researchr,
-    _autodiscover_researchr, _match_label, _strip_html,
+    _autodiscover_researchr, _strip_html,
     _split_date_range, _is_scaffolding,
 )
+from crawler.labels import _match_label
+from crawler.compat import crawl_conference
 from crawler.models import CrawlResult
 
 
@@ -147,16 +149,13 @@ USENIX_CONF = {
 }
 
 
-def _mock_get(url, **kwargs):
-    resp = MagicMock()
-    resp.text = SAMPLE_MAIN_HTML if "call-for-papers" not in url else SAMPLE_CFP_HTML
-    return resp
+def _mock_fetch(url):
+    return SAMPLE_MAIN_HTML if "call-for-papers" not in url else SAMPLE_CFP_HTML
 
 
-@patch("crawler.strategies.regex.requests.get", side_effect=_mock_get)
-def test_extract_usenix_cycles(mock_get):
-    strategy = RegexStrategy()
-    results = strategy.extract(USENIX_CONF, 2026)
+@patch("crawler.compat._fetch", side_effect=_mock_fetch)
+def test_extract_usenix_cycles(mock_fetch):
+    results = crawl_conference(USENIX_CONF, 2026)
 
     assert len(results) == 2
 
@@ -193,11 +192,10 @@ SIMPLE_CONF = {
 SIMPLE_HTML = '<p>Deadline: <b>March 15, 2026</b></p>'
 
 
-@patch("crawler.strategies.regex._fetch")
+@patch("crawler.compat._fetch")
 def test_extract_no_cycles(mock_fetch):
     mock_fetch.return_value = SIMPLE_HTML
-    strategy = RegexStrategy()
-    results = strategy.extract(SIMPLE_CONF, 2026)
+    results = crawl_conference(SIMPLE_CONF, 2026)
 
     assert len(results) == 1
     assert results[0].cycle is None
@@ -205,13 +203,12 @@ def test_extract_no_cycles(mock_fetch):
 
 
 def test_extract_no_url():
-    strategy = RegexStrategy()
     conf = {"name": "Bad", "url": None, "strategy": "regex", "tags": ["SEC"]}
     with pytest.raises(ValueError, match="no URL"):
-        strategy.extract(conf, 2026)
+        crawl_conference(conf, 2026)
 
 
-@patch("crawler.strategies.regex._fetch")
+@patch("crawler.compat._fetch")
 def test_extract_no_matches(mock_fetch):
     # Page has enough content to pass scaffolding check but no extractable deadlines.
     mock_fetch.return_value = (
@@ -224,7 +221,6 @@ def test_extract_no_matches(mock_fetch):
         "receive at least three independent reviews from qualified experts in the field.</p>"
         "</body></html>"
     )
-    strategy = RegexStrategy()
     conf = {
         "name": "Empty",
         "url": "https://example.com",
@@ -232,7 +228,7 @@ def test_extract_no_matches(mock_fetch):
         "tags": ["SEC"],
         "selectors": {"deadlines": [{"label": "submission", "pattern": r"will not match (.*)"}]},
     }
-    results = strategy.extract(conf, 2026)
+    results = crawl_conference(conf, 2026)
     assert len(results) == 1
     assert results[0].deadlines == []
 
@@ -291,11 +287,10 @@ SP_CONF = {
 }
 
 
-@patch("crawler.strategies.regex.requests.get")
-def test_extract_sp_cycles_with_section(mock_get):
-    mock_get.return_value = MagicMock(text=SP_HTML)
-    strategy = RegexStrategy()
-    results = strategy.extract(SP_CONF, 2026)
+@patch("crawler.compat._fetch")
+def test_extract_sp_cycles_with_section(mock_fetch):
+    mock_fetch.return_value = SP_HTML
+    results = crawl_conference(SP_CONF, 2026)
 
     assert len(results) == 2
     c1, c2 = results
@@ -368,11 +363,10 @@ CCS_CONF = {
 }
 
 
-@patch("crawler.strategies.regex.requests.get")
-def test_extract_ccs_cycles_with_section(mock_get):
-    mock_get.return_value = MagicMock(text=CCS_HTML)
-    strategy = RegexStrategy()
-    results = strategy.extract(CCS_CONF, 2026)
+@patch("crawler.compat._fetch")
+def test_extract_ccs_cycles_with_section(mock_fetch):
+    mock_fetch.return_value = CCS_HTML
+    results = crawl_conference(CCS_CONF, 2026)
 
     assert len(results) == 2
     ca, cb = results
@@ -440,11 +434,10 @@ NDSS_CONF = {
 }
 
 
-@patch("crawler.strategies.regex.requests.get")
-def test_extract_ndss_cycles_with_section(mock_get):
-    mock_get.return_value = MagicMock(text=NDSS_HTML)
-    strategy = RegexStrategy()
-    results = strategy.extract(NDSS_CONF, 2026)
+@patch("crawler.compat._fetch")
+def test_extract_ndss_cycles_with_section(mock_fetch):
+    mock_fetch.return_value = NDSS_HTML
+    results = crawl_conference(NDSS_CONF, 2026)
 
     assert len(results) == 2
     summer, fall = results
@@ -649,11 +642,10 @@ def test_fallback_chain_specific_first():
         },
     }
 
-    @patch("crawler.strategies.regex._fetch")
+    @patch("crawler.compat._fetch")
     def run(mock_fetch):
         mock_fetch.return_value = html
-        strategy = RegexStrategy()
-        results = strategy.extract(conf, 2025)
+        results = crawl_conference(conf, 2025)
         assert len(results) == 1
         assert results[0].deadlines == [{"label": "submission", "date": "2025-06-05 23:59"}]
 
@@ -682,11 +674,10 @@ def test_fallback_chain_generic_when_specific_empty():
         },
     }
 
-    @patch("crawler.strategies.regex._fetch")
+    @patch("crawler.compat._fetch")
     def run(mock_fetch):
         mock_fetch.return_value = html
-        strategy = RegexStrategy()
-        results = strategy.extract(conf, 2025)
+        results = crawl_conference(conf, 2025)
         assert len(results) == 1
         labels = {d["label"] for d in results[0].deadlines}
         assert "submission" in labels
@@ -715,11 +706,10 @@ def test_fallback_chain_generic_when_no_patterns():
         },
     }
 
-    @patch("crawler.strategies.regex._fetch")
+    @patch("crawler.compat._fetch")
     def run(mock_fetch):
         mock_fetch.return_value = html
-        strategy = RegexStrategy()
-        results = strategy.extract(conf, 2026)
+        results = crawl_conference(conf, 2026)
         assert len(results) == 1
         labels = {d["label"] for d in results[0].deadlines}
         assert "abstract" in labels
@@ -821,7 +811,7 @@ def test_is_scaffolding_real_cfp():
     assert _is_scaffolding(html) is False
 
 
-@patch("crawler.strategies.regex._fetch")
+@patch("crawler.compat._fetch")
 def test_is_scaffolding_raises_in_extract(mock_fetch):
     """RegexStrategy.extract raises ValueError on scaffolding page."""
     conf = {
@@ -832,4 +822,4 @@ def test_is_scaffolding_raises_in_extract(mock_fetch):
     }
     mock_fetch.return_value = "<html><body><p>Coming soon</p></body></html>"
     with pytest.raises(ValueError, match="scaffolding"):
-        RegexStrategy().extract(conf, 2026)
+        crawl_conference(conf, 2026)

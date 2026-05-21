@@ -100,7 +100,7 @@ def _validate_entry(entry: dict) -> list[str]:
         errors.append("tags need ≥2 elements (area + core rank)")
     else:
         if not tags[0]:
-            errors.append(f"bad area code: {tags[0]}")
+            errors.append("empty area code")
         if tags[1] not in {"A*", "A", "B", "C"}:
             errors.append(f"bad core rank: {tags[1]}")
 

@@ -38,23 +38,31 @@ Use `uv` for all Python operations (never pip).
 ## Architecture
 
 **CLI** (`main.py`): argparse with 4 subcommands — `crawl`, `validate`, `show`, `fetch`.
-- `crawl` flags: `--conf`, `--year` (comma-separated), `--format`, `--output`, `--workers` (default 8), `--fixtures [DIR]`, `--no-specific` (skip site-specific patterns, use generic only), `--strict` (V14 violations → errors)
+- `crawl` uses Scrapy's `CrawlerProcess` under the hood. Flags: `--conf`, `--year` (comma-separated), `--format`, `--output`, `--workers` (default 8), `--fixtures [DIR]`, `--no-specific` (skip site-specific patterns, use generic only), `--strict` (V14 violations → errors)
 - `fetch`: downloads live CFP HTML to `tests/fixtures/` as `{slug}_{year}.html` for offline use
 - `validate`/`crawl` share `--strict`: promotes date-order warnings (V14) to errors
 
-**Strategy pattern** (`crawler/strategy.py`): `BaseStrategy` ABC with `extract(conf, year) → list[CrawlResult]`. Subclasses auto-register via `__init_subclass__` with a `name` class attribute. Dispatch via `get_strategy(name)`. `regex` and `css` are implemented; `llm`, `static` are stubs.
+**Scrapy project** (`deadline_crawler/`): Idiomatic Scrapy project with `scrapy.cfg` at root.
+- `deadline_crawler/spiders/conferences.py`: Single `ConferencesSpider` reads `conferences.yaml`, generates requests per conference×year, dispatches to extractors. Two-callback chain: `parse_cfp()` → optional `parse_with_main()` for `url_main`. Uses `async def start()` (Scrapy 2.13+ API).
+- `deadline_crawler/items.py`: `ConferenceItem` — name, year, link, deadlines, cycle, date, place, description, tags, timezone, comment.
+- `deadline_crawler/pipelines.py`: `ValidationPipeline` (reuses `generate.py` validators, drops invalid items) + `OutputPipeline` (collects items, writes JSON/YAML on spider close).
+- `deadline_crawler/middlewares.py`: `FixtureDownloaderMiddleware` — serves local HTML fixtures when `FIXTURES_DIR` setting is set; raises `IgnoreRequest` for URLs without fixtures.
+- `deadline_crawler/settings.py`: Scrapy settings — concurrency, retry, user agent, custom settings (`CONFERENCE_CONFIG`, `OUTPUT_FORMAT`, `STRICT_MODE`, `FIXTURES_DIR`).
 
-**RegexStrategy** (`crawler/strategies/regex.py`): Extraction chain (in order):
-1. **Researchr explicit** — if `selectors.researchr_track` set, parse researchr.org `<tr href>` rows filtered by track slug (supports `{YYYY}` template + optional `researchr_cycle`)
-2. **Researchr auto-discover** — on any page with `<tr href>` rows, `_autodiscover_researchr` scores all unique slugs by canonical label count (tiebreak: "research" in slug), picks best; fires automatically with no config
-3. **Generic A+C extractor** — Phase A: structure-preserving HTML→text (tables → ` | `, `<dl>` merged, `<li>` flattened); Phase C: two-pass proximity search (find dates, match ±2 lines for label via `LABEL_MAP`)
-4. **Site-specific patterns** (last resort) — per-conference `selectors.deadlines[]` in config, only if generic fails; requires inline comment explaining why
+**Extractors** (`crawler/extractors/`): Pure functions (HTML in → data out), no classes or network I/O.
+- `crawler/extractors/regex.py`: Extraction chain (in order):
+  1. **Researchr explicit** — if `selectors.researchr_track` set, parse researchr.org `<tr href>` rows filtered by track slug (supports `{YYYY}` template + optional `researchr_cycle`)
+  2. **Researchr auto-discover** — on any page with `<tr href>` rows, `_autodiscover_researchr` scores all unique slugs by canonical label count (tiebreak: "research" in slug), picks best; fires automatically with no config
+  3. **Generic A+C extractor** — Phase A: structure-preserving HTML→text (tables → ` | `, `<dl>` merged, `<li>` flattened); Phase C: two-pass proximity search (find dates, match ±2 lines for label via `LABEL_MAP`)
+  4. **Site-specific patterns** (last resort) — per-conference `selectors.deadlines[]` in config, only if generic fails; requires inline comment explaining why
+- `crawler/extractors/css.py`: CSS selector-based extraction. Config shape: `section_css` (narrow DOM), `items` (per-item selector), `label`/`date` sub-selectors. Falls back to `LABEL_MAP` + `_GENERIC_DATE_RE` from regex module when sub-selectors omitted.
+- `crawler/extractors/xpath.py`: XPath expression-based extraction via `lxml.html`. Config shape: `section_xpath`, `items`, `label`/`date` sub-expressions.
 
-Scaffolding check (`_is_scaffolding`) fires before extraction — raises `ValueError` for placeholder/404 pages.
+Scaffolding check (`_is_scaffolding`) fires in spider `parse_cfp()` before extraction — logs warning and skips scaffolding/404 pages.
 
-Multi-cycle support: conferences with `cycles[]` produce one `CrawlResult` per cycle.
+Multi-cycle support: conferences with `cycles[]` produce one `ConferenceItem` per cycle.
 
-**CSSStrategy** (`crawler/strategies/css.py`): CSS selector-based extraction. Config shape: `section_css` (narrow DOM), `items` (per-item selector), `label`/`date` sub-selectors. Falls back to `LABEL_MAP` + `_GENERIC_DATE_RE` from regex module when sub-selectors omitted. Shares scaffolding check.
+**Compat layer** (`crawler/compat.py`): `crawl_conference(conf, year)` — lightweight non-Scrapy entry point used by unit tests. Fetches HTML via `_fetch()` (patchable in tests), dispatches to extractors, returns `list[CrawlResult]`.
 
 **Config** (`crawler/config.py`): Loads `conferences.yaml`, validates V7/V8 invariants. URL templates use `{YYYY}`/`{YY}` placeholders resolved at crawl time. `by_year` support: per-year config merges over top-level defaults; year-specific fields take precedence. After loading, injects CORE rank into `tags[1]` from `data/core2026.csv` via `crawler/ranks.py`; uses `core_acronym` field when conference name differs from CORE portal acronym; falls back to `core_rank` field when CSV rank is absent or non-standard.
 
@@ -66,9 +74,9 @@ Multi-cycle support: conferences with `cycles[]` produce one `CrawlResult` per c
 
 - **V1**: Every entry needs: name, year, link, ≥1 deadline, tags (area + tier)
 - **V2**: Deadline format: `{label: str, date: "YYYY-MM-DD HH:MM"}`
-- **V3**: tags = `[area_code, core_rank]` where area ∈ {SEC,SYS,HW,SE,PL,GEN,ML}, core_rank ∈ {A*,A,B,C}
+- **V3**: tags = `[area_code, core_rank]` where area is any non-empty string, core_rank ∈ {A*,A,B,C}
 - **V7**: conferences.yaml entries require: name, strategy, tags. `url` required unless `by_year` covers all target years
-- **V8**: strategy ∈ {regex, css} (llm, static deferred)
+- **V8**: strategy ∈ {regex, css, xpath} (llm, static deferred)
 - **V10**: Canonical deadline labels: abstract, submission, early_reject, rebuttal_start, rebuttal_end, notification, shepherd, camera_ready
 - **V14**: Deadline dates should follow canonical order; violation → warning (error with `--strict`). Known false positive: POPL shepherd < notification (correct data)
 - **V15**: Generic A+C extractor is primary. Site-specific `deadlines:` blocks require inline comment and must be removed when generic achieves correct extraction

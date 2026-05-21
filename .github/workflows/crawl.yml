@@ -13,6 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
 
       - name: Install uv
         uses: astral-sh/setup-uv@v4
@@ -20,8 +22,19 @@ jobs:
       - name: Install dependencies
         run: uv sync
 
-      - name: Crawl (JSON)
-        run: uv run python main.py crawl --format json --output output/deadlines.json
+      - name: Fetch previous output as diff baseline
+        run: |
+          if git fetch origin output 2>/dev/null; then
+            git show origin/output:deadlines.json > /tmp/baseline.json 2>/dev/null || true
+          fi
+
+      - name: Crawl (JSON) with diff
+        run: |
+          if [ -f /tmp/baseline.json ]; then
+            uv run python main.py crawl --format json --output output/deadlines.json --diff /tmp/baseline.json --change-log output/changes.jsonl
+          else
+            uv run python main.py crawl --format json --output output/deadlines.json
+          fi
 
       - name: Crawl (YAML)
         run: uv run python main.py crawl --format yaml --output output/deadlines.yaml
@@ -33,13 +46,16 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          if git fetch origin output:refs/heads/output 2>/dev/null; then
-            git worktree add /tmp/out output
-          else
-            git worktree add --orphan /tmp/out output
-            git -C /tmp/out rm -rf . 2>/dev/null || true
-          fi
+          mkdir -p /tmp/out
           cp output/deadlines.json output/deadlines.yaml /tmp/out/
-          git -C /tmp/out add deadlines.json deadlines.yaml
-          git -C /tmp/out diff --cached --quiet || git -C /tmp/out commit -m "update crawled deadlines [skip ci]"
-          git -C /tmp/out push origin output
+          if [ -f output/changes.jsonl ]; then cp output/changes.jsonl /tmp/out/; fi
+          if git fetch origin output 2>/dev/null; then
+            git checkout output
+          else
+            git checkout --orphan output
+            git rm -rf . 2>/dev/null || true
+          fi
+          cp /tmp/out/* .
+          git add deadlines.json deadlines.yaml changes.jsonl 2>/dev/null || git add deadlines.json deadlines.yaml
+          git diff --cached --quiet || git commit -m "update crawled deadlines [skip ci]"
+          git push origin output

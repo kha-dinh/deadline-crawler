@@ -1,7 +1,7 @@
 """Integration tests using saved HTML fixtures instead of live HTTP.
 
-Patches crawler.strategies.regex._fetch and crawler.strategies.css._fetch
-to load from tests/fixtures/{slug}_{year}.html (and _main.html).
+Patches crawler.compat._fetch to load from tests/fixtures/{slug}_{year}.html
+(and _main.html).
 """
 
 from __future__ import annotations
@@ -12,7 +12,7 @@ from pathlib import Path
 import pytest
 
 from crawler.config import load_conferences, resolve_conf_for_year, resolve_url
-from crawler.strategy import crawl_conference
+from crawler.compat import crawl_conference
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -85,12 +85,11 @@ def _make_fetch(url_map: dict[str, Path]):
 
 
 def _install_fixture_fetch(monkeypatch, conf_name: str, year: int) -> None:
-    """Install fixture-backed _fetch into both strategy modules."""
+    """Install fixture-backed _fetch into compat module."""
     conf = _CONFS[conf_name]
     url_map = _build_url_map(conf, year)
     fn = _make_fetch(url_map)
-    monkeypatch.setattr("crawler.strategies.regex._fetch", fn)
-    monkeypatch.setattr("crawler.strategies.css._fetch", fn)
+    monkeypatch.setattr("crawler.compat._fetch", fn)
 
 
 def _get_all_deadlines(conf_name: str, year: int) -> list[dict]:
