@@ -73,6 +73,7 @@ def _build_cycle_selectors(conf: dict, cycle: dict) -> dict:
 _GENERIC_DATE_RE = re.compile(
     r"([A-Z][a-z]+\.?\s+\d+\w*,?\s+\d{4})"
     r"|(\d+\w*\s+[A-Z][a-z]+\.?,?\s+\d{4})"
+    r"|(\d{1,2}-[A-Z][a-z]+-\d{2})"
 )
 
 _HEADERS = {
@@ -157,6 +158,7 @@ def _parse_deadline_date(text: str) -> str | None:
         "%d %b %Y",      # 23 Apr 2025
         "%d %B, %Y",     # 6 May, 2026 (comma after month)
         "%d %b, %Y",     # 6 May, 2026 abbreviated (comma after month)
+        "%d-%b-%y",      # 29-May-26 (DD-Mon-YY)
     ):
         try:
             dt = datetime.strptime(cleaned.strip(), fmt)
@@ -602,7 +604,8 @@ class RegexStrategy(BaseStrategy):
                     date=date,
                     place=place,
                     description=conf.get("description"),
-                    tags=list(conf.get("tags", [])),
+                    area=conf.get("area", ""),
+                    rank=conf.get("rank", "unknown"),
                 ))
             return results
         else:
@@ -617,7 +620,8 @@ class RegexStrategy(BaseStrategy):
                 date=date,
                 place=place,
                 description=conf.get("description"),
-                tags=list(conf.get("tags", [])),
+                area=conf.get("area", ""),
+                rank=conf.get("rank", "unknown"),
             )]
 
     def _extract_main_fields(

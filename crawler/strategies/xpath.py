@@ -1,12 +1,12 @@
-"""CSS selector-based extraction strategy (T3).
+"""XPath expression-based extraction strategy (T28).
 
 Config shape (selectors block):
-  section_css: "div.important-dates"  # CSS selector to narrow DOM (optional)
-  items: "tr"                          # CSS selector for each deadline item
-  label: "td:first-child"             # CSS sub-selector for label within item (optional)
-  date: "td:last-child"               # CSS sub-selector for date within item (optional)
+  section_xpath: "//div[@class='important-dates']"  # XPath to narrow DOM (optional)
+  items: "//tr"                                      # XPath for each deadline item
+  label: "td[1]"                                     # XPath sub-expression for label within item (optional)
+  date: "td[last()]"                                 # XPath sub-expression for date within item (optional)
 
-If label/date sub-selectors are omitted, full item text is used:
+If label/date sub-expressions are omitted, full item text is used:
   label — matched via LABEL_MAP (_match_label)
   date  — extracted via _GENERIC_DATE_RE + _parse_deadline_date
 """
@@ -16,10 +16,7 @@ from __future__ import annotations
 import warnings
 from datetime import datetime
 
-import requests
-from bs4 import BeautifulSoup, XMLParsedAsHTMLWarning
-
-warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
+import lxml.html
 
 from crawler.config import resolve_url
 from crawler.labels import _match_label
@@ -40,54 +37,59 @@ from crawler.strategies.regex import (
 )
 
 
-def _extract_deadlines_css(selectors: dict, html: str, year: int | None = None) -> list[dict]:
-    """Extract deadlines using CSS selectors.
+def _element_text(el) -> str:
+    """Get all text content of an lxml element, stripped."""
+    return (el.text_content() or "").strip()
+
+
+def _extract_deadlines_xpath(selectors: dict, html: str, year: int | None = None) -> list[dict]:
+    """Extract deadlines using XPath expressions.
 
     selectors keys:
-      section_css — narrow DOM to this element before searching
-      items       — selector for each deadline item (required)
-      label       — sub-selector for label text within item (optional)
-      date        — sub-selector for date text within item (optional)
+      section_xpath — narrow DOM to this element before searching
+      items         — XPath for each deadline item (required)
+      label         — sub-expression for label text within item (optional, relative XPath)
+      date          — sub-expression for date text within item (optional, relative XPath)
     """
-    soup = BeautifulSoup(html, "lxml")
+    doc = lxml.html.fromstring(html)
 
-    # Narrow to section if section_css provided
-    section_sel = selectors.get("section_css")
-    if section_sel:
-        container = soup.select_one(section_sel)
-        if container is None:
+    # Narrow to section if section_xpath provided
+    section_xpath = selectors.get("section_xpath")
+    if section_xpath:
+        containers = doc.xpath(section_xpath)
+        if not containers:
             return []
-        soup = container  # type: ignore[assignment]
+        doc = containers[0]
 
-    items_sel = selectors.get("items")
-    if not items_sel:
+    items_xpath = selectors.get("items")
+    if not items_xpath:
         return []
 
-    items = soup.select(items_sel)
-    label_sel = selectors.get("label")
-    date_sel = selectors.get("date")
+    items = doc.xpath(items_xpath)
+    label_xpath = selectors.get("label")
+    date_xpath = selectors.get("date")
 
     deadlines: list[dict] = []
     seen_labels: set[str] = set()
-    inferred_year_labels: set[str] = set()  # labels whose date year was inferred via _MONTHDAY_RE
+    inferred_year_labels: set[str] = set()
 
     for item in items:
-        item_text = item.get_text(separator=" ", strip=True)
+        item_text = _element_text(item)
 
         # --- label extraction ---
-        if label_sel:
-            label_el = item.select_one(label_sel)
-            label_text = label_el.get_text(strip=True) if label_el else item_text
+        if label_xpath:
+            label_els = item.xpath(label_xpath)
+            label_text = _element_text(label_els[0]) if label_els else item_text
         else:
             label_text = item_text
         label = _match_label(label_text)
 
         # --- date extraction (with range support) ---
         year_inferred = False
-        if date_sel:
-            date_el = item.select_one(date_sel)
-            date_text = date_el.get_text(strip=True) if date_el else ""
-            # Check for date range (compact or expanded format)
+        if date_xpath:
+            date_els = item.xpath(date_xpath)
+            date_text = _element_text(date_els[0]) if date_els else ""
+            # Check for date range
             _rm = _DATE_RANGE_RE.search(date_text) or _DATE_RANGE_EXPANDED_RE.search(date_text)
             range_result = _split_date_range(_rm.group(0)) if _rm else None
             if range_result:
@@ -104,7 +106,7 @@ def _extract_deadlines_css(selectors: dict, html: str, year: int | None = None) 
                 continue
             parsed = _parse_deadline_date(date_text)
         else:
-            # Check for date range in full item text before trying single-date extraction
+            # Check for date range in full item text
             _rm = _DATE_RANGE_RE.search(item_text) or _DATE_RANGE_EXPANDED_RE.search(item_text)
             range_result = _split_date_range(_rm.group(0)) if _rm else None
             if range_result:
@@ -138,10 +140,7 @@ def _extract_deadlines_css(selectors: dict, html: str, year: int | None = None) 
             if year_inferred:
                 inferred_year_labels.add(label)
 
-    # Post-process: fix year-inference errors for conferences where submission year ≠
-    # conference year (e.g. ICLR — submission Sep Y-1, notification Jan Y). When
-    # _MONTHDAY_RE assigns the conference year to a month-only date, abstract/submission
-    # may land after notification. Only correct dates whose year was inferred (not explicit).
+    # Post-process: fix year-inference errors (same logic as CSS strategy)
     notif = next((d["date"] for d in deadlines if d["label"] == "notification"), None)
     if notif:
         for d in deadlines:
@@ -157,8 +156,8 @@ def _extract_deadlines_css(selectors: dict, html: str, year: int | None = None) 
     return deadlines
 
 
-class CssStrategy(BaseStrategy):
-    name = "css"
+class XpathStrategy(BaseStrategy):
+    name = "xpath"
 
     def extract(self, conf: dict, year: int) -> list[CrawlResult]:
         url = resolve_url(conf, year)
@@ -176,7 +175,7 @@ class CssStrategy(BaseStrategy):
         if cycles:
             results = []
             for cycle in cycles:
-                deadlines = _extract_deadlines_css(
+                deadlines = _extract_deadlines_xpath(
                     _build_cycle_selectors(conf, cycle), html, year
                 )
                 _check_date_year_sanity(deadlines, year, conf["name"], url)
@@ -196,7 +195,7 @@ class CssStrategy(BaseStrategy):
                 )
             return results
         else:
-            deadlines = _extract_deadlines_css(
+            deadlines = _extract_deadlines_xpath(
                 conf.get("selectors", {}), html, year
             )
             _check_date_year_sanity(deadlines, year, conf["name"], url)
@@ -232,16 +231,30 @@ class CssStrategy(BaseStrategy):
         else:
             main_html = cfp_html
 
-        soup = BeautifulSoup(main_html, "lxml")
-        date = self._css_text(soup, event_selectors.get("date")) or static_date
-        place = self._css_text(soup, event_selectors.get("place")) or static_place
+        # Use lxml for XPath-based event field extraction if xpath selectors provided;
+        # fall back to CSS via BeautifulSoup for CSS-style event_selectors
+        doc = lxml.html.fromstring(main_html)
+        date = self._xpath_text(doc, event_selectors.get("date")) or static_date
+        place = self._xpath_text(doc, event_selectors.get("place")) or static_place
         if date and place and date.endswith(place):
             date = date[: -len(place)].strip()
         return date, place
 
     @staticmethod
-    def _css_text(soup: BeautifulSoup, selector: str | None) -> str | None:
-        if not selector:
+    def _xpath_text(doc, expr: str | None) -> str | None:
+        """Extract text from first XPath match. Also supports CSS selectors for compat."""
+        if not expr:
             return None
-        el = soup.select_one(selector)
-        return el.get_text(strip=True) if el else None
+        # If it looks like a CSS selector (starts with . or #, or has no /),
+        # use cssselect for compatibility with event_selectors defaults
+        if not expr.startswith("/") and not expr.startswith("("):
+            from lxml.cssselect import CSSSelector
+            sel = CSSSelector(expr)
+            els = sel(doc)
+            return _element_text(els[0]) if els else None
+        els = doc.xpath(expr)
+        if not els:
+            return None
+        if isinstance(els[0], str):
+            return els[0].strip() or None
+        return _element_text(els[0]) or None

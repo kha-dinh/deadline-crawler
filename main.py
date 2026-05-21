@@ -25,6 +25,7 @@ def _patch_fetch_with_fixtures(fixtures_dir: Path, config: str, name_filter: str
     """Monkey-patch _fetch in both strategy modules to load from local fixture files."""
     import crawler.strategies.regex as _regex_mod
     import crawler.strategies.css as _css_mod
+    import crawler.strategies.xpath as _xpath_mod
     from crawler.config import load_conferences, resolve_conf_for_year, resolve_url as _resolve_url
 
     url_map: dict[str, Path] = {}
@@ -59,6 +60,7 @@ def _patch_fetch_with_fixtures(fixtures_dir: Path, config: str, name_filter: str
 
     _regex_mod._fetch = _fixture_fetch
     _css_mod._fetch = _fixture_fetch
+    _xpath_mod._fetch = _fixture_fetch
     return url_map, missing
 
 
@@ -136,7 +138,8 @@ def _output_to_entry(conf: dict) -> dict:
             {"label": d["label"], "date": d["date"]}
             for d in conf.get("deadlines", [])
         ],
-        "tags": [v for v in [conf.get("area", ""), conf.get("tier", "")] if v],
+        "area": conf.get("area", ""),
+        "rank": conf.get("rank", "unknown"),
     }
 
 

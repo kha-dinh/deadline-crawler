@@ -122,7 +122,7 @@ USENIX_CONF = {
     "url": "https://www.usenix.org/conference/usenixsecurity{YY}/call-for-papers",
     "url_main": "https://www.usenix.org/conference/usenixsecurity{YY}",
     "strategy": "regex",
-    "tags": ["SEC", "A*"],
+    "area": "SEC", "rank": "A*",
     "cycles": [
         {
             "name": "Cycle 1",
@@ -173,7 +173,8 @@ def test_extract_usenix_cycles(mock_get):
         assert r.date == "August 12\u201314, 2026"
         assert r.place == "Baltimore, MD, USA"
         assert r.description == "USENIX Security Symposium"
-        assert r.tags == ["SEC", "A*"]
+        assert r.area == "SEC"
+        assert r.rank == "A*"
 
 
 # --- No cycles (single-selector fallback) ---
@@ -182,7 +183,7 @@ SIMPLE_CONF = {
     "name": "SimpleConf",
     "url": "https://example.com/cfp",
     "strategy": "regex",
-    "tags": ["GEN", "A"],
+    "area": "GEN", "rank": "A",
     "selectors": {
         "deadlines": [
             {"label": "submission", "pattern": r"Deadline:\s*<b>(.*?)</b>"},
@@ -206,7 +207,7 @@ def test_extract_no_cycles(mock_fetch):
 
 def test_extract_no_url():
     strategy = RegexStrategy()
-    conf = {"name": "Bad", "url": None, "strategy": "regex", "tags": ["SEC"]}
+    conf = {"name": "Bad", "url": None, "strategy": "regex", "area": "SEC"}
     with pytest.raises(ValueError, match="no URL"):
         strategy.extract(conf, 2026)
 
@@ -229,7 +230,7 @@ def test_extract_no_matches(mock_fetch):
         "name": "Empty",
         "url": "https://example.com",
         "strategy": "regex",
-        "tags": ["SEC"],
+        "area": "SEC",
         "selectors": {"deadlines": [{"label": "submission", "pattern": r"will not match (.*)"}]},
     }
     results = strategy.extract(conf, 2026)
@@ -264,7 +265,7 @@ SP_CONF = {
     "name": "S&P",
     "url": "https://sp{YYYY}.ieee-security.org/cfpapers.html",
     "strategy": "regex",
-    "tags": ["SEC", "A*"],
+    "area": "SEC", "rank": "A*",
     "cycles": [
         {
             "name": "Cycle 1",
@@ -341,7 +342,7 @@ CCS_CONF = {
     "name": "CCS",
     "url": "https://www.sigsac.org/ccs/CCS{YYYY}/call-for/call-for-papers.html",
     "strategy": "regex",
-    "tags": ["SEC", "A*"],
+    "area": "SEC", "rank": "A*",
     "cycles": [
         {
             "name": "Cycle A",
@@ -409,7 +410,7 @@ NDSS_CONF = {
     "name": "NDSS",
     "url": "https://www.ndss-symposium.org/ndss{YYYY}/submissions/call-for-papers/",
     "strategy": "regex",
-    "tags": ["SEC", "A*"],
+    "area": "SEC", "rank": "A*",
     "cycles": [
         {
             "name": "Summer",
@@ -641,7 +642,7 @@ def test_fallback_chain_specific_first():
         "name": "Test",
         "url": "https://example.com",
         "strategy": "regex",
-        "tags": ["GEN"],
+        "area": "GEN",
         "selectors": {
             "deadlines": [
                 {"label": "submission", "pattern": r"Paper submission deadline:\s*(.*?)</li>"},
@@ -673,7 +674,7 @@ def test_fallback_chain_generic_when_specific_empty():
         "name": "Test",
         "url": "https://example.com",
         "strategy": "regex",
-        "tags": ["GEN"],
+        "area": "GEN",
         "selectors": {
             # Patterns that won't match this HTML
             "deadlines": [
@@ -708,7 +709,7 @@ def test_fallback_chain_generic_when_no_patterns():
         "name": "Test",
         "url": "https://example.com",
         "strategy": "regex",
-        "tags": ["GEN"],
+        "area": "GEN",
         "selectors": {
             "section": "Important Dates</h2>.*?</ul>",
             # No "deadlines" key — should fall through to generic
@@ -828,7 +829,7 @@ def test_is_scaffolding_raises_in_extract(mock_fetch):
         "name": "TestConf",
         "url": "https://example.com/{YYYY}",
         "strategy": "regex",
-        "tags": ["SEC", "A*"],
+        "area": "SEC", "rank": "A*",
     }
     mock_fetch.return_value = "<html><body><p>Coming soon</p></body></html>"
     with pytest.raises(ValueError, match="scaffolding"):

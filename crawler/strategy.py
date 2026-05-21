@@ -48,6 +48,7 @@ def _ensure_strategies_loaded():
     """Import strategy modules to trigger registration."""
     import crawler.strategies.css
     import crawler.strategies.regex
+    import crawler.strategies.xpath
     import crawler.strategies.llm
     import crawler.strategies.static
 

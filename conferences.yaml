@@ -1,6 +1,6 @@
 # conferences.yaml — crawl config per conference
 # Each entry defines how to crawl a conference's CFP page for deadline info.
-# Required fields (V7): name, strategy, tags. url required unless by_year present.
+# Required fields (V7): name, strategy, area. url required unless by_year present.
 # Strategy must be one of: css, regex, llm, static (V8)
 #
 # Year-agnostic URL templates:
@@ -34,7 +34,7 @@
   # Pattern: crypto.iacr.org/{YYYY}/ — consistent IACR template
   url: https://crypto.iacr.org/{YYYY}/
   strategy: css
-  tags: [CRYPTO]
+  area: CRYPTO
   description: "IACR Annual International Cryptology Conference"
   selectors:
     section_css: "article.customCard:first-of-type"
@@ -46,7 +46,7 @@
   # Pattern: eurocrypt.iacr.org/{YYYY}/ — consistent IACR template
   url: https://eurocrypt.iacr.org/{YYYY}/
   strategy: css
-  tags: [CRYPTO]
+  area: CRYPTO
   description: "Annual International Conference on the Theory and Applications of Cryptographic Techniques"
   selectors:
     section_css: "article.customCard:first-of-type"
@@ -58,7 +58,7 @@
   # Pattern: asiacrypt.iacr.org/{YYYY}/ — consistent IACR template
   url: https://asiacrypt.iacr.org/{YYYY}/
   strategy: css
-  tags: [CRYPTO]
+  area: CRYPTO
   description: "Annual International Conference on the Theory and Application of Cryptology and Information Security"
   selectors:
     section_css: "article.customCard:first-of-type"
@@ -70,7 +70,7 @@
   # Pattern: tcc.iacr.org/{YYYY}/ — consistent IACR template
   url: https://tcc.iacr.org/{YYYY}/
   strategy: css
-  tags: [CRYPTO]
+  area: CRYPTO
   description: "Theory of Cryptography Conference"
   selectors:
     section_css: "article.customCard:first-of-type"
@@ -82,7 +82,7 @@
   # Pattern: pkc.iacr.org/{YYYY}/ — consistent IACR template
   url: https://pkc.iacr.org/{YYYY}/
   strategy: css
-  tags: [CRYPTO]
+  area: CRYPTO
   description: "IACR International Conference on Practice and Theory in Public-Key Cryptography"
   # IACR header: .headerInfoTop=date, .headerInfoBottom=place (same page as CFP)
   event_selectors:
@@ -99,7 +99,7 @@
   # CHES/TCHES has 4 submission cycles per year (h5 separators); CSS extracts cycle 1 only.
   url: https://ches.iacr.org/{YYYY}/
   strategy: css
-  tags: [CRYPTO]
+  area: CRYPTO
   description: "Workshop on Cryptographic Hardware and Embedded Systems"
   # IACR header: .headerInfoTop=date, .headerInfoBottom=place (same page as CFP)
   event_selectors:
@@ -119,7 +119,7 @@
   url: https://www.usenix.org/conference/usenixsecurity{YY}/call-for-papers
   url_main: https://www.usenix.org/conference/usenixsecurity{YY}
   strategy: css
-  tags: [SEC]
+  area: SEC
   description: "USENIX Security Symposium"
   # event_selectors: implicit from usenix.org url_main
   selectors:
@@ -147,7 +147,7 @@
   url: https://sp{YYYY}.ieee-security.org/cfpapers.html
   url_main: https://sp{YYYY}.ieee-security.org/
   strategy: css
-  tags: [SEC]
+  area: SEC
   description: "IEEE Symposium on Security and Privacy"
   event_selectors:
     date: "p.location"
@@ -165,7 +165,7 @@
   url: https://www.sigsac.org/ccs/CCS{YYYY}/call-for/call-for-papers.html
   url_main: https://www.sigsac.org/ccs/CCS{YYYY}/
   strategy: css
-  tags: [SEC]
+  area: SEC
   description: "ACM Conference on Computer and Communications Security"
   event_selectors:
     date: "header.masthead .page-heading span.subheading:nth-of-type(1)"
@@ -186,7 +186,7 @@
   url: https://www.ndss-symposium.org/ndss{YYYY}/submissions/call-for-papers/
   url_main: https://www.ndss-symposium.org/ndss{YYYY}/
   strategy: css
-  tags: [SEC]
+  area: SEC
   description: "ISOC Network and Distributed System Security Symposium"
   event_selectors:
     date: ".page-heading.green-heading .wp-block-column p"
@@ -211,7 +211,7 @@
   core_acronym: AsiaCCS
   # Host changes per year — use by_year for URL + selectors
   strategy: regex
-  tags: [SEC]
+  area: SEC
   description: "ACM Asia Conference on Computer and Communications Security"
   event_selectors:
     date: ".header-bottom p"
@@ -239,7 +239,7 @@
   url: https://raid{YYYY}.github.io/call.html
   url_main: https://raid{YYYY}.github.io/
   strategy: css
-  tags: [SEC]
+  area: SEC
   description: "International Symposium on Research in Attacks, Intrusions and Defenses"
   event_selectors:
     date: "span.pill"
@@ -259,7 +259,7 @@
   url: https://www.acsac.org/{YYYY}/submissions/papers/
   url_main: https://www.acsac.org/{YYYY}/
   strategy: regex
-  tags: [SEC]
+  area: SEC
   description: "Annual Computer Security Applications Conference"
   event_selectors:
     date: "#extended-logo .font-heading-3xs"
@@ -274,7 +274,7 @@
   url: https://eurosp{YYYY}.ieee-security.org/cfp.html
   url_main: https://eurosp{YYYY}.ieee-security.org/
   strategy: css
-  tags: [SEC]
+  area: SEC
   description: "IEEE European Symposium on Security and Privacy"
   event_selectors:
     date: "p.location"
@@ -289,7 +289,7 @@
   url: https://petsymposium.org/cfp{YY}.php
   url_main: https://petsymposium.org/
   strategy: regex
-  tags: [SEC]
+  area: SEC
   description: "Privacy Enhancing Technologies Symposium"
   event_selectors:
     date: "div.pets-home > h3"
@@ -309,7 +309,7 @@
   # Top-level section scopes to CFP block only (separate "Call for Posters" Important Dates further down)
   url: https://www.dimva.org/dimva{YYYY}/
   strategy: regex
-  tags: [SEC]
+  area: SEC
   description: "International Conference on Detection of Intrusions and Malware & Vulnerability Assessment"
   event_selectors:
     date: "#header h4"
@@ -329,7 +329,7 @@
   url: https://sigops.org/s/conferences/sosp/{YYYY}/cfp.html
   url_main: https://sigops.org/s/conferences/sosp/{YYYY}/
   strategy: css
-  tags: [SYS]
+  area: SYS
   description: "ACM Symposium on Operating Systems Principles"
   event_selectors:
     date: ".hero-container p.mb-4.pb-0"
@@ -345,7 +345,7 @@
   url: https://www.usenix.org/conference/osdi{YY}/call-for-papers
   url_main: https://www.usenix.org/conference/osdi{YY}
   strategy: css
-  tags: [SYS]
+  area: SYS
   description: "USENIX Symposium on Operating Systems Design and Implementation"
   # event_selectors: implicit from usenix.org url_main
   selectors:
@@ -356,20 +356,34 @@
 - name: EuroSys
   # Pattern: {YYYY}.eurosys.org/cfp.html — consistent
   # Main page: 2 .intro-lead-in divs — 1st=place, 2nd=date
+  # 2027+: <h3>Spring/Fall deadline</h3> followed by <ul> — xpath targets ul[1]
+  # 2026: flat <li> siblings of <h3> (no <ul> wrapper) — regex generic A+C handles it
   url: https://{YYYY}.eurosys.org/cfp.html
   url_main: https://{YYYY}.eurosys.org/
-  strategy: regex
-  tags: [SYS]
+  strategy: xpath
+  area: SYS
   description: "European Conference on Computer Systems"
   # nth-last-child: date=2nd-from-last, place=3rd-from-last (before photo-credit div)
   event_selectors:
     date: ".intro-text .intro-lead-in:nth-last-child(2)"
     place: ".intro-text .intro-lead-in:nth-last-child(3)"
+  selectors:
+    items: ".//li"
   cycles:
     - name: "Spring"
-      section: "Spring deadline</h3>.*?(?=Fall deadline</h3>|<h2)"
+      # Case varies: "Spring Deadline" (2027) vs "Spring deadline" (2026) — use translate() for case-insensitive
+      section_xpath: "//h3[contains(translate(text(),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'spring')]/following-sibling::ul[1]"
     - name: "Fall"
-      section: "Fall deadline</h3>.*?(?=<h2|<h3|$)"
+      section_xpath: "//h3[contains(translate(text(),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'fall')]/following-sibling::ul[1]"
+  by_year:
+    2026:
+      # 2026 uses flat <li> siblings (no <ul> wrapper); fall back to regex generic A+C
+      strategy: regex
+      cycles:
+        - name: "Spring"
+          section: "Spring deadline</h3>.*?(?=Fall deadline</h3>|<h2)"
+        - name: "Fall"
+          section: "Fall deadline</h3>.*?(?=<h2|<h3|$)"
 
 - name: ASPLOS
   # Pattern: asplos-conference.org/asplos{YYYY}/cfp/ — consistent
@@ -379,7 +393,7 @@
   url: https://www.asplos-conference.org/asplos{YYYY}/cfp/
   url_main: https://www.asplos-conference.org/asplos{YYYY}/
   strategy: css
-  tags: [SYS]
+  area: SYS
   description: "International Conference on Architectural Support for Programming Languages and Operating Systems"
   event_selectors:
     date: "p.site-description"
@@ -399,7 +413,7 @@
   url: https://sigops.org/s/conferences/atc/{YYYY}/cfp.html
   url_main: https://www.usenix.org/conference/atc{YY}
   strategy: css
-  tags: [SYS]
+  area: SYS
   description: "ACM SIGOPS Annual Technical Conference"
   # event_selectors: implicit from usenix.org url_main
   selectors:
@@ -420,7 +434,7 @@
   url: https://www.usenix.org/conference/nsdi{YY}/call-for-papers
   url_main: https://www.usenix.org/conference/nsdi{YY}
   strategy: css
-  tags: [SYS]
+  area: SYS
   core_rank: A* # ICORE2026 lists 'National: USA' (not a standard rank); A* reflects actual standing
   description: "USENIX Symposium on Networked Systems Design and Implementation"
   # event_selectors: implicit from usenix.org url_main
@@ -439,7 +453,7 @@
   url: https://conferences.sigcomm.org/sigcomm/{YYYY}/cfp/
   url_main: https://conferences.sigcomm.org/sigcomm/{YYYY}/
   strategy: css
-  tags: [SYS]
+  area: SYS
   description: "ACM SIGCOMM Conference on Data Communication"
   event_selectors:
     date: "span.text-color-secondary:first-of-type"
@@ -459,7 +473,7 @@
   url: https://www.usenix.org/conference/fast{YY}/call-for-papers
   url_main: https://www.usenix.org/conference/fast{YY}
   strategy: css
-  tags: [SYS]
+  area: SYS
   description: "USENIX Conference on File and Storage Technologies"
   # event_selectors: implicit from usenix.org url_main
   selectors:
@@ -486,49 +500,36 @@
 
 - name: IMC
   # Pattern: conferences.sigcomm.org/imc/{YYYY}/cfp/ — consistent; 2 submission cycles
-  # Cycles delimited by <h2>Cycle N Deadline</h2> (no id); rows use <td>
+  # Cycles delimited by <h2 id="cycle-N-...">; each followed by <table> with 2-col <td> rows
   # Main page: .container.hero h2 — 1st=place, 2nd=date
   url: https://conferences.sigcomm.org/imc/{YYYY}/cfp/
   url_main: https://conferences.sigcomm.org/imc/{YYYY}/
-  strategy: regex
-  tags: [SYS]
+  strategy: xpath
+  area: SYS
   description: "ACM Internet Measurement Conference"
   event_selectors:
     date: ".container.hero h2:nth-of-type(2)"
     place: ".container.hero h2:first-of-type"
+  selectors:
+    # Cycle 2 table has extra rows (Replicability Track, Conference, publication date);
+    # xpath filter skips them to prevent "Notification for Replicability" stealing notification label
+    label: "td[1]"
+    date: "td[2]"
   cycles:
     - name: "Cycle 1"
-      section: "Cycle 1 Deadline</h2>.*?(?=<h2)"
-      deadlines:
-        - label: abstract
-          pattern: '<td>Paper registration[^<]*</td>\s*<td>([^<]+)</td>'
-        - label: submission
-          pattern: '<td>Paper submission</td>\s*<td>([^<]+)</td>'
-        - label: early_reject
-          pattern: '<td>Early reject notification</td>\s*<td>([^<]+)</td>'
-        - label: notification
-          pattern: '<td>Notification</td>\s*<td>([^<]+)</td>'
-        - label: camera_ready
-          pattern: '<td>Shepherd approval[^<]*</td>\s*<td>([^<]+)</td>'
+      section_xpath: "//h2[contains(text(),'Cycle 1')]/following-sibling::table[1]"
+      items: ".//tr"
     - name: "Cycle 2"
-      section: "Cycle 2 Deadline</h2>.*?(?=<h2)"
-      deadlines:
-        - label: abstract
-          pattern: '<td>Paper registration[^<]*</td>\s*<td>([^<]+)</td>'
-        - label: submission
-          pattern: '<td>Paper submission \(including[^<]*</td>\s*<td>([^<]+)</td>'
-        - label: early_reject
-          pattern: '<td>Early reject notification</td>\s*<td>([^<]+)</td>'
-        - label: notification
-          pattern: '<td>Notification</td>\s*<td>([^<]+)</td>'
-        - label: camera_ready
-          pattern: '<td>Shepherd approval[^<]*</td>\s*<td>([^<]+)</td>'
+      section_xpath: "//h2[contains(text(),'Cycle 2')]/following-sibling::table[1]"
+      # Skip noise rows: starts-with filters "Expression of Interest" and "Notification for the Replicability"
+      # while keeping "Paper registration (... Replicability Track)" which contains valid deadline data
+      items: ".//tr[not(starts-with(normalize-space(td[1]),'Expression')) and not(starts-with(normalize-space(td[1]),'Notification for')) and not(starts-with(normalize-space(td[1]),'Official')) and not(starts-with(normalize-space(td[1]),'Conference'))]"
 
 - name: HotOS
   # Biennial (odd years: 2025, 2027...) — use by_year; ACM SIGOPS-hosted
   # Dates in <ul> sibling of <div.section-header> inside <div.container>
   strategy: css
-  tags: [SYS]
+  area: SYS
   description: "Workshop on Hot Topics in Operating Systems"
   selectors:
     section_css: "div.container > ul"
@@ -539,6 +540,15 @@
     2027:
       url: https://sigops.org/s/conferences/hotos/2027/cfp.html
 
+- name: PLOS
+  # plos-workshop.org/{YYYY}/ — dates in <ul class="box calendar"> sidebar
+  strategy: regex
+  area: SYS
+  description: "Workshop on Programming Languages and Operating Systems"
+  by_year:
+    2026:
+      url: https://www.plos-workshop.org/2026/
+
 ########################  Software Engineering — TIER1  ########################
 
 - name: ICSE
@@ -547,7 +557,7 @@
   url: https://conf.researchr.org/dates/icse-{YYYY}
   url_main: https://conf.researchr.org/home/icse-{YYYY}
   strategy: regex
-  tags: [SE]
+  area: SE
   description: "International Conference on Software Engineering"
   # event_selectors: implicit from conf.researchr.org url_main
   # researchr.org dates page: each <tr> has href to track, 3 <td>s: date, track name, label
@@ -568,7 +578,7 @@
   url: https://conf.researchr.org/dates/fse-{YYYY}
   url_main: https://conf.researchr.org/home/fse-{YYYY}
   strategy: regex
-  tags: [SE]
+  area: SE
   description: "ACM Joint European Software Engineering Conference and Symposium on the Foundations of Software Engineering"
   # event_selectors: implicit from conf.researchr.org url_main
 
@@ -578,7 +588,7 @@
   url: https://conf.researchr.org/dates/ase-{YYYY}
   url_main: https://conf.researchr.org/home/ase-{YYYY}
   strategy: regex
-  tags: [SE]
+  area: SE
   description: "International Conference on Automated Software Engineering"
   # event_selectors: implicit from conf.researchr.org url_main
 
@@ -588,7 +598,7 @@
   url: https://conf.researchr.org/dates/issta-{YYYY}
   url_main: https://conf.researchr.org/home/issta-{YYYY}
   strategy: regex
-  tags: [SE]
+  area: SE
   description: "International Symposium on Software Testing and Analysis"
   # event_selectors: implicit from conf.researchr.org url_main
 
@@ -598,7 +608,7 @@
   url: https://conf.researchr.org/dates/icst-{YYYY}
   url_main: https://conf.researchr.org/home/icst-{YYYY}
   strategy: regex
-  tags: [SE]
+  area: SE
   description: "IEEE International Conference on Software Testing, Verification and Validation"
   # event_selectors: implicit from conf.researchr.org url_main
 
@@ -607,7 +617,7 @@
   url: https://{YYYY}.msrconf.org/dates
   url_main: https://conf.researchr.org/home/msr-{YYYY}
   strategy: regex
-  tags: [SE]
+  area: SE
   description: "IEEE/ACM International Conference on Mining Software Repositories"
   # event_selectors: implicit from conf.researchr.org url_main
 
@@ -616,7 +626,7 @@
   url: https://conf.researchr.org/dates/icsme-{YYYY}
   url_main: https://conf.researchr.org/home/icsme-{YYYY}
   strategy: regex
-  tags: [SE]
+  area: SE
   description: "IEEE International Conference on Software Maintenance and Evolution"
   # event_selectors: implicit from conf.researchr.org url_main
 
@@ -625,7 +635,7 @@
   url: https://conf.researchr.org/dates/saner-{YYYY}
   url_main: https://conf.researchr.org/home/saner-{YYYY}
   strategy: regex
-  tags: [SE]
+  area: SE
   description: "IEEE International Conference on Software Analysis, Evolution and Reengineering"
   # event_selectors: implicit from conf.researchr.org url_main
   by_year:
@@ -638,7 +648,7 @@
   url: https://conf.researchr.org/dates/icpc-{YYYY}
   url_main: https://conf.researchr.org/home/icpc-{YYYY}
   strategy: regex
-  tags: [SE]
+  area: SE
   description: "IEEE International Conference on Program Comprehension"
   # event_selectors: implicit from conf.researchr.org url_main
   selectors:
@@ -650,7 +660,7 @@
   url: https://conf.researchr.org/dates/scam-{YYYY}
   url_main: https://conf.researchr.org/home/scam-{YYYY}
   strategy: regex
-  tags: [SE]
+  area: SE
   description: "IEEE International Working Conference on Source Code Analysis and Manipulation"
   # event_selectors: implicit from conf.researchr.org url_main
   selectors:
@@ -663,7 +673,7 @@
   url: https://conf.researchr.org/dates/pldi-{YYYY}
   url_main: https://conf.researchr.org/home/pldi-{YYYY}
   strategy: regex
-  tags: [PL]
+  area: PL
   description: "ACM SIGPLAN Conference on Programming Language Design and Implementation"
   # event_selectors: implicit from conf.researchr.org url_main
 
@@ -673,7 +683,7 @@
   url: https://conf.researchr.org/dates/popl-{YYYY}
   url_main: https://conf.researchr.org/home/popl-{YYYY}
   strategy: regex
-  tags: [PL]
+  area: PL
   description: "ACM SIGPLAN Symposium on Principles of Programming Languages"
   # event_selectors: implicit from conf.researchr.org url_main
 
@@ -681,7 +691,7 @@
   # Part of SPLASH — researchr slug is splash-{YYYY}, track is oopsla-{YYYY}
   # 2-round rolling review; label column contains "Round 1"/"Round 2" for researchr_cycle filter
   strategy: regex
-  tags: [PL]
+  area: PL
   description: "ACM SIGPLAN International Conference on Object-Oriented Programming, Systems, Languages & Applications"
   url_main: https://conf.researchr.org/home/splash-{YYYY}
   # event_selectors: implicit from conf.researchr.org url_main
@@ -702,7 +712,7 @@
   # sigplan.org track pages are JS-tab-rendered; use researchr dates page (static)
   # Track auto-discovered as icfp-{YYYY}-icfp-papers (2026) or icfp-{YYYY}-papers (2025)
   strategy: regex
-  tags: [PL]
+  area: PL
   description: "ACM SIGPLAN International Conference on Functional Programming"
   url_main: https://conf.researchr.org/home/icfp-{YYYY}
   # event_selectors: implicit from conf.researchr.org url_main
@@ -720,7 +730,7 @@
   url: https://conf.researchr.org/dates/ecoop-{YYYY}
   url_main: https://conf.researchr.org/home/ecoop-{YYYY}
   strategy: regex
-  tags: [PL]
+  area: PL
   description: "European Conference on Object-Oriented Programming"
   # event_selectors: implicit from conf.researchr.org url_main
   selectors:
@@ -738,7 +748,7 @@
   # 2025: panel-primary list with b+span.deadline-date items
   # 2026: panel-info table with 3 cols (label | Main Track | Industry Track); td:nth-child(2) = Main Track
   strategy: css
-  tags: [HW]
+  area: HW
   description: "International Symposium on Computer Architecture"
   by_year:
     2025:
@@ -759,7 +769,7 @@
   # Uses sequential edition numbers (not years): MICRO-58=2025, MICRO-59=2026 — use by_year
   # Both years: panel-primary list with b label + span.deadline-date; date from item text (AoE default)
   strategy: css
-  tags: [HW]
+  area: HW
   description: "IEEE/ACM International Symposium on Microarchitecture"
   selectors:
     section_css: "div.panel-primary"
@@ -776,7 +786,7 @@
   # 2025: 403 page (scaffolding detection handles it)
   # 2026: table[aria-label="Important Dates"] with Milestone/Deadline cols
   strategy: css
-  tags: [HW]
+  area: HW
   description: "IEEE International Symposium on High-Performance Computer Architecture"
   selectors:
     section_css: 'table[aria-label="Important Dates"]'
@@ -794,7 +804,7 @@
   # 2025/2027: 404 pages (scaffolding detection handles them)
   url: https://dac.com/{YYYY}/program/research-manuscript-submissions
   strategy: css
-  tags: [HW]
+  area: HW
   description: "Design Automation Conference"
   selectors:
     items: "article.d-card"
@@ -810,7 +820,7 @@
   # 2025: div.important-dates > ul > li with <strong>label</strong> + trailing date text
   url: https://neurips.cc/Conferences/{YYYY}/CallForPapers
   strategy: css
-  tags: [ML]
+  area: ML
   description: "Conference on Neural Information Processing Systems"
   selectors:
     section_css: "div:has(> p + ul)"
@@ -829,7 +839,7 @@
   # li text = "label: date [AoE]" inline; generic fallback handles label+date extraction
   url: https://icml.cc/Conferences/{YYYY}/CallForPapers
   strategy: css
-  tags: [ML]
+  area: ML
   description: "International Conference on Machine Learning"
   selectors:
     section_css: "h3 + ul"
@@ -841,7 +851,7 @@
   # Key dates: first classless <ul> in main#main; li text = "label: date" inline
   url: https://iclr.cc/Conferences/{YYYY}/CallForPapers
   strategy: css
-  tags: [ML]
+  area: ML
   description: "International Conference on Learning Representations"
   selectors:
     section_css: "main#main ul:not([class]):first-of-type"
@@ -855,7 +865,7 @@
   # Regex generic A+C handles both layouts via structure-preserving HTML→text
   url: https://cvpr.thecvf.com/Conferences/{YYYY}/CallForPapers
   strategy: regex
-  tags: [ML]
+  area: ML
   description: "IEEE/CVF Conference on Computer Vision and Pattern Recognition"
 
 - name: AAAI
@@ -863,7 +873,7 @@
   url: https://aaai.org/conference/aaai/aaai-{YY}/
   # WordPress Gutenberg blocks; regex generic A+C as safe fallback
   strategy: regex
-  tags: [ML]
+  area: ML
   description: "AAAI Conference on Artificial Intelligence"
   # p.date-time has combined "date | place" string; no separate place element
   event_selectors:
@@ -874,7 +884,7 @@
   # URL uses {YYYY}.ijcai.org subdomain with year-specific slug — use by_year
   # HTML: <strong>label</strong>: date<br> pattern; regex generic A+C handles this
   strategy: regex
-  tags: [ML]
+  area: ML
   description: "International Joint Conference on Artificial Intelligence"
   by_year:
     2025:
@@ -892,7 +902,7 @@
   # notification Apr 4 2026, camera-ready Apr 19 2026.
   # Conference: July 2-7, 2026 in Vienna, Austria.
   strategy: regex
-  tags: [ML]
+  area: ML
   description: "Annual Meeting of the Association for Computational Linguistics"
   by_year:
     2026:
@@ -907,7 +917,7 @@
   # notification Aug 20 2026, camera-ready Sep 20 2026.
   # Conference: October 24-29, 2026.
   strategy: regex
-  tags: [ML]
+  area: ML
   description: "Conference on Empirical Methods in Natural Language Processing"
   by_year:
     2026:
@@ -924,7 +934,7 @@
   url: https://iccv.thecvf.com/Conferences/{YYYY}/Dates
   url_main: https://iccv.thecvf.com/Conferences/{YYYY}
   strategy: regex
-  tags: [ML]
+  area: ML
   description: "IEEE/CVF International Conference on Computer Vision"
   by_year:
     2025:
@@ -945,7 +955,7 @@
   url: https://eccv.ecva.net/Conferences/{YYYY}/Dates
   url_main: https://eccv.ecva.net/Conferences/{YYYY}
   strategy: regex
-  tags: [ML]
+  area: ML
   description: "European Conference on Computer Vision"
   by_year:
     2026:
@@ -962,7 +972,7 @@
   url: https://learningtheory.org/colt{YYYY}/cfp.html
   url_main: https://learningtheory.org/colt{YYYY}/
   strategy: regex
-  tags: [ML]
+  area: ML
   description: "Annual Conference on Learning Theory"
 
 - name: ICAPS
@@ -973,7 +983,7 @@
   url: https://icaps{YY}.icaps-conference.org/calls/cfp/
   url_main: https://icaps{YY}.icaps-conference.org/
   strategy: regex
-  tags: [ML]
+  area: ML
   description: "International Conference on Automated Planning and Scheduling"
 
 - name: KR
@@ -984,7 +994,7 @@
   url: https://kr.org/KR{YYYY}/call_main_track.html
   url_main: https://kr.org/KR{YYYY}/
   strategy: regex
-  tags: [ML]
+  area: ML
   description: "International Conference on Principles of Knowledge Representation and Reasoning"
   by_year:
     2026:
@@ -1000,7 +1010,7 @@
   url: http://conferences.i-cav.org/{YYYY}/cfp/
   url_main: http://conferences.i-cav.org/{YYYY}/
   strategy: regex
-  tags: [SEC]
+  area: SEC
   description: "International Conference on Computer Aided Verification"
 
 ########################  Systems — Databases  ########################
@@ -1009,10 +1019,11 @@
   core_acronym: SIGMOD
   # Pattern: {YYYY}.sigmod.org — confirmed consistent for 2025 and 2026
   # 4 rolling quarterly submission rounds.
+  # HTML varies: 2026 uses <li> items with <strong><i> round headers; generic A+C handles both
   url: https://{YYYY}.sigmod.org/calls_papers_important_dates.shtml
   url_main: https://{YYYY}.sigmod.org/
   strategy: regex
-  tags: [SYS]
+  area: SYS
   description: "ACM Special Interest Group on Management of Data Conference"
   cycles:
     - name: "Round 1"
@@ -1031,7 +1042,7 @@
   url: https://vldb.org/{YYYY}/important-dates.html
   url_main: https://vldb.org/{YYYY}/
   strategy: regex
-  tags: [SYS]
+  area: SYS
   description: "International Conference on Very Large Databases"
 
 - name: PODS
@@ -1041,7 +1052,7 @@
   url: https://{YYYY}.sigmod.org/calls_papers_pods_research.shtml
   url_main: https://{YYYY}.sigmod.org/
   strategy: regex
-  tags: [SYS]
+  area: SYS
   description: "ACM SIGMOD-SIGACT-SIGART Symposium on Principles of Database Systems"
   cycles:
     - name: "Cycle 1"
@@ -1055,7 +1066,7 @@
   #   2025: ieee-icde.org/2025/
   #   2026: icde2026.github.io
   strategy: regex
-  tags: [SYS]
+  area: SYS
   description: "IEEE International Conference on Data Engineering"
   by_year:
     2026:
@@ -1074,7 +1085,7 @@
   url: https://www.sigmetrics.org/sigmetrics{YYYY}/call_for_papers.html
   url_main: https://www.sigmetrics.org/sigmetrics{YYYY}/
   strategy: regex
-  tags: [SYS]
+  area: SYS
   description: "ACM SIGMETRICS Conference on Measurement and Modeling of Computer Systems"
   cycles:
     - name: "Summer"
@@ -1091,7 +1102,7 @@
   url: https://www.podc.org/podc{YYYY}/call-for-papers/
   url_main: https://www.podc.org/podc{YYYY}/
   strategy: regex
-  tags: [SYS]
+  area: SYS
   description: "ACM Symposium on Principles of Distributed Computing"
 
 ########################  Systems — Networking  ########################
@@ -1102,7 +1113,7 @@
   url: https://infocom{YYYY}.ieee-infocom.org/call-papers
   url_main: https://infocom{YYYY}.ieee-infocom.org/
   strategy: regex
-  tags: [SYS]
+  area: SYS
   description: "IEEE International Conference on Computer Communications"
   by_year:
     2027:
@@ -1115,7 +1126,7 @@
   url: https://www.sigmobile.org/mobicom/{YYYY}/cfp.html
   url_main: https://www.sigmobile.org/mobicom/{YYYY}/
   strategy: regex
-  tags: [SYS]
+  area: SYS
   description: "ACM International Conference on Mobile Computing and Networking"
   cycles:
     - name: "Summer"
@@ -1127,7 +1138,7 @@
   # Domain percom.org stable; dates page: percom.org/dates/ (rolling — always upcoming edition).
   # Use by_year to pin per-edition.
   strategy: regex
-  tags: [SYS]
+  area: SYS
   description: "IEEE International Conference on Pervasive Computing and Communications"
   by_year:
     2027:
@@ -1139,7 +1150,7 @@
   # Pattern: www2{YYYY}.thewebconf.org — literal "www2" prefix; cannot use {YYYY} template alone.
   # Must use by_year with explicit URLs.
   strategy: regex
-  tags: [SYS]
+  area: SYS
   description: "International World Wide Web Conference (The Web Conference)"
   by_year:
     2026:
@@ -1153,7 +1164,7 @@
   # Domain changes per year (sigir2025.dei.unipd.it, sigir2026.org, …); use by_year.
   # 2026: abstract Jan 15, paper Jan 22; conf Jul 20-24 2026, Melbourne.
   strategy: regex
-  tags: [SYS]
+  area: SYS
   description: "ACM International Conference on Research and Development in Information Retrieval"
   by_year:
     2026:
@@ -1164,7 +1175,7 @@
   # Domain changes per year; use by_year.
   # 2026: abstract May 30, paper Jun 6 2026; conf Nov 12-15 2026, Shenyang.
   strategy: regex
-  tags: [ML]
+  area: ML
   description: "IEEE International Conference on Data Mining"
   by_year:
     2026:
@@ -1177,7 +1188,7 @@
   url: https://kdd{YYYY}.kdd.org/research-track-call-for-papers/
   url_main: https://kdd{YYYY}.kdd.org/
   strategy: regex
-  tags: [SYS]
+  area: SYS
   description: "ACM International Conference on Knowledge Discovery and Data Mining"
   cycles:
     - name: "Cycle 1 (August)"
@@ -1194,7 +1205,7 @@
   url: https://acm-stoc.org/stoc{YYYY}/stoc{YYYY}-cfp.html
   url_main: https://acm-stoc.org/stoc{YYYY}/
   strategy: regex
-  tags: [PL]
+  area: PL
   description: "ACM Symposium on Theory of Computing"
 
 - name: FOCS
@@ -1202,7 +1213,7 @@
   # CFP slug inconsistent (WordPress artifact); use by_year for CFP URL.
   url_main: https://focs.computer.org/{YYYY}/
   strategy: regex
-  tags: [PL]
+  area: PL
   description: "IEEE Symposium on Foundations of Computer Science"
   by_year:
     2025:
@@ -1215,7 +1226,7 @@
   # SIAM-hosted; stable URL suffix per year (soda{YY}).
   # Deadlines mid-July of prior year; by_year required.
   strategy: regex
-  tags: [PL]
+  area: PL
   description: "ACM/SIAM Symposium on Discrete Algorithms"
   by_year:
     2026:
@@ -1229,14 +1240,14 @@
   url: https://lics.siglog.org/lics{YY}/cfp.php
   url_main: https://lics.siglog.org/lics{YY}/
   strategy: regex
-  tags: [PL]
+  area: PL
   description: "IEEE Symposium on Logic in Computer Science"
 
 - name: ICALP
   # Host changes every year — use by_year.
   # 2026: Royal Holloway, co-located with PODC+SPAA.
   strategy: regex
-  tags: [PL]
+  area: PL
   description: "International Colloquium on Automata, Languages and Programming"
   by_year:
     2025:
@@ -1251,7 +1262,7 @@
   # Host changes every year — use by_year.
   # 2026: cgweek26.computational-geometry.org (CG Week domain, New Brunswick NJ).
   strategy: regex
-  tags: [PL]
+  area: PL
   description: "International Symposium on Computational Geometry"
   by_year:
     2025:
@@ -1267,7 +1278,7 @@
   core_acronym: CHI
   # URL: chi{YYYY}.acm.org — path differs per edition (/for-authors/ vs /authors/); by_year.
   strategy: regex
-  tags: [OTHER]
+  area: OTHER
   description: "ACM CHI Conference on Human Factors in Computing Systems"
   by_year:
     2026:
@@ -1279,7 +1290,7 @@
   url: https://uist.acm.org/{YYYY}/cfp/
   url_main: https://uist.acm.org/{YYYY}/
   strategy: regex
-  tags: [OTHER]
+  area: OTHER
   description: "ACM Symposium on User Interface Software and Technology"
 
 - name: SIGGRAPH
@@ -1287,7 +1298,7 @@
   url: https://s{YYYY}.siggraph.org/program/technical-papers/
   url_main: https://s{YYYY}.siggraph.org/
   strategy: regex
-  tags: [OTHER]
+  area: OTHER
   description: "ACM SIGGRAPH Conference on Computer Graphics and Interactive Techniques"
 
 - name: SIGGRAPH Asia
@@ -1296,7 +1307,7 @@
   url: https://asia.siggraph.org/{YYYY}/submissions/technical-papers/
   url_main: https://asia.siggraph.org/{YYYY}/
   strategy: regex
-  tags: [OTHER]
+  area: OTHER
   description: "ACM SIGGRAPH Asia — Annual Conference on Computer Graphics and Interactive Techniques in Asia"
 
 - name: ACM Multimedia
@@ -1305,7 +1316,7 @@
   url: https://{YYYY}.acmmm.org/site/important-dates.html
   url_main: https://{YYYY}.acmmm.org/
   strategy: regex
-  tags: [OTHER]
+  area: OTHER
   description: "ACM International Conference on Multimedia"
 
 - name: HRI
@@ -1313,7 +1324,7 @@
   url: https://humanrobotinteraction.org/{YYYY}/full-papers/
   url_main: https://humanrobotinteraction.org/{YYYY}/
   strategy: regex
-  tags: [OTHER]
+  area: OTHER
   description: "ACM/IEEE International Conference on Human-Robot Interaction"
 
 - name: ISMAR
@@ -1321,7 +1332,7 @@
   url: https://www.ieeeismar.net/{YYYY}/call-for-papers/
   url_main: https://www.ieeeismar.net/{YYYY}/
   strategy: regex
-  tags: [OTHER]
+  area: OTHER
   description: "IEEE/ACM International Symposium on Mixed and Augmented Reality"
 
 - name: "IEEE VR"
@@ -1330,7 +1341,7 @@
   url: https://ieeevr.org/{YYYY}/contribute/papers/
   url_main: https://ieeevr.org/{YYYY}/
   strategy: regex
-  tags: [OTHER]
+  area: OTHER
   description: "IEEE Conference on Virtual Reality and 3D User Interfaces"
 
 - name: ICRA
@@ -1338,7 +1349,7 @@
   url: https://{YYYY}.ieee-icra.org/contribute/
   url_main: https://{YYYY}.ieee-icra.org/
   strategy: regex
-  tags: [OTHER]
+  area: OTHER
   description: "IEEE International Conference on Robotics and Automation"
 
 - name: EC
@@ -1346,5 +1357,5 @@
   url: https://ec{YY}.sigecom.org/call-for-contributions-acm/papers/
   url_main: https://ec{YY}.sigecom.org/
   strategy: regex
-  tags: [OTHER]
+  area: OTHER
   description: "ACM Conference on Economics and Computation"

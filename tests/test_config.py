@@ -21,7 +21,7 @@ def _write_conf(entries, tmp_path):
 
 def test_load_valid_config(tmp_path):
     entries = [
-        {"name": "TestConf", "url": "https://example.com", "strategy": "css", "tags": ["SEC", "A*"]},
+        {"name": "TestConf", "url": "https://example.com", "strategy": "css", "area": "SEC", "rank": "A*"},
     ]
     result = load_conferences(_write_conf(entries, tmp_path))
     assert len(result) == 1
@@ -36,7 +36,7 @@ def test_load_real_config():
 
 def test_missing_required_field_v7(tmp_path):
     entries = [
-        {"name": "Bad", "url": "https://x.com", "tags": ["SEC"]},  # missing strategy
+        {"name": "Bad", "url": "https://x.com", "area": "SEC"},  # missing strategy
     ]
     with pytest.raises(ConfigError, match="missing required"):
         load_conferences(_write_conf(entries, tmp_path))
@@ -44,7 +44,7 @@ def test_missing_required_field_v7(tmp_path):
 
 def test_invalid_strategy_v8(tmp_path):
     entries = [
-        {"name": "Bad", "url": "https://x.com", "strategy": "magic", "tags": ["SEC"]},
+        {"name": "Bad", "url": "https://x.com", "strategy": "magic", "area": "SEC"},
     ]
     with pytest.raises(ConfigError, match="invalid strategy"):
         load_conferences(_write_conf(entries, tmp_path))
@@ -85,7 +85,7 @@ def test_resolve_url_none():
 
 def test_resolve_conf_no_by_year():
     """Without by_year, returns entry unchanged."""
-    entry = {"name": "X", "url": "https://x{YYYY}.org", "strategy": "regex", "tags": ["SEC"]}
+    entry = {"name": "X", "url": "https://x{YYYY}.org", "strategy": "regex", "area": "SEC"}
     assert resolve_conf_for_year(entry, 2026) is entry
 
 
@@ -94,7 +94,7 @@ def test_resolve_conf_by_year_merge():
     entry = {
         "name": "X",
         "strategy": "regex",
-        "tags": ["SEC"],
+        "area": "SEC",
         "selectors": {"section": "old"},
         "by_year": {
             2025: {"url": "https://x2025.org", "selectors": {"section": "new"}},
@@ -113,7 +113,7 @@ def test_resolve_conf_by_year_fallback_template():
         "name": "X",
         "url": "https://x{YYYY}.org",
         "strategy": "regex",
-        "tags": ["SEC"],
+        "area": "SEC",
         "by_year": {2025: {"url": "https://x2025.org"}},
     }
     result = resolve_conf_for_year(entry, 2026)
@@ -125,7 +125,7 @@ def test_resolve_conf_by_year_skip():
     entry = {
         "name": "X",
         "strategy": "regex",
-        "tags": ["SEC"],
+        "area": "SEC",
         "by_year": {2025: {"url": "https://x2025.org"}},
     }
     assert resolve_conf_for_year(entry, 2026) is None
@@ -136,7 +136,7 @@ def test_v7_by_year_no_url_valid(tmp_path):
     entries = [{
         "name": "X",
         "strategy": "regex",
-        "tags": ["SEC"],
+        "area": "SEC",
         "by_year": {2025: {"url": "https://x2025.org"}},
     }]
     result = load_conferences(_write_conf(entries, tmp_path))
@@ -145,7 +145,7 @@ def test_v7_by_year_no_url_valid(tmp_path):
 
 def test_v7_no_url_no_by_year_invalid(tmp_path):
     """V7: entry with neither url nor by_year should fail."""
-    entries = [{"name": "X", "strategy": "regex", "tags": ["SEC"]}]
+    entries = [{"name": "X", "strategy": "regex", "area": "SEC"}]
     with pytest.raises(ConfigError, match="must have 'url' or 'by_year'"):
         load_conferences(_write_conf(entries, tmp_path))
 

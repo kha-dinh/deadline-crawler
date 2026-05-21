@@ -15,7 +15,8 @@ class CrawlResult:
     date: str | None = None
     place: str | None = None
     description: str | None = None
-    tags: list[str] = field(default_factory=list)
+    area: str = ""
+    rank: str = "unknown"
     notification: list[str] = field(default_factory=list)
     timezone: str | None = None
     comment: str | None = None

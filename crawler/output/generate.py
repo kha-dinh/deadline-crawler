@@ -95,14 +95,12 @@ def _validate_entry(entry: dict) -> list[str]:
             errors.append(f"duplicate deadline label: {label}")
         seen_labels.add(label)
 
-    tags = entry.get("tags", [])
-    if len(tags) < 2:
-        errors.append("tags need ≥2 elements (area + core rank)")
-    else:
-        if not tags[0]:
-            errors.append(f"bad area code: {tags[0]}")
-        if tags[1] not in {"A*", "A", "B", "C"}:
-            errors.append(f"bad core rank: {tags[1]}")
+    area = entry.get("area", "")
+    if not area:
+        errors.append("missing area code")
+    rank = entry.get("rank", "")
+    if rank not in {"A*", "A", "B", "C", "unknown"}:
+        errors.append(f"bad rank: {rank}")
 
     return errors
 
@@ -160,7 +158,6 @@ def _check_date_order(entry: dict) -> list[str]:
 
 def transform_entry(entry: dict, now: datetime) -> dict:
     """Transform a single data.yaml entry to output shape."""
-    tags = entry.get("tags", [])
     deadlines = entry.get("deadline", [])
 
     out_deadlines = []
@@ -179,8 +176,8 @@ def transform_entry(entry: dict, now: datetime) -> dict:
         "year": entry["year"],
         "description": entry.get("description", ""),
         "link": entry["link"],
-        "area": tags[0] if tags else "",
-        "tier": tags[1] if len(tags) > 1 else "",
+        "area": entry.get("area", ""),
+        "rank": entry.get("rank", "unknown"),
         "place": entry.get("place") or "",
         "date": entry.get("date") or "",
         "timezone": entry.get("timezone", "AoE"),
@@ -197,7 +194,8 @@ def _result_to_entry(r) -> dict:
         "year": r.year,
         "link": r.link,
         "deadline": r.deadlines,
-        "tags": r.tags,
+        "area": r.area,
+        "rank": r.rank,
     }
     if r.description:
         entry["description"] = r.description
