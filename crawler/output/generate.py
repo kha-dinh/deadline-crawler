@@ -99,7 +99,7 @@ def _validate_entry(entry: dict) -> list[str]:
     if len(tags) < 2:
         errors.append("tags need ≥2 elements (area + core rank)")
     else:
-        if tags[0] not in {"SEC", "SYS", "HW", "SE", "PL", "GEN", "CRYPTO", "ML"}:
+        if not tags[0]:
             errors.append(f"bad area code: {tags[0]}")
         if tags[1] not in {"A*", "A", "B", "C"}:
             errors.append(f"bad core rank: {tags[1]}")
@@ -185,7 +185,6 @@ def transform_entry(entry: dict, now: datetime) -> dict:
         "date": entry.get("date") or "",
         "timezone": entry.get("timezone", "AoE"),
         "deadlines": out_deadlines,
-        "tags": tags,
         **({"comment": entry["comment"]} if entry.get("comment") else {}),
     }
 
@@ -265,6 +264,8 @@ def generate_from_results(
             raise ValueError(f"Date order violation in {name} {year} (use --no-strict to downgrade to warning)")
         conferences.append(transform_entry(entry, now))
 
+    conferences.sort(key=lambda c: c["name"].lower())
+
     result = {
         "generated_at": now.isoformat(),
         "conferences": conferences,
@@ -316,6 +317,8 @@ def generate_output(
             name = entry.get("name", "?")
             raise ValueError(f"Invalid entry '{name}': {'; '.join(errors)}")
         conferences.append(transform_entry(entry, now))
+
+    conferences.sort(key=lambda c: c["name"].lower())
 
     result = {
         "generated_at": now.isoformat(),
