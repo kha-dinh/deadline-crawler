@@ -9,8 +9,7 @@ import yaml
 
 from crawler.models import CrawlResult
 from crawler.output.generate import (
-    _slugify, _validate_entry, generate_from_results, generate_output, transform_entry,
-)
+    _slugify, _validate_entry, generate_from_results, generate_output, transform_entry)
 
 NOW = datetime(2026, 5, 14, 12, 0, tzinfo=timezone.utc)
 
@@ -25,7 +24,7 @@ VALID_ENTRY = {
     ],
     "date": "Aug. 12-14",
     "place": "BALTIMORE, MD",
-    "tags": ["SEC", "A*"],
+    "area": "SEC", "rank": "A*",
     "notification": ["2025-12-04", "2026-05-14"],
 }
 
@@ -70,25 +69,25 @@ class TestValidateEntry:
         errors = _validate_entry(entry)
         assert any("deadline must be dict" in e for e in errors)
 
-    def test_empty_area_code(self):
-        entry = {**VALID_ENTRY, "tags": ["", "A*"]}
+    def test_bad_area_code(self):
+        entry = {**VALID_ENTRY, "area": ""}
         errors = _validate_entry(entry)
-        assert any("empty area code" in e for e in errors)
+        assert any("missing area code" in e for e in errors)
 
     def test_custom_area_code_ok(self):
-        entry = {**VALID_ENTRY, "tags": ["AI", "A*"]}
+        entry = {**VALID_ENTRY, "area": "AI", "rank": "A*"}
         errors = _validate_entry(entry)
         assert not any("area" in e for e in errors)
 
-    def test_bad_tier(self):
-        entry = {**VALID_ENTRY, "tags": ["SEC", "TIER3"]}
+    def test_bad_rank(self):
+        entry = {**VALID_ENTRY, "rank": "TIER3"}
         errors = _validate_entry(entry)
-        assert any("bad core rank" in e for e in errors)
+        assert any("bad rank" in e for e in errors)
 
-    def test_insufficient_tags(self):
-        entry = {**VALID_ENTRY, "tags": ["SEC"]}
+    def test_missing_area(self):
+        entry = {k: v for k, v in VALID_ENTRY.items() if k != "area"}
         errors = _validate_entry(entry)
-        assert any("tags need" in e for e in errors)
+        assert any("missing area code" in e for e in errors)
 
 
 class TestTransformEntry:
@@ -96,7 +95,7 @@ class TestTransformEntry:
         result = transform_entry(VALID_ENTRY, NOW)
         required_keys = {
             "id", "name", "year", "description", "link",
-            "area", "tier", "place", "date", "timezone",
+            "area", "rank", "place", "date", "timezone",
             "deadlines",
         }
         assert required_keys <= set(result.keys())
@@ -105,10 +104,10 @@ class TestTransformEntry:
         result = transform_entry(VALID_ENTRY, NOW)
         assert result["id"] == "usenix-security-2026"
 
-    def test_area_tier_from_tags(self):
+    def test_area_rank_from_entry(self):
         result = transform_entry(VALID_ENTRY, NOW)
         assert result["area"] == "SEC"
-        assert result["tier"] == "A*"
+        assert result["rank"] == "A*"
 
     def test_timezone_defaults_aoe(self):
         result = transform_entry(VALID_ENTRY, NOW)
@@ -164,7 +163,7 @@ class TestGenerateOutput:
 
     def test_invalid_entry_raises(self, tmp_path):
         data_file = tmp_path / "data.yaml"
-        bad = {"name": "", "year": 2026, "link": "", "deadline": [], "tags": []}
+        bad = {"name": "", "year": 2026, "link": "", "deadline": [], "area": ""}
         with open(data_file, "w") as f:
             yaml.dump([bad], f)
 
@@ -206,9 +205,8 @@ class TestGenerateFromResults:
                 year=2026,
                 link="https://example.com",
                 deadlines=[{"label": "submission", "date": "2025-08-26 23:59"}],
-                tags=["SEC", "A*"],
-                description="USENIX Security Symposium",
-            ),
+                area="SEC", rank="A*",
+                description="USENIX Security Symposium"),
         ]
         out = tmp_path / "deadlines.json"
         data = generate_from_results(results, out, fmt="json", now=NOW)
@@ -223,9 +221,8 @@ class TestGenerateFromResults:
                 year=2026,
                 link="https://example.com",
                 deadlines=[{"label": "submission", "date": "2025-08-26 23:59"}],
-                tags=["SEC", "A*"],
-                cycle="Cycle 1",
-            ),
+                area="SEC", rank="A*",
+                cycle="Cycle 1"),
         ]
         out = tmp_path / "deadlines.json"
         data = generate_from_results(results, out, fmt="json", now=NOW)
@@ -233,14 +230,13 @@ class TestGenerateFromResults:
 
     def test_skips_invalid(self, tmp_path):
         results = [
-            CrawlResult(name="Bad", year=2026, link="", deadlines=[], tags=[]),
+            CrawlResult(name="Bad", year=2026, link="", deadlines=[]),
             CrawlResult(
                 name="Good",
                 year=2026,
                 link="https://example.com",
                 deadlines=[{"label": "submission", "date": "2025-08-26 23:59"}],
-                tags=["SEC", "A*"],
-            ),
+                area="SEC", rank="A*"),
         ]
         out = tmp_path / "deadlines.json"
         data = generate_from_results(results, out, fmt="json", now=NOW)

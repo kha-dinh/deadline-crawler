@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Research Tracks - The Web Conference 2026</title>
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="stylesheet" href="../css/tab-menu.css" />
+    <link rel="stylesheet" href="../css/dropdown-menu.css" />
+    <link rel="stylesheet" href="../css/header-layout.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <style>
+      /* Override highlight colors - only links should be purple */
+      a {
+        color: #6a00ff;
+      }
+      a:hover {
+        color: #00e5ff;
+      }
+      .accordion {
+        background: transparent;   /* 透明背景 */
+  border: none;              /* 去掉边框 */
+  border-bottom: 1px solid #eee; /* 用淡灰色线分隔 */
+  cursor: pointer;
+  padding: 15px 0;
+  width: 100%;
+  text-align: left;
+  font-size: 18px;
+  font-weight: 500;
+  color: #222;
+  position: relative;
+  transition: color 0.3s;
+}
+.accordion.active {
+  color: #6a00ff; /* 展开状态保持颜色 */
+}
+.accordion:hover {
+  color: #6a00ff; /* 鼠标放上去时变蓝 */
+}
+.accordion::after {
+  content: '\25BC'; /* 下箭头 */
+  font-size: 14px;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: transform 0.3s;
+}
+.tracks-section {
+  max-width: 800px;   /* 控制宽度 */
+  margin: 40px auto;  /* 居中 */
+  padding: 0 20px;
+}
+
+.accordion.active::after {
+  transform: translateY(-50%) rotate(180deg); /* 展开后变成上箭头 */
+}
+.panel {
+  padding: 0 14px;
+  display: none;
+  background-color: transparent;
+  overflow: hidden;
+}
+    </style>
+  </head>
+  <body>
+    <!-- Header will be loaded here by JavaScript -->
+    <div id="header-placeholder"></div>
+
+    <section class="page-content">
+      <div class="container">
+        <h1>Call for Research Tracks - The Web Conference 2026</h1>
+
+        <p>
+          We invite contributions to the research tracks of The Web Conference
+          2026 (formerly known as WWW).
+        </p>
+        <p>
+          The Web Conference is the premier conference focused on understanding
+          the current state and the evolution of the Web through the lens of
+          computer science, computational social science, economics, policy, and
+          many other disciplines.
+        </p>
+        <section class="important-dates">
+        <h2><i class="fas fa-calendar-alt"></i> Important Dates</h2>
+        <ul>
+          <li><b>Abstract submission:</b><s> September 30, 2025</s></li>
+          <li><b>Full paper submission:</b> <s>October 7, 2025</s></li>
+          <li><b>Authors' rebuttal period:</b><s> November 24th - December 1st</s></li>
+          <li><b>Notification:</b><s> January 13, 2026</s></li>
+          <li><b>Camera-ready:</b> <s>January 25, 2026</s></li>
+        </ul>
+
+        <p>
+          <em
+            >All submission deadlines are end-of-day in
+            <a href="https://www.timeanddate.com/time/zones/aoe" target="_blank"
+              >Anywhere on Earth (AoE)</a>
+            time zone.</em>
+        </p>
+      </section>
+        <p>
+          <b>AUTHORS TAKE NOTE:</b> The official publication date is the date
+          the proceedings are made available in the ACM Digital Library. This
+          date may be up to two weeks prior to the first day of the conference.
+          The official publication date affects the deadline for any patent
+          filings related to published work.
+        </p>
+
+        <h2>Submission Guidelines</h2>
+        <p>
+          We will use EasyChair to manage the submissions and reviewing. All
+          listed authors must have an up-to-date EasyChair profile, properly
+          attributed with current and past institutional affiliation and
+          conflict information.
+        </p>
+        <p>
+          Abstracts and papers can be submitted through the
+          <a
+            href="https://easychair.org/conferences/?conf=www2026"
+            target="_blank"
+            >EasyChair
+          </a>
+          link.
+        </p>
+
+        <h2>Scope</h2>
+        <p>
+          The scope of the conference is the Web and how it has crucially
+          enabled new research and applications. While the Web feeds on and is
+          part of a broader interdisciplinary ecosystem, including technologies
+          such as machine learning, natural language processing, computer
+          vision, and many others, it remains a distinct scholarly field, with
+          its own research methods, tools, and challenges. A typical Web
+          Conference paper should have an explicit focus on at least one of the
+          following:
+        </p>
+        <ul>
+          <li>
+            understanding, evaluating, and improving the Web as a technical
+            infrastructure; including core Web technologies, standards, and
+            platforms
+          </li>
+          <li>
+            understanding, evaluating, and improving the Web as a socio-economic
+            system;
+          </li>
+          <li>
+            understanding better the impact of the Web and Web technologies;
+          </li>
+          <li>
+            democratizing access to Web content and technologies, making it more
+            accessible, fair, inclusive, and accountable to a wide range of
+            audiences
+          </li>
+        </ul>
+      </br>
+        <h2>Relevance</h2>
+        <p>
+          Every submission must clearly state how the work is relevant to the
+          Web and to the track in the first page. Submissions that merely use a
+          Web artifact---e.g., a dataset or a Web Application Programmer
+          Interface (API) or a social network---rather than answering a specific
+          Web-related scientific research challenge, are out of scope and will
+          be desk-rejected.
+        </p>
+
+        <h2>Tracks</h2>
+        <p>Our research interests are organized in the following tracks:</p>
+        <div class="tracks-section">     
+<!-- Track 1 -->
+<button class="accordion">Economics, online markets and human computation</button>
+<div class="panel">
+  <p>The Web has served as a platform for large-scale online markets such as cloud computing, crowdsourcing, and the sharing economy. This growth highlights the importance of understanding the economics of the Web, and we welcome innovative research in this space. The new wave of AI applications introduce new perspectives with respect to economics, markets, and training data sets. This track is a forum for theoretical, empirical, and applied research related to the modeling, analysis, and design of Web-related economic activities, online markets, and human computation.</p>
+  
+</br>
+<p>The relevant topics include, but are not limited to:</p>
+<ul>
+  <li>Economic ramifications for generative AI infrastructure and applications</li>
+  <li>Humans versus LLMs for data annotation and labeling (e.g., quality, trade-offs, biases, evaluation)</li>
+  <li>Architectures and workflows that use LLMs for crowd work (e.g., productivity, efficiency, quality, biases, oversight, etc.)</li>
+  <li>Trust and reliance of crowd workers and data experts on GenAI</li>
+  <li>Uses of LLMs and GenAI for marketplace design, bidding, and strategic interactions</li>
+  <li>Cost models of using LLMs in production systems</li>
+  <li>Research challenges in human and human-AI computation</li>
+  <li>Fairness and ethical considerations in crowd work and in human-in-the-loop AI systems</li>
+  <li>LLM based quality controls for crowd work</li>
+  <li>Economics and fairness of platforms and recommendation systems</li>
+  <li>Economic aspects and information design of Web, GenAI, and cloud computing</li>
+  <li>Fairness, privacy, and diversity in economic environments</li>
+  <li>Incentives in network design for Web infrastructures and ecosystems</li>
+  <li>Advertising auctions, pricing, markets, and exchanges</li>
+  <li>The sharing economy</li>
+  <li>Sustainability of Web economics</li>
+  <li>Data quality aspects of human-annotated datasets</li>
+  <li>Social networks and social learning</li>
+  <li>Economic aspects of blockchain and cryptocurrencies</li>
+</ul>
+  <p>Track Chairs:</p>
+  <ul>
+    <li>Riccardo Colini-Baldeschi (Meta)</li>
+    <li>Gabriella Kazai (Amazon)</li>
+  </ul>
+</div>
+
+<!-- Track 2 -->
+<button class="accordion">Graph Algorithms and Modeling for the Web</button>
+<div class="panel">
+  <p>We encourage submissions addressing scientific challenges in Web-related graphs, from models and algorithms to mining, learning, and applications.</p>
+
+  </br>
+  <p>The relevant topics include, but are not limited to:</p>
+  <ul>
+    <li>Algorithms and analysis for heterogeneous, signed, attributed, multi-relational, temporal, higher-order, and annotated Web-related graphs</li>
+    <li>Algorithms and analysis for incomplete, noisy, or partially observed Web-related graphs</li>
+    <li>Representation, reconstruction, and subgraph or motif discovery in Web-related graphs</li>
+    <li>Querying, indexing, and retrieval in Web-related graphs</li>
+    <li>Efficient manipulation of static and dynamic Web-related graphs</li>
+    <li>Graph embeddings and representation learning for Web-related graphs</li>
+    <li>Graph neural networks and deep learning approaches for Web-related graphs</li>
+    <li>Foundation models and LLMs for Web-related graphs</li>
+  </ul>
+
+  <p>Track Chairs:</p>
+  <ul>
+    <li>Atsushi Miyauchi (CENTAI Institute)</li>
+    <li>Kijung Shin (KAIST)</li>
+  </ul>
+</div>
+
+<!-- Track 3 -->
+<button class="accordion">Responsible Web</button>
+<div class="panel">
+  <p>We invite research contributions to the Responsible Web track. Over the past decades, the Web and the internet have grown to be an integral part of our lives. Through this track, we aim to surface the latest research on what it means to build a responsible web and internet, one that contributes towards realising more equitable, emancipatory, and sustainable futures.</p>
+
+  </br>
+  <p>The relevant topics include, but are not limited to:</p>
+  <ul>
+    <li>Algorithmic accountability and transparency on the web</li>
+    <li>Audits of web technologies, standards, platforms, and applications</li>
+    <li>Consent frameworks and practices on the web</li>
+    <li>Data and user privacy-enhancing technologies for the Web</li>
+    <li>Ethical and legal aspects of web-scale data analysis, uses and collection practices</li>
+    <li>Fairness, accountability, transparency and ethics of web technologies</li>
+    <li>Human-perceived consequences of algorithmic deployment on the web</li>
+    <li>Machine-in-the-loop, human agency and autonomy</li>
+    <li>Measurement, analysis, and circumvention of Web censorship</li>
+    <li>Mitigating misinformation and disinformation</li>
+    <li>Mitigating online harms, including harassment, spam, and fake reviews</li>
+    <li>Social and technical mechanisms of refusal for web technologies and applications</li>
+    <li>Sustainability and climate impact of web technologies</li>
+    <li>Technology governance, policy, and regulations</li>
+    <li>Web for democratic and emancipatory futures</li>
+  </ul>
+
+  <p>Track Chairs:</p>
+  <ul>
+    <li>Danula Hettiachchi (RMIT University, Australia)</li>
+    <li>Bhaskar Mitra (Independent Researcher, Canada)</li>
+  </ul>
+</div>
+
+<!-- Track 4 -->
+<button class="accordion">Search and retrieval-augmented AI</button>
+<div class="panel">
+  <p>This track focuses on advancing the foundations and applications of search and retrieval-augmented AI. We invite original, high-quality contributions that explore models, algorithms, systems, and evaluation methodologies for search and ranking, query understanding, personalized and interactive retrieval, as well as multilingual and domain-specific search. The track also emphasizes emerging directions such as learning to rank with LLMs, retrieval-augmented generation (RAG), multi-modal RAG, and agentic search, with the goal of fostering research that bridges traditional information retrieval with the capabilities of modern AI.</p>
+
+  </br>
+  <p>The relevant topics include, but are not limited to:</p>
+  <ul>
+    <li>Web query analysis, representation and understanding</li>
+    <li>Web search models and ranking</li>
+    <li>Web evaluation methodologies and metrics</li>
+    <li>Web crawling and indexing</li>
+    <li>Assisted, interactive, and conversational search</li>
+    <li>Personalized, context-aware and across-device search</li>
+    <li>Efficiency and scalability of Web search engines</li>
+    <li>Vertical and domain-specific search</li>
+    <li>Multilingual and cross-lingual Web search</li>
+    <li>Web learning to rank, online learning, and counterfactual learning for ranking</li>
+    <li>Web question answering</li>
+    <li>Ad search and search for Web retail</li>
+    <li>Natural language understanding for Web search</li>
+    <li>Large language models for search</li>
+    <li>Retrieval-Augmented Generation (RAG) and multi-modal RAG</li>
+    <li>Search Tool Learning with LLM: Teaching LLMs to invoke search and make use of retrieved information</li>
+    <li>Agentic search</li>
+  </ul>
+
+  <p>Track Chairs:</p>
+  <ul>
+    <li>Nick Craswell (Microsoft)</li>
+    <li>Fabrizio Silvestri (Sapienza University of Rome)</li>
+  </ul>
+</div>
+
+<!-- Track 5 -->
+<button class="accordion">Security and privacy</button>
+<div class="panel">
+  <p>This track offers researchers the opportunity to present their work to the broad community of researchers interested in issues of security and privacy relating to the Web.</p>
+
+  </br>
+  <p>We invite submissions that address any aspect of web security and privacy, including theoretical foundations, practical implementations, and case studies.</p>
+
+  </br>
+  <p>The relevant topics include, but are not limited to:</p>
+  <ul>
+    <li>Applications of cryptography</li>
+    <li>Authentication, authorization, and access control</li>
+    <li>Blockchains and distributed ledgers</li>
+    <li>Browser and end-point security</li>
+    <li>Cyber-crime defenses and forensics</li>
+    <li>Cryptocurrency and smart contracts</li>
+    <li>Data security and privacy</li>
+    <li>Data transparency and provenance</li>
+    <li>Large-scale security measurements</li>
+    <li>Security in web-based applications and services</li>
+    <li>Tracking, profiling, and countermeasures against them</li>
+    <li>Privacy-enhancing technologies</li>
+    <li>Security and privacy of machine learning and AI applications</li>
+  </ul>
+
+  <p>Track Chairs:</p>
+  <ul>
+    <li>Grace Hui Yang (Georgetown University)</li>
+    <li>Igor Bilogrevic (Google)</li>
+  </ul>
+</div>
+
+<!-- Track 6 -->
+<button class="accordion">Semantics and Knowledge</button>
+<div class="panel">
+  <p>This track is a forum to gather researchers interested in knowledge graphs and other forms of structured data models with machine-interpretable semantics that are being widely adopted for many advanced applications on the Web. In this track, we invite original research submissions related to methods, algorithms, techniques and applications supporting the creation, acquisition, publication and consumption of interlinked structured data corpora – available on the web, the (human-assisted) semantic integration, the enrichment and processing of large, real-world datasets in a Web context.</p>
+
+  </br>
+  <p>The relevant topics include, but are not limited to:</p>
+  <ul>
+    <li>Scalable techniques for the creation, curation, publication, maintenance, and consumption of large, Web-based, structured, reusable, knowledge graphs and ontologies</li>
+    <li>Representation, semantic annotation, enhancement, enrichments, access and/or integration of a variety of data on the Web, including, but not limited to, semi-structured data, tabular data, text, multimedia (images, sound, videos) and sensor data</li>
+    <li>Data modeling to support human-machine intelligence, including, but not limited to LLMs agents, intelligent system behavior, explanations, and user-friendly interactions</li>
+    <li>Methods, algorithms and applications for the development of semantic models, knowledge graphs and other forms of structured data models with machine-interpretable semantics</li>
+    <li>Methods to enhance, augment, integrate or synergize semantic models such as knowledge graphs and LLMs to enlarge the functionality of either or both models</li>
+    <li>Provenance, trust, security and privacy, and ethical issues in managing semantic data</li>
+    <li>Applications of semantic technologies for improving search, browsing, recommendation, personalization in applications and domains of interest to the Web community, e.g. news, fake detection, open science, medical and health science, humanities and social sciences</li>
+  </ul>
+
+  <p>Track Chairs:</p>
+  <ul>
+    <li>Feng Xia (RMIT University)</li>
+    <li>Valentina Presutti (University of Bologna)</li>
+  </ul>
+</div>
+
+<!-- Track 7 -->
+<button class="accordion">Social networks and social media</button>
+<div class="panel">
+  <p>We welcome submissions in all areas that concern social networks, social media, and the interaction of the Web and society.</p>
+
+  </br>
+  <p>The relevant topics include, but are not limited to:</p>
+  <ul>
+    <li>Social media analysis through the lenses of networks</li>
+    <li>Analysis of web-mediated communications, communities, and crowds</li>
+    <li>Social mining and social search on the Web</li>
+    <li>Influence propagation, information diffusion, and the prediction on networks (link prediction, node or subgraph prediction)</li>
+    <li>Computational social science (e.g., computational politics, propaganda, sociology, communication studies, media science, humanities, arts, and culture on the Web)</li>
+    <li>Socio-technical web-based systems</li>
+    <li>Media and governance (e.g., opinion dynamics, filter bubbles, polarization, conflicts or tribalization, self-governance, civic engagement, collective actions via the Web)</li>
+    <li>Fairness and bias in social network and social media analysis</li>
+    <li>Generative AI / large language models and their impact on social systems</li>
+    <li>Applications and emergent phenomena</li>
+  </ul>
+
+  <p>Track Chairs:</p>
+  <ul>
+    <li>Jia Wu (Macquarie University)</li>
+    <li>Giuseppe Manco (ICAR-CNR)</li>
+  </ul>
+</div>
+
+<!-- Track 8 -->
+<button class="accordion">Systems and infrastructure for Web, mobile and WoT</button>
+<div class="panel">
+  <p>This track invites original research contributions on the design, construction, and performance evaluation of Web-based, mobile, and ubiquitous computing systems and architectures. We welcome submissions of interest to both academic and industrial research, which contribute to the understanding of Web, mobile, and Web of Things (WoT) systems; for example, via data analysis, empirical studies, novel application designs and implementations, deployment experiences and lessons learned, and usability evaluations.</p>
+
+  </br>
+  <p>The relevant topics include, but are not limited to:</p>
+  <ul>
+    <li>Cloud, edge and content delivery systems for the Web</li>
+    <li>Decentralized Web and Fediverse systems</li>
+    <li>Applied ML and AI for Web-based mobile applications</li>
+    <li>ML and AI systems for Web, mobile and WoT</li>
+    <li>Federated Web and WoT systems, including distributed, federated and edge-based data processing</li>
+    <li>Virtualization and resource management in Web systems and infrastructures</li>
+    <li>Web performance, measurement, and characterization</li>
+    <li>Location- and context-aware Web and WoT applications and services</li>
+    <li>Energy management for devices in mobile Web and WoT environments</li>
+    <li>Novel mobile and WoT systems, and system-of-systems</li>
+    <li>Web applications in cross-disciplinary domains and verticals such as mixed reality, smart cities, and digital health</li>
+    <li>Data management and stream processing for Web, mobile and wireless applications</li>
+    <li>Experiences and lessons learnt from Web-based algorithms and system deployments</li>
+    <li>Sustainability and carbon-aware systems for Web, mobile, and WoT</li>
+  </ul>
+
+  <p>Track Chairs:</p>
+  <ul>
+    <li>Petteri Nurmi (University of Helsinki)</li>
+    <li>Zheng Wang (University of Leeds)</li>
+  </ul>
+</div>
+
+<!-- Track 9 -->
+<button class="accordion">User modeling, personalization and recommendation</button>
+<div class="panel">
+  <p>In this track, we invite original research submissions addressing all aspects of inclusive, human-centered approaches to user modeling, personalization, and recommendation. We welcome contributions on data analytics, algorithm development, system design, use case reviews, and evaluation within the context of the Web.</p>
+
+  </br>
+  <p>The relevant topics include, but are not limited to:</p>
+  <ul>
+    <li>User model development and evaluation</li>
+    <li>User modeling and simulation for interactive and conversational systems</li>
+    <li>Practical large-scale studies of user experience</li>
+    <li>Personalized content ranking and presentation</li>
+    <li>ML for personalized search and recommendations</li>
+    <li>Social recommender systems and personalization for the social Web</li>
+    <li>Psychology-informed user models and recommender systems</li>
+    <li>Metrics for user behavior and evaluating success</li>
+    <li>Fairness-aware retrieval and ranking</li>
+    <li>Explainable and interpretable methods for personalization</li>
+    <li>Accountability, Transparency, and Ethics for personalization</li>
+    <li>User privacy protection in personalized systems</li>
+    <li>Studies of user behavior, including longitudinal effects of personalized systems</li>
+    <li>Large Language Models (LLM) for user modeling and recommendation</li>
+    <li>Attacks and countermeasures in recommendation systems</li>
+    <li>Federated recommendation systems and personalization</li>
+    <li>On-Device user modeling, personalization, and recommendation</li>
+    <li>User modeling for targeted and personalized online advertising</li>
+  </ul>
+
+  <p>Track Chairs:</p>
+  <ul>
+    <li>Michael Ekstrand (Drexel University)</li>
+    <li>Alan Said (University of Gothenburg)</li>
+    <li>Sherry Sahebi (University at Albany)</li>
+  </ul>
+</div>
+
+<!-- Track 10 -->
+<button class="accordion">Web mining and content analysis</button>
+<div class="panel">
+  <p>This track welcomes submissions of original and high-quality research papers related to the extraction of information from the Web and the analysis and mining of Web content.</p>
+
+  </br>
+  <p>The relevant topics include, but are not limited to:</p>
+  <ul>
+    <li>Web data integration and cleaning</li>
+    <li>Web data generation and simulation</li>
+    <li>Web data visualization</li>
+    <li>Large pretrained models with web data</li>
+    <li>Machine learning and data science for the Web</li>
+    <li>Robustness and generalizability of Web mining methods</li>
+    <li>Normalization, clustering, classification, and summarization of Web text</li>
+    <li>Topic discovery and tracking</li>
+    <li>Community question answering</li>
+    <li>Sentiment analysis and opinion mining</li>
+    <li>Content-based information diffusion</li>
+    <li>Mining multimedia, multimodal, multilingual, cross-lingual Web data</li>
+    <li>Bridging structured and unstructured data</li>
+    <li>Web traffic and log analysis</li>
+    <li>Web measurements</li>
+    <li>Models for Web evolution</li>
+    <li>Interdisciplinary science discovery with web data mining</li>
+    <li>Web data provenance, reliability, and authenticity</li>
+    <li>Web data quality in the era of algorithmically-generated content</li>
+  </ul>
+
+  <p>Track Chairs:</p>
+  <ul>
+    <li>Hui Liu (Michigan State University)</li>
+    <li>Edgar Meij (Bloomberg)</li>
+  </ul>
+</div>
+
+<script>
+const acc = document.getElementsByClassName("accordion");
+for (let i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function () {
+    this.classList.toggle("active");
+    let panel = this.nextElementSibling;
+    panel.style.display = (panel.style.display === "block") ? "none" : "block";
+  });
+}
+</script>
+</div>
+      </br>
+        <h2>Submission Guidelines</h2>
+        <p>
+          <b>Deadlines.</b> The submission deadlines are strict and no
+          extensions, regardless of circumstances, will be allowed.
+          Placeholder/dummy abstracts are forbidden.
+        </p>
+        <p>
+          <b>Authorship.</b> The ACM has an
+          <a
+            href="https://www.acm.org/publications/policies/new-acm-policy-on-authorship"
+            target="_blank"
+            >authorship policy</a
+          >
+          stating who can be considered an author in a submission as well as the
+          use of generative AI tools. Every person named as the author of a
+          paper must have contributed substantially to the work described in the
+          paper and/or to the writing of the paper and must take responsibility
+          for the entire content of a paper.
+        </p>
+        <p>
+          <b>Maximum authorship.</b> The number of submissions allowed per
+          author is limited to 7 (seven) maximum, cumulatively across the
+          research tracks. If more than 7 papers are submitted with the same
+          person listed as an author, the additional papers submitted after the
+          first 7 by submission ID, will be desk-rejected after the full paper
+          submission deadline.
+        </p>
+        <p>
+          <b>Authorship changes.</b> The full list of authors, including the
+          ordering, must be finalized at the point of submission. There cannot
+          be any addition, removal, or reordering of authors after the abstract
+          submission deadline. The only changes allowed are the correction of
+          spelling mistakes or new affiliations.
+        </p>
+        <p>
+          Authorship means accountability for the work. As such, Large Language
+          Models (LLMs) (e.g., ChatGPT) cannot be considered authors. You can
+          use LLMs to rephrase your text, but you are solely responsible for the
+          text in the paper.
+        </p>
+        <p>
+          <b>Anonymity.</b> The review process will be double-blind. The
+          submitted document should omit any author names, affiliations, or
+          other identifying information. This may include, but is not restricted
+          to acknowledgments, self-citations, references to prior work by the
+          author(s), and so on. Please use the third-person to identify your own
+          prior work. You may explicitly refer in the paper to organizations
+          that provided datasets, hosted experiments, or deployed solutions and
+          tools.
+        </p>
+        <p>
+          <b>Formatting Requirements.</b> Submissions must be in English, in
+          double-column format, and must adhere to the
+          <a href="https://www.acm.org/publications/proceedings-template">ACM template and format</a> (also
+          <a href="https://www.overleaf.com/latex/templates/association-for-computing-machinery-acm-sig-proceedings-template/bmvfhcdnxfty">available</a> in Overleaf). Word users may use the Word
+          Interim Template and the recommended setting for LaTeX is:
+        </p>
+        <p><code>\documentclass[sigconf, anonymous, review]{acmart}.</code></p>
+        <p>
+          Submissions must be a single PDF file: 8 (eight) pages as main paper,
+          with additional pages for references and an optional Appendix (that
+          might contain details on reproducibility, proofs, pseudo-code, etc),
+          up to a maximum of 12 (twelve) pages in total. The first 8 pages
+          should be self-contained, since reviewers are not required to read
+          past that.
+        </p>
+        <p>
+          <b>Originality and Concurrent Submissions.</b> Submissions must
+          present original work---this means that papers under review at or
+          published/accepted to any peer-reviewed conference / journal with
+          published proceedings cannot be submitted. Submissions that have been
+          previously presented orally, as posters or abstracts-only, or in
+          non-archival venues with no formal proceedings, including workshops or
+          PhD symposia without proceedings, are allowed. Authors may submit
+          anonymized work that is already available as a preprint (e.g., on
+          arXiv or SSRN) without citing it. The ACM has a strict
+          <a
+            href="https://www.acm.org/publications/policies/plagiarism-overview"
+            target="_blank"
+          >
+            against plagiarism, misrepresentation, and falsification</a
+          >
+          that applies to all publications.
+        </p>
+        <p>
+          <b>Ethical Use of Data and Informed Consent.</b> Authors are
+          encouraged to include a section on the ethical use of data and/or
+          informed consent of research subjects in their paper, when
+          appropriate. You and your co-authors are subject to all
+          <a
+            href="https://www.acm.org/publications/policies/toc"
+            target="_blank"
+            >ACM Publications Policies </a
+          >, including
+          <a
+            href="https://www.acm.org/publications/policies/research-involving-human-participants-and-subjects"
+            target="_blank"
+            >ACM's Publications Policy
+          </a>
+          on Research Involving Human Participants and Subjects (posted in
+          2021). Please ensure all authors are familiar with these policies.
+        </p>
+
+        <p>
+          Please consult the regulations of your institution(s) indicating when
+          a review by an Institutional Ethics Review Board (IRB) is needed. If
+          your work has been reviewed by an IRB, please indicate this in the
+          paper, providing approval numbers where appropriate. Failure to comply
+          with the above-mentioned policy on Human Participants and Subjects
+          will lead to a rejection of the paper.
+        </p>
+        <p>
+          Submissions that do not follow these guidelines or do not view or
+          print properly, will be desk-rejected.
+        </p>
+
+        <h2>Reviewing Process</h2>
+        <p>
+          <b>Reviewing.</b> Each paper is submitted to one of the tracks listed
+          above. Papers that do not conform to the conference scope or
+          submission guidelines will be desk-rejected by the track chairs.
+        </p>
+        <p>
+          <b>Rebuttal.</b> Authors will have the chance to provide a response to
+          the reviews during a rebuttal period. After the end of the rebuttal
+          period, reviewers, together with senior PC members and track chairs,
+          will consider the authors' responses to inform acceptance decisions.
+          There will be no interactive rebuttal between authors and reviewers.
+        </p>
+        <p>
+          <b>Decision.</b> A range of factors including technical merit,
+          originality, potential impact, quality of execution, quality of
+          presentation, related work, reproducibility of results, and ethics,
+          will be used by the ACs and SACs to make a recommendation. The PC
+          Chairs will make the final decisions.
+        </p>
+        <!-- <p>
+          <b>Transparency.</b> By submitting paper(s) to The Web Conference
+          2025, the authors agree that the reviews, meta-reviews, and
+          discussions will be made public in OpenReview for all accepted papers.
+        </p> -->
+
+        <h2>Conflict of Interest (COI) Policy</h2>
+        <p>
+          All authors and reviewers must declare conflicts of interest in
+          EasyChair. You must declare a domain conflict for employment at the
+          same institution or company, regardless of geography/location,
+          currently or in the last 12 months. You must declare a personal
+          conflict when the following associations exist:
+        </p>
+        <ul>
+          <li>candidate for employment at the same institution or company</li>
+          <li>
+            co-author on book/paper or co-PI on a funded grant/research proposal
+            in the last 24 months
+          </li>
+          <li>active collaborator</li>
+          <li>family relationship or close personal relationship</li>
+          <li>
+            graduate advisee/advisor relationship, regardless of time elapsed
+            since graduation
+          </li>
+          <li>deep personal animosity</li>
+        </ul>
+        <p>
+          In general, we expect authors, PC, the organizing committee, and other
+          volunteers to adhere to
+          <a
+            href="https://www.acm.org/special-interest-groups/volunteer-resources/acm-conflict-of-interest-policy"
+            target="_blank"
+            >ACM's Conflict of Interest Policy</a
+          >
+          as well as the
+          <a
+            href="https://www.acm.org/about-acm/acm-code-of-ethics-and-professional-conduct"
+            target="_blank"
+            >ACM's Code of Ethics and Profession</a
+          >
+        </p>
+
+
+        <h2>Publication and Presentation Policies</h2>
+
+        <p>
+          <b>Publication.</b> All accepted papers will be allowed the same
+          maximum page length in the proceedings (12 pages, of which 8 are
+          content pages), which will be published by ACM and will be accessible
+          via the ACM Digital Library. Accepted papers will require a further
+          revision to meet the requirements of the camera-ready format required
+          by ACM. Camera-ready versions of accepted papers can and should
+          include all information to identify authors, and should acknowledge
+          any funding received that directly supported the presented research.
+         
+        </p>
+ <ul>
+        <li>
+        By submitting your article to an ACM Publication, you and your co-authors acknowledge that you are subject to all <a href="https://checkpoint.url-protection.com/v1/r07/url?o=https%3A//www.acm.org/publications/policies&g=Mzc0NDk1NDEyZTc0YzFlNA==&h=OTA1NmNjNDg5MDhiOGQxMDYwY2Y0YjRlMjg1YmM3NzE0ZmRhMzA5M2ExNzE0NDhkMjM0MGYzMjEwZGRkMTM0Mg==&p=bWVjMTp0ZWNobm9sb2d5aW5ub3ZhdGlvbmluc3RpdHV0ZTpjOm86ZDgwMjY5YjFiMDZjNTlhOTQzZmUxYWI2Y2I3N2RmYzY6NzpoOlQ=" target="_blank">ACM Publications Policies,</a>  including ACM's new <a href="https://www.acm.org/publications/policies/research-involving-human-participants-and-subjects" target="_blank"> Publications Policy on Research Involving Human Participants and Subjects</a>. Alleged violations of this or any ACM Publications Policy will be investigated by ACM and may result in a full retraction of your paper and other potential penalties.
+        </li>
+
+        <li>
+       Please ensure that you and your co-authors <a href="https://orcid.org/register" target="_blank">obtain an ORCID ID</a> so you can complete the publishing process for an accepted paper. ACM has been involved in ORCID from the start and we have recently made a <a href="https://authors.acm.org/author-resources/orcid-faqs" target="_blank">commitment to collect ORCID IDs from all of our published authors.</a> We are committed to improve author discoverability, ensure proper attribution and contribute to ongoing community efforts around name normalization; your ORCID ID will help in these efforts.
+
+
+       
+        </li>
+      </ul>
+        <p>
+          <b>Registration.</b> To be included in the proceedings, every accepted
+          paper must be covered by a distinct conference registration, e.g., two
+          papers require two registrations, even if they have overlapping
+          authors. This registration must be Full Conference (5-day) or Main
+          Conference (3-day) registration, at the standard (non-student)
+          in-person rate, payment of which must be completed by the camera-ready
+          deadline. This registration requirement applies universally,
+          regardless of attendance or presentation mode.
+        </p>
+
+        <p>
+          <b>Presentation.</b> Every accepted paper must be presented at the
+          conference. No-show papers may be withdrawn from the proceedings.
+          There will be two forms of presentation:
+        </p>
+        <ul>
+          <li>
+            <b>Oral Presentation.</b> Among the accepted papers, a subset will
+            be selected for oral presentation. Generally we expect oral
+            presentations to be in-person, but may allow a few online
+            presentations by authors with significant travel difficulties.
+          </li>
+          <li>
+            <b>Poster Presentation.</b> All papers will be asked to produce a
+            poster on-site. An e-copy will appear on Whova.
+          </li>
+        </ul>
+
+        <p>
+          <b>Reproducibility.</b> Authors are strongly encouraged to make their
+          code and data publicly available after the review process. We are
+          encouraging the (optional) use of the "Artifacts Available" badge in
+          ACM's Digital Library. If you release any code, dataset, or similar
+          artifact to accompany your paper, and host it in a publicly available,
+          archival repository for research artifacts that provides a Document
+          Object Identifier (DOI), you are welcome to apply for this badge. A
+          special subcommittee will check the artifacts of all accepted papers
+          for availability and relatedness to the paper after the acceptance
+          notification.
+        </p>
+
+        <h3>Important update on ACM's new open access publishing model for 2026 ACM Conferences!</h3>
+
+        <p>Starting January 1, 2026, ACM will fully transition to Open Access. All ACM publications, including those from ACM-sponsored conferences, will be 100% Open Access. Authors will have two primary options for publishing Open Access articles with ACM: the 
+        ACM Open institutional model or by paying 
+        Article Processing Charges (APCs).
+        With over <a href="https://libraries.acm.org/acmopen/open-participants">2,700+ institutions</a> already part of ACM Open with more institutions joining from around the world every week, the majority of ACM-sponsored conference papers will not require APCs from authors or conferences (currently, around 75% on average across all ACM-sponsored conferences).</p>
+        
+        <p>Authors from institutions not participating in ACM Open will need to pay an APC to publish their papers, unless they qualify for a geographic or discretionary financial hardship waiver. 
+        To find out whether an APC applies to your article, please consult the 
+        <a href="https://libraries.acm.org/acmopen/open-participants">list of participating institutions</a> in ACM Open and review the 
+        <a href="https://www.acm.org/publications/policies/policy-on-geographic-apc-waivers-and-discounts">Policy on Geographic APC Waivers and Discounts Policy</a> and the 
+        <a href="https://www.acm.org/publications/policies/policy-on-discretionary-open-access-apc-waivers">Policy on Discretionary APC Waivers</a>. 
+        Keep in mind that discretionary waivers are rare and are granted based on specific criteria set by ACM. Simply sending a message to ACM indicating an inability to pay an APC is typically insufficient justification for such a waiver. Waivers are based on the specific circumstances of the author(s) requesting the waiver. ACM does take seriously into consideration the institutional affiliation of the authors and whether it is a reasonable expectation that their institution should be joining the ACM Open program. This is necessary for the long-term financial sustainability of the ACM Open model.</p>
+        
+        <p>Understanding that this change could present financial challenges, ACM has approved a temporary subsidy for 2026 to ease the transition and allow more time for institutions to join ACM Open. The subsidy will offer:</p>
+        
+        <ul>
+          <li>$250 APC for ACM/SIG members</li>
+          <li>$350 for non-members</li>
+        </ul>
+        
+        <p>This represents a 65% discount off the regular <a href="https://www.acm.org/publications/openaccess#oapricing">APC list prices</a>, funded directly by ACM. Authors are encouraged to help advocate for their institutions to join ACM Open during this transition period. This temporary subsidized pricing will apply to all conferences scheduled for 2026.</p>
+        
+
+
+        <section class="important-dates">
+        <h2>Research Tracks Co-Chairs</h2>
+        <a href="https://www.francescobonchi.com/" target="_blank"
+          >Dr. Francesco Bonchi </a
+        >(CentAI)
+        <br />
+        <a
+          href="https://scholar.google.com/citations?user=iiXF7KkAAAAJ&hl=en"
+          target="_blank"
+          >Prof. Ido Guy</a
+        >
+        (Meta and Ben-Gurion University of the Negev)
+        <br />
+
+        <a href="https://sites.google.com/site/emineyilmaz/" target="_blank"
+          >Prof. Emine Yilmaz</a
+        >
+        (UCL & Amazon)
+
+        <p>
+          <b>Contact:</b>
+          <a href="mailto:pcchairs-www2026@acm.org">pcchairs-www2026@acm.org</a>
+        </p>
+        </section>
+      </div>
+      
+    </section>
+
+    <div id="footer-placeholder"></div>
+
+    <script src="../js/main.js"></script>
+    <script>
+      // Add dropdown toggle functionality for mobile
+      document.addEventListener("DOMContentLoaded", function () {
+        const mobileMenuToggle = document.querySelector(".mobile-menu-toggle");
+        const tabMenu = document.querySelector(".tab-menu");
+
+        if (mobileMenuToggle) {
+          mobileMenuToggle.addEventListener("click", function () {
+            tabMenu.classList.toggle("active");
+          });
+        }
+
+        // For mobile: toggle dropdown on tap
+        if (window.innerWidth <= 768) {
+          const dropdownLinks = document.querySelectorAll(
+            ".tab-menu a.has-dropdown"
+          );
+
+          dropdownLinks.forEach((link) => {
+            link.addEventListener("click", function (e) {
+              if (window.innerWidth <= 768) {
+                e.preventDefault();
+                this.parentNode.classList.toggle("active");
+              }
+            });
+          });
+        }
+      });
+    </script>
+
+    <script src="../js/header-loader.js"></script>
+      <script src="../js/footer-loader.js"></script>
+    </body>
+</html>

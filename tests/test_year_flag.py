@@ -15,8 +15,7 @@ from main import _parse_years
         ("2026", [2026]),
         ("2026,2027", [2026, 2027]),
         ("2025, 2026, 2027", [2025, 2026, 2027]),
-    ],
-)
+    ])
 def test_parse_years(raw, expected):
     assert _parse_years(raw) == expected
 

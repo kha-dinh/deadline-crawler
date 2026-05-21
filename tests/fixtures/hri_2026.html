@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name='robots' content='max-image-preview:large' />
+	<style>img:is([sizes="auto" i], [sizes^="auto," i]) { contain-intrinsic-size: 3000px 1500px }</style>
+	<title>Full Papers &#8211; HRI 2026</title>
+<link rel='dns-prefetch' href='//www.googletagmanager.com' />
+<link rel="alternate" type="application/rss+xml" title="HRI 2026 &raquo; Feed" href="https://humanrobotinteraction.org/2026/feed/" />
+<link rel="alternate" type="application/rss+xml" title="HRI 2026 &raquo; Comments Feed" href="https://humanrobotinteraction.org/2026/comments/feed/" />
+<script>
+window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/humanrobotinteraction.org\/2026\/wp-includes\/js\/wp-emoji-release.min.js?ver=6.7.5"}};
+/*! This file is auto-generated */
+!function(i,n){var o,s,e;function c(e){try{var t={supportTests:e,timestamp:(new Date).valueOf()};sessionStorage.setItem(o,JSON.stringify(t))}catch(e){}}function p(e,t,n){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);var t=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data),r=(e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(n,0,0),new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data));return t.every(function(e,t){return e===r[t]})}function u(e,t,n){switch(t){case"flag":return n(e,"\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!n(e,"\ud83c\uddfa\ud83c\uddf3","\ud83c\uddfa\u200b\ud83c\uddf3")&&!n(e,"\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!n(e,"\ud83d\udc26\u200d\u2b1b","\ud83d\udc26\u200b\u2b1b")}return!1}function f(e,t,n){var r="undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?new OffscreenCanvas(300,150):i.createElement("canvas"),a=r.getContext("2d",{willReadFrequently:!0}),o=(a.textBaseline="top",a.font="600 32px Arial",{});return e.forEach(function(e){o[e]=t(a,e,n)}),o}function t(e){var t=i.createElement("script");t.src=e,t.defer=!0,i.head.appendChild(t)}"undefined"!=typeof Promise&&(o="wpEmojiSettingsSupports",s=["flag","emoji"],n.supports={everything:!0,everythingExceptFlag:!0},e=new Promise(function(e){i.addEventListener("DOMContentLoaded",e,{once:!0})}),new Promise(function(t){var n=function(){try{var e=JSON.parse(sessionStorage.getItem(o));if("object"==typeof e&&"number"==typeof e.timestamp&&(new Date).valueOf()<e.timestamp+604800&&"object"==typeof e.supportTests)return e.supportTests}catch(e){}return null}();if(!n){if("undefined"!=typeof Worker&&"undefined"!=typeof OffscreenCanvas&&"undefined"!=typeof URL&&URL.createObjectURL&&"undefined"!=typeof Blob)try{var e="postMessage("+f.toString()+"("+[JSON.stringify(s),u.toString(),p.toString()].join(",")+"));",r=new Blob([e],{type:"text/javascript"}),a=new Worker(URL.createObjectURL(r),{name:"wpTestEmojiSupports"});return void(a.onmessage=function(e){c(n=e.data),a.terminate(),t(n)})}catch(e){}c(n=f(s,u,p))}t(n)}).then(function(e){for(var t in e)n.supports[t]=e[t],n.supports.everything=n.supports.everything&&n.supports[t],"flag"!==t&&(n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&n.supports[t]);n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&!n.supports.flag,n.DOMReady=!1,n.readyCallback=function(){n.DOMReady=!0}}).then(function(){return e}).then(function(){var e;n.supports.everything||(n.readyCallback(),(e=n.source||{}).concatemoji?t(e.concatemoji):e.wpemoji&&e.twemoji&&(t(e.twemoji),t(e.wpemoji)))}))}((window,document),window._wpemojiSettings);
+</script>
+<link rel='stylesheet' id='cnss_font_awesome_css-css' href='https://humanrobotinteraction.org/2026/wp-content/plugins/easy-social-icons/css/font-awesome/css/all.min.css?ver=7.0.0' media='all' />
+<link rel='stylesheet' id='cnss_font_awesome_v4_shims-css' href='https://humanrobotinteraction.org/2026/wp-content/plugins/easy-social-icons/css/font-awesome/css/v4-shims.min.css?ver=7.0.0' media='all' />
+<link rel='stylesheet' id='cnss_css-css' href='https://humanrobotinteraction.org/2026/wp-content/plugins/easy-social-icons/css/cnss.css?ver=1.0' media='all' />
+<link rel='stylesheet' id='cnss_share_css-css' href='https://humanrobotinteraction.org/2026/wp-content/plugins/easy-social-icons/css/share.css?ver=1.0' media='all' />
+<style id='wp-block-site-logo-inline-css'>
+.wp-block-site-logo{box-sizing:border-box;line-height:0}.wp-block-site-logo a{display:inline-block;line-height:0}.wp-block-site-logo.is-default-size img{height:auto;width:120px}.wp-block-site-logo img{height:auto;max-width:100%}.wp-block-site-logo a,.wp-block-site-logo img{border-radius:inherit}.wp-block-site-logo.aligncenter{margin-left:auto;margin-right:auto;text-align:center}:root :where(.wp-block-site-logo.is-style-rounded){border-radius:9999px}
+</style>
+<style id='wp-block-group-inline-css'>
+.wp-block-group{box-sizing:border-box}:where(.wp-block-group.wp-block-group-is-layout-constrained){position:relative}
+</style>
+<style id='wp-block-group-theme-inline-css'>
+:where(.wp-block-group.has-background){padding:1.25em 2.375em}
+</style>
+<style id='wp-block-navigation-link-inline-css'>
+.wp-block-navigation .wp-block-navigation-item__label{overflow-wrap:break-word}.wp-block-navigation .wp-block-navigation-item__description{display:none}.link-ui-tools{border-top:1px solid #f0f0f0;padding:8px}.link-ui-block-inserter{padding-top:8px}.link-ui-block-inserter__back{margin-left:8px;text-transform:uppercase}
+</style>
+<link rel='stylesheet' id='wp-block-navigation-css' href='https://humanrobotinteraction.org/2026/wp-includes/blocks/navigation/style.min.css?ver=6.7.5' media='all' />
+<style id='wp-block-template-part-theme-inline-css'>
+:root :where(.wp-block-template-part.has-background){margin-bottom:0;margin-top:0;padding:1.25em 2.375em}
+</style>
+<style id='wp-block-post-title-inline-css'>
+.wp-block-post-title{box-sizing:border-box;word-break:break-word}.wp-block-post-title :where(a){display:inline-block;font-family:inherit;font-size:inherit;font-style:inherit;font-weight:inherit;letter-spacing:inherit;line-height:inherit;text-decoration:inherit}
+</style>
+<style id='wp-block-paragraph-inline-css'>
+.is-small-text{font-size:.875em}.is-regular-text{font-size:1em}.is-large-text{font-size:2.25em}.is-larger-text{font-size:3em}.has-drop-cap:not(:focus):first-letter{float:left;font-size:8.4em;font-style:normal;font-weight:100;line-height:.68;margin:.05em .1em 0 0;text-transform:uppercase}body.rtl .has-drop-cap:not(:focus):first-letter{float:none;margin-left:.1em}p.has-drop-cap.has-background{overflow:hidden}:root :where(p.has-background){padding:1.25em 2.375em}:where(p.has-text-color:not(.has-link-color)) a{color:inherit}p.has-text-align-left[style*="writing-mode:vertical-lr"],p.has-text-align-right[style*="writing-mode:vertical-rl"]{rotate:180deg}
+</style>
+<style id='wp-block-heading-inline-css'>
+h1.has-background,h2.has-background,h3.has-background,h4.has-background,h5.has-background,h6.has-background{padding:1.25em 2.375em}h1.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h1.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h2.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h2.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h3.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h3.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h4.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h4.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h5.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h5.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h6.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h6.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]){rotate:180deg}
+</style>
+<style id='wp-block-list-inline-css'>
+ol,ul{box-sizing:border-box}:root :where(.wp-block-list.has-background){padding:1.25em 2.375em}
+</style>
+<style id='wp-block-post-content-inline-css'>
+.wp-block-post-content{display:flow-root}
+</style>
+<style id='wp-emoji-styles-inline-css'>
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+</style>
+<style id='wp-block-library-inline-css'>
+:root{--wp-admin-theme-color:#007cba;--wp-admin-theme-color--rgb:0,124,186;--wp-admin-theme-color-darker-10:#006ba1;--wp-admin-theme-color-darker-10--rgb:0,107,161;--wp-admin-theme-color-darker-20:#005a87;--wp-admin-theme-color-darker-20--rgb:0,90,135;--wp-admin-border-width-focus:2px;--wp-block-synced-color:#7a00df;--wp-block-synced-color--rgb:122,0,223;--wp-bound-block-color:var(--wp-block-synced-color)}@media (min-resolution:192dpi){:root{--wp-admin-border-width-focus:1.5px}}.wp-element-button{cursor:pointer}:root{--wp--preset--font-size--normal:16px;--wp--preset--font-size--huge:42px}:root .has-very-light-gray-background-color{background-color:#eee}:root .has-very-dark-gray-background-color{background-color:#313131}:root .has-very-light-gray-color{color:#eee}:root .has-very-dark-gray-color{color:#313131}:root .has-vivid-green-cyan-to-vivid-cyan-blue-gradient-background{background:linear-gradient(135deg,#00d084,#0693e3)}:root .has-purple-crush-gradient-background{background:linear-gradient(135deg,#34e2e4,#4721fb 50%,#ab1dfe)}:root .has-hazy-dawn-gradient-background{background:linear-gradient(135deg,#faaca8,#dad0ec)}:root .has-subdued-olive-gradient-background{background:linear-gradient(135deg,#fafae1,#67a671)}:root .has-atomic-cream-gradient-background{background:linear-gradient(135deg,#fdd79a,#004a59)}:root .has-nightshade-gradient-background{background:linear-gradient(135deg,#330968,#31cdcf)}:root .has-midnight-gradient-background{background:linear-gradient(135deg,#020381,#2874fc)}.has-regular-font-size{font-size:1em}.has-larger-font-size{font-size:2.625em}.has-normal-font-size{font-size:var(--wp--preset--font-size--normal)}.has-huge-font-size{font-size:var(--wp--preset--font-size--huge)}.has-text-align-center{text-align:center}.has-text-align-left{text-align:left}.has-text-align-right{text-align:right}#end-resizable-editor-section{display:none}.aligncenter{clear:both}.items-justified-left{justify-content:flex-start}.items-justified-center{justify-content:center}.items-justified-right{justify-content:flex-end}.items-justified-space-between{justify-content:space-between}.screen-reader-text{border:0;clip:rect(1px,1px,1px,1px);clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px;word-wrap:normal!important}.screen-reader-text:focus{background-color:#ddd;clip:auto!important;clip-path:none;color:#444;display:block;font-size:1em;height:auto;left:5px;line-height:normal;padding:15px 23px 14px;text-decoration:none;top:5px;width:auto;z-index:100000}html :where(.has-border-color){border-style:solid}html :where([style*=border-top-color]){border-top-style:solid}html :where([style*=border-right-color]){border-right-style:solid}html :where([style*=border-bottom-color]){border-bottom-style:solid}html :where([style*=border-left-color]){border-left-style:solid}html :where([style*=border-width]){border-style:solid}html :where([style*=border-top-width]){border-top-style:solid}html :where([style*=border-right-width]){border-right-style:solid}html :where([style*=border-bottom-width]){border-bottom-style:solid}html :where([style*=border-left-width]){border-left-style:solid}html :where(img[class*=wp-image-]){height:auto;max-width:100%}:where(figure){margin:0 0 1em}html :where(.is-position-sticky){--wp-admin--admin-bar--position-offset:var(--wp-admin--admin-bar--height,0px)}@media screen and (max-width:600px){html :where(.is-position-sticky){--wp-admin--admin-bar--position-offset:0px}}
+</style>
+<style id='global-styles-inline-css'>
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--color--raft-bg: #f4f1f1;--wp--preset--color--raft-fg: #1D1F25;--wp--preset--color--raft-accent: #2b4365;--wp--preset--color--raft-accent-secondary: #6f94c0;--wp--preset--color--raft-bg-inv: #1E1E1E;--wp--preset--color--raft-bg-alt: #ffffff99;--wp--preset--color--raft-fg-alt: #ffffff;--wp--preset--color--custom-highlight-text: #c0d6f0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 14px;--wp--preset--font-size--medium: 24px;--wp--preset--font-size--large: 28px;--wp--preset--font-size--x-large: 32px;--wp--preset--font-size--normal: 18px;--wp--preset--font-size--huge: 56px;--wp--preset--font-family--body: "Readex Pro", sans-serif;--wp--preset--font-family--source-serif-pro: "Source Serif Pro", serif;--wp--preset--font-family--figtree: "Figtree", sans-serif;--wp--preset--font-family--outfit: "Outfit", sans-serif;--wp--preset--font-family--spline-sans: "spline-sans", sans-serif;--wp--preset--font-family--geologica: "geologica", sans-serif;--wp--preset--font-family--gloock: "gloock", serif;--wp--preset--font-family--spline-sans-mono: "spline-sans-mono", sans-serif;--wp--preset--font-family--lora: "Lora", serif;--wp--preset--font-family--bellefair: Bellefair, serif;--wp--preset--font-family--gentium-book-plus: "Gentium Book Plus", serif;--wp--preset--font-family--alegreya-sans: "Alegreya Sans", sans-serif;--wp--preset--spacing--20: clamp(.4rem, 2vw, 0.5rem);--wp--preset--spacing--30: clamp(.6rem, 2.5vw, 1rem);--wp--preset--spacing--40: clamp(1rem, 3vw, 1.5rem);--wp--preset--spacing--50: clamp(1.5rem, 4vw, 2rem);--wp--preset--spacing--60: clamp(2rem, 5vw, 3rem);--wp--preset--spacing--70: clamp(3rem, 6vw, 4rem);--wp--preset--spacing--80: clamp(3rem, 7vw, 5rem);--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1);--wp--preset--shadow--crisp: 6px 6px 0px rgba(0, 0, 0, 1);--wp--custom--spacing--baseline: 16px;--wp--custom--spacing--small: min(24px, 6.4vw);--wp--custom--spacing--gap--horizontal: clamp( calc( 1.5 * var( --wp--custom--spacing--baseline ) ), 2.222vw, calc( 2 * var( --wp--custom--spacing--baseline ) ) );--wp--custom--spacing--gap--vertical: clamp( calc( 1.5 * var( --wp--custom--spacing--baseline ) ), 3.333vw, calc( 3 * var( --wp--custom--spacing--baseline ) ) );--wp--custom--spacing--gutter: clamp( calc( 1.5 * var( --wp--custom--spacing--baseline ) ), 3.333vw, calc( 3 * var( --wp--custom--spacing--baseline ) ) );--wp--custom--spacing--outer: var( --wp--custom--spacing--gutter );--wp--custom--typography--font-smoothing--moz: grayscale;--wp--custom--typography--font-smoothing--webkit: antialiased;}:root { --wp--style--global--content-size: 740px;--wp--style--global--wide-size: 960px; }:where(body) { margin: 0; }.wp-site-blocks > .alignleft { float: left; margin-right: 2em; }.wp-site-blocks > .alignright { float: right; margin-left: 2em; }.wp-site-blocks > .aligncenter { justify-content: center; margin-left: auto; margin-right: auto; }:where(.wp-site-blocks) > * { margin-block-start: 24px; margin-block-end: 0; }:where(.wp-site-blocks) > :first-child { margin-block-start: 0; }:where(.wp-site-blocks) > :last-child { margin-block-end: 0; }:root { --wp--style--block-gap: 24px; }:root :where(.is-layout-flow) > :first-child{margin-block-start: 0;}:root :where(.is-layout-flow) > :last-child{margin-block-end: 0;}:root :where(.is-layout-flow) > *{margin-block-start: 24px;margin-block-end: 0;}:root :where(.is-layout-constrained) > :first-child{margin-block-start: 0;}:root :where(.is-layout-constrained) > :last-child{margin-block-end: 0;}:root :where(.is-layout-constrained) > *{margin-block-start: 24px;margin-block-end: 0;}:root :where(.is-layout-flex){gap: 24px;}:root :where(.is-layout-grid){gap: 24px;}.is-layout-flow > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}.is-layout-flow > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}.is-layout-flow > .aligncenter{margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}.is-layout-constrained > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}.is-layout-constrained > .aligncenter{margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > :where(:not(.alignleft):not(.alignright):not(.alignfull)){max-width: var(--wp--style--global--content-size);margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > .alignwide{max-width: var(--wp--style--global--wide-size);}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}body{background-color: var(--wp--preset--color--raft-bg);color: var(--wp--preset--color--raft-fg);font-family: var(--wp--preset--font-family--gentium-book-plus);font-size: var(--wp--preset--font-size--normal);font-style: normal;font-weight: 400;line-height: 1.7;padding-top: 0px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;}a:where(:not(.wp-element-button)){color: var(--wp--preset--color--raft-accent-secondary);text-decoration: none;}h1, h2, h3, h4, h5, h6{font-family: var(--wp--preset--font-family--gloock);}h1{font-size: var(--wp--preset--font-size--huge);font-weight: 600;line-height: 1.25;}h2{font-size: var(--wp--preset--font-size--x-large);font-weight: 600;line-height: 1.35;}h3{font-size: var(--wp--preset--font-size--large);font-weight: 600;line-height: 1.35;}h4{font-size: var(--wp--preset--font-size--medium);font-weight: 600;line-height: 1.4;}h5{font-size: var(--wp--preset--font-size--normal);font-weight: 600;line-height: 1.55;}h6{font-size: var(--wp--preset--font-size--small);font-weight: 600;line-height: 1.6;}:root :where(.wp-element-button, .wp-block-button__link){background-color: #32373c;border-width: 0;color: #fff;font-family: inherit;font-size: inherit;line-height: inherit;padding: calc(0.667em + 2px) calc(1.333em + 2px);text-decoration: none;}:root :where(.wp-element-caption, .wp-block-audio figcaption, .wp-block-embed figcaption, .wp-block-gallery figcaption, .wp-block-image figcaption, .wp-block-table figcaption, .wp-block-video figcaption){color: var(--wp--preset--color--raft-fg);font-size: var(--wp--preset--font-size--small);}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-raft-bg-color{color: var(--wp--preset--color--raft-bg) !important;}.has-raft-fg-color{color: var(--wp--preset--color--raft-fg) !important;}.has-raft-accent-color{color: var(--wp--preset--color--raft-accent) !important;}.has-raft-accent-secondary-color{color: var(--wp--preset--color--raft-accent-secondary) !important;}.has-raft-bg-inv-color{color: var(--wp--preset--color--raft-bg-inv) !important;}.has-raft-bg-alt-color{color: var(--wp--preset--color--raft-bg-alt) !important;}.has-raft-fg-alt-color{color: var(--wp--preset--color--raft-fg-alt) !important;}.has-custom-highlight-text-color{color: var(--wp--preset--color--custom-highlight-text) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-raft-bg-background-color{background-color: var(--wp--preset--color--raft-bg) !important;}.has-raft-fg-background-color{background-color: var(--wp--preset--color--raft-fg) !important;}.has-raft-accent-background-color{background-color: var(--wp--preset--color--raft-accent) !important;}.has-raft-accent-secondary-background-color{background-color: var(--wp--preset--color--raft-accent-secondary) !important;}.has-raft-bg-inv-background-color{background-color: var(--wp--preset--color--raft-bg-inv) !important;}.has-raft-bg-alt-background-color{background-color: var(--wp--preset--color--raft-bg-alt) !important;}.has-raft-fg-alt-background-color{background-color: var(--wp--preset--color--raft-fg-alt) !important;}.has-custom-highlight-text-background-color{background-color: var(--wp--preset--color--custom-highlight-text) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-raft-bg-border-color{border-color: var(--wp--preset--color--raft-bg) !important;}.has-raft-fg-border-color{border-color: var(--wp--preset--color--raft-fg) !important;}.has-raft-accent-border-color{border-color: var(--wp--preset--color--raft-accent) !important;}.has-raft-accent-secondary-border-color{border-color: var(--wp--preset--color--raft-accent-secondary) !important;}.has-raft-bg-inv-border-color{border-color: var(--wp--preset--color--raft-bg-inv) !important;}.has-raft-bg-alt-border-color{border-color: var(--wp--preset--color--raft-bg-alt) !important;}.has-raft-fg-alt-border-color{border-color: var(--wp--preset--color--raft-fg-alt) !important;}.has-custom-highlight-text-border-color{border-color: var(--wp--preset--color--custom-highlight-text) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}.has-normal-font-size{font-size: var(--wp--preset--font-size--normal) !important;}.has-huge-font-size{font-size: var(--wp--preset--font-size--huge) !important;}.has-body-font-family{font-family: var(--wp--preset--font-family--body) !important;}.has-source-serif-pro-font-family{font-family: var(--wp--preset--font-family--source-serif-pro) !important;}.has-figtree-font-family{font-family: var(--wp--preset--font-family--figtree) !important;}.has-outfit-font-family{font-family: var(--wp--preset--font-family--outfit) !important;}.has-spline-sans-font-family{font-family: var(--wp--preset--font-family--spline-sans) !important;}.has-geologica-font-family{font-family: var(--wp--preset--font-family--geologica) !important;}.has-gloock-font-family{font-family: var(--wp--preset--font-family--gloock) !important;}.has-spline-sans-mono-font-family{font-family: var(--wp--preset--font-family--spline-sans-mono) !important;}.has-lora-font-family{font-family: var(--wp--preset--font-family--lora) !important;}.has-bellefair-font-family{font-family: var(--wp--preset--font-family--bellefair) !important;}.has-gentium-book-plus-font-family{font-family: var(--wp--preset--font-family--gentium-book-plus) !important;}.has-alegreya-sans-font-family{font-family: var(--wp--preset--font-family--alegreya-sans) !important;}
+</style>
+<style id='core-block-supports-inline-css'>
+.wp-container-core-navigation-is-layout-1{gap:32px;justify-content:flex-end;}.wp-container-core-group-is-layout-3{flex-wrap:nowrap;justify-content:space-between;}
+</style>
+<style id='wp-block-template-skip-link-inline-css'>
+
+		.skip-link.screen-reader-text {
+			border: 0;
+			clip: rect(1px,1px,1px,1px);
+			clip-path: inset(50%);
+			height: 1px;
+			margin: -1px;
+			overflow: hidden;
+			padding: 0;
+			position: absolute !important;
+			width: 1px;
+			word-wrap: normal !important;
+		}
+
+		.skip-link.screen-reader-text:focus {
+			background-color: #eee;
+			clip: auto !important;
+			clip-path: none;
+			color: #444;
+			display: block;
+			font-size: 1em;
+			height: auto;
+			left: 5px;
+			line-height: normal;
+			padding: 15px 23px 14px;
+			text-decoration: none;
+			top: 5px;
+			width: auto;
+			z-index: 100000;
+		}
+</style>
+<link rel='stylesheet' id='raft-style-css' href='https://humanrobotinteraction.org/2026/wp-content/themes/raft/assets/css/build/style.css?ver=1.1.7' media='all' />
+<script src="https://humanrobotinteraction.org/2026/wp-includes/js/jquery/jquery.min.js?ver=3.7.1" id="jquery-core-js"></script>
+<script src="https://humanrobotinteraction.org/2026/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1" id="jquery-migrate-js"></script>
+<script src="https://humanrobotinteraction.org/2026/wp-content/plugins/easy-social-icons/js/cnss.js?ver=1.0" id="cnss_js-js"></script>
+<script src="https://humanrobotinteraction.org/2026/wp-content/plugins/easy-social-icons/js/share.js?ver=1.0" id="cnss_share_js-js"></script>
+
+<!-- Google tag (gtag.js) snippet added by Site Kit -->
+<!-- Google Analytics snippet added by Site Kit -->
+<script src="https://www.googletagmanager.com/gtag/js?id=GT-TWR93L2S" id="google_gtagjs-js" async></script>
+<script id="google_gtagjs-js-after">
+window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}
+gtag("set","linker",{"domains":["humanrobotinteraction.org"]});
+gtag("js", new Date());
+gtag("set", "developer_id.dZTNiMT", true);
+gtag("config", "GT-TWR93L2S");
+ window._googlesitekit = window._googlesitekit || {}; window._googlesitekit.throttledEvents = []; window._googlesitekit.gtagEvent = (name, data) => { var key = JSON.stringify( { name, data } ); if ( !! window._googlesitekit.throttledEvents[ key ] ) { return; } window._googlesitekit.throttledEvents[ key ] = true; setTimeout( () => { delete window._googlesitekit.throttledEvents[ key ]; }, 5 ); gtag( "event", name, { ...data, event_source: "site-kit" } ); };
+</script>
+<link rel="https://api.w.org/" href="https://humanrobotinteraction.org/2026/wp-json/" /><link rel="alternate" title="JSON" type="application/json" href="https://humanrobotinteraction.org/2026/wp-json/wp/v2/pages/84" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://humanrobotinteraction.org/2026/xmlrpc.php?rsd" />
+<meta name="generator" content="WordPress 6.7.5" />
+<link rel="canonical" href="https://humanrobotinteraction.org/2026/full-papers/" />
+<link rel='shortlink' href='https://humanrobotinteraction.org/2026/?p=84' />
+<link rel="alternate" title="oEmbed (JSON)" type="application/json+oembed" href="https://humanrobotinteraction.org/2026/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fhumanrobotinteraction.org%2F2026%2Ffull-papers%2F" />
+<link rel="alternate" title="oEmbed (XML)" type="text/xml+oembed" href="https://humanrobotinteraction.org/2026/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fhumanrobotinteraction.org%2F2026%2Ffull-papers%2F&#038;format=xml" />
+<style type="text/css">
+		ul.cnss-social-icon li.cn-fa-icon a:hover{color:#ffffff!important;}
+		</style><meta name="generator" content="Site Kit by Google 1.173.0" /><!-- Analytics by WP Statistics - https://wp-statistics.com -->
+<script type="importmap" id="wp-importmap">
+{"imports":{"@wordpress\/interactivity":"https:\/\/humanrobotinteraction.org\/2026\/wp-includes\/js\/dist\/script-modules\/interactivity\/index.min.js?ver=907ea3b2f317a78b7b9b"}}
+</script>
+<script type="module" src="https://humanrobotinteraction.org/2026/wp-includes/js/dist/script-modules/block-library/navigation/view.min.js?ver=8ff192874fc8910a284c" id="@wordpress/block-library/navigation/view-js-module"></script>
+<link rel="modulepreload" href="https://humanrobotinteraction.org/2026/wp-includes/js/dist/script-modules/interactivity/index.min.js?ver=907ea3b2f317a78b7b9b" id="@wordpress/interactivity-js-modulepreload"><meta name="google-site-verification" content="aVmV_7d33af_buu_Ii2G524juOqE-ZKPcez69X3WygQ"><style class='wp-fonts-local'>
+@font-face{font-family:"Readex Pro";font-style:normal;font-weight:160 700;font-display:swap;src:url('https://humanrobotinteraction.org/2026/wp-content/themes/raft/assets/fonts/readex-pro/ReadexPro-VariableFont_wght.ttf') format('truetype');font-stretch:normal;}
+@font-face{font-family:"Source Serif Pro";font-style:normal;font-weight:200 900;font-display:fallback;src:url('https://humanrobotinteraction.org/2026/wp-content/themes/raft/assets/fonts/source-serif-pro/SourceSerif4Variable-Roman.ttf.woff2') format('woff2');font-stretch:normal;}
+@font-face{font-family:"Source Serif Pro";font-style:italic;font-weight:200 900;font-display:fallback;src:url('https://humanrobotinteraction.org/2026/wp-content/themes/raft/assets/fonts/source-serif-pro/SourceSerif4Variable-Italic.ttf.woff2') format('woff2');font-stretch:normal;}
+@font-face{font-family:Figtree;font-style:normal;font-weight:300 900;font-display:fallback;src:url('https://humanrobotinteraction.org/2026/wp-content/themes/raft/assets/fonts/figtree/Figtree-VariableFont_wght.ttf') format('truetype');font-stretch:normal;}
+@font-face{font-family:Figtree;font-style:italic;font-weight:300 900;font-display:fallback;src:url('https://humanrobotinteraction.org/2026/wp-content/themes/raft/assets/fonts/figtree/Figtree-Italic-VariableFont_wght.ttf') format('truetype');font-stretch:normal;}
+@font-face{font-family:Outfit;font-style:normal;font-weight:100 900;font-display:swap;src:url('https://humanrobotinteraction.org/2026/wp-content/themes/raft/assets/fonts/outfit/Outfit-VariableFont_wght.ttf') format('truetype');font-stretch:normal;}
+@font-face{font-family:spline-sans;font-style:normal;font-weight:300 900;font-display:swap;src:url('https://humanrobotinteraction.org/2026/wp-content/themes/raft/assets/fonts/spline-sans/SplineSans-VariableFont_wght.ttf') format('truetype');font-stretch:normal;}
+@font-face{font-family:geologica;font-style:normal;font-weight:300 900;font-display:swap;src:url('https://humanrobotinteraction.org/2026/wp-content/themes/raft/assets/fonts/geologica/Geologica-VariableFont_CRSV,SHRP,slnt,wght.ttf') format('truetype');font-stretch:normal;}
+@font-face{font-family:gloock;font-style:normal;font-weight:400;font-display:swap;src:url('https://humanrobotinteraction.org/2026/wp-content/themes/raft/assets/fonts/gloock/Gloock-Regular.ttf') format('truetype');font-stretch:normal;}
+@font-face{font-family:spline-sans-mono;font-style:normal;font-weight:400 800;font-display:swap;src:url('https://humanrobotinteraction.org/2026/wp-content/themes/raft/assets/fonts/spline-sans-mono/SplineSansMono-VariableFont_wght.ttf') format('truetype');font-stretch:normal;}
+@font-face{font-family:spline-sans-mono;font-style:italic;font-weight:400 800;font-display:fallback;src:url('https://humanrobotinteraction.org/2026/wp-content/themes/raft/assets/fonts/spline-sans-mono/SplineSansMono-Italic-VariableFont_wght.ttf') format('truetype');font-stretch:normal;}
+@font-face{font-family:Lora;font-style:normal;font-weight:400 700;font-display:fallback;src:url('https://humanrobotinteraction.org/2026/wp-content/themes/raft/assets/fonts/lora/Lora-VariableFont_wght.ttf') format('truetype');font-stretch:normal;}
+@font-face{font-family:Lora;font-style:italic;font-weight:400 700;font-display:fallback;src:url('https://humanrobotinteraction.org/2026/wp-content/themes/raft/assets/fonts/lora/Lora-Italic-VariableFont_wght.ttf') format('truetype');font-stretch:normal;}
+@font-face{font-family:Bellefair;font-style:normal;font-weight:400;font-display:fallback;src:url('https://humanrobotinteraction.org/2026/wp-content/uploads/fonts/kJExBuYY6AAuhiXUxG19-vA2pOdvDA.woff2') format('woff2');}
+@font-face{font-family:"Gentium Book Plus";font-style:normal;font-weight:400;font-display:fallback;src:url('https://humanrobotinteraction.org/2026/wp-content/uploads/fonts/vEFL2-RHBgUK5fbjKxRpbBtJPyRpofKadbLOrdPV.woff2') format('woff2');}
+@font-face{font-family:"Gentium Book Plus";font-style:normal;font-weight:700;font-display:fallback;src:url('https://humanrobotinteraction.org/2026/wp-content/uploads/fonts/vEFO2-RHBgUK5fbjKxRpbBtJPyRpocojWpbDhs_cfKe1.woff2') format('woff2');}
+@font-face{font-family:"Gentium Book Plus";font-style:italic;font-weight:400;font-display:fallback;src:url('https://humanrobotinteraction.org/2026/wp-content/uploads/fonts/vEFN2-RHBgUK5fbjKxRpbBtJPyRpocKdf7PsqMPVZb4.woff2') format('woff2');}
+@font-face{font-family:"Gentium Book Plus";font-style:italic;font-weight:700;font-display:fallback;src:url('https://humanrobotinteraction.org/2026/wp-content/uploads/fonts/vEFA2-RHBgUK5fbjKxRpbBtJPyRpocKdRwrDjM7-ebe1Els.woff2') format('woff2');}
+@font-face{font-family:"Alegreya Sans";font-style:normal;font-weight:500;font-display:fallback;src:url('https://humanrobotinteraction.org/2026/wp-content/uploads/fonts/5aUu9_-1phKLFgshYDvh6Vwt5alOmEh8imdCqxI.woff2') format('woff2');}
+@font-face{font-family:"Alegreya Sans";font-style:normal;font-weight:400;font-display:fallback;src:url('https://humanrobotinteraction.org/2026/wp-content/uploads/fonts/5aUz9_-1phKLFgshYDvh6Vwt3VhnvEVXlm4.woff2') format('woff2');}
+</style>
+<link rel="icon" href="https://humanrobotinteraction.org/2026/wp-content/uploads/2025/02/cropped-site-image-2-32x32.png" sizes="32x32" />
+<link rel="icon" href="https://humanrobotinteraction.org/2026/wp-content/uploads/2025/02/cropped-site-image-2-192x192.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="https://humanrobotinteraction.org/2026/wp-content/uploads/2025/02/cropped-site-image-2-180x180.png" />
+<meta name="msapplication-TileImage" content="https://humanrobotinteraction.org/2026/wp-content/uploads/2025/02/cropped-site-image-2-270x270.png" />
+</head>
+
+<body class="page-template-default page page-id-84 wp-custom-logo wp-embed-responsive">
+
+<div class="wp-site-blocks"><header class="wp-block-template-part">
+<div class="wp-block-group has-raft-bg-alt-background-color has-background is-layout-constrained wp-block-group-is-layout-constrained" style="margin-top:0px;margin-bottom:0px;padding-top:20px;padding-bottom:20px">
+<div class="wp-block-group alignwide is-content-justification-space-between is-nowrap is-layout-flex wp-container-core-group-is-layout-3 wp-block-group-is-layout-flex">
+<div class="wp-block-group is-layout-flex wp-block-group-is-layout-flex"><div class="is-default-size wp-block-site-logo"><a href="https://humanrobotinteraction.org/2026/" class="custom-logo-link" rel="home"><img width="2296" height="1852" src="https://humanrobotinteraction.org/2026/wp-content/uploads/2025/02/hri-logo-2.png" class="custom-logo" alt="HRI 2026" decoding="async" fetchpriority="high" srcset="https://humanrobotinteraction.org/2026/wp-content/uploads/2025/02/hri-logo-2.png 2296w, https://humanrobotinteraction.org/2026/wp-content/uploads/2025/02/hri-logo-2-300x242.png 300w, https://humanrobotinteraction.org/2026/wp-content/uploads/2025/02/hri-logo-2-1024x826.png 1024w, https://humanrobotinteraction.org/2026/wp-content/uploads/2025/02/hri-logo-2-768x619.png 768w, https://humanrobotinteraction.org/2026/wp-content/uploads/2025/02/hri-logo-2-1536x1239.png 1536w, https://humanrobotinteraction.org/2026/wp-content/uploads/2025/02/hri-logo-2-2048x1652.png 2048w" sizes="(max-width: 2296px) 100vw, 2296px" /></a></div></div>
+
+
+
+<div class="wp-block-group is-layout-flex wp-block-group-is-layout-flex"><nav class="is-responsive items-justified-right wp-block-navigation is-content-justification-right is-layout-flex wp-container-core-navigation-is-layout-1 wp-block-navigation-is-layout-flex" aria-label="Header navigation" 
+		 data-wp-interactive="core/navigation" data-wp-context='{"overlayOpenedBy":{"click":false,"hover":false,"focus":false},"type":"overlay","roleAttribute":"","ariaLabel":"Menu"}'><button aria-haspopup="dialog" aria-label="Open menu" class="wp-block-navigation__responsive-container-open " 
+				data-wp-on-async--click="actions.openMenuOnClick"
+				data-wp-on--keydown="actions.handleMenuKeydown"
+			><svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="7.5" width="16" height="1.5" /><rect x="4" y="15" width="16" height="1.5" /></svg></button>
+				<div class="wp-block-navigation__responsive-container  "  id="modal-1" 
+				data-wp-class--has-modal-open="state.isMenuOpen"
+				data-wp-class--is-menu-open="state.isMenuOpen"
+				data-wp-watch="callbacks.initMenu"
+				data-wp-on--keydown="actions.handleMenuKeydown"
+				data-wp-on-async--focusout="actions.handleMenuFocusout"
+				tabindex="-1"
+			>
+					<div class="wp-block-navigation__responsive-close" tabindex="-1">
+						<div class="wp-block-navigation__responsive-dialog" 
+				data-wp-bind--aria-modal="state.ariaModal"
+				data-wp-bind--aria-label="state.ariaLabel"
+				data-wp-bind--role="state.roleAttribute"
+			>
+							<button aria-label="Close menu" class="wp-block-navigation__responsive-container-close" 
+				data-wp-on-async--click="actions.closeMenuOnClick"
+			><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="m13.06 12 6.47-6.47-1.06-1.06L12 10.94 5.53 4.47 4.47 5.53 10.94 12l-6.47 6.47 1.06 1.06L12 13.06l6.47 6.47 1.06-1.06L13.06 12Z"></path></svg></button>
+							<div class="wp-block-navigation__responsive-container-content" 
+				data-wp-watch="callbacks.focusFirstElement"
+			 id="modal-1-content">
+								<ul class="wp-block-navigation__container is-responsive items-justified-right wp-block-navigation"><li class=" wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="/2026/"><span class="wp-block-navigation-item__label">Overview</span></a></li><li data-wp-context="{ &quot;submenuOpenedBy&quot;: { &quot;click&quot;: false, &quot;hover&quot;: false, &quot;focus&quot;: false }, &quot;type&quot;: &quot;submenu&quot;, &quot;modal&quot;: null }" data-wp-interactive="core/navigation" data-wp-on--focusout="actions.handleMenuFocusout" data-wp-on--keydown="actions.handleMenuKeydown" data-wp-on-async--mouseenter="actions.openMenuOnHover" data-wp-on-async--mouseleave="actions.closeMenuOnHover" data-wp-watch="callbacks.initMenu" tabindex="-1" class=" wp-block-navigation-item has-child open-on-hover-click wp-block-navigation-submenu"><a class="wp-block-navigation-item__content current-menu-ancestor">Submitting</a><button data-wp-bind--aria-expanded="state.isMenuOpen" data-wp-on-async--click="actions.toggleMenuOnClick" aria-label="Submitting submenu" class="wp-block-navigation__submenu-icon wp-block-navigation-submenu__toggle" ><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" focusable="false"><path d="M1.50002 4L6.00002 8L10.5 4" stroke-width="1.5"></path></svg></button><ul data-wp-on-async--focus="actions.openMenuOnFocus" class="wp-block-navigation__submenu-container wp-block-navigation-submenu"><li class=" wp-block-navigation-item current-menu-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="https://humanrobotinteraction.org/2026/full-papers/" aria-current="page"><span class="wp-block-navigation-item__label">Full Papers</span></a></li><li class=" wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="https://humanrobotinteraction.org/2026/alt-hri/"><span class="wp-block-navigation-item__label">Alt.HRI</span></a></li><li class=" wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="https://humanrobotinteraction.org/2026/workshop/"><span class="wp-block-navigation-item__label">Workshops and Tutorials</span></a></li><li class=" wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="https://humanrobotinteraction.org/2026/late-breaking-reports/"><span class="wp-block-navigation-item__label">Late Breaking Reports</span></a></li><li class=" wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="https://humanrobotinteraction.org/2026/short-contributions/"><span class="wp-block-navigation-item__label">Short Contributions</span></a></li><li class=" wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="https://humanrobotinteraction.org/2026/videos-and-demos/"><span class="wp-block-navigation-item__label">Interactivity </span></a></li><li class=" wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="https://humanrobotinteraction.org/2026/student-design-challenge/"><span class="wp-block-navigation-item__label">Student Design Challenge</span></a></li><li class=" wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="https://hripioneers.org/"><span class="wp-block-navigation-item__label">HRI Pioneers</span></a></li><li class=" wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="https://humanrobotinteraction.org/2026/industry-white-papers/"><span class="wp-block-navigation-item__label">Industry White Papers</span></a></li><li data-wp-context="{ &quot;submenuOpenedBy&quot;: { &quot;click&quot;: false, &quot;hover&quot;: false, &quot;focus&quot;: false }, &quot;type&quot;: &quot;submenu&quot;, &quot;modal&quot;: null }" data-wp-interactive="core/navigation" data-wp-on--focusout="actions.handleMenuFocusout" data-wp-on--keydown="actions.handleMenuKeydown" data-wp-on-async--mouseenter="actions.openMenuOnHover" data-wp-on-async--mouseleave="actions.closeMenuOnHover" data-wp-watch="callbacks.initMenu" tabindex="-1" class=" wp-block-navigation-item has-child open-on-hover-click wp-block-navigation-submenu"><a class="wp-block-navigation-item__content">Author Guidelines</a><button data-wp-bind--aria-expanded="state.isMenuOpen" data-wp-on-async--click="actions.toggleMenuOnClick" aria-label="Author Guidelines submenu" class="wp-block-navigation__submenu-icon wp-block-navigation-submenu__toggle" ><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" focusable="false"><path d="M1.50002 4L6.00002 8L10.5 4" stroke-width="1.5"></path></svg></button><ul data-wp-on-async--focus="actions.openMenuOnFocus" class="wp-block-navigation__submenu-container wp-block-navigation-submenu"><li class=" wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="https://humanrobotinteraction.org/2026/overview-of-review-process/"><span class="wp-block-navigation-item__label">Overview of Review Process</span></a></li><li class=" wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="https://humanrobotinteraction.org/2026/full-paper-reviewer-guidelines/"><span class="wp-block-navigation-item__label">Reviewer Guidelines</span></a></li><li class=" wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="https://humanrobotinteraction.org/2026/authorship-and-anonymization/"><span class="wp-block-navigation-item__label">Authorship and Anonymization</span></a></li></ul></li></ul></li><li data-wp-context="{ &quot;submenuOpenedBy&quot;: { &quot;click&quot;: false, &quot;hover&quot;: false, &quot;focus&quot;: false }, &quot;type&quot;: &quot;submenu&quot;, &quot;modal&quot;: null }" data-wp-interactive="core/navigation" data-wp-on--focusout="actions.handleMenuFocusout" data-wp-on--keydown="actions.handleMenuKeydown" data-wp-on-async--mouseenter="actions.openMenuOnHover" data-wp-on-async--mouseleave="actions.closeMenuOnHover" data-wp-watch="callbacks.initMenu" tabindex="-1" class=" wp-block-navigation-item has-child open-on-hover-click wp-block-navigation-submenu"><a class="wp-block-navigation-item__content">Attending</a><button data-wp-bind--aria-expanded="state.isMenuOpen" data-wp-on-async--click="actions.toggleMenuOnClick" aria-label="Attending submenu" class="wp-block-navigation__submenu-icon wp-block-navigation-submenu__toggle" ><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" focusable="false"><path d="M1.50002 4L6.00002 8L10.5 4" stroke-width="1.5"></path></svg></button><ul data-wp-on-async--focus="actions.openMenuOnFocus" class="wp-block-navigation__submenu-container wp-block-navigation-submenu"><li class=" wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="https://humanrobotinteraction.org/2026/registration-information/"><span class="wp-block-navigation-item__label">Registration Information</span></a></li><li class=" wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="https://humanrobotinteraction.org/2026/accessibility-faq/"><span class="wp-block-navigation-item__label">Accessibility FAQ</span></a></li><li class=" wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="https://humanrobotinteraction.org/2026/accommodations/"><span class="wp-block-navigation-item__label">Accommodations</span></a></li><li class=" wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="https://humanrobotinteraction.org/2026/visa-information/"><span class="wp-block-navigation-item__label">Entering the UK</span></a></li><li class=" wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="https://humanrobotinteraction.org/2026/ieee-ras-travel-support/"><span class="wp-block-navigation-item__label">IEEE-RAS Travel Support</span></a></li><li class=" wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="https://humanrobotinteraction.org/2026/attending/"><span class="wp-block-navigation-item__label">Visiting Scotland</span></a></li><li class=" wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="https://humanrobotinteraction.org/2026/student-volunteer-program/"><span class="wp-block-navigation-item__label">Student Volunteer Program</span></a></li><li class=" wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="https://humanrobotinteraction.org/2026/code-of-conduct/"><span class="wp-block-navigation-item__label">Code of Conduct</span></a></li><li class=" wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="https://humanrobotinteraction.org/2026/explore-hri-labs-in-the-uk/"><span class="wp-block-navigation-item__label">Explore HRI Labs in the UK</span></a></li><li class=" wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="https://humanrobotinteraction.org/2026/sustainability-at-hri/"><span class="wp-block-navigation-item__label">Sustainability at HRI</span></a></li></ul></li><li data-wp-context="{ &quot;submenuOpenedBy&quot;: { &quot;click&quot;: false, &quot;hover&quot;: false, &quot;focus&quot;: false }, &quot;type&quot;: &quot;submenu&quot;, &quot;modal&quot;: null }" data-wp-interactive="core/navigation" data-wp-on--focusout="actions.handleMenuFocusout" data-wp-on--keydown="actions.handleMenuKeydown" data-wp-on-async--mouseenter="actions.openMenuOnHover" data-wp-on-async--mouseleave="actions.closeMenuOnHover" data-wp-watch="callbacks.initMenu" tabindex="-1" class=" wp-block-navigation-item has-child open-on-hover-click wp-block-navigation-submenu"><a class="wp-block-navigation-item__content">Program</a><button data-wp-bind--aria-expanded="state.isMenuOpen" data-wp-on-async--click="actions.toggleMenuOnClick" aria-label="Program submenu" class="wp-block-navigation__submenu-icon wp-block-navigation-submenu__toggle" ><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" focusable="false"><path d="M1.50002 4L6.00002 8L10.5 4" stroke-width="1.5"></path></svg></button><ul data-wp-on-async--focus="actions.openMenuOnFocus" class="wp-block-navigation__submenu-container wp-block-navigation-submenu"><li class=" wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="https://humanrobotinteraction.org/2026/keynote-speakers/"><span class="wp-block-navigation-item__label">Keynote Speakers</span></a></li><li class=" wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="https://humanrobotinteraction.org/2026/schedule/"><span class="wp-block-navigation-item__label">Schedule</span></a></li><li class=" wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="https://humanrobotinteraction.org/2026/award-nominees/"><span class="wp-block-navigation-item__label">Awards</span></a></li><li class=" wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="https://humanrobotinteraction.org/2026/special-session-by-meta/"><span class="wp-block-navigation-item__label">Special Session by Meta</span></a></li><li class=" wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="https://humanrobotinteraction.org/2026/industry-day-at-hri-2026/"><span class="wp-block-navigation-item__label">Industry Day</span></a></li><li class=" wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="https://humanrobotinteraction.org/2026/social-functions/"><span class="wp-block-navigation-item__label">Social Functions</span></a></li><li class=" wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="https://humanrobotinteraction.org/2026/workshops-and-tutorials/"><span class="wp-block-navigation-item__label">Workshops and Tutorials Schedule</span></a></li><li class=" wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="https://humanrobotinteraction.org/2026/public-engagement-showcase/"><span class="wp-block-navigation-item__label">Public Engagement Showcase</span></a></li><li class=" wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="https://humanrobotinteraction.org/2026/community-organized-events/"><span class="wp-block-navigation-item__label">Community-Organized Events</span></a></li></ul></li><li class=" wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="https://humanrobotinteraction.org/2026/partners/"><span class="wp-block-navigation-item__label">Partners</span></a></li><li class=" wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="https://humanrobotinteraction.org/2026/organizers/"><span class="wp-block-navigation-item__label">Organizers</span></a></li></ul>
+							</div>
+						</div>
+					</div>
+				</div></nav></div>
+</div>
+</div>
+</header>
+
+
+<div class="wp-block-group has-raft-bg-background-color has-background is-layout-flow wp-block-group-is-layout-flow" style="margin-top:0px;margin-bottom:0px;padding-top:0px;padding-right:0;padding-bottom:0px"><h1 style="padding-top:var(--wp--preset--spacing--30);padding-bottom:var(--wp--preset--spacing--30);margin-top:0;margin-bottom:0;" class="has-text-align-center wp-block-post-title">Full Papers</h1></div>
+
+
+
+<div class="wp-block-group is-layout-flow wp-block-group-is-layout-flow" style="margin-top:0px;margin-bottom:0px;padding-top:20px;padding-bottom:20px"><div class="entry-content wp-block-post-content is-layout-constrained wp-block-post-content-is-layout-constrained">
+<p>The ACM/IEEE International Conference on Human-Robot Interaction is a premier, highly-selective venue presenting the latest advances in Human-Robot Interaction. The 21th Annual HRI conference theme is “HRI Empowering Society”. The conference seeks contributions from a broad set of perspectives, including technical, design, behavioral, theoretical, and methodological, that advance fundamental and applied research in human-robot interaction. Full papers will be archived in the ACM Digital Library.</p>
+
+
+
+<p><strong>Submission Link: </strong><a href="https://new.precisionconference.com/submissions"><span style="text-decoration: underline;">https://new.precisionconference.com/submissions</span></a></p>
+
+
+
+<h2 class="wp-block-heading"><strong>Important Dates</strong></h2>
+
+
+
+<ul class="wp-block-list">
+<li><strong>Abstract Submission Deadline</strong> (required for all full papers): September 22, 2025, 11:59 pm AoE</li>
+
+
+
+<li><strong>Submission Deadline </strong>(only if you submitted the abstract before Sep 22): September 30, 2025, 11:59 pm AoE</li>
+
+
+
+<li><strong>Review Notification</strong>: November 7, 2025</li>
+
+
+
+<li><strong>Rebuttals Due</strong>: November 12, 2025, 11:59 pm AoE</li>
+
+
+
+<li><strong>Decision Notification</strong>: December 1, 2025</li>
+
+
+
+<li><strong>Camera Ready Deadline</strong>:<s> January 9, 2026</s><strong> </strong><strong> </strong><strong>January 12, 2026, 11:59 pm AoE</strong></li>
+</ul>
+
+
+
+<h2 class="wp-block-heading"><strong>Abstracts Submission</strong></h2>
+
+
+
+<p>Please be aware that, similar to last year, <strong>we require all full papers to submit an abstract and basic details about the paper a week before the paper submission deadline</strong>. Papers that did not submit the abstract on time <strong>will not be accepted</strong>.</p>
+
+
+
+<p>In addition, the abstract, title, and list of authors’ information that is submitted at that time<strong> must be complete</strong>. Submissions for which it is obvious that the information submitted by the abstract deadline is merely a placeholder or incomplete will be deleted.</p>
+
+
+
+<h2 class="wp-block-heading"><strong>Format and Submission</strong></h2>
+
+
+
+<p>Full papers are up to eight camera-ready pages, including figures, but excluding references. Accepted full papers will be published in the conference proceedings and presented in an oral session. Submissions longer than eight pages of content excluding references will be desk rejected and not reviewed.&nbsp;</p>
+
+
+
+<p>The HRI conference is highly selective with a rigorous, two-stage review model that includes an expert program committee meeting where papers are extensively discussed. As such, all submissions are expected to be mature, polished, and detailed accounts of cutting-edge research described and presented in camera-ready style. In cases of equally qualified papers, positive consideration will be given to submissions that address this year’s theme: “HRI Empowering Society”. </p>
+
+
+
+<p>All papers for the conference must be submitted in PDF format and conform to <strong>ACM Proceedings specifications</strong>. Please note that we are following the general ACM SIG format (“sigconf”, double column format), not the SIGCHI format. Templates are available at <a href="https://www.acm.org/publications/proceedings-template"><span style="text-decoration: underline;">this link</span></a> (US letter). </p>
+
+
+
+<p>In addition, ACM has partnered with Overleaf, where you can start writing using <a href="https://www.overleaf.com/latex/templates/acm-conference-proceedings-primary-article-template/wbvnghjbzwpc"><span style="text-decoration: underline;">this link</span></a> directly (note that this Overleaf document uses the new ACM workflow by default, which is not what HRI is using; to fix this, make sure the document uses the “sigconf” document class, rather than the “manuscript,screen,review” document class that is enabled in the Overleaf document by default).</p>
+
+
+
+<h2 class="wp-block-heading"><strong>Tracks</strong></h2>
+
+
+
+<p>The HRI 2026 full paper submissions will have five tracks:</p>
+
+
+
+<ol class="wp-block-list">
+<li>Theory and Methods</li>
+
+
+
+<li>Design</li>
+
+
+
+<li>Technical</li>
+
+
+
+<li>Systems</li>
+
+
+
+<li>User Studies</li>
+</ol>
+
+
+
+<p>Each of these tracks is aligned with a specific type of knowledge contribution and each paper will be assigned to one review subcommittee based on the chosen track. Authors are strongly encouraged to read through the <a href="#description" data-type="internal" data-id="#description"><span style="text-decoration: underline;">track&#8217;s descriptions</span></a> at the end of this page.</p>
+
+
+
+<p>You will need to indicate your choice of track (and optionally your second choice) when you submit your abstract. During the initial paper check stage, the Program Committee may suggest a track change that they deem more appropriate. However, the final track choice remains a decision by the authors to be confirmed by the full paper deadline. Go to <a href="#description" data-type="internal" data-id="#description"><span style="text-decoration: underline;">Descriptions of Full Paper Tracks</span></a>.</p>
+
+
+
+<h2 class="wp-block-heading" id="open-access"><strong>ACMs New Open Access Publishing Model</strong></h2>
+
+
+
+<p>Starting January 1, 2026, ACM will fully transition to Open Access. All ACM publications, including those from ACM-sponsored conferences, will be 100% Open Access. Authors will have two primary options for publishing Open Access articles with ACM: the ACM Open institutional model or by paying Article Processing Charges (APCs). With over 1,800 institutions already part of ACM Open, the majority of ACM-sponsored conference papers will not require APCs from authors or conferences (currently, around 70-75%).</p>
+
+
+
+<p>Authors from institutions not participating in ACM Open will need to pay an APC to publish their papers, unless they qualify for a financial or discretionary waiver. To find out whether an APC applies to your article, please consult the list of participating institutions in ACM Open and review the APC Waivers and Discounts Policy. Keep in mind that waivers are rare and are granted based on specific criteria set by ACM.</p>
+
+
+
+<p>Understanding that this change could present financial challenges, ACM has approved a temporary subsidy for 2026 to ease the transition and allow more time for institutions to join ACM Open. The subsidy will offer:</p>
+
+
+
+<ul class="wp-block-list">
+<li>$250 APC for ACM/SIG members</li>
+
+
+
+<li>$350 for non-members</li>
+</ul>
+
+
+
+<p>This represents a 65% discount, funded directly by ACM. Authors are encouraged to help advocate for their institutions to join ACM Open during this transition period.</p>
+
+
+
+<p>This temporary subsidized pricing will apply to all conferences scheduled for 2026, including HRI.</p>
+
+
+
+<h2 class="wp-block-heading"><strong>New ACM Publication Policies</strong></h2>
+
+
+
+<p>By submitting your article to an ACM Publication, you are hereby acknowledging that you and your co-authors are subject to all ACM Publications Policies, including ACM’s new Publications Policy on Research Involving Human Participants and Subjects. Alleged violations of this policy or any ACM Publications Policy will be investigated by ACM and may result in a full retraction of your paper, in addition to other potential penalties, as per ACM Publications Policy.</p>
+
+
+
+<h2 class="wp-block-heading"><strong>Accessibility</strong></h2>
+
+
+
+<p>Make sure to read and follow the accessibility requirements, which we will provide soon.</p>
+
+
+
+<h2 class="wp-block-heading"><strong>Anonymization</strong></h2>
+
+
+
+<p>The HRI 2026 full papers review process is double-blind; every aspect of all submissions must be properly anonymized. For full details on how to do anonymization, see the<a href="https://humanrobotinteraction.org/2025/anonymization/"> </a>anonymization guidelines are located <a href="https://humanrobotinteraction.org/2026/authorship-and-anonymization/" data-type="link" data-id="https://humanrobotinteraction.org/2026/authorship-and-anonymization/"><span style="text-decoration: underline;">at this link</span></a>. If a submission contains any element (e.g., text or figures in the full paper document, artifacts, or supplementary materials) that violates the anonymization guidelines, it will be <strong>desk rejected</strong>. If there are exceptional circumstances, please contact the Program Chairs as soon as possible (pc2026@humanrobotinteraction.org).</p>
+
+
+
+<h2 class="wp-block-heading"><strong>Sustainability Recognition</strong></h2>
+
+
+
+<p>We recognize that sustainability remains a critical consideration in human-robot interaction research – in fact, it is deeply rooted in “HRI Empowering Society”. We are pleased to continue highlighting papers that demonstrate thoughtful engagement with sustainable practices and impacts, regardless of their research focus.</p>
+
+
+
+<p>We acknowledge the multifaceted nature of sustainability and consider it from various perspectives, including but not limited to environmental impact and climate action. We also welcome papers addressing a wide array of issues outlined by the <a href="https://sdgs.un.org/goals"><span style="text-decoration: underline;">UN Sustainable Development Goals</span></a>. These goals include:</p>
+
+
+
+<ul class="wp-block-list">
+<li>Social sustainability: emphasizing the importance of inclusive communities where everyone can thrive, promoting equity and social justice.</li>
+
+
+
+<li>Technological sustainability: stressing the need to think critically about how our innovations impact society and the environment.</li>
+
+
+
+<li>Economic sustainability: focusing on creating robust economic systems that support innovation and provide fair opportunities for all.</li>
+</ul>
+
+
+
+<p>Additionally, we value papers that demonstrate a commitment to sustainable research practices. This includes minimizing the environmental footprint of research activities, promoting ethical data collection and usage, and ensuring accessibility and inclusivity in research design.</p>
+
+
+
+<p>If you believe your paper contributes to sustainability in HRI and would like it to be considered for a sustainability recognition, when submitting your paper, you will have the option to describe in 1-2 short paragraphs why and how your paper relates to sustainability. This includes the impact of your contribution in the context of sustainability and/or the actions you have undertaken to make your work more sustainable.</p>
+
+
+
+<h2 class="wp-block-heading"><strong>Supplementary Materials</strong></h2>
+
+
+
+<p>Authors have the opportunity to upload up to three supplemental files in conjunction with their full paper submission. These materials may be submitted via the “Supporting File 1,” “Supporting File 2,” and “Supporting File 3” sections within the full papers submission form in the submission system. While authors are encouraged to upload all supplementary materials directly, it may be infeasible to upload certain items directly (e.g., large data sets or code repositories). In this case, authors may upload a document with a link to where these anonymized supplemental materials are hosted.</p>
+
+
+
+<p>Supplementary materials are not required for a submission. If authors do choose to submit supplementary materials, such materials <strong>may not be used to get around the page limit for full papers</strong>. It is important that any supplemental materials that are uploaded are also properly anonymized. Any submission that contains any element (full paper or supplementary materials) that violates the anonymization guidelines will be desk rejected.</p>
+
+
+
+<p>In general, there are three main types of supplemental materials that may be submitted: videos, appendices, and artifacts (e.g., software, hardware, data sets, etc.).</p>
+
+
+
+<h3 class="wp-block-heading"><strong>Video Guidelines</strong></h3>
+
+
+
+<p>Authors may submit a 1-minute video (up to 100 MB) as a supplement to their full paper. Videos are not mandatory but may be helpful to visibly showcase a working system, experimental conditions, environment context, results, etc. Only MPG, MPEG or MP4 video formats can be used. Ensure that videos are properly anonymized prior to submission (more information coming soon).</p>
+
+
+
+<p>Accepted full papers with a video in supplementary material will be considered for Demo Fast Track. More details under <a href="https://humanrobotinteraction.org/2026/videos-and-demos/" data-type="page" data-id="371"><span style="text-decoration: underline;">Interactivity (Videos/Demos) page</span></a>.</p>
+
+
+
+<h3 class="wp-block-heading"><strong>Artifact Guidelines</strong></h3>
+
+
+
+<p>Across all full paper tracks, we encourage submissions that introduce a novel “artifact” as an enabler to reproducibility, replicability, and recreation of HRI research, and/or to support new lines of HRI research. An artifact could be software, hardware, data sets, protocols, new evaluation measures, etc. Submissions should contain a detailed description of the artifact introduced, proposed, or implemented, as well as information about how it is novel and different from other existing artifacts, and, if possible, a link to an anonymized, live version of the artifact at time of submission for review.</p>
+
+
+
+<p>Authors submitting artifacts must include with it a text file providing relevant details regarding any aspects related to artifact clearance and release (e.g., obtaining Institutional Review Board (IRB) clearance for releasing data collected by human participants, organizational clearances for the release of software/hardware, etc.). Ensure that artifacts are properly anonymized prior to submission. Any submission that includes any element (full paper, artifact, or supplementary materials) that does not follow the anonymization guidelines will be desk rejected.</p>
+
+
+
+<h3 class="wp-block-heading"><strong>Appendix Guidelines</strong></h3>
+
+
+
+<p>Authors may upload an appendix directly or provide a link to supporting appendix material hosted anonymously online. Appendices are only for supplementary materials that would interrupt the flow of the text if presented in the main document. Examples may be questionnaires used as measurements, tables of supplementary data, or figures of experimental apparatus.&nbsp;</p>
+
+
+
+<p>Appendices may not be used to get around the 8-page limit for full paper submissions. Additional experimental analysis, additional results, and lengthy text that clarifies aspects of the full paper submission is not appropriate for an appendix (in other words, full paper submissions must stand on their own without requiring further explanation, analysis, or results provided in the appendix). Any submissions that attempt to use appendices or supplementary materials in general in a manner that violates the page limits will be desk rejected.</p>
+
+
+
+<p>Note that appendices should not be added to the main document (even if the LaTeX template allows it).</p>
+
+
+
+<h2 class="wp-block-heading"><strong>Studies with Human Participants</strong></h2>
+
+
+
+<p>As a published ACM/IEEE author, you and your co-authors are subject to all<a href="https://www.acm.org/publications/policies/toc"> <span style="text-decoration: underline;">ACM Publications Policies</span></a>, and <a href="https://journals.ieeeauthorcenter.ieee.org/become-an-ieee-journal-author/publishing-ethics/guidelines-and-policies/submission-and-peer-review-policies/"><span style="text-decoration: underline;">IEEE Submission and Peer Review Policies</span></a> including ACM’s new<a href="https://www.acm.org/publications/policies/research-involving-human-participants-and-subjects"> <span style="text-decoration: underline;">Publications Policy on Research Involving Human Participants and Subjects</span></a> (Note: ACM has instituted a new policy on research involving human participants and subjects as of August 15, 2021. Please check the above links if your studies involved human participants and subjects).</p>
+
+
+
+<p>To support building a strong evidence base in HRI, and encourage future reproducibility of published work, all submissions involving studies with human participants clearly outline their methodology regardless of the theme they are submitted to, including:</p>
+
+
+
+<ul class="wp-block-list">
+<li>Participant demographics and sampling approach, e.g. gender, ethnicity, etc. (c.f.,<a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=8534787"> <span style="text-decoration: underline;">de Graaf 2017</span></a>, Section 2.3, recommendations in<a href="https://dl.acm.org/doi/abs/10.1145/3025453.3025766"> <span style="text-decoration: underline;">Schlesinger et al., 2017</span></a>, and <a href="https://www.morgan-klaus.com/gender-guidelines.html"><span style="text-decoration: underline;">HCI Gender Guidelines</span></a>)</li>
+
+
+
+<li>Data collection and analysis methods (c.f.,<a href="https://ieeexplore.ieee.org/abstract/document/5453268/"> <span style="text-decoration: underline;">Paepcke and Takayama 2010</span></a>, Section V)</li>
+
+
+
+<li>Study environment and context (c.f.,<a href="https://dl.acm.org/citation.cfm?id=3171271"> <span style="text-decoration: underline;">Short et al. 2018</span></a>, Section 3.5)</li>
+
+
+
+<li>If a Wizard-of-Oz paradigm was used, a detailed description of the robot, wizard, user, etc. (c.f.,<a href="https://dl.acm.org/citation.cfm?id=3109687"> <span style="text-decoration: underline;">Riek 2012</span></a>, Table 2)</li>
+
+
+
+<li>If a robot was used, a detailed description of the platform, its level of autonomy, capabilities, etc. (c.f.,<a href="https://dl.acm.org/citation.cfm?id=3109833"> <span style="text-decoration: underline;">Beer et al. 2014</span></a>, Figure 5).</li>
+</ul>
+
+
+
+<p>In addition, studies that involve human participants need to include an ethical approval statement. According to the <a href="https://journals.ieeeauthorcenter.ieee.org/become-an-ieee-journal-author/publishing-ethics/guidelines-and-policies/submission-and-peer-review-policies/"><span style="text-decoration: underline;">IEEE Submission and Peer Review Policies</span></a>, “Authors of articles reporting on research involving human subjects or animals, including but extending beyond medical research, shall include a statement in the article that the research was performed under the oversight of an institutional review board or equivalent local/regional body, including the official name of the IRB/ethics committee, or include an explanation as to why such a review was not conducted. For research involving human subjects, authors shall also report that consent from the human subjects in the research was obtained or explain why consent was not obtained.” In the case of child users, in addition to consent from legal carers / parents, authors should describe how they obtained the oral assent from minors. Examples of such statements are “the study was approved by our Institutional Review Board” or “the study design, the experiment protocol, and the consent forms received approval from the Ethics Committee of our institution” (note that these statements must be anonymized). Additionally, during paper submission, authors will be asked to declare whether their research involves human participants, and if it does, whether approval from a relevant ethics committee was obtained.</p>
+
+
+
+<p>We recognize that some researchers may work in jurisdictions where there is no mandated ethical review, or may not have access to an institutional ethics committee. In such cases, we will follow the <a href="https://www.acm.org/publications/policies/research-involving-human-participants-and-subjects"><span style="text-decoration: underline;">ACM’s Policy on Research Involving Human Participants and Subjects</span></a>, which lists a basic set of standards and practices that a research should follow, and states that “where such research is conducted in countries where no such local governing laws and regulations related to human participant and subject research exist, authors must at a bare minimum be prepared to show compliance with the above detailed principles.” In addition to the declaration mentioned above, the paper submission form contains also an optional question allowing authors to describe additional context related to human participant protection. If additional explanations regarding institutional review are needed, and in particular if no ethics approval was obtained for the research, the authors should answer this question with enough detail to show that their research was done in full compliance with the ethical research principles stated in the <a href="https://www.acm.org/publications/policies/research-involving-human-participants-and-subjects"><span style="text-decoration: underline;">ACM Policy</span></a>.</p>
+
+
+
+<h2 class="wp-block-heading"><strong>Policy on Use of ChatGPT or Similar Models</strong></h2>
+
+
+
+<p>Text, images or any material generated from foundation models (LLMs, VLMs etc.), such as ChatGPT, must be clearly marked where such tools are used for purposes beyond editing the author’s own text. Please carefully review the April 2023 <a href="https://www.acm.org/publications/policies/new-acm-policy-on-authorship"><span style="text-decoration: underline;">ACM Policy on Authorship</span></a> before you use these tools. The <a href="https://medium.com/sigchi/acm-publications-policy-guidance-for-sigchi-venues-87332173aad1"><span style="text-decoration: underline;">SIGCHI blog post</span></a> describes approaches to acknowledging the use of such tools and we refer to it for guidance. Note that the LaTeX template will default to hiding the Acknowledgements section while in review mode – please make sure that any LLM disclosure is available in your submitted version for review. While we do not anticipate using tools on a large scale to detect LLM-generated text, we will investigate submissions brought to our attention and desk reject papers where LLM use is not clearly marked.</p>
+
+
+
+<p>Furthermore, HRI follows the <a href="https://www.acm.org/publications/policies/new-acm-policy-on-authorship"><span style="text-decoration: underline;">ACM Policy on Authorship</span></a>. Please carefully review this policy. Any AI system, including Generative Models, such as ChatGPT, BARD, or DALL-E, do not satisfy the criteria for authorship of papers and, as such, also cannot be used as a citable source in papers published by ACM and IEEE. Authors assume full responsibility for content, including checking for plagiarism and veracity of all text.</p>
+
+
+
+<h2 class="wp-block-heading"><strong>Desk rejects&nbsp;</strong></h2>
+
+
+
+<p>Desk rejects are made during the initial checks of submissions to save our reviewers’ time. The main reasons for a desk rejections include:</p>
+
+
+
+<ul class="wp-block-list">
+<li>Scope: clearly out of scope for conference (e.g., no relevance to robots or to human-robot interaction).</li>
+
+
+
+<li>Anonymization: any violation of the rules detailed in the anonymization guidelines</li>
+
+
+
+<li>Incomplete submissions: missing submission information (including an obviously placeholder title or abstract, etc.).</li>
+
+
+
+<li>Formatting issues:
+<ul class="wp-block-list">
+<li>paper is breaking the full paper limit (eight pages excluding references);</li>
+
+
+
+<li>using an incorrect submission format.</li>
+</ul>
+</li>
+
+
+
+<li>Other obvious issues, such as paper clearly unfinished, obvious use of foundation models for generating the contents, not written in English, etc.</li>
+</ul>
+
+
+
+<h2 class="wp-block-heading" id="description"><strong>Descriptions of Full Paper Tracks</strong></h2>
+
+
+
+<h3 class="wp-block-heading"><strong>Theory and Methods</strong></h3>
+
+
+
+<p>The primary contribution for the Theory and Methods track is to further the conceptual foundations of HRI. This work helps us to expand upon the ways we think about human-robot interaction (theory) and upon the ways we engage in doing human-robot interaction research (methods). A key benefit of theory and methods work is not only in articulating what we know but there is also generating new ways of seeing the field and posing new questions.<br>Unlike in earlier years, this track will not include reproducibility. Reproducibility studies should be directed to the User Studies track. Theory papers focus on elucidating or connecting fundamental HRI principles beyond individual interfaces or projects, new theoretical concepts in HRI, literature reviews, etc. Such contributions may include meta-analyses of previous findings, narrative or philosophical arguments introducing theoretical or philosophical concepts, detailing underlying interaction paradigms, or providing new interpretations of previously known results.</p>
+
+
+
+<p>Methods papers may include new ways of studying HRI, with focus on developing novel evaluation methodologies (e.g. new questionnaires), or in the analysis of existing research and methods derived from original or surveyed empirical research.</p>
+
+
+
+<p>Successful papers in this track will clearly detail how they transform our current fundamental understanding of human-robot interaction and why the work is significant and has potential for impact. As appropriate, work must be defended by clear and sound arguments and a thorough reflective analysis of the contribution with respect to the existing state of the art.</p>
+
+
+
+<p>We provide the following guidelines to authors about expectations for papers submitted to the theory and methods track:</p>
+
+
+
+<ol class="wp-block-list">
+<li>To the extent that methods papers might pertain to new metrics or methods of evaluation, they might include studies; however, the focus of the paper would be on evaluating the novelty and contribution of the concepts and methods, rather than in generalizable knowledge, which is typical of User Studies contributions.</li>
+
+
+
+<li>Theory papers are not expected to have user studies.</li>
+
+
+
+<li>Methods for generating design belong in the Design track; methods for measuring or studying HRI belong in the Theory and Methods track. Technical methods or tools belong to the Technical track.</li>
+
+
+
+<li>If the contribution is a clarification or improvement of an existing theory or method, the paper should likely be a Short Contribution.</li>
+</ol>
+
+
+
+<p>Example papers (best paper winners / honorable mentions from previous years): <a href="https://scazlab.yale.edu/sites/default/files/files/hri-frp1371.pdf"><span style="text-decoration: underline;">Ramnauth et al. 2025</span>, </a><a href="https://dl.acm.org/doi/10.1145/3610977.3634945"><span style="text-decoration: underline;">Chen et al., 2024</span></a>, <a href="https://dl.acm.org/doi/10.1145/3610977.3634993"><span style="text-decoration: underline;">Kim et al, 2024</span></a></p>
+
+
+
+<h3 class="wp-block-heading"><strong>Design</strong></h3>
+
+
+
+<p>The Design track brings together design-centric research contributions to human-robot interaction (HRI). This includes novel design approaches, new robot morphologies, behavior paradigms, interaction techniques, and the exploration of new contexts for interaction that yield unique or improved interaction experiences with or capabilities for robots. The Design track explicitly welcomes papers focusing on design solutions with rigorous detail, as well as papers on design-driven methodologies (e.g., participatory design, critical design, and design for manufacturability) that influence how designers approach HRI design. Research on the design process itself, or proposing new design products, strategies, frameworks, or models relevant to HRI, belongs in the Design track. Submissions must fully describe their design outcomes or processes to enable detailed review and replication of the design process. Further, successful papers will include evaluations appropriate to the work, such as end-user evaluation or a critical reflection on the design process.</p>
+
+
+
+<p>We provide the following guidelines to authors about expectations for papers submitted to the Design track:</p>
+
+
+
+<ol class="wp-block-list">
+<li>While there are often studies in the Design track papers, the focus of these studies lies in evaluating novel aspects and features of the design and resulting response or behavior, rather than in generalizable knowledge, which is typical of User Studies contributions.</li>
+
+
+
+<li>If the main contribution lies in some aspect of the software or hardware capabilities, and less in how the context or use matches the hardware or software, the paper might belong in the Systems track.</li>
+
+
+
+<li>If the contribution is an implementation or improvement of an existing design, the paper should likely be a Short Contribution.</li>
+</ol>
+
+
+
+<p>Example papers (best paper winners / honorable mentions from previous years): <a href="https://ieeexplore.ieee.org/abstract/document/10973955?casa_token=p3oAY2bb758AAAAA:7mesU_WPKOBwl6IZO3mQWtFPCyr9BiKnH2HkCi7f7j5GaNUCYegNtyxtDm8gUxghX54IzTCt"><span style="text-decoration: underline;">Lee et al. 2025</span>,</a> <a href="https://dl.acm.org/doi/10.1145/3610977.3634983"><span style="text-decoration: underline;">Koike et al., 2024</span></a>, <a href="https://dl.acm.org/doi/10.1145/3610977.3634981"><span style="text-decoration: underline;">Walker et al., 2024</span></a>, <a href="https://dl.acm.org/doi/10.1145/3610977.3634967"><span style="text-decoration: underline;">Taylor et al., 2024</span></a></p>
+
+
+
+<h3 class="wp-block-heading"><strong>Technical</strong></h3>
+
+
+
+<p>The primary knowledge contribution of papers submitted to the technical track is expected to be a novel algorithm (formalized through pseudocode), mathematical model (formalized through a set of equations), tool, hardware element, or human-robot interface, and should provide enough detail to allow reproducibility. The expectation is that methods will be at an appropriate level of rigor, approaches will be robust, confounding elements will be clearly noted, and evaluations are suitable to the type of contribution; evaluations do <em>not</em> need to include user studies unless appropriate.</p>
+
+
+
+<p>We provide the following guidelines to authors about expectations for papers submitted to the technical track:</p>
+
+
+
+<ol class="wp-block-list">
+<li>If a submitted paper contains a user study to empirically evaluate or demonstrate the primary knowledge contribution, authors should be clear in the paper why this paper is indeed a “technical” contribution rather than a “studies” contribution.</li>
+
+
+
+<li>If the novelty or main contribution of a paper lies in the integration of disparate hardware or software capabilities, the paper likely belongs in the Systems track; however, if the novelty or main contribution lies in a novel individual component of a possibly integrated system, then the paper is appropriate for the Technical track.</li>
+
+
+
+<li>If the novelty or main contribution of a paper lies in the development of a code-based implementation of an existing technical contribution, rather than the algorithm or model itself, the paper should likely be a Short Contribution.</li>
+</ol>
+
+
+
+<p>Technical work may be evaluated in a variety of ways, non-exhaustively including proofs of correctness, proof-of-concept demonstration, evaluation in simulation (for example with an Wizard-of-Oz approach), performance evaluation of a novel sub-system or component, or user study. It is critical to ensure that the claims made by the paper are backed up by the evaluation. This means that while a <em>well designed and appropriate </em>user study with a deployed robot may be advantageous, it is not necessary. Further, a<em> poorly designed and inappropriate </em>user study presented in a technical paper may be worse than including no user study at all. However:</p>
+
+
+
+<ul class="wp-block-list">
+<li>Authors of submitted papers whose evaluation does not support the paper’s claims (e.g., strong claims of an algorithm’s effect backed up only by a proof-of-concept demonstration or an underpowered user study) might be asked to revise their claims.</li>
+
+
+
+<li>Authors whose paper does not contain a demonstration or study of a physical robot should provide a “pathway to deployment” describing what would need to be done to reach successful deployment onto a physical platform. Such papers will still need either an analytical or computational/empirical evaluation.</li>
+</ul>
+
+
+
+<p>Example papers (best paper winners / honorable mentions from previous years): <a href="https://ieeexplore.ieee.org/abstract/document/10974179?casa_token=FzRgdO6XhwkAAAAA:fURnVYvFPK2rCmJQ25XqbFZpW9vZ6cKgmXX2isvH78VqzF93erB4fH90xIwe2HTDmEE6IHzP"><span style="text-decoration: underline;">Mahadevan et al. 2025</span></a>, <a href="https://ieeexplore.ieee.org/document/10974136"><span style="text-decoration: underline;">Dennler et al. 2025</span></a>, <a href="https://dl.acm.org/doi/10.1145/3610977.3634999"><span style="text-decoration: underline;">Mahadevan et al. 2024</span></a>, <a href="https://dl.acm.org/doi/10.1145/3610977.3635003"><span style="text-decoration: underline;">Tung et al. 2024</span></a>, <a href="https://dl.acm.org/doi/10.1145/3610977.3634984"><span style="text-decoration: underline;">Trinh et al 2024</span></a>, <a href="https://dl.acm.org/doi/10.1145/3568162.3576983"><span style="text-decoration: underline;">Brawer et al., 2023</span></a></p>
+
+
+
+<h3 class="wp-block-heading"><strong>Systems</strong></h3>
+
+
+
+<p>Because HRI is by its nature an integrative discipline, the Systems track focuses on contributions which consist of a synthesis of underlying techniques and/or technologies to achieve system-level HRI behavior. Generally speaking, a Systems paper is one whose contribution is best observed and measured through performance of an integrated system, usually including a robot, rather than through component-level testing. This could involve some combination of novel system design or integration of novel techniques or components to enable new system-level functionality. The contribution of a Systems track paper could include demonstration of the usefulness of a component or technique in the larger system, achievement of new system-level capabilities, or enhanced system performance. Whether it belongs in these categories or others, authors should emphasize the novelty and significance of their contribution. In particular, authors should highlight what wider systems knowledge, best practices, lessons learned, etc. can be derived from their work and applied to future HRI problems. Papers’ evaluations should be appropriate to the systems contribution being presented, potentially including demonstrations based on scenarios or case-studies, user studies, or technical performance evaluations. Similar to the Technical track, a well-designed<em> </em>user study can help support a paper’s claims, but is not strictly necessary for acceptance.</p>
+
+
+
+<p>Please note that:</p>
+
+
+
+<ol class="wp-block-list">
+<li>If the <em>primary</em> contribution of a paper is an algorithm or a mathematical model, or is best measured via component-level testing rather than a systems-level evaluation, then the paper likely belongs to the Technical track;</li>
+
+
+
+<li>If the paper’s contribution is about presenting a study to better understanding human behavior or preferences rather than system-level behavior based on integration, the paper may belong to the User Studies track;</li>
+
+
+
+<li>If the contribution is limited to a description of a system design or dataset, the paper should likely be a Short Contribution.</li>
+</ol>
+
+
+
+<p>Example papers (best paper winners / honorable mentions from previous years): <a href="https://dl.acm.org/doi/10.5555/3721488.3721593"><span style="text-decoration: underline;">Skantze &amp; Irfan 2025</span>, </a><a href="https://ieeexplore.ieee.org/document/10973945"><span style="text-decoration: underline;">Yoo et al. 2025</span></a><a href="https://dl.acm.org/doi/10.5555/3721488.3721593">, </a><a href="https://dl.acm.org/doi/10.1145/3610977.3634964"><span style="text-decoration: underline;">Padmanabha et al. 2024</span></a>, <a href="https://dl.acm.org/doi/10.1145/3610977.3634975"><span style="text-decoration: underline;">Jenamani et al 2024</span></a>, <a href="https://dl.acm.org/doi/10.1145/3610977.3634971"><span style="text-decoration: underline;">Bouzida et al. 2024</span></a>&nbsp;</p>
+
+
+
+<h3 class="wp-block-heading"><strong>User Studies</strong></h3>
+
+
+
+<p>The studies track welcomes submissions that provide new knowledge about human-robot interactions based on studies involving people. This includes laboratory or field studies, ethnographic work, theory-building or replication studies, industry case studies, and so forth. Studies may involve autonomous robots, Wizard of Oz methods, or no physical robot at all. Because the primary knowledge contribution in this track is expected to be knowledge from a study with humans:</p>
+
+
+
+<ol class="wp-block-list">
+<li>If a submitted paper contains evaluation of an implemented system, it should be clear why the insights from the study with humans are the primary knowledge contribution rather than the system itself, and thus, why the paper belongs in the Studies rather than Technical or Systems track.</li>
+
+
+
+<li>If the paper’s main contribution is the creation of a new survey measure or other scientific tools, the paper likely belongs in the Theory and Methods track.</li>
+
+
+
+<li>If the paper’s main contribution is a design process, or the description of a series of design steps used to design a robotic system, then the paper likely belongs in the Design track. For example, if an author performs a series of co-design workshops, the resulting paper would belong in the User Studies track if the contribution of the paper focused on the scientific insights gleaned from the analysis of those workshops, but would belong in the Design track if the contribution of the paper focused on the quality of the design process itself.</li>
+
+
+
+<li>If the paper’s main contribution is the dataset rather than the experimental results themselves, the paper should likely be a Short Contribution.</li>
+</ol>
+
+
+
+<p>Example papers (best paper winners from previous years): <a href="https://ieeexplore.ieee.org/abstract/document/10974057?casa_token=NuQPIveaVjoAAAAA:SyECggpNNggA_ZVIgqSX0otyyZn8goBQ6FicfS7Ie-1rLOCO6Wha3j_ywKirqLOu1J2o5LJ-"><span style="text-decoration: underline;">Jia et al. 2025</span>, </a><a href="https://ieeexplore.ieee.org/abstract/document/10973930?casa_token=tXCbwlbMVIgAAAAA:T8O9uJbXji5hCAyKm5DOsARGTr5DRNswbV1PFLOw_sUhmr0u4L51Fm_7FtrS1VJ3EIdv6lIa"><span style="text-decoration: underline;">Carsenti et al. 2025</span>, </a><a href="https://dl.acm.org/doi/10.1145/3610977.3634936"><span style="text-decoration: underline;">Pelikan et al., 2024</span></a>, <a href="https://dl.acm.org/doi/10.1145/3610977.3634994"><span style="text-decoration: underline;">Kamino et al., 2024</span></a></p>
+
+
+
+<p>To help the community navigate the wide range of topics in this large track, <strong>we encourage authors to select at least one subtheme</strong> that aligns with their submission. These subthemes guide reviewers and ensure appropriate expertise during evaluation.</p>
+
+
+
+<ul class="wp-block-list">
+<li>Interpersonal Constructs: Focuses on emotional, social, behavioural, and interpersonal aspects of HRI, including affect recognition, social signaling, empathy, and engagement.</li>
+
+
+
+<li>Special Populations: Examines how robots support learning, therapy, care, or personal growth across the lifespan, in different subsets of the population (e.g. older adults, children, neurodivergent individuals, etc.)</li>
+
+
+
+<li>Teams, Collaboration &amp; Communication: Explores task-based interaction and teamwork with robots, including coordination, shared goals, and communication.</li>
+</ul>
+
+
+
+<p>If none of the subthemes seem appropriate, you may select “None”. In that case, the Program Chairs will assign your submission to the most suitable subtheme for review. Subthemes help ensure high-quality reviews but do not affect acceptance decisions directly.</p>
+
+
+
+<h2 class="wp-block-heading"><strong>Contacts</strong></h2>
+
+
+
+<p>If you have any questions, contact the Program Chairs.</p>
+
+
+
+<p><strong>Program Chairs:</strong> Maartje de Graaf (Utrecht University), Matthew Gombolay (Georgia Institute of Technology), Ilaria Torre (Chalmers University of Technology).</p>
+
+
+
+<p><strong>Email:</strong> pc2026@humanrobotinteraction.org.</p>
+</div></div>
+
+
+<footer class="wp-block-template-part">
+<p class="has-text-align-center has-small-font-size">copyright © 2026 ACM/IEEE International Conference on Human-Robot Interaction (HRI 2026). All Rights Reserved.</p>
+</footer></div>
+<script src="https://humanrobotinteraction.org/2026/wp-includes/js/jquery/ui/core.min.js?ver=1.13.3" id="jquery-ui-core-js"></script>
+<script src="https://humanrobotinteraction.org/2026/wp-includes/js/jquery/ui/mouse.min.js?ver=1.13.3" id="jquery-ui-mouse-js"></script>
+<script src="https://humanrobotinteraction.org/2026/wp-includes/js/jquery/ui/sortable.min.js?ver=1.13.3" id="jquery-ui-sortable-js"></script>
+<script id="wp-block-template-skip-link-js-after">
+	( function() {
+		var skipLinkTarget = document.querySelector( 'main' ),
+			sibling,
+			skipLinkTargetID,
+			skipLink;
+
+		// Early exit if a skip-link target can't be located.
+		if ( ! skipLinkTarget ) {
+			return;
+		}
+
+		/*
+		 * Get the site wrapper.
+		 * The skip-link will be injected in the beginning of it.
+		 */
+		sibling = document.querySelector( '.wp-site-blocks' );
+
+		// Early exit if the root element was not found.
+		if ( ! sibling ) {
+			return;
+		}
+
+		// Get the skip-link target's ID, and generate one if it doesn't exist.
+		skipLinkTargetID = skipLinkTarget.id;
+		if ( ! skipLinkTargetID ) {
+			skipLinkTargetID = 'wp--skip-link--target';
+			skipLinkTarget.id = skipLinkTargetID;
+		}
+
+		// Create the skip link.
+		skipLink = document.createElement( 'a' );
+		skipLink.classList.add( 'skip-link', 'screen-reader-text' );
+		skipLink.href = '#' + skipLinkTargetID;
+		skipLink.innerHTML = 'Skip to content';
+
+		// Inject the skip link.
+		sibling.parentElement.insertBefore( skipLink, sibling );
+	}() );
+	
+</script>
+<script id="wp-statistics-tracker-js-extra">
+var WP_Statistics_Tracker_Object = {"requestUrl":"https:\/\/humanrobotinteraction.org\/2026\/wp-json\/wp-statistics\/v2","ajaxUrl":"https:\/\/humanrobotinteraction.org\/2026\/wp-admin\/admin-ajax.php","hitParams":{"wp_statistics_hit":1,"source_type":"page","source_id":84,"search_query":"","signature":"76c4acef050d6d00d0325b3bc8f16163","endpoint":"hit"},"option":{"dntEnabled":false,"bypassAdBlockers":false,"consentIntegration":{"name":null,"status":[]},"isPreview":false,"userOnline":false,"trackAnonymously":false,"isWpConsentApiActive":false,"consentLevel":"functional"},"isLegacyEventLoaded":"","customEventAjaxUrl":"https:\/\/humanrobotinteraction.org\/2026\/wp-admin\/admin-ajax.php?action=wp_statistics_custom_event&nonce=394e44882c","onlineParams":{"wp_statistics_hit":1,"source_type":"page","source_id":84,"search_query":"","signature":"76c4acef050d6d00d0325b3bc8f16163","action":"wp_statistics_online_check"},"jsCheckTime":"60000"};
+</script>
+<script src="https://humanrobotinteraction.org/2026/wp-content/plugins/wp-statistics/assets/js/tracker.js?ver=14.16.3" id="wp-statistics-tracker-js"></script>
+</body>
+</html>

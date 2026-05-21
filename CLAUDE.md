@@ -64,7 +64,7 @@ Multi-cycle support: conferences with `cycles[]` produce one `ConferenceItem` pe
 
 **Compat layer** (`crawler/compat.py`): `crawl_conference(conf, year)` — lightweight non-Scrapy entry point used by unit tests. Fetches HTML via `_fetch()` (patchable in tests), dispatches to extractors, returns `list[CrawlResult]`.
 
-**Config** (`crawler/config.py`): Loads `conferences.yaml`, validates V7/V8 invariants. URL templates use `{YYYY}`/`{YY}` placeholders resolved at crawl time. `by_year` support: per-year config merges over top-level defaults; year-specific fields take precedence. After loading, injects CORE rank into `tags[1]` from `data/core2026.csv` via `crawler/ranks.py`; uses `core_acronym` field when conference name differs from CORE portal acronym; falls back to `core_rank` field when CSV rank is absent or non-standard.
+**Config** (`crawler/config.py`): Loads `conferences.yaml`, validates V7/V8 invariants. URL templates use `{YYYY}`/`{YY}` placeholders resolved at crawl time. `by_year` support: per-year config merges over top-level defaults; year-specific fields take precedence. After loading, injects CORE rank into `rank` field from `data/core2026.csv` via `crawler/ranks.py`; uses `core_acronym` field when conference name differs from CORE portal acronym; falls back to `core_rank` field when CSV rank is absent or non-standard; sets "unknown" when no rank can be determined.
 
 **Rankings** (`crawler/ranks.py`): Loads `data/core2026.csv` (downloaded from CORE portal, ICORE2026 source) into `{acronym_lower: rank}` dict. First match wins on duplicate acronyms. `load_ranks()` returns empty dict if CSV missing (graceful degradation).
 
@@ -72,10 +72,10 @@ Multi-cycle support: conferences with `cycles[]` produce one `ConferenceItem` pe
 
 ## Key Invariants (from SPEC.md §V)
 
-- **V1**: Every entry needs: name, year, link, ≥1 deadline, tags (area + tier)
+- **V1**: Every entry needs: name, year, link, ≥1 deadline, area, rank
 - **V2**: Deadline format: `{label: str, date: "YYYY-MM-DD HH:MM"}`
-- **V3**: tags = `[area_code, core_rank]` where area is any non-empty string, core_rank ∈ {A*,A,B,C}
-- **V7**: conferences.yaml entries require: name, strategy, tags. `url` required unless `by_year` covers all target years
+- **V3**: `area` is any non-empty string, `rank` ∈ {A*,A,B,C,unknown}
+- **V7**: conferences.yaml entries require: name, strategy, area. `url` required unless `by_year` covers all target years
 - **V8**: strategy ∈ {regex, css, xpath} (llm, static deferred)
 - **V10**: Canonical deadline labels: abstract, submission, early_reject, rebuttal_start, rebuttal_end, notification, shepherd, camera_ready
 - **V14**: Deadline dates should follow canonical order; violation → warning (error with `--strict`). Known false positive: POPL shepherd < notification (correct data)
@@ -84,6 +84,6 @@ Multi-cycle support: conferences with `cycles[]` produce one `ConferenceItem` pe
 
 ## conferences.yaml Structure
 
-Each entry has: `name`, `url` (with `{YYYY}/{YY}` templates), `strategy`, `tags`. Optional: `url_main`, `cycles[]`, `selectors`, `by_year`, `core_acronym`, `core_rank`. `by_year: {YYYY: {url, selectors?, cycles?, overrides?}}` — per-year config for conferences with unpredictable URLs; merges over top-level defaults. Cycles contain `name` + `selectors.section` (regex to isolate cycle text) + optional `selectors.researchr_track`/`researchr_cycle` for researchr.org multi-cycle pages.
+Each entry has: `name`, `url` (with `{YYYY}/{YY}` templates), `strategy`, `area`. Optional: `url_main`, `cycles[]`, `selectors`, `by_year`, `core_acronym`, `core_rank`. `by_year: {YYYY: {url, selectors?, cycles?, overrides?}}` — per-year config for conferences with unpredictable URLs; merges over top-level defaults. Cycles contain `name` + `selectors.section` (regex to isolate cycle text) + optional `selectors.researchr_track`/`researchr_cycle` for researchr.org multi-cycle pages.
 
-`tags` contains only the area code: `[SEC]`, `[SYS]`, etc. — rank is injected at load time from `data/core2026.csv`. `core_acronym` overrides name-based CSV lookup (e.g. `ACM CCS` → `CCS`). `core_rank` provides explicit fallback when CSV rank is absent or non-standard (e.g. NSDI's "National: USA").
+`area` is the research area code: `SEC`, `SYS`, etc. `rank` is injected at load time from `data/core2026.csv` (defaults to "unknown" if not found). `core_acronym` overrides name-based CSV lookup (e.g. `ACM CCS` → `CCS`). `core_rank` provides explicit fallback when CSV rank is absent or non-standard (e.g. NSDI's "National: USA").

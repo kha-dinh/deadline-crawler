@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-115776710-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+
+            gtag('config', 'UA-115776710-1');
+        </script>
+        <script language="javascript">
+            let slideIndex = 1;
+            showSlides(slideIndex);
+
+            function plusSlides(n) {
+                showSlides(slideIndex += n);
+            }
+
+            function currentSlide(n) {
+                showSlides(slideIndex = n);
+            }
+
+            function showSlides(n) {
+                let i;
+                let slides = document.getElementsByClassName("mySlides");
+                let dots = document.getElementsByClassName("dot");
+                if (n > slides.length) { slideIndex = 1 }
+                if (n < 1) { slideIndex = slides.length }
+                for (i = 0; i < slides.length; i++) {
+                    slides[i].style.display = "none";
+                }
+                for (i = 0; i < dots.length; i++) {
+                    dots[i].className = dots[i].className.replace(" active", "");
+                }
+                slides[slideIndex - 1].style.display = "block";
+                dots[slideIndex - 1].className += " active";
+            }
+        </script>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="canonical" href="https://vldb.org/2026/" />
+        <style>
+            body{visibility:hidden}
+        </style>
+        
+    <style>
+        .boxstyle  {
+            border: 0;
+            background: #eee;
+            color: #383838;
+            display: block;
+            height: 110px;
+            overflow-y: auto;
+        }
+    </style>
+
+        <link rel="icon" type="image/png" href="https://vldb.org/2026/assets/img/favicon.webp">
+        <title>VLDB 2026 | 52nd International Conference on Very Large Data Bases</title>
+        <title>The VLDB 2026 conference, will take place in Boston, MA, United States, from Aug 31st to Sep 4th, 2026, and will feature research talks, tutorials, demonstrations, and workshops.
+It will cover issues in data management, database and information systems research.
+VLDB is a premier annual international forum for data management and database researchers, vendors, practitioners, application developers, and users.
+</title>
+    </head>
+    
+    <body>
+        <header>
+            <div class="small-menu"><a class="hamburger"></a></div>
+            <div class="small-header">
+                <figure class="logo">
+                    <a href="https://vldb.org/2026">
+                        <img style="max-width: 150px; min-width: 100px;" src="https://vldb.org/2026/assets/img/logo_simple.webp" alt="VLDB 2026 -- Boston, MA, USA"></a>
+                </figure>
+            </div>
+            <nav itemscope itemtype="http://schema.org/SiteNavigationElement">
+                <figure class="logo">
+                    <img src="https://vldb.org/2026/assets/img/logo_full.webp" alt="VLDB 2026 -- Boston, MA, USA">
+                    <img src="https://vldb.org/2026/assets/img/logo_simple.webp" alt="VLDB 2026 -- Boston, MA, USA">
+                </figure>
+                
+                    <div>
+                        General Information
+                        <div class="menu">
+                            
+                                
+                                    <a href="." itemprop="url">
+                                        <span itemprop="name">Conference Overview</span>
+                                    </a>
+                                
+                            
+                                
+                                    <a href="officers.html" itemprop="url">
+                                        <span itemprop="name">Conference Officers</span>
+                                    </a>
+                                
+                            
+                                
+                                    <a href="pvldb-review-board.html" itemprop="url">
+                                        <span itemprop="name">PVLDB Review Board</span>
+                                    </a>
+                                
+                            
+                                
+                                    <a href="shadow-pc.html" itemprop="url">
+                                        <span itemprop="name">Shadow PC</span>
+                                    </a>
+                                
+                            
+                        </div>
+                    </div>
+                
+                    <div>
+                        Conference Program
+                        <div class="menu">
+                            
+                                
+                                    <a href="workshops.html" itemprop="url">
+                                        <span itemprop="name">Workshops</span>
+                                    </a>
+                                
+                            
+                        </div>
+                    </div>
+                
+                    <div>
+                        Call for Contributions
+                        <div class="menu">
+                            
+                                
+                                    <a href="call-for-research-track.html" itemprop="url">
+                                        <span itemprop="name">Research Track</span>
+                                    </a>
+                                
+                            
+                                
+                                    <a href="call-for-industrial-track.html" itemprop="url">
+                                        <span itemprop="name">Industrial Track</span>
+                                    </a>
+                                
+                            
+                                
+                                    <a href="call-for-demonstrations.html" itemprop="url">
+                                        <span itemprop="name">Demonstrations</span>
+                                    </a>
+                                
+                            
+                                
+                                    <a href="call-for-phd-workshop.html" itemprop="url">
+                                        <span itemprop="name">PhD Workshop</span>
+                                    </a>
+                                
+                            
+                                
+                                    <a href="call-for-workshops.html" itemprop="url">
+                                        <span itemprop="name">Workshops</span>
+                                    </a>
+                                
+                            
+                                
+                                    <a href="call-for-tutorials.html" itemprop="url">
+                                        <span itemprop="name">Tutorials</span>
+                                    </a>
+                                
+                            
+                                
+                                    <a href="call-for-panels.html" itemprop="url">
+                                        <span itemprop="name">Panels</span>
+                                    </a>
+                                
+                            
+                        </div>
+                    </div>
+                
+                    <div>
+                        Dates &amp; Guidelines
+                        <div class="menu">
+                            
+                                
+                                    <a href="important-dates.html" itemprop="url">
+                                        <span itemprop="name">Important Dates</span>
+                                    </a>
+                                
+                            
+                                
+                                    <hr/>
+                                
+                            
+                                
+                                    <a href="formatting-guidelines.html" itemprop="url">
+                                        <span itemprop="name">Formatting Guidelines</span>
+                                    </a>
+                                
+                            
+                                
+                                    <a href="submission-guidelines.html" itemprop="url">
+                                        <span itemprop="name">Submission Guidelines</span>
+                                    </a>
+                                
+                            
+                        </div>
+                    </div>
+                
+                    <div>
+                        Sponsorship
+                        <div class="menu">
+                            
+                                
+                                    <a href="sponsorship.html" itemprop="url">
+                                        <span itemprop="name">Opportunities</span>
+                                    </a>
+                                
+                            
+                        </div>
+                    </div>
+                
+                    <div>
+                        Participant Information
+                        <div class="menu">
+                            
+                                
+                                    <a href="conference-venue.html" itemprop="url">
+                                        <span itemprop="name">Conference Venue</span>
+                                    </a>
+                                
+                            
+                                
+                                    <a href="registration.html" itemprop="url">
+                                        <span itemprop="name">Registration</span>
+                                    </a>
+                                
+                            
+                                
+                                    <hr/>
+                                
+                            
+                                
+                                    <a href="travel-support.html" itemprop="url">
+                                        <span itemprop="name">Travel Support</span>
+                                    </a>
+                                
+                            
+                                
+                                    <hr/>
+                                
+                            
+                                
+                                    <a class="menu-label" role="presentation" aria-disabled="true">
+                                        <span>Conference Hotel Booking:</span>
+                                    </a>
+                                
+                            
+                                
+                                    <a href="https://book.passkey.com/go/VLDBConference" itemprop="url" target="_blank" rel="noopener noreferrer">
+                                        <span itemprop="name">The Westin Boston Seaport</span>
+                                    </a>
+                                
+                            
+                        </div>
+                    </div>
+                
+            </nav>
+            <section
+                class="carousel "
+                data-images='[
+                    
+                        {"i": "https://vldb.org/2026/assets/img/carousel/boston-1.webp","t":"Boston"}
+                        ,
+                    
+                        {"i": "https://vldb.org/2026/assets/img/carousel/boston-2.webp","t":"Boston"}
+                        
+                    
+                ]'
+            >
+                <span>52<sup>nd</sup> International Conference on Very Large Data Bases</span>
+                <span>Boston, MA, USA &mdash; Aug 31st - Sep 4th, 2026</span>
+            </section>
+        </header>
+
+        <main class="body">
+            
+    <section class="intro"><div style="text-align: justify" class="markdown "> <h1>VLDB 2026: Overview</h1>
+<p>The Very Large Data Bases (VLDB) is a premier annual international forum for data management, scalable data science, and database researchers, vendors, practitioners, application developers, and users.
+The forthcoming VLDB 2026 conference is poised to deliver a comprehensive program, featuring an array of research talks, keynote and invited talks, panels, tutorials, demonstrations, industrial tracks, and workshops.
+It will cover a spectrum of research topics related to all aspects of data management, where systems issues play a significant role, such as data management system technology and information management infrastructures, including their very large scale of experimentation, novel architectures, and demanding applications as well as their underpinning theory.</p>
+<p>Key areas of interest for PVLDB include, but are not limited to, data mining and analytics, data privacy and security, database engines, database performance and manageability, distributed database systems, graph and network data, information integration and data quality, languages, machine learning, ai, and databases, novel database architectures, provenance and workflows, specialized and domain-specific data management, text and semi-structured data, and user interfaces.
+These thematic pillars represent the foundational elements underpinning the technological landscape of the emerging applications of the 21st century.</p>
+<p>The VLDB 2026 conference will take place from Aug 31st to 4th September, 2026 in Boston, MA, USA.</p> </div>
+        <blockquote style="font-style: italic;">
+            The Microsoft CMT service was used for managing the peer-reviewing process for this conference.
+            This service was provided for free by Microsoft and they bore all expenses, including costs for Azure cloud services as well as for software development and support.
+        </blockquote>
+    </section>
+    <aside class="tweets">
+        <a
+            class="twitter-timeline"
+            data-lang="en"
+            data-dnt="true"
+            data-link-color="#444"
+            data-chrome="noborders transparent"
+            href="https://twitter.com/VLDBconf"
+        >
+            Tweets by @VLDBconf
+        </a>
+    </aside>
+
+            <div class="spinner"></div>
+        </main>
+
+        <footer>
+            <div>52<sup>nd</sup> International Conference on Very Large Data Bases<br />Boston, MA, USA &mdash; Aug 31st - Sep 4th, 2026</div>
+            <a class="github no-ext-icon" href="https://github.com/dbogatov/vldb-2026" title="Collaborate on GitHub">
+                <svg height="32" version="1.1" viewBox="0 0 16 16" width="32">
+                    <path fill="#fff" fill-rule="evenodd" d="
+                        M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
+                        0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01
+                        1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95
+                        0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18
+                        1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16
+                        1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54
+                        1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16
+                        8c0-4.42-3.58-8-8-8z">
+                    </path>
+                </svg>
+            </a>
+        </footer>
+
+        <link rel="stylesheet" href="https://vldb.org/2026/assets/merged.css">
+        <script async src="https://vldb.org/2026/assets/merged.js"></script>
+
+        <script async src="https://platform.twitter.com/widgets.js"></script>
+        <script>
+            (function() {
+                var last = 0,
+                    docBody = document.body,
+                    header = document.querySelector('body>header'),
+                    nav = header && header.querySelector('nav'),
+                    requestAnimationFrame = window.requestAnimationFrame || function(callback, element) {
+                        var now = Date.now(),
+                            next = Math.max(0, 16 - (now - last)),
+                            id = window.setTimeout(function() {
+                                callback(now + next);
+                            }, next);
+                        last = now + next;
+                        return id;
+                    },
+                    cancelAnimationFrame = window.cancelAnimationFrame || function(id) {
+                        clearTimeout(id);
+                    },
+                    update = function () {
+                        if (!nav) return;
+
+                        var isStatic = docBody.classList.contains('static');
+                        if (header.getBoundingClientRect().bottom > 70) {
+                            if (isStatic) docBody.classList.remove('static');
+                        } else if (!isStatic) docBody.classList.add('static');
+                    },
+                    lid;
+
+                window.addEventListener('scroll', function(e) {
+                    if (lid) cancelAnimationFrame(lid);
+                    lid = requestAnimationFrame(update);
+                });
+
+                update();
+            }());
+        </script>
+    </body>
+</html>

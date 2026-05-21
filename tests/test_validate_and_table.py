@@ -19,7 +19,7 @@ def _make_valid_conf():
         "year": 2026,
         "link": "https://example.com",
         "area": "SEC",
-        "tier": "A*",
+        "rank": "A*",
         "deadlines": [{"label": "submission", "date": "2026-06-01 23:59"}],
     }
 
@@ -32,7 +32,8 @@ def test_output_to_entry_shape():
     assert entry["link"] == "https://example.com"
     assert len(entry["deadline"]) == 1
     assert entry["deadline"][0]["label"] == "submission"
-    assert entry["tags"] == ["SEC", "A*"]  # reconstructed from area+tier
+    assert entry["area"] == "SEC"
+    assert entry["rank"] == "A*"
 
 
 def test_validate_valid_file(tmp_path, capsys):
@@ -123,7 +124,7 @@ def test_print_table_output(capsys):
             "name": "ConfA",
             "year": 2026,
             "area": "SEC",
-            "tier": "A*",
+            "rank": "A*",
             "deadlines": [
                 {"label": "submission", "date": "2026-01-05 23:59"},
             ],
@@ -132,7 +133,7 @@ def test_print_table_output(capsys):
             "name": "ConfB",
             "year": 2026,
             "area": "SYS",
-            "tier": "A",
+            "rank": "A",
             "deadlines": [
                 {"label": "abstract", "date": "2026-02-15 23:59"},
             ],
@@ -200,7 +201,7 @@ def test_v17_duplicate_label_error():
     """V17: same label twice in one entry → error."""
     entry = {
         "name": "Conf", "year": 2026, "link": "https://example.com",
-        "tags": ["SEC", "A*"],
+        "area": "SEC", "rank": "A*",
         "deadline": [
             {"label": "submission", "date": "2026-06-01 23:59"},
             {"label": "submission", "date": "2026-07-01 23:59"},
@@ -214,7 +215,7 @@ def test_v17_no_duplicate_ok():
     """V17: distinct labels → no duplicate error."""
     entry = {
         "name": "Conf", "year": 2026, "link": "https://example.com",
-        "tags": ["SEC", "A*"],
+        "area": "SEC", "rank": "A*",
         "deadline": [
             {"label": "abstract", "date": "2026-05-01 23:59"},
             {"label": "submission", "date": "2026-06-01 23:59"},
@@ -231,7 +232,7 @@ def test_v19_valid_https_url():
     """V19: valid HTTPS URL → no error."""
     entry = {
         "name": "Conf", "year": 2026, "link": "https://conf.example.com/2026",
-        "tags": ["SEC", "A*"],
+        "area": "SEC", "rank": "A*",
         "deadline": [{"label": "submission", "date": "2026-06-01 23:59"}],
     }
     errors = _validate_entry(entry)
@@ -242,7 +243,7 @@ def test_v19_valid_http_url():
     """V19: plain HTTP URL → no error."""
     entry = {
         "name": "Conf", "year": 2026, "link": "http://conf.example.com/cfp",
-        "tags": ["SEC", "A*"],
+        "area": "SEC", "rank": "A*",
         "deadline": [{"label": "submission", "date": "2026-06-01 23:59"}],
     }
     errors = _validate_entry(entry)
@@ -253,7 +254,7 @@ def test_v19_missing_link():
     """V19: empty link → missing link error."""
     entry = {
         "name": "Conf", "year": 2026, "link": "",
-        "tags": ["SEC", "A*"],
+        "area": "SEC", "rank": "A*",
         "deadline": [{"label": "submission", "date": "2026-06-01 23:59"}],
     }
     errors = _validate_entry(entry)
@@ -264,7 +265,7 @@ def test_v19_non_http_scheme():
     """V19: ftp:// URL → error."""
     entry = {
         "name": "Conf", "year": 2026, "link": "ftp://example.com/cfp",
-        "tags": ["SEC", "A*"],
+        "area": "SEC", "rank": "A*",
         "deadline": [{"label": "submission", "date": "2026-06-01 23:59"}],
     }
     errors = _validate_entry(entry)
@@ -275,7 +276,7 @@ def test_v19_no_scheme():
     """V19: bare path → error."""
     entry = {
         "name": "Conf", "year": 2026, "link": "example.com/cfp",
-        "tags": ["SEC", "A*"],
+        "area": "SEC", "rank": "A*",
         "deadline": [{"label": "submission", "date": "2026-06-01 23:59"}],
     }
     errors = _validate_entry(entry)
@@ -289,7 +290,7 @@ def test_v16_warn_no_abstract_or_submission():
     """V16: entry with only notification → warn."""
     entry = {
         "name": "Conf", "year": 2026, "link": "https://example.com",
-        "tags": ["SEC", "A*"],
+        "area": "SEC", "rank": "A*",
         "deadline": [{"label": "notification", "date": "2026-08-01 23:59"}],
     }
     warnings = _validate_entry_warnings(entry)
@@ -300,7 +301,7 @@ def test_v16_no_warn_has_submission():
     """V16: entry with submission → no V16 warning."""
     entry = {
         "name": "Conf", "year": 2026, "link": "https://example.com",
-        "tags": ["SEC", "A*"],
+        "area": "SEC", "rank": "A*",
         "deadline": [{"label": "submission", "date": "2026-06-01 23:59"}],
     }
     warnings = _validate_entry_warnings(entry)
@@ -311,7 +312,7 @@ def test_v16_no_warn_has_abstract():
     """V16: entry with abstract → no V16 warning."""
     entry = {
         "name": "Conf", "year": 2026, "link": "https://example.com",
-        "tags": ["SEC", "A*"],
+        "area": "SEC", "rank": "A*",
         "deadline": [
             {"label": "abstract", "date": "2026-05-01 23:59"},
             {"label": "notification", "date": "2026-08-01 23:59"},
@@ -328,7 +329,7 @@ def test_v20_warn_single_deadline():
     """V20: exactly 1 deadline → warn."""
     entry = {
         "name": "Conf", "year": 2026, "link": "https://example.com",
-        "tags": ["SEC", "A*"],
+        "area": "SEC", "rank": "A*",
         "deadline": [{"label": "submission", "date": "2026-06-01 23:59"}],
     }
     warnings = _validate_entry_warnings(entry)
@@ -339,7 +340,7 @@ def test_v20_no_warn_multiple_deadlines():
     """V20: 2+ deadlines → no V20 warning."""
     entry = {
         "name": "Conf", "year": 2026, "link": "https://example.com",
-        "tags": ["SEC", "A*"],
+        "area": "SEC", "rank": "A*",
         "deadline": [
             {"label": "abstract", "date": "2026-05-01 23:59"},
             {"label": "submission", "date": "2026-06-01 23:59"},
@@ -356,7 +357,7 @@ def test_v21_warn_year_mismatch():
     """V21: date field contains wrong year → warn."""
     entry = {
         "name": "Conf", "year": 2026, "link": "https://example.com",
-        "tags": ["SEC", "A*"],
+        "area": "SEC", "rank": "A*",
         "deadline": [{"label": "submission", "date": "2026-06-01 23:59"},
                      {"label": "abstract", "date": "2026-05-01 23:59"}],
         "date": "July 7–9, 2025",
@@ -369,7 +370,7 @@ def test_v21_no_warn_year_match():
     """V21: date field year matches entry year → no warning."""
     entry = {
         "name": "Conf", "year": 2026, "link": "https://example.com",
-        "tags": ["SEC", "A*"],
+        "area": "SEC", "rank": "A*",
         "deadline": [{"label": "submission", "date": "2026-06-01 23:59"},
                      {"label": "abstract", "date": "2026-05-01 23:59"}],
         "date": "November 15-18, 2026",
@@ -382,7 +383,7 @@ def test_v21_no_warn_empty_date():
     """V21: empty date field → no warning."""
     entry = {
         "name": "Conf", "year": 2026, "link": "https://example.com",
-        "tags": ["SEC", "A*"],
+        "area": "SEC", "rank": "A*",
         "deadline": [{"label": "submission", "date": "2026-06-01 23:59"},
                      {"label": "abstract", "date": "2026-05-01 23:59"}],
         "date": "",
@@ -399,14 +400,14 @@ def test_print_table_sort_by_urgency(capsys):
             "name": "Later",
             "year": 2026,
             "area": "SEC",
-            "tier": "A*",
+            "rank": "A*",
             "deadlines": [{"label": "submission", "date": "2026-06-01 23:59"}],
         },
         {
             "name": "Sooner",
             "year": 2026,
             "area": "SYS",
-            "tier": "A*",
+            "rank": "A*",
             "deadlines": [{"label": "submission", "date": "2026-01-03 23:59"}],
         },
     ]

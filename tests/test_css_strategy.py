@@ -188,7 +188,7 @@ CONF = {
     "name": "TestConf",
     "url": "https://example.com/cfp",
     "strategy": "css",
-    "tags": ["SEC", "A"],
+    "area": "SEC", "rank": "A",
     "selectors": {
         "section_css": "ul.cfp-dates",
         "items": "li",
@@ -238,7 +238,7 @@ CYCLE_CONF = {
     "name": "CycleConf",
     "url": "https://example.com/cfp",
     "strategy": "css",
-    "tags": ["SEC", "A"],
+    "area": "SEC", "rank": "A",
     "cycles": [
         {
             "name": "Cycle 1",

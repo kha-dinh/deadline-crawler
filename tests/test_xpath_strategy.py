@@ -197,7 +197,7 @@ def test_crawl_conference_basic(mock_fetch):
         "name": "TestConf",
         "url": "https://example.com/cfp",
         "strategy": "xpath",
-        "tags": ["SEC"],
+        "area": "SEC",
         "selectors": {
             "section_xpath": "//div[@class='important-dates']",
             "items": ".//tr",
@@ -223,7 +223,7 @@ def test_crawl_scaffolding_raises(mock_fetch):
         "name": "FutureConf",
         "url": "https://example.com/cfp",
         "strategy": "xpath",
-        "tags": ["SYS"],
+        "area": "SYS",
         "selectors": {"items": ".//tr"},
     }
     with pytest.raises(ValueError, match="scaffolding"):

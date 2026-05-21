@@ -100,7 +100,8 @@ def crawl_conference(conf: dict, year: int, no_specific: bool = False) -> list[C
                 date=date,
                 place=place,
                 description=resolved.get("description"),
-                tags=list(resolved.get("tags", [])),
+                area=resolved.get("area", ""),
+                rank=resolved.get("rank", "unknown"),
             ))
         return results
     else:
@@ -115,5 +116,6 @@ def crawl_conference(conf: dict, year: int, no_specific: bool = False) -> list[C
             date=date,
             place=place,
             description=resolved.get("description"),
-            tags=list(resolved.get("tags", [])),
+            area=resolved.get("area", ""),
+            rank=resolved.get("rank", "unknown"),
         )]

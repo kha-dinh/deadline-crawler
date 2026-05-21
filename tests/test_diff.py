@@ -118,8 +118,7 @@ class TestFormatChanges:
     def test_format_deadline_changed(self):
         changes = [Change(
             type="deadline_changed", conf_id="x", conf_name="X 2026",
-            label="submission", old="2026-03-15 23:59", new="2026-03-20 23:59",
-        )]
+            label="submission", old="2026-03-15 23:59", new="2026-03-20 23:59")]
         lines = format_changes(changes)
         assert "submission" in lines[0]
         assert "->" in lines[0]

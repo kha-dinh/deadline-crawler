@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script language="javascript">
+  let slideIndex = 1;
+  showSlides(slideIndex);
+
+  function plusSlides(n) {
+    showSlides(slideIndex += n);
+  }
+
+  function currentSlide(n) {
+    showSlides(slideIndex = n);
+  }
+
+  function showSlides(n) {
+    let i;
+    let slides = document.getElementsByClassName("mySlides");
+    let dots = document.getElementsByClassName("dot");
+    if (n > slides.length) {slideIndex = 1}
+    if (n < 1) {slideIndex = slides.length}
+    for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";
+    }
+    for (i = 0; i < dots.length; i++) {
+      dots[i].className = dots[i].className.replace(" active", "");
+    }
+    slides[slideIndex-1].style.display = "block";
+    dots[slideIndex-1].className += " active";
+  }
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6ZQ880VLVF"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6ZQ880VLVF');
+</script>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="canonical" href="http://localhost/icde/"> <!-- // CHANGE THIS BEFORE GOING LIVE -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+<style>
+  body{visibility:hidden}
+  </style>
+  <link rel="icon" type="image/png" href="img/icde2026_logo.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+<link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet">
+    <title>42nd IEEE International Conference on Data Engineering, Montreal, Canada - May 4-8, 2026</title>
+    <meta name="description" content="" />
+
+<link rel="stylesheet" href="css/min.css">
+<link rel="stylesheet" href="css/extra.css"> 
+
+</head>
+
+<body>
+
+  <header>
+    <div class="small-menu"><a class="hamburger"></a></div>
+    <div class="small-header">
+      <figure class="logo">
+      <a href="index.html"><img src="img/icde2026_logo_simple.png" alt="ICDE 2026 Montreal, Canada"></a>
+     </figure>
+    </div>
+
+    <nav itemscope itemtype="http://schema.org/SiteNavigationElement">
+      <figure class="logo">
+          <img src="img/icde2026_logo_full.png" alt="ICDE 2026 Montreal, Canada">
+          <img src="img/icde2026_logo_simple.png" alt="ICDE 2026 Montreal, Canada">
+      </figure>
+      <div>
+        <a href="index.html" itemprop="url"><span itemprop="name">Home</span></a>
+      </div>
+      <div>
+        General Information
+        <div class="menu">
+          <a href="index.html" itemprop="url"><span itemprop="name">Conference Overview</span></a>
+          <a href="officers.html" itemprop="url"><span itemprop="name">Conference Officers</span></a>
+          <a href="pc-chairs.html" itemprop="url"><span itemprop="name">Program Committees</span></a>
+        </div>
+      </div>
+      <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;Conference Program&nbsp;&nbsp;&nbsp;&nbsp;
+        <div class="menu">
+          <a href="program_structure.html" itemprop="url"><span itemprop="name">Program Overview</span></a>
+          <a href="program_details.html" itemprop="url"><span itemprop="name">Program Details</span></a>
+			<a href="keynotes.html" itemprop="url"><span itemprop="name">Keynotes</span></a>
+         <hr>
+
+          <a href="accepted-papers.html" itemprop="url"><span itemprop="name">Accepted Research Papers</span></a>
+          <a href="ia-papers.html" itemprop="url"><span itemprop="name">Accepted Industry <br> and Application Papers</span></a>
+          <a href="demo-papers.html" itemprop="url"><span itemprop="name">Accepted Demo Papers</span></a>
+          <a href="tkde-papers.html" itemprop="url"><span itemprop="name">Accepted TKDE Posters</span></a>
+          <a href="deft-papers.html" itemprop="url"><span itemprop="name">Accepted DEFT Papers</span></a>          
+          <a href="lightning-talks.html" itemprop="url"><span itemprop="name">Accepted Lightning Talks</span></a>
+          <a href="tutorials.html" itemprop="url"><span itemprop="name">Tutorials</span></a>
+          <a href="phd-papers.html" itemprop="url"><span itemprop="name">Accepted Ph.D. Symposium</span></a>
+          <hr>
+                    <a href="EDI-session.html" itemprop="url"><span itemprop="name">Diversity, Equity, and Inclusion </span></a>
+          <hr>
+                    <a href="workshops.html" itemprop="url"><span itemprop="name">Workshops</span></a>
+          <hr>
+          <a href="panels.html" itemprop="url"><span itemprop="name">Panel Sessions</span></a>
+          <hr>
+          <a href="awards.html" itemprop="url"><span itemprop="name">Awards</span></a>
+		  
+        </div>
+      </div>
+      <div>
+        Call for Contributions
+        <div class="menu">
+          <a href="cf-research-papers.html" itemprop="url"><span itemprop="name">Research Paper</span></a>  
+          <a href="cf-industry-track.html" itemprop="url"><span itemprop="name">Industry and Application</span></a>
+          <hr>
+          <a href="cf-demonstrations.html" itemprop="url"><span itemprop="name">Demonstrations</span></a>
+          <a href="cf-workshop-proposals.html" itemprop="url"><span itemprop="name">Workshop Proposals</span></a>
+          <a href="cf-tutorials.html" itemprop="url"><span itemprop="name">Tutorials</span></a>
+          <a href="cf-tkde-poster.html" itemprop="url"><span itemprop="name">TKDE Poster</span></a>
+          <a href="cf-phd-symposium.html" itemprop="url"><span itemprop="name">Ph.D. Symposium</span></a>
+          <a href="cf-lightning-talks.html" itemprop="url"><span itemprop="name">Lightning Talks</span></a>
+          <a href="cf-future.html" itemprop="url"><span itemprop="name">Data Engineering <br>Future Technologies</span></a>
+        </div>
+      </div>
+      <div>
+        Participant Information
+        <div class="menu">
+          <a href="registration.html" itemprop="url"><span itemprop="name">Registration</span></a>
+          <hr>
+          <a href="presentation-instructions.html" itemprop="url"><span itemprop="name">Presentation Instructions</span></a>
+          <hr>
+          <a href="visa-guidelines.html" itemprop="url"><span itemprop="name">Visa Guidelines</span></a>
+          <hr>
+          <a href="travel.html" itemprop="url"><span itemprop="name">Travel</span></a>
+          <a href="hotel.html" itemprop="url"><span itemprop="name">Hotel &amp; Conference Venue</span></a>
+		  <a href="travel-grants.html" itemprop="url"><span itemprop="name">Student Travel Grants</span></a>
+          <!---<a href="local-attractions.html" itemprop="url"><span itemprop="name">Local Attractions</span></a>
+          <a href="transportation.html" itemprop="url"><span itemprop="name">Transportation</span></a>-->
+        </div> 
+      </div>
+
+      <div>
+        Dates &amp; Guidelines
+        <div class="menu">
+          <a href="important-dates.html" itemprop="url"><span itemprop="name">Important Dates</span></a>
+          <hr />
+          <!-- <a href="formatting-guidelines.html" itemprop="url"><span itemprop="name">Formatting Guidelines</span></a> -->
+          <a href="submission-guidelines.html" itemprop="url"><span itemprop="name">Submission Guidelines</span></a>
+        </div>
+      </div>
+      <div>
+        Sponsorship
+        <div class="menu">
+          <a href="sponsorship-opportunities.html" itemprop="url"><span itemprop="name">Opportunities</span></a>
+          <hr />
+          <a href="sponsors.html" itemprop="url"><span itemprop="name">Our Sponsors</span></a>
+        </div>
+      </div>
+
+    </nav>
+<section style="text-align: center;" class="carousel" 
+  data-images='[
+    {"i":"./img/montreal/1.jpg"},
+    {"i":"./img/montreal/2.jpg"},
+    {"i":"./img/montreal/3.jpg"},
+    {"i":"./img/montreal/4.jpg"},
+    {"i":"./img/montreal/5.jpg"},
+    {"i":"./img/montreal/6.jpg"}
+  ]'
+  >
+  <span style="text-align: center; display: block;">42<sup>nd</sup> IEEE International Conference on Data Engineering (ICDE)</span>
+  <span style="background: #c51c2b;">Montréal, Canada - May 4-8, 2026</span>
+  <div data-url="./img/montreal/1.jpg" style="background-image: url(&quot;./img/montreal/1.jpg&quot;); opacity: 1;"></div>
+
+</section>
+
+</header>
+
+<main class="body" style="padding: 0 20px 10px;">
+    <style>
+     .boxstyle  {
+        border: 0;
+        background: #eee;
+        color: #383838;
+        display: block;
+        height: 300px;
+        overflow-y: auto;
+        padding: 5px;
+        border-radius:5px;
+      }
+    </style>
+ 
+<section class="intro" style="font-size: 17px;">
+<br/>
+
+    <h2 style="color: #c51c2b;">News</h2>
+    <div class="boxstyle">
+      <ul>
+        <li>
+			  <p><b><img src="./img/new1.png" width="50" height="25" alt=""> May 8, 2026, <a href="awards.html">ICDE/TCDE Awards Announced</a>.</b></p>
+		  </li> 
+
+         <li>
+			  <p><b><img src="./img/new1.png" width="50" height="25" alt=""> May 6, 2026, Announcing the Panelists for "<a href="panels.html#panel2">How Should Databases Be Taught in the Future?</a>".</b></p>
+		  </li> 
+
+        
+         <li>
+			  <p><b><img src="./img/new1.png" width="50" height="25" alt=""> May 1, 2026, Announcing the Panelists for <a href="panels.html">"What Can Agentic AI Do for Databases?"</a>.</b></p>
+		  </li> 
+
+         <li>
+			  <p><b><img src="./img/new1.png" width="50" height="25" alt=""> April 26, 2026,The <a href="EDI-session.html#panelsession">distinguished EDI panelists</a> have been announced.</b></p>
+		  </li> 
+
+     <li>
+			  <p><b><img src="./img/new1.png" width="50" height="25" alt=""> April 23, 2026, The ICDE 2026 <a href="cf-phd-symposium.html#phd-symposium-program">PhD Symposium Program Details</a> is now available.</b></p>
+		  </li>   
+
+      <li>
+			  <p><b><img src="./img/new1.png" width="50" height="25" alt=""> April 14, 2026, The ICDE 2026 <a href="presentation-instructions.html">Presentation Instructions</a> Now Available.</b></p>
+		  </li>
+
+        <li>
+			  <p><b><img src="./img/new1.png" width="50" height="25" alt=""> April 13, 2026, The ICDE 2026 conference app is now available on <a href="https://whova.com/">Whova</a>. Registered attendees can access the full agenda, connect with other participants, and receive updates through the app. Please check your email for the invitation link/code to join the event.</b></p>
+		  </li>
+
+		  <li>
+			  <p><b><img src="./img/new1.png" width="50" height="25" alt=""> April 13, 2026, Coming from a visa-free country?  We strongly recommend applying for the e-visa (eTA) well in advance to avoid any delays at the airport.</b></p>
+		  </li>
+		  <li>
+			  <p><b><img src="./img/new1.png" width="50" height="25" alt=""> April 13, 2026, <a href="keynotes.html">the Keynote Talk details</a> are now available!</b></p>
+		  </li>
+		  
+		  <li>
+			  <p><b><img src="./img/new1.png" width="50" height="25" alt=""> ICDE 2026 does not work with third‑party housing agencies. Please only book accommodations using the official hotel links provided on this website. Unsolicited emails requesting travel or credit card details should be treated with caution.</b></p>
+		  </li>
+         <li>
+          <p><b><img src="./img/new1.png" width="50" height="25" alt=""> April 4, 2026, Announcement of Andy Pavlo (CMU) and Sharad Mehrotra as <a href="awards.html">TCDE Awards</a>.
+        </li>
+        
+         <li>
+          <p><b><img src="./img/new1.png" width="50" height="25" alt=""> March 31, 2026, ICDE 2026 Student Volunteer Applications Are Now Open. <a href="https://docs.google.com/forms/d/e/1FAIpQLSc_kKpzhEz5VOPqZjLK7y2QZiU70XqyM0bxC5l8aZx200GZJg/viewform">Register Here</a>.
+        </li>
+
+        <li>
+          <p><b><img src="./img/new1.png" width="50" height="25" alt=""> <b style="color: #c51c2b;">Breaking News:</b>  March 23, 2026, early bird registration has been extended to March 27. <a href="registration.html">Register Here</a>.
+        </li>
+
+        <li>
+          <p><b><img src="./img/new1.png" width="50" height="25" alt=""> March 23, 2026, ICDE 2026 <a href="keynotes.html">keynote speakers</a>  officially announced.
+        </li>
+
+        <li>
+          <p><b><img src="./img/new1.png" width="50" height="25" alt=""> March 23, 2026, the official sponsor list has been released. View the full list <a href="sponsors.html">here</a>.
+        </li>
+
+		    <li>
+          <p><b><img src="./img/new1.png" width="50" height="25" alt=""> March 21, 2026, <a href="https://icde2026.github.io/program_details.html">ICDE 2026 Program Details</a> is now available. You can explore the full schedule, sessions, and events on the Conference Program page.</p>
+        </li>
+		  
+        <li>
+          <p><b><img src="./img/new1.png" width="50" height="25" alt=""> 
+            March 17, 2026, <a href="ia-papers.html" target="_self">Accepted Industry and Application</a>,
+            <a href="deft-papers.html" target="_self">DEFT</a>, and
+            <a href="phd-papers.html" target="_self">Ph.D. Symposium</a> Papers for ICDE 2026 are Published.</p>
+        </li>
+
+        <li>
+          <p><b><img src="./img/new1.png" width="50" height="25" alt=""> 
+            March 16, 2026, <a href="accepted-papers.html" target="_self">Accepted Research Papers (Round 1 and 2)</a>,
+            <a href="demo-papers.html" target="_self">Demo Papers</a>,
+            <a href="tkde-papers.html" target="_self">TKDE Posters</a>, and
+            <a href="lightning-talks.html" target="_self">Lightning Talks</a> for ICDE 2026 are Published.</p>
+        </li>
+
+        <li>
+          <p><b><img src="./img/new1.png" width="50" height="25" alt=""> <a href="https://icde2026.github.io/program_structure.html">ICDE 2026 Program Structure</a> have been released. More to come soon. Stay tuned!</p>
+        </li>
+		<li>
+			<p><b><img src="./img/new1.png" width="50" height="25" alt="">Don’t forget to book your stay at the Fairmont Queen Elizabeth conference hotel.  Attendees will enjoy the service and amenities of a premier hotel at discounted rates (including student rates). Book through the conference links: <a href="https://icde2026.github.io/hotel.html">Hotel and Conference Venue</a></b></p>
+		</li>
+		<li>
+			<p><b><img src="./img/new1.png" width="50" height="25" alt="">Early registration deadline ends <b>March 23, 2026</b>. Registration details and link to register: <a href="https://icde2026.github.io/registration.html">Registration</a>.</b></p> 
+		</li>
+		<li>
+        	<p><b><img src="./img/new1.png" width="50" height="25" alt="">Student Travel Award applications now open, deadline April 6, 2026. Please visit (<a href="https://icde2026.github.io/travel-grants.html">Student Travel Awards</a>) for details. </b></p>
+        </li>
+		  
+		<li>
+        <p><b><img src="./img/new1.png" width="50" height="25" alt="">Ph.D. Symposium deadline is extended to Feb 1, 2026. </b></p>
+        </li>
+		  
+		<li>
+		  <p><b>
+		    <img src="./img/new1.png" width="50" height="25" alt="">
+		    Jan 8, 2026,
+		    Hotel bookings for ICDE 2026 are now available.
+		    Please visit the
+		    <a href="https://icde2026.github.io/hotel.html">Hotel and Conference Venue</a>
+		    page for details.
+		  </b></p>
+		</li>
+		  
+        <li>
+        <p><b><img src="./img/new1.png" width="50" height="25" alt="">Dec 17, 2025, Accepted Research Papers for ICDE 2026 in <a href="accepted-papers.html#round1" target="_self">Round 1</a>. 
+        </li>
+
+        <li>
+        <p><b><img src="./img/new1.png" width="50" height="25" alt="">Dec 15, 2025,
+        <a href="registration.html">Registration for ICDE 2026</a> is now open.</b></p>
+        </li>
+
+        <li>
+        <p><b><img src="./img/new1.png" width="50" height="25" alt="">Dec 15, 2025,
+        The list of accepted workshops has been published <a href="workshops.html">online</a></b></p>
+        </li>
+
+        <li>
+        <p><b><img src="./img/new1.png" width="50" height="25" alt="">Dec 15, 2025,
+        The list of accepted tutorials has been published <a href="tutorials.html">online</a></b></p>
+        </li>
+
+        <li>
+        <p><b><img src="./img/new1.png" width="50" height="25" alt="">Nov 21, 2025,
+        Instructions for Camera-Ready Submission - <a href="cf-research-papers.html#Camera-Instructions">ICDE 2026 Research Track</a></b></p>
+        </li>
+
+        <li>
+        <p><b><img src="./img/new1.png" width="50" height="25" alt="">Oct 30, 2025,
+        CMT is now open and accepting submissions for the <a href="cf-future.html">DEFT track</a>. Abstract deadline is Nov <del>2</del> 5 (Extended by 3 Days to 5 November), and full paper deadline is Nov 9.</b></p>
+        </li>
+        <li>
+        <p><b><img src="./img/new1.png" width="50" height="25" alt="">Oct 20, 2025,
+        The CMT is now open and accepting submissions for the <a href="cf-research-papers.html">Research Track Round 2</a>.</b></p>
+        </li>
+      </ul>
+    </div>
+    <h2 style="color: #c51c2b;">Welcome to ICDE 2026</h2>
+    <p>The annual IEEE International Conference on Data Engineering (ICDE) is one of the premier conferences in data and information engineering and addresses research issues on designing, building, managing, and evaluating advanced data intensive systems and applications. It is a leading forum for researchers, practitioners, developers, and users to explore cutting-edge ideas and to exchange techniques, tools, and experiences.</p>
+    <p>Each year, ICDE attracts researchers and practitioners from the academia, industry and government from across the world. The audience includes leading data scientists and professors, entrepreneurs, developers, talented young researchers/students and other thought leaders from major vendors and academia.</p>
+    <p>ICDE 2026 will be held in Montreal from May 4 to 8, 2026. Situated between the St. Lawrence River and the Rivière des Prairies, Montreal beautifully blends natural beauty with a rich historical backdrop. As one of the oldest cities in North America, it showcases a distinctive mix of French colonial roots, charming cobblestone streets, and historic architecture, all interwoven with modern-day vibrancy. With rivers and green spaces throughout—including the iconic Mount Royal Park at its center—Montreal welcomes visitors to enjoy scenic waterfronts, lush walking paths, and sweeping views. The city’s cultural richness, historic allure, and close ties to nature make it a truly memorable destination.
+    </p>
+
+  
+</section>
+
+<aside class="tweets">
+  <br>
+  <br>
+<!------------------------------------------------------------->
+<div> 
+<span role="listitem">
+    <a href="https://bsky.app/profile/icde-publicity.bsky.social" target="_blank" rel="noopener">
+        <svg 
+            style="width: 35px; height: 35px;" 
+            class="e-font-icon-svg e-fab-bluesky" 
+            viewBox="0 0 24 24" 
+            xmlns="http://www.w3.org/2000/svg" 
+            role="img"
+            aria-labelledby="bluesky-title">
+            <title id="bluesky-title">Bluesky</title>
+            <path 
+                fill="#0285ff" 
+                d="M5.202 2.857C7.954 4.922 10.913 9.11 12 11.358c1.087-2.247 4.046-6.436 6.798-8.501C20.783 1.366 24 .213 24 3.883c0 .732-.42 6.156-.667 7.037-.856 3.061-3.978 3.842-6.755 3.37 4.854.826 6.089 3.562 3.422 6.299-5.065 5.196-7.28-1.304-7.847-2.97-.104-.305-.152-.448-.153-.327 0-.121-.05.022-.153.327-.568 1.666-2.782 8.166-7.847 2.97-2.667-2.737-1.432-5.473 3.422-6.3-2.777.473-5.899-.308-6.755-3.369C.42 10.04 0 4.615 0 3.883c0-3.67 3.217-2.517 5.202-1.026"/>
+        </svg>					
+    </a>
+</span>
+
+				<span role="listitem">
+					<a href="https://x.com/icdeconf" target="_blank">
+						<svg style="width: 35px; height: 35px;" class="e-font-icon-svg e-fab-x-twitter" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"></path></svg>					
+          </a>
+				</span>
+							
+				<span role="listitem">
+					<a href="https://www.linkedin.com/company/ieee-icde-conference" target="_blank">
+						<svg style="width: 35px; height: 35px;" class="e-font-icon-svg e-fab-linkedin" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"></path></svg>					
+          </a>
+				</span>
+	</div>  
+<!-------------------------------------------------------------->  
+<!-- Elfsight Twitter Feed | Untitled Twitter Feed -->
+<!-- <script src="https://elfsightcdn.com/platform.js" async></script>
+<div class="elfsight-app-fac70aaf-0c7f-41b4-baf2-5b6e0520fbd5" data-elfsight-app-lazy></div> -->
+
+
+<div class="sidebar-feed">
+      <h3>Latest ICDE Posts</h3>
+      <div id="feed">
+        <div class="post-loading">Loading posts (11px font)...</div>
+      </div>
+    </div>
+  <br>
+  <br>
+</aside>
+<!-- <div class="spinner"></div> -->
+
+
+</main>
+<main class="body">
+  <section class="important-dates" style="font-size: 18px; padding: 0 50px 150px 0;">
+  <br />
+    <h2 style="color: #c51c2b;">Our Sponsors</h2>
+
+  <div class="sponsorship-wrap">
+        <div>          
+
+            <!-- <h4>Diamond Sponsors</h4>
+            <div class="sponsor-logos sponsor-1">               
+                <a class="sponsor-spacer"></a>
+                <a class="sponsor-spacer"></a>
+            </div>
+
+
+            <h4>Platinum Sponsors</h4>
+            <div class="sponsor-logos sponsor-2">               
+
+                <a class="sponsor-spacer"></a>
+                <a class="sponsor-spacer"></a>
+            </div> -->
+
+
+            <h4>Gold Sponsors</h4>
+            <div class="sponsor-logos sponsor-3">
+                <a href="https://www.huawei.com/" class="no-ext-icon" title="Huawei - Gold Sponsor"><img src="./img/Huawei.png"</a>
+                <a href="https://www.bytedance.com/" class="no-ext-icon" title="Bytedance - Gold Sponsor" style="transform: scale(1.2)"><img src="./img/bytedance.png"></a>
+                 <a href="https://www.pingcap.com/" class="no-ext-icon" title="TiDB - Gold Sponsor"><img src="./img/TiDB.png"></a>
+
+                <a class="sponsor-spacer"></a>
+                <a class="sponsor-spacer"></a>
+                <a class="sponsor-spacer"></a>
+
+            </div>
+
+             <h4>Sliver Sponsors</h4>
+            <div class="sponsor-logos sponsor-4">
+                <a href="https://www.oracle.com/database/" class="no-ext-icon" title="Oracle - Silver Sponsor" style="transform: scale(1.5)"><img src="./img/oracle-db.png"></a>
+                <a href="https://www.Tencent.com/" class="no-ext-icon" title="Tencent - Silver Sponsor" style="transform: scale(1.4)"><img src="./img/tencent.png"></a>
+                <a href="https://alibaba.com/" class="no-ext-icon " title="Alibaba - Silver Sponsor" style="transform: scale(1.7)"><img src="./img/Alibaba-Cloud.png"></a>
+                <a class="sponsor-spacer"></a>             
+
+
+            </div>           
+
+
+            <h4>Bronze Sponsors</h4>
+            <div class="sponsor-logos sponsor-5">
+                <a href="https://www.google.com/" class="no-ext-icon" title="Google - Bronze Sponsor" style="transform: scale(0.8)"><img src="./img/google.png"></a>
+                <a class="sponsor-spacer"></a>
+                <a class="sponsor-spacer"></a>
+                <a class="sponsor-spacer"></a>
+                <a class="sponsor-spacer"></a>
+                <a class="sponsor-spacer"></a>
+                <a class="sponsor-spacer"></a>
+            </div>      
+            
+            <h4>General Sponsors</h4>
+            <div class="sponsor-logos sponsor-2">
+                <a href="https://www.computer.org/about/80th-anniversary" class="no-ext-icon" title="IEEE - General Sponsor" style="transform: scale(1.4); margin-left: 50px;" ><img src="./img/IEEE-CS-80th.png"></a>   
+                <a class="sponsor-spacer" style="min-width: 5%;"></a>             
+                <a href="https://www.computer.org/" class="no-ext-icon" title="IEEE - General Sponsor" style="transform: scale(1.1)"><img src="./img/tcde-logo.webp"></a>
+                <!-- <a class="sponsor-spacer"></a> -->
+                <a class="sponsor-spacer"></a>
+                <a class="sponsor-spacer"></a>
+            </div>
+        </div>
+        <div style="display: none"></div>
+    </div>
+ 
+
+</section>
+</main>
+
+<footer>
+  <div style="display: flex; align-items: center; justify-content: center;">
+    <span><img src="img/icde2026_footer.png"></span>
+    <span>
+      <p>
+        <span>42<sup>nd</span> IEEE International Conference on Data Engineering, Montreal, Canada - May 4-8, 2026.<br>
+          &#169; IEEE ICDE 2026. All rights reserved. Use of this website signifies your agreement to the 
+            <a href="http://www.ieee.org/site_terms_conditions.html" target="_blank" rel="noopener" style="color: #c51c2b;">IEEE Terms and Conditions</a>. <br>
+            A public charity, IEEE is the world’s largest technical professional organization dedicated to advancing technology for the benefit of humanity.    
+
+      </p>      
+    </span>
+  </div>
+</footer>
+
+<link rel="stylesheet" href="css/min.css">
+<script async src="js/min.js"></script>
+
+<script async src="https://platform.twitter.com/widgets.js"></script>
+<script>
+    (function() {
+        var last = 0,
+            docBody = document.body,
+            header = document.querySelector('body>header'),
+            nav = header && header.querySelector('nav'),
+            requestAnimationFrame = window.requestAnimationFrame || function(callback, element) {
+                var now = Date.now(),
+                    next = Math.max(0, 16 - (now - last)),
+                    id = window.setTimeout(function() {
+                        callback(now + next);
+                    }, next);
+                last = now + next;
+                return id;
+            },
+            cancelAnimationFrame = window.cancelAnimationFrame || function(id) {
+                clearTimeout(id);
+            },
+            update = function () {
+                if (!nav) return;
+
+                var isStatic = docBody.classList.contains('static');
+                if (header.getBoundingClientRect().bottom > 70) {
+                    if (isStatic) docBody.classList.remove('static');
+                } else if (!isStatic) docBody.classList.add('static');
+            },
+            lid;
+
+        window.addEventListener('scroll', function(e) {
+            if (lid) cancelAnimationFrame(lid);
+            lid = requestAnimationFrame(update);
+        });
+
+        update();
+    }());
+</script>
+
+  <script>
+    async function loadICDEFeed() {
+      const handle = 'icde-publicity.bsky.social';
+      const limit = 12;
+      const feedContainer = document.getElementById('feed');
+
+      try {
+        const response = await fetch(
+          `https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=${handle}&limit=${limit}&filter=posts_no_replies`
+        );
+
+        if (!response.ok) throw new Error(`API error: ${response.status}`);
+
+        const data = await response.json();
+        feedContainer.innerHTML = '';
+
+        if (!data.feed || data.feed.length === 0) {
+          feedContainer.innerHTML = '<p class="error">No recent posts found.</p>';
+          return;
+        }
+
+        data.feed.forEach(item => {
+          const post = item.post;
+          const uri = post.uri;
+
+          const blockquote = document.createElement('blockquote');
+          blockquote.className = 'bluesky-embed';
+          blockquote.setAttribute('data-bluesky-uri', uri);
+          blockquote.innerHTML = `<p>Loading...</p>`;
+
+          feedContainer.appendChild(blockquote);
+        });
+
+        if (!document.querySelector('script[src*="embed.bsky.app"]')) {
+          const script = document.createElement('script');
+          script.async = true;
+          script.src = 'https://embed.bsky.app/static/embed.js';
+          document.body.appendChild(script);
+        }
+
+      } catch (err) {
+        console.error('Feed load error:', err);
+        feedContainer.innerHTML = `<p class="error">Error loading posts.<br><a href="https://bsky.app/profile/icde-publicity.bsky.social">View on Bluesky</a></p>`;
+      }
+    }
+
+    window.addEventListener('load', loadICDEFeed);
+  </script>
+  <link rel="stylesheet" href="css/bluesky.css"> 
+
+</body>
+</html>

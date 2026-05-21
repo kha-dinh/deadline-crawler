@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script language="javascript">
+  let slideIndex = 1;
+  showSlides(slideIndex);
+
+  function plusSlides(n) {
+    showSlides(slideIndex += n);
+  }
+
+  function currentSlide(n) {
+    showSlides(slideIndex = n);
+  }
+
+  function showSlides(n) {
+    let i;
+    let slides = document.getElementsByClassName("mySlides");
+    let dots = document.getElementsByClassName("dot");
+    if (n > slides.length) {slideIndex = 1}
+    if (n < 1) {slideIndex = slides.length}
+    for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";
+    }
+    for (i = 0; i < dots.length; i++) {
+      dots[i].className = dots[i].className.replace(" active", "");
+    }
+    slides[slideIndex-1].style.display = "block";
+    dots[slideIndex-1].className += " active";
+  }
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6ZQ880VLVF"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6ZQ880VLVF');
+</script>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="canonical" href="http://localhost/icde/"> <!-- // CHANGE THIS BEFORE GOING LIVE -->
+
+<style>
+  body{visibility:hidden}
+  </style>
+  <link rel="icon" type="image/png" href="img/icde2026_logo.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+<link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet">
+    <title>Important Dates</title>
+    <meta name="description" content="" />
+
+<link rel="stylesheet" href="css/min.css">
+
+</head>
+
+<body>
+
+  <header>
+    <div class="small-menu"><a class="hamburger"></a></div>
+    <div class="small-header">
+      <figure class="logo">
+      <a href="index.html"><img src="img/icde2026_logo_simple.png" alt="ICDE 2026 Montreal, Canada"></a>
+     </figure>
+    </div>
+
+    <nav itemscope itemtype="http://schema.org/SiteNavigationElement">
+      <figure class="logo">
+        <img src="img/icde2026_logo_full.png" alt="ICDE 2026 Montreal, Canada">
+        <img src="img/icde2026_logo_simple.png" alt="ICDE 2026 Montreal, Canada">
+      </figure>
+      <div>
+        <a href="index.html" itemprop="url"><span itemprop="name">Home</span></a>
+      </div>
+      <div>
+        General Information
+        <div class="menu">
+          <a href="index.html" itemprop="url"><span itemprop="name">Conference Overview</span></a>
+          <a href="officers.html" itemprop="url"><span itemprop="name">Conference Officers</span></a>
+          <a href="pc-chairs.html" itemprop="url"><span itemprop="name">Program Committees</span></a>
+        </div>
+      </div>
+      <div>
+       &nbsp;&nbsp;&nbsp;&nbsp;Conference Program&nbsp;&nbsp;&nbsp;&nbsp;
+        <div class="menu">
+          <a href="program_structure.html" itemprop="url"><span itemprop="name">Program Overview</span></a>
+          <a href="program_details.html" itemprop="url"><span itemprop="name">Program Details</span></a>
+          <a href="keynotes.html" itemprop="url"><span itemprop="name">Keynotes</span></a>
+         <hr>
+
+          <a href="accepted-papers.html" itemprop="url"><span itemprop="name">Accepted Research Papers</span></a>
+          <a href="ia-papers.html" itemprop="url"><span itemprop="name">Accepted Industry <br> and Application Papers</span></a>
+          <a href="demo-papers.html" itemprop="url"><span itemprop="name">Accepted Demo Papers</span></a>
+          <a href="tkde-papers.html" itemprop="url"><span itemprop="name">Accepted TKDE Posters</span></a>
+          <a href="deft-papers.html" itemprop="url"><span itemprop="name">Accepted DEFT Papers</span></a>          
+          <a href="lightning-talks.html" itemprop="url"><span itemprop="name">Accepted Lightning Talks</span></a>
+          <a href="tutorials.html" itemprop="url"><span itemprop="name">Tutorials</span></a>
+          <a href="phd-papers.html" itemprop="url"><span itemprop="name">Accepted Ph.D. Symposium</span></a>
+          <hr>
+                    <a href="EDI-session.html" itemprop="url"><span itemprop="name">Diversity, Equity, and Inclusion </span></a>
+          <hr>
+                    <a href="workshops.html" itemprop="url"><span itemprop="name">Workshops</span></a>
+          <hr>
+          <a href="panels.html" itemprop="url"><span itemprop="name">Panel Sessions</span></a>
+          <hr>
+          <a href="awards.html" itemprop="url"><span itemprop="name">Awards</span></a>
+          
+        </div>
+      </div>
+      <div>
+        Call for Contributions
+        <div class="menu">
+          <a href="cf-research-papers.html" itemprop="url"><span itemprop="name">Research Paper</span></a>  
+          <a href="cf-industry-track.html" itemprop="url"><span itemprop="name">Industry and Application</span></a>
+          <hr>
+          <a href="cf-demonstrations.html" itemprop="url"><span itemprop="name">Demonstrations</span></a>
+          <a href="cf-workshop-proposals.html" itemprop="url"><span itemprop="name">Workshop Proposals</span></a>
+          <a href="cf-tutorials.html" itemprop="url"><span itemprop="name">Tutorials</span></a>
+          <a href="cf-tkde-poster.html" itemprop="url"><span itemprop="name">TKDE Poster</span></a>
+          <a href="cf-phd-symposium.html" itemprop="url"><span itemprop="name">Ph.D. Symposium</span></a>
+          <a href="cf-lightning-talks.html" itemprop="url"><span itemprop="name">Lightning Talks</span></a>
+          <a href="cf-future.html" itemprop="url"><span itemprop="name">Data Engineering <br>Future Technologies</span></a>
+        </div>
+      </div>
+      <div>
+        Participant Information
+        <div class="menu">
+          <a href="registration.html" itemprop="url"><span itemprop="name">Registration</span></a>
+          <hr>
+          <a href="presentation-instructions.html" itemprop="url"><span itemprop="name">Presentation Instructions</span></a>
+         <hr>
+          <a href="visa-guidelines.html" itemprop="url"><span itemprop="name">Visa Guidelines</span></a>
+          <hr>
+          <a href="travel.html" itemprop="url"><span itemprop="name">Travel</span></a>
+          <a href="hotel.html" itemprop="url"><span itemprop="name">Hotel &amp; Conference Venue</span></a>
+          <a href="travel-grants.html" itemprop="url"><span itemprop="name">Student Travel Grants</span></a>
+          <!---<a href="local-attractions.html" itemprop="url"><span itemprop="name">Local Attractions</span></a>
+          <a href="transportation.html" itemprop="url"><span itemprop="name">Transportation</span></a>-->
+        </div> 
+      </div>
+
+      <div>
+        Dates &amp; Guidelines
+        <div class="menu">
+          <a href="important-dates.html" itemprop="url"><span itemprop="name">Important Dates</span></a>
+          <hr />
+          <!-- <a href="formatting-guidelines.html" itemprop="url"><span itemprop="name">Formatting Guidelines</span></a> -->
+          <a href="submission-guidelines.html" itemprop="url"><span itemprop="name">Submission Guidelines</span></a>
+        </div>
+      </div>
+      <div>
+        Sponsorship
+        <div class="menu">
+          <a href="sponsorship-opportunities.html" itemprop="url"><span itemprop="name">Opportunities</span></a>
+          <hr />
+          <a href="sponsors.html" itemprop="url"><span itemprop="name">Our Sponsors</span></a>
+        </div>
+      </div>
+
+    </nav>
+<section style="text-align: center;" class="carousel small" 
+  data-images='[
+    {"i":"./img/montreal/1.jpg"},
+    {"i":"./img/montreal/2.jpg"},
+    {"i":"./img/montreal/3.jpg"},
+    {"i":"./img/montreal/4.jpg"},
+    {"i":"./img/montreal/5.jpg"},
+    {"i":"./img/montreal/6.jpg"}
+  ]'
+  >
+  <span style="text-align: center; display: block;">42<sup>nd</sup> IEEE International Conference on Data Engineering (ICDE)</span>
+  <span style="background: #c51c2b;">Montréal, Canada - May 4-8, 2026</span>
+  <div data-url="./img/montreal/1.jpg" style="background-image: url(&quot;./img/montreal/1.jpg&quot;); opacity: 1;"></div>
+</section>
+
+</header>
+
+<main class="body">
+    <style>
+     .boxstyle  {
+        border: 0;
+        background: #eee;
+        color: #383838;
+        display: block;
+        height: 300px;
+        overflow-y: auto;
+        padding: 5px;
+        border-radius:5px;
+      }
+    </style>
+<section class="important-dates" style="font-size: 17px; padding: 0 50px 150px 0;">
+  <br />
+  <h2 style="color: #c51c2b;">Important Dates</h2>
+  <p><b>** Notification dates are approximate.</b></p>
+
+  <h3 style="color: #366598;  border-left:15px solid #c51c2b; padding-left: 5px;">Research Track Important Dates</h3>
+  <div class="elementor-widget-container">
+    <p>IEEE ICDE 2026 will have two rounds of research paper submissions with each round involving two reviewing
+      phases, the first of which leads to Revise & Resubmit, Accept or Reject and the second leads to Accept or
+      Reject to allow for revisions. </p>
+    
+      <table style="width: 100%;">
+        <thead>
+          <tr>
+            <th style="border: none; background: none; width: 40%;"></th>
+            <th style="width: 30%;">First Round</th>
+            <th style="color: #366598; font-weight: bold;">Second Round</th>            
+        </tr>
+        </thead>
+        <tbody>   
+          <tr>
+            <td>Submission due</td>
+            <td>June 18, 2025</td>
+            <td>October 27, 2025</td>
+          </tr>
+
+          <tr>
+            <td>Notification for authors (Accept/Revise/Reject)</td>
+            <td>August 18, 2025</td>
+            <td>December 22, 2025</td>
+          </tr>
+
+          <tr>
+            <td>Revision due</td>
+            <td>September 22, 2025</td>
+            <td>January 26, 2026</td>
+          </tr>
+
+          <tr>
+            <td>Notification to authors (Accept/Reject)</td>
+            <td>October 20, 2025</td>
+            <td>February 23, 2026</td>
+          </tr>
+
+          <!-- <tr>
+            <td>Camera-ready copy due</td>
+            <td>October 22, 2025</td>
+            <td>March 9, 2026</td>
+          </tr> -->
+       </tbody>
+       </table>    
+  </div>
+  <br>
+  <br>
+
+  <h3 style="color: #366598; border-left:15px solid #c51c2b; padding-left: 5px;">Industry and Application Track Important Dates</h3>
+  <div class="elementor-widget-container">
+    <p>The Industry and Applications Track has only one round of submissions. </p>    
+      <table style="width: 100%;">
+        <thead>
+          <tr>
+            <th style="border: none; background: none;"></th>
+            <th style="width: 40%;">Deadline</th>          
+        </tr>
+        </thead>
+        <tbody>       
+
+          <tr>
+            <td>Submission due</td>
+            <td>October 27, 2025</td>
+          </tr>
+
+          <tr>
+            <td>Notification for authors (Accept/Revise/Reject)</td>
+            <td>End of December, 2025</td>
+          </tr>
+
+          <tr>
+            <td>Revision due</td>
+            <td>February 9, 2026</td>
+          </tr>
+
+          <tr>
+            <td>Notification to authors (Accept/Reject)</td>
+            <td>February 23, 2026</td>
+          </tr>
+
+          <tr>
+            <td>Camera-ready copy due</td>
+            <td>March 6, 2026</td>
+          </tr>
+       </tbody>
+       </table>    
+  </div>
+  <br>
+  <br>
+
+  <h3 style="color: #366598; border-left:15px solid #c51c2b; padding-left: 5px;">Other Tracks Important Dates</h3>
+  <div class="elementor-widget-container">
+      <table style="width: 100%;">
+        <thead>
+          <tr>
+            <th> Track</th>
+            <th>Submission due</th> 
+            <th>Notification for authors (Accept/Reject)</th>  
+            <th>Camera-ready due</th>       
+        </tr>
+        </thead>
+        <tbody>       
+          <tr>
+            <td><strong> Demonstrations </strong></td>
+            <td>November 01, 2025</td>
+            <td>December 19, 2025</td>
+            <td>February 01, 2026</td>
+          </tr>
+
+          <tr>
+            <td><strong> Workshop Proposals </strong></td>
+            <td>September 15, 2025</td>
+            <td>October 13, 2025</td>
+            <td>On or before March 9, 2026</td>
+          </tr>
+
+          <tr>
+            <td><strong> Tutorials </strong></td>
+            <td>November 11, 2025, 2025</td>
+            <td>December 11, 2025</td>
+            <td>March 1, 2026</td>
+          </tr>
+
+          <tr>
+            <td><strong> TKDE Poster </strong></td>
+            <td>December 09, 2025</td>
+            <td>February 9, 2026</td>
+            <td>March 1, 2026</td>
+          </tr>
+
+          <tr>
+            <td><strong> Ph.D. Symposium </strong></td>
+            <td><del>January 15</del> February 1, 2026</td>
+            <td>February 15, 2026</td>
+            <td>March 1, 2026</td>
+          </tr>
+
+          <tr>
+            <td><strong> Lightning Talks </strong></td>
+            <td>November 14, 2025</td>
+            <td>January 09, 2026</td>
+            <td>January 30, 2026</td>
+          </tr>
+
+          <tr>
+            <td><strong> Data Engineering Future Technologies </strong></td>
+            <td>Apstract(<del>November 2</del> November 5), Paper(November 9) 2025</td>
+            <td>January 28, 2026</td>
+            <td>March 8, 2026</td>
+          </tr>          
+       </tbody>
+       </table>    
+  </div>
+  <br>
+  <br>
+
+  <p style="color:#c51c2b; font-weight: 600; border-left: 10px solid #c51c2b; padding-left: 5px; font-size: 17px;">For all submissions, please read the <a target="_blank" rel="noopener" href="https://icde2026.github.io/submission-guidelines.html">ICDE 2026 Submission Guidelines</a> carefully.</p>
+</section>
+
+</main>
+
+<footer>
+  <div style="display: flex; align-items: center; justify-content: center;">
+    <span><img src="img/icde2026_footer.png"></span>
+    <span>
+      <p>
+        <span>42<sup>nd</span> IEEE International Conference on Data Engineering, Montreal, Canada - May 4-8, 2026.<br>
+          &#169; IEEE ICDE 2026. All rights reserved. Use of this website signifies your agreement to the 
+            <a href="http://www.ieee.org/site_terms_conditions.html" target="_blank" rel="noopener" style="color: #c51c2b;">IEEE Terms and Conditions</a>. <br>
+            A public charity, IEEE is the world’s largest technical professional organization dedicated to advancing technology for the benefit of humanity.    
+
+      </p>      
+    </span>
+  </div>
+</footer>
+
+<link rel="stylesheet" href="css/min.css">
+<script async src="js/min.js"></script>
+
+<script async src="https://platform.twitter.com/widgets.js"></script>
+<script>
+    (function() {
+        var last = 0,
+            docBody = document.body,
+            header = document.querySelector('body>header'),
+            nav = header && header.querySelector('nav'),
+            requestAnimationFrame = window.requestAnimationFrame || function(callback, element) {
+                var now = Date.now(),
+                    next = Math.max(0, 16 - (now - last)),
+                    id = window.setTimeout(function() {
+                        callback(now + next);
+                    }, next);
+                last = now + next;
+                return id;
+            },
+            cancelAnimationFrame = window.cancelAnimationFrame || function(id) {
+                clearTimeout(id);
+            },
+            update = function () {
+                if (!nav) return;
+
+                var isStatic = docBody.classList.contains('static');
+                if (header.getBoundingClientRect().bottom > 70) {
+                    if (isStatic) docBody.classList.remove('static');
+                } else if (!isStatic) docBody.classList.add('static');
+            },
+            lid;
+
+        window.addEventListener('scroll', function(e) {
+            if (lid) cancelAnimationFrame(lid);
+            lid = requestAnimationFrame(update);
+        });
+
+        update();
+    }());
+</script>
+</body>
+</html>

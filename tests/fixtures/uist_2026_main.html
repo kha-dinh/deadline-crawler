@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  
+  <title>UIST 2026 - Home</title>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="Cache-control" content="public" />
+  <meta http-equiv="content-type" content="text/html" />
+  <link rel="icon" href="/2026/favicon.ico?v=3" type="image/x-icon" />
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" /> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous" defer></script> -->
+  <link rel="stylesheet" href="/2026/assets/style.css?v=2" />
+  <script src="/2026/assets/js/color-modes.js"></script>
+</head>
+
+<body>
+
+  <a class="sr-only sr-only-focusable" href="#main-content">Skip to main content</a>
+
+<!-- DEBUG: page.url = '/' -->
+<nav class="navbar fixed-top navbar-expand-lg navbar--home" id="myTopnav">
+    <div class="container container-xxxl">
+        <a class="navbar-brand nav-link nav-underline" href="/2026/"><img
+                src="/2026/assets/images/uist_26_logo.png" id="navbar-logo"
+                data-light-src="/2026/assets/images/uist_26_logo_light_bg.png"
+                data-dark-src="/2026/assets/images/uist_26_logo.png" alt="UIST 2026 Home"
+                style="height: 45px" /></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav nav nav-underline ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link " href="/2026/attending">Attending</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="/2026/cfp">Full CFP</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="/2026/sponsors">For
+                        Sponsors</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link "
+                        href="/2026/organizers">Organizers</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        More Info
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="/2026/accessibility/">Accessibility</a></li>
+                        <li><a class="dropdown-item" href="/2026/archive/">UIST Archive</a></li>
+                        <li><a class="dropdown-item" href="/2025/">Previous Year (UIST 2025)</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <button class="nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center" id="bd-theme"
+                        type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static"
+                        aria-label="Toggle theme (auto)">
+                        <i class="fas fa-circle-half-stroke my-1 theme-icon-active"></i>
+                        <span class="d-lg-none ms-2" id="bd-theme-text">Toggle theme</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
+                        <li>
+                            <button class="dropdown-item" data-bs-theme-value="light" aria-pressed="false"
+                                type="button">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-sun me-2 opacity-50 theme-icon" data-theme-icon="fa-sun"></i>
+                                    Light
+                                    <i class="fas fa-check ms-auto d-none"></i>
+                                </div>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="dropdown-item" data-bs-theme-value="dark" aria-pressed="false" type="button">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-moon me-2 opacity-50 theme-icon" data-theme-icon="fa-moon"></i>
+                                    Dark
+                                    <i class="fas fa-check ms-auto d-none"></i>
+                                </div>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="dropdown-item" data-bs-theme-value="auto" aria-pressed="true" type="button">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-circle-half-stroke me-2 opacity-50 theme-icon"
+                                        data-theme-icon="fa-circle-half-stroke"></i>
+                                    Auto
+                                    <i class="fas fa-check ms-auto d-none"></i>
+                                </div>
+                            </button>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+
+<!-- <div class="logo-area" style="height: 200px;">
+  <div class="logo-bg"></div>
+</div> -->
+<div class="logo-area" style="height: 0px;">
+  <div class="logo-bg"></div>
+</div>
+
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.1/p5.min.js" defer></script>
+<script src="/2026/assets/js/subCanvas.js" defer></script> -->
+
+
+
+<main id="main-content" class="container container-xxxl">
+  <!-- ══════════════════════════════════════════
+     HERO — Full-bleed background video/image
+     ══════════════════════════════════════════ -->
+<section class="hero" id="hero">
+  <div class="hero__media" id="intro-container">
+    <div class="hero__fallback-bg"></div>
+    <video poster="/2026/assets/videos/uist26-openingvideo/poster.jpg" id="intro-video" muted="" playsinline="" style="display: none;">
+      <source src="/2026/assets/videos/uist26-openingvideo/Low.mp4" type="video/mp4" />
+      <source src="/2026/assets/videos/uist26-openingvideo/uist26.webm" type="video/webm" />
+    </video>
+    <img id="intro-image" data-dark-src="/2026/assets/images/uist_26_header_logo_sun.svg" data-light-src="/2026/assets/images/uist_26_header_logo_sun_light_bg.svg" alt="" class="w-100" style="display: none;" aria-hidden="true" />
+  </div>
+  <div class="hero__sunburst" aria-hidden="true"></div>
+  <div class="hero__content">
+    <div class="hero__branding">
+      <img data-dark-src="/2026/assets/images/uist_26_header_logo_sun.svg" data-light-src="/2026/assets/images/uist_26_header_logo_sun_light_bg.svg" alt="UIST 2026 Logo" class="hero__logo" style="opacity: 0; transition: opacity 0.6s ease;" />
+      <h1 class="hero__title">UIST 2026</h1>
+    </div>
+    <!-- <p class="hero__subtitle">
+      The 39th ACM Symposium on User Interface Software and Technology
+    </p> -->
+    <div class="hero__event-details">
+      November&nbsp;2–5, 2026
+      <span class="separator">·</span>
+      Detroit,&nbsp;MI&nbsp;USA
+      <span class="separator">·</span>
+      <a href="https://gmrencen.com/" target="_blank">Renaissance&nbsp;Center</a>
+    </div>
+    <div class="hero__controls">
+      <div id="animation-controls" class="btn-group btn-group-sm d-none">
+        <button id="skip-animation-btn" type="button" class="btn btn-dark">
+          <i class="fa-solid fa-forward me-2"></i> Skip once
+        </button>
+        <button id="stop-animation-btn" type="button" class="btn btn-dark">
+          <i class="fa-solid fa-eye-slash me-2"></i> Always skip
+        </button>
+      </div>
+      <button id="replay-btn" type="button" class="btn btn-dark btn-sm" style="display: none; opacity: 0.75;">
+        <i class="fa-solid fa-rotate-right me-2"></i> Replay video
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const video = document.getElementById('intro-video');
+    const image = document.getElementById('intro-image');
+    const replayBtn = document.getElementById('replay-btn');
+    const controls = document.getElementById('animation-controls');
+    const stopBtn = document.getElementById('stop-animation-btn');
+    const skipBtn = document.getElementById('skip-animation-btn');
+    const container = document.getElementById('intro-container');
+    const heroLogo = document.querySelector('.hero__logo');
+
+    let finalizeHeaderTimeout;
+    function showStaticHeader(fade) {
+      replayBtn.style.display = 'block';
+      controls.classList.add('d-none');
+      heroLogo.style.opacity = '1';
+      if (fade === true) {
+        video.classList.add('fade-out');
+        container.classList.remove('video-playing');
+        finalizeHeaderTimeout = setTimeout(finalizeHeader, 2000);
+      } else {
+        finalizeHeader();
+      }
+      function finalizeHeader() {
+        video.style.display = 'none';
+        video.classList.remove('fade-out');
+        container.classList.remove('video-playing');
+      }
+    }
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const storedPref = localStorage.getItem('uist2026-prefers-reduced-motion') === 'true';
+
+    if (prefersReducedMotion || storedPref) {
+      replayBtn.style.display = 'block';
+      heroLogo.style.opacity = '1';
+    } else {
+      video.style.display = 'block';
+      controls.classList.remove('d-none');
+      container.classList.add('video-playing');
+
+      video.play().catch(e => {
+        console.log("Autoplay blocked/failed", e);
+        showStaticHeader(false);
+      });
+
+      video.addEventListener('ended', () => showStaticHeader(true));
+    }
+
+    stopBtn.addEventListener('click', function() {
+      localStorage.setItem('uist2026-prefers-reduced-motion', 'true');
+      video.pause();
+      showStaticHeader(false);
+    });
+
+    skipBtn.addEventListener('click', function() {
+      video.pause();
+      showStaticHeader(false);
+    });
+
+    replayBtn.addEventListener('click', function() {
+      clearTimeout(finalizeHeaderTimeout);
+      video.classList.remove('fade-out');
+      heroLogo.style.opacity = '0';
+      localStorage.removeItem('uist2026-prefers-reduced-motion');
+      video.currentTime = 0;
+      container.classList.add('video-playing');
+      replayBtn.style.display = 'none';
+      controls.classList.remove('d-none');
+      video.style.display = 'block';
+      video.play();
+    });
+
+    /* ── Navbar: transparent → solid as user scrolls past hero ── */
+    var navbar = document.getElementById('myTopnav');
+    var hero = document.getElementById('hero');
+    if (navbar && navbar.classList.contains('navbar--home') && hero) {
+      function updateNavbar() {
+        var heroH = hero.offsetHeight;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var start = heroH * 0.15;
+        var end   = heroH * 0.65;
+        var progress = (scrollY - start) / (end - start);
+        progress = Math.max(0, Math.min(1, progress));
+        navbar.style.setProperty('--navbar-opacity', progress);
+      }
+      window.addEventListener('scroll', updateNavbar, { passive: true });
+      window.addEventListener('resize', updateNavbar, { passive: true });
+      updateNavbar();
+    }
+  });
+</script>
+
+<!-- ══════════════════════════════════════════
+     Announcements (data-driven, 3 most recent)
+     ══════════════════════════════════════════ -->
+
+<section class="announcements" id="announcements">
+    <div class="announcements__box">
+        <h3 class="announcements__heading">
+            <i class="fa-solid fa-bullhorn" aria-hidden="true"></i> Announcements
+        </h3>
+        <ul class="announcements__list">
+            
+            <li class="announcements__item">
+                <details class="announcements__details">
+                    <summary class="announcements__summary">
+                        <div class="announcements__summary-text">
+                            <span class="announcements__title">Student Innovation Contest: Call for Proposals</span>
+                            
+                            <span class="announcements__preview">The UIST 2026 Student Innovation Contest is now open for proposals! In partnership with EmotiBit, selected student teams will receive hardware kits to push the boundaries of prototyping with biosignals. Proposals are due June 15, 2026.
+</span>
+                            
+                        </div>
+                        <span class="announcements__date">May 2026</span>
+                    </summary>
+                    <div class="announcements__expand">
+                        
+                        <p class="announcements__blurb">The UIST 2026 Student Innovation Contest is now open for proposals! In partnership with <a href="https://www.emotibit.com" target="_blank">EmotiBit</a>, selected student teams will receive hardware kits to push the boundaries of prototyping with biosignals. Proposals are due <strong>June 15, 2026</strong>.
+</p>
+                        
+                        
+                        <div class="announcements__body"><p>
+  The UIST Student Innovation Contest (SIC) invites student teams to create
+  compelling interactive systems using novel hardware and software kits.
+  This year, UIST SIC is partnering with
+  <a href="https://www.emotibit.com" target="_blank">EmotiBit</a> to provide
+  selected teams with biosignal sensing kits. Whether in health and wellness,
+  retail, sports, art and music, entertainment, education, or entirely new
+  domains&mdash;the possibilities are wide open!
+</p>
+<p>
+  Up to 10 teams will be selected and will showcase their final demos in
+  person at UIST 2026 in Detroit, competing for Jury Awards and the People's
+  Choice Award. All teams get to keep the hardware kits.
+</p>
+<p><strong>Key dates:</strong></p>
+<ul>
+  <li>Proposal deadline: <strong>June 15, 2026</strong></li>
+  <li>Acceptance notification: June 22, 2026</li>
+  <li>Final demo: In-person at UIST 2026, November 2&ndash;5, 2026</li>
+</ul>
+<p>
+  See the <a href="/2026/cfp#sic">full Call for Participation</a>
+  for eligibility, submission format, and more details. Join the UIST SIC
+  and turn your ideas into reality!
+</p>
+</div>
+                        
+                    </div>
+                </details>
+            </li>
+            
+        </ul>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     Key Info (visible without scrolling)
+     ══════════════════════════════════════════ -->
+<div class="key-info">
+  <div class="row g-5 align-items-start">
+    <div class="col-lg-7">
+      <div class="about-block" style="text-align:left;">
+        <p>
+          The <strong>ACM Symposium on User Interface Software and Technology (UIST)</strong> is the premier forum for innovations in human-computer interfaces. Sponsored by ACM SIGCHI and SIGGRAPH, UIST brings together people from diverse areas including graphical &amp; web user interfaces, tangible &amp; ubiquitous computing, virtual &amp; augmented reality, multimedia, new input &amp; output devices, human-centered AI, and CSCW.
+        </p>
+        <p>
+          The intimate size and intensive program make UIST an ideal opportunity to exchange research results and ideas.
+        </p>
+      </div>
+    </div>
+    <div class="col-lg-5">
+      <div class="dates-sidebar">
+        <h2 class="dates-sidebar__title">Important Dates</h2>
+        <div class="dates-scroll-fade" id="dates-scroll-fade">
+          <ul class="dates-scroll-wrapper list-unstyled" id="dates-scroll-wrapper">
+            <li class="dates-category"><h3><a href="/2026/cfp#sic">Student Innovation Contest</a></h3></li>
+            <li class="date-item">
+              <span class="date-label">Proposal deadline</span>
+              <span class="date-value">Jun 15, 2026</span>
+            </li>
+            <li class="date-item">
+              <span class="date-label">Acceptance notification</span>
+              <span class="date-value">Jun 22, 2026</span>
+            </li>
+            <li class="dates-category"><h3><a href="/2026/cfp#demos">Demos</a>, <a href="/2026/cfp#doctoral-symposium">Doctoral Symposium</a>, <a href="/2026/cfp#posters">Posters</a>, <a href="/2026/cfp#visions">Visions</a>, &amp; <a href="/2026/cfp#workshops">Workshops</a> </h3></li>
+            <li class="date-item">
+              <span class="date-label">Submission deadline</span>
+              <span class="date-value">Jul 10, 2026</span>
+            </li>
+            <li class="date-item">
+              <span class="date-label">Acceptance notification</span>
+              <span class="date-value">Aug 14, 2026</span>
+            </li>
+            <li class="dates-category"><h3><a href="/2026/cfp#papers">Papers</a></h3></li>
+            <li class="date-item date-passed">
+              <span class="date-label">Abstract</span>
+              <span class="date-value">Mar 24, 2026</span>
+            </li>
+            <li class="date-item date-passed">
+              <span class="date-label">Paper PDF <span class="text-secondary" style="font-size:0.75rem">(max 10pp + refs)</span></span>
+              <span class="date-value">Mar 31, 2026</span>
+            </li>
+            <li class="date-item date-passed">
+              <span class="date-label">Paper materials</span>
+              <span class="date-value">Apr 9, 2026</span>
+            </li>
+            <li class="date-item">
+              <span class="date-label">Conditional acceptance</span>
+              <span class="date-value">Jun 27, 2026</span>
+            </li>
+          </ul>
+        </div>
+        <p style="margin-top:1.25rem;"><a href="/2026/cfp" class="btn btn-outline-gold btn-sm">Full Call for Participation &rarr;</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var wrapper = document.getElementById('dates-scroll-wrapper');
+    var fade = document.getElementById('dates-scroll-fade');
+    if (!wrapper || !fade) return;
+    function updateFade() {
+      var st = wrapper.scrollTop;
+      var sh = wrapper.scrollHeight - wrapper.clientHeight;
+      if (st > 8) fade.classList.add('scrolled-top');
+      else fade.classList.remove('scrolled-top');
+      if (sh - st < 8) fade.classList.add('scrolled-bottom');
+      else fade.classList.remove('scrolled-bottom');
+    }
+    wrapper.addEventListener('scroll', updateFade);
+    updateFade();
+  });
+</script>
+
+<!-- ══════════════════════════════════════════
+     Sponsors
+     ══════════════════════════════════════════ -->
+<div>
+    <section class="sponsor-showcase">
+      <div class="sponsor-showcase__header">
+        <h2>Our Sponsors</h2>
+        <div class="sponsor-showcase__rule"></div>
+      </div>
+
+      <div class="sponsor-tier" data-tier="platinum">
+        <h3 class="sponsor-tier__label"><i class="fa-solid fa-crown"></i> Platinum</h3>
+        <div class="sponsor-tier__logos">
+          <a href="https://deepmind.google/" target="_blank" rel="noopener" class="sponsor-logo sponsor-logo--platinum" aria-label="Google DeepMind">
+            <picture>
+              <source srcset="/2026/assets/sponsors/Google-DeepMind-logo.webp" type="image/webp" />
+              <img src="/2026/assets/sponsors/Google_DeepMind_logo.png" alt="Google DeepMind" />
+            </picture>
+          </a>
+        </div>
+      </div>
+
+      <div class="sponsor-tier" data-tier="gold">
+        <h3 class="sponsor-tier__label"><i class="fa-solid fa-gem"></i> Gold</h3>
+        <div class="sponsor-tier__logos">
+          <a href="https://www.adobe.com/" target="_blank" rel="noopener" class="sponsor-logo sponsor-logo--gold">
+            <img src="/2026/assets/sponsors/adobe.png" alt="Adobe" />
+          </a>
+          <a href="https://www.autodesk.com/" target="_blank" rel="noopener" class="sponsor-logo sponsor-logo--gold">
+            <img src="/2026/assets/sponsors/autodesk.svg" alt="Autodesk" />
+          </a>
+        </div>
+      </div>
+
+      <div class="sponsor-tier" data-tier="silver">
+        <h3 class="sponsor-tier__label"><i class="fa-solid fa-medal"></i> Silver</h3>
+        <div class="sponsor-tier__logos">
+          <a href="https://www.salesforce.com/" target="_blank" rel="noopener" class="sponsor-logo sponsor-logo--silver" aria-label="Salesforce">
+            <img src="/2026/assets/sponsors/Tableau-From-Salesforce-Logo-COLOR.png" data-light-src="/2026/assets/sponsors/Tableau-From-Salesforce-Logo-COLOR.png" alt="Salesforce" />
+          </a>
+        </div>
+      </div>
+
+      <div class="sponsor-tier" data-tier="sic">
+        <h3 class="sponsor-tier__label"><i class="fa-solid fa-lightbulb"></i> Student Innovation Contest Sponsor</h3>
+        <div class="sponsor-tier__logos">
+          <a href="https://www.emotibit.com/" target="_blank" rel="noopener" class="sponsor-logo sponsor-logo--sic" aria-label="EmotiBit">
+            <img src="/2026/assets/sponsors/emotibit.png" data-light-src="/2026/assets/sponsors/emotibit.png" data-dark-src="/2026/assets/sponsors/emotibit.png" alt="EmotiBit" />
+          </a>
+        </div>
+      </div>
+
+      <div class="sponsor-tier" data-tier="ds">
+        <h3 class="sponsor-tier__label"><i class="fa-solid fa-graduation-cap"></i> Doctoral Symposium Sponsor</h3>
+        <div class="sponsor-tier__logos">
+          <a href="https://deepmind.google/" target="_blank" rel="noopener" class="sponsor-logo sponsor-logo--ds" aria-label="Google DeepMind">
+            <picture>
+              <source srcset="/2026/assets/sponsors/Google-DeepMind-logo.webp" type="image/webp" />
+              <img src="/2026/assets/sponsors/Google_DeepMind_logo.png" alt="Google DeepMind" />
+            </picture>
+          </a>
+        </div>
+      </div>
+
+
+      <p class="sponsor-showcase__cta">
+        <span class="highlight">Interested in sponsoring UIST 2026?</span>
+        Check our <a href="/2026/sponsors/">Sponsor page<i class="fa fa-external-link" aria-hidden="true" style="padding-left: 5px;"></i></a> or contact
+        <a href="mailto:sponsorship2026@uist.org">sponsorship2026@uist.org<i class="fa fa-external-link" aria-hidden="true" style="padding-left:5px;"></i></a>.
+      </p>
+    </section>
+</div>
+
+
+  <footer class="site-footer my-5"><span class="text-end">&copy; 2026 ACM SIGCHI.</span> Logo/iconography designed by <a
+        href="https://www.shuhong-hci.com">Shuhong Wang</a>. Detroit photography from <a
+        href="https://visitdetroit.com/">Visit Detroit</a>.
+    Please contact <a href="mailto:web2026@uist.org"> web chairs</a> if you have any questions or suggestions about the
+    website.</footer>
+</footer>
+</main>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous">
+  </script>
+</body>
+
+</html>
