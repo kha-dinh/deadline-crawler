@@ -1,10 +1,8 @@
 """Tests for CSS selector extraction strategy (T3)."""
 
 import pytest
-from unittest.mock import patch
 
 from crawler.extractors.css import _extract_deadlines_css
-from crawler.models import CrawlResult
 
 
 # --- _extract_deadlines_css ---
@@ -182,40 +180,7 @@ def test_monthday_fallback_uses_year():
     assert by_label.get("submission") == "2026-03-08 23:59"
 
 
-# --- crawl_conference integration via compat ---
-
-CONF = {
-    "name": "TestConf",
-    "url": "https://example.com/cfp",
-    "strategy": "css",
-    "area": "SEC", "rank": "A",
-    "selectors": {
-        "section_css": "ul.cfp-dates",
-        "items": "li",
-    },
-}
-
-
-def test_crawl_conference_returns_crawl_result():
-    from crawler.compat import crawl_conference
-    with patch("crawler.compat._fetch", return_value=LIST_HTML):
-        results = crawl_conference(CONF, 2026)
-    assert len(results) == 1
-    r = results[0]
-    assert isinstance(r, CrawlResult)
-    assert r.name == "TestConf"
-    assert r.year == 2026
-    assert r.link == "https://example.com/cfp"
-    assert len(r.deadlines) >= 2
-
-
-def test_crawl_conference_no_url_raises():
-    from crawler.compat import crawl_conference
-    conf = {**CONF, "url": ""}
-    with patch("crawler.compat._fetch", return_value=LIST_HTML):
-        with pytest.raises(ValueError, match="no URL configured"):
-            crawl_conference(conf, 2026)
-
+# --- CSS extraction with cycles ---
 
 CYCLE_HTML = """
 <html><body>
@@ -234,37 +199,18 @@ CYCLE_HTML = """
 </body></html>
 """
 
-CYCLE_CONF = {
-    "name": "CycleConf",
-    "url": "https://example.com/cfp",
-    "strategy": "css",
-    "area": "SEC", "rank": "A",
-    "cycles": [
-        {
-            "name": "Cycle 1",
-            "selectors": {
-                "section_css": "div#cycle1 ul.dates",
-                "items": "li",
-            },
-        },
-        {
-            "name": "Cycle 2",
-            "selectors": {
-                "section_css": "div#cycle2 ul.dates",
-                "items": "li",
-            },
-        },
-    ],
-}
 
+def test_css_cycles():
+    c1_sel = {"section_css": "div#cycle1 ul.dates", "items": "li"}
+    c2_sel = {"section_css": "div#cycle2 ul.dates", "items": "li"}
 
-def test_crawl_conference_cycles():
-    from crawler.compat import crawl_conference
-    with patch("crawler.compat._fetch", return_value=CYCLE_HTML):
-        results = crawl_conference(CYCLE_CONF, 2026)
-    assert len(results) == 2
-    assert results[0].cycle == "Cycle 1"
-    assert results[1].cycle == "Cycle 2"
-    cycle1_labels = {d["label"] for d in results[0].deadlines}
-    assert "submission" in cycle1_labels
-    assert "notification" in cycle1_labels
+    c1_dl = _extract_deadlines_css(c1_sel, CYCLE_HTML, year=2026)
+    c2_dl = _extract_deadlines_css(c2_sel, CYCLE_HTML, year=2026)
+
+    c1_labels = {d["label"] for d in c1_dl}
+    assert "submission" in c1_labels
+    assert "notification" in c1_labels
+
+    c2_labels = {d["label"] for d in c2_dl}
+    assert "submission" in c2_labels
+    assert "notification" in c2_labels

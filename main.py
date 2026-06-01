@@ -355,7 +355,7 @@ def _fetch_url(url: str) -> str:
             "Chrome/120.0.0.0 Safari/537.36"
         )
     }
-    resp = requests.get(url, headers=headers, timeout=30)
+    resp = requests.get(url, headers=headers, timeout=10)
     resp.encoding = resp.apparent_encoding
     return resp.text
 

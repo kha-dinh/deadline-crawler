@@ -1,10 +1,9 @@
 """Tests for XPath expression extraction strategy (T28)."""
 
 import pytest
-from unittest.mock import patch
 
 from crawler.extractors.xpath import _extract_deadlines_xpath
-from crawler.models import CrawlResult
+from crawler.extractors.regex import _is_scaffolding
 
 
 # --- _extract_deadlines_xpath ---
@@ -187,47 +186,24 @@ def test_duplicate_label_dedupe():
     assert submission_dates[0] == "2026-01-10 23:59"
 
 
-# --- crawl_conference integration via compat ---
+# --- XPath extraction integration ---
 
-@patch("crawler.compat._fetch")
-def test_crawl_conference_basic(mock_fetch):
-    from crawler.compat import crawl_conference
-    mock_fetch.return_value = TABLE_HTML
-    conf = {
-        "name": "TestConf",
-        "url": "https://example.com/cfp",
-        "strategy": "xpath",
-        "area": "SEC",
-        "selectors": {
-            "section_xpath": "//div[@class='important-dates']",
-            "items": ".//tr",
-            "label": "td[1]",
-            "date": "td[last()]",
-        },
+def test_xpath_basic():
+    selectors = {
+        "section_xpath": "//div[@class='important-dates']",
+        "items": ".//tr",
+        "label": "td[1]",
+        "date": "td[last()]",
     }
-    results = crawl_conference(conf, 2026)
-    assert len(results) == 1
-    r = results[0]
-    assert r.name == "TestConf"
-    assert r.year == 2026
-    labels = [d["label"] for d in r.deadlines]
+    results = _extract_deadlines_xpath(selectors, TABLE_HTML, year=2026)
+    labels = [d["label"] for d in results]
     assert "abstract" in labels
     assert "submission" in labels
 
 
-@patch("crawler.compat._fetch")
-def test_crawl_scaffolding_raises(mock_fetch):
-    from crawler.compat import crawl_conference
-    mock_fetch.return_value = "<html><body>Coming soon! Check back later.</body></html>"
-    conf = {
-        "name": "FutureConf",
-        "url": "https://example.com/cfp",
-        "strategy": "xpath",
-        "area": "SYS",
-        "selectors": {"items": ".//tr"},
-    }
-    with pytest.raises(ValueError, match="scaffolding"):
-        crawl_conference(conf, 2026)
+def test_scaffolding_detected():
+    html = "<html><body>Coming soon! Check back later.</body></html>"
+    assert _is_scaffolding(html) is True
 
 
 # --- XPath-specific advanced expressions ---

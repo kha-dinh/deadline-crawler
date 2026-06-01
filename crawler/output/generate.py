@@ -1,18 +1,12 @@
-"""Generate deadline output from crawl results or data.yaml.
-
-Supports JSON and YAML output formats.
-"""
+"""Output generation — validation, transformation, and file writing."""
 
 import json
 import re
-from datetime import datetime, timezone
+from datetime import datetime
 from pathlib import Path
 from urllib.parse import urlparse
 
 import yaml
-from rich.console import Console
-
-_stderr = Console(stderr=True)
 
 
 def write_yaml(data: dict, output_path: str | Path) -> None:
@@ -36,7 +30,6 @@ WRITERS = {
     "json": write_json,
     "yaml": write_yaml,
 }
-FORMATS = set(WRITERS)
 
 
 def _slugify(name: str) -> str:
@@ -44,7 +37,6 @@ def _slugify(name: str) -> str:
     slug = name.lower().strip()
     slug = re.sub(r"[^a-z0-9]+", "-", slug)
     return slug.strip("-")
-
 
 
 VALID_LABELS = {
@@ -183,146 +175,5 @@ def transform_entry(entry: dict, now: datetime) -> dict:
         "timezone": entry.get("timezone", "AoE"),
         "deadlines": out_deadlines,
         **({"comment": entry["comment"]} if entry.get("comment") else {}),
+        **({"url_hotcrp": entry["url_hotcrp"]} if entry.get("url_hotcrp") else {}),
     }
-
-
-def _result_to_entry(r) -> dict:
-    """Convert a CrawlResult to a data.yaml-shaped dict."""
-    entry = {
-        "name": r.name,
-        "cycle": r.cycle,
-        "year": r.year,
-        "link": r.link,
-        "deadline": r.deadlines,
-        "area": r.area,
-        "rank": r.rank,
-    }
-    if r.description:
-        entry["description"] = r.description
-    if r.date:
-        entry["date"] = r.date
-    if r.place:
-        entry["place"] = r.place
-    if r.notification:
-        entry["notification"] = r.notification
-    if r.timezone:
-        entry["timezone"] = r.timezone
-    if r.comment:
-        entry["comment"] = r.comment
-    return entry
-
-
-def generate_from_results(
-    results: list,
-    output_path: str | Path | None = None,
-    fmt: str = "json",
-    now: datetime | None = None,
-    strict: bool = False,
-) -> dict:
-    """Generate output directly from CrawlResult list. Skip invalid entries with warning."""
-    if fmt not in FORMATS:
-        raise ValueError(f"Unsupported format '{fmt}', must be one of {FORMATS}")
-
-    if output_path is None:
-        output_path = f"output/deadlines.{fmt}"
-
-    if now is None:
-        now = datetime.now(timezone.utc)
-
-    conferences = []
-    for r in results:
-        entry = _result_to_entry(r)
-        errors = _validate_entry(entry)
-        if errors:
-            _stderr.print(f"[bold red]✗ skipping[/] {entry.get('name', '?')} {entry.get('year', '?')}: {'; '.join(errors)}")
-            continue
-        name = entry.get("name", "?")
-        year = entry.get("year", "?")
-        # V16: no abstract/submission — error in strict mode
-        v16_issues = _check_v16(entry)
-        for w in v16_issues:
-            _stderr.print(f"[bold {'red' if strict else 'yellow'}]{'✗' if strict else '⚠'}[/] {name} {year}: {w}")
-        if strict and v16_issues:
-            raise ValueError(f"V16 violation in {name} {year} (use --no-strict to downgrade to warning)")
-        # V20: < 2 deadlines — error in strict mode
-        v20_issues = _check_v20(entry)
-        for w in v20_issues:
-            _stderr.print(f"[bold {'red' if strict else 'yellow'}]{'✗' if strict else '⚠'}[/] {name} {year}: {w}")
-        if strict and v20_issues:
-            raise ValueError(f"V20 violation in {name} {year} (use --no-strict to downgrade to warning)")
-        # V21: always warn only
-        for w in _validate_entry_warnings(entry):
-            if w not in v16_issues and w not in v20_issues:
-                _stderr.print(f"[bold yellow]⚠[/] {name} {year}: {w}")
-        # V14: date order violations — warn normally, error in strict mode
-        order_issues = _check_date_order(entry)
-        for w in order_issues:
-            _stderr.print(f"[bold {'red' if strict else 'yellow'}]{'✗' if strict else '⚠'}[/] {name} {year}: {w}")
-        if strict and order_issues:
-            raise ValueError(f"Date order violation in {name} {year} (use --no-strict to downgrade to warning)")
-        conferences.append(transform_entry(entry, now))
-
-    conferences.sort(key=lambda c: c["name"].lower())
-
-    result = {
-        "generated_at": now.isoformat(),
-        "conferences": conferences,
-    }
-
-    Path(output_path).parent.mkdir(parents=True, exist_ok=True)
-    WRITERS[fmt](result, output_path)
-
-    return result
-
-
-def generate_output(
-    data_path: str | Path = "data.yaml",
-    output_path: str | Path | None = None,
-    fmt: str = "json",
-    now: datetime | None = None,
-) -> dict:
-    """Read data.yaml, validate, transform, write to file.
-
-    Args:
-        data_path: Path to data.yaml input.
-        output_path: Output file path. Defaults to output/deadlines.{fmt}.
-        fmt: Output format — "json" or "yaml".
-        now: Reference time for passed computation. Defaults to UTC now.
-    """
-    if fmt not in FORMATS:
-        raise ValueError(f"Unsupported format '{fmt}', must be one of {FORMATS}")
-
-    if output_path is None:
-        output_path = f"output/deadlines.{fmt}"
-
-    data_path = Path(data_path)
-    if not data_path.exists():
-        raise FileNotFoundError(f"data.yaml not found: {data_path}")
-
-    with open(data_path) as f:
-        entries = yaml.safe_load(f)
-
-    if not isinstance(entries, list):
-        raise ValueError("data.yaml must be a YAML list")
-
-    if now is None:
-        now = datetime.now(timezone.utc)
-
-    conferences = []
-    for entry in entries:
-        errors = _validate_entry(entry)
-        if errors:
-            name = entry.get("name", "?")
-            raise ValueError(f"Invalid entry '{name}': {'; '.join(errors)}")
-        conferences.append(transform_entry(entry, now))
-
-    conferences.sort(key=lambda c: c["name"].lower())
-
-    result = {
-        "generated_at": now.isoformat(),
-        "conferences": conferences,
-    }
-
-    WRITERS[fmt](result, output_path)
-
-    return result

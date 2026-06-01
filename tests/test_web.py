@@ -9,7 +9,7 @@ import yaml
 
 from crawler.models import CrawlResult
 from crawler.output.generate import (
-    _slugify, _validate_entry, generate_from_results, generate_output, transform_entry)
+    _slugify, _validate_entry, generate_from_results, transform_entry)
 
 NOW = datetime(2026, 5, 14, 12, 0, tzinfo=timezone.utc)
 
@@ -142,59 +142,6 @@ class TestTransformEntry:
         result = transform_entry(VALID_ENTRY, NOW)
         assert "comment" not in result
 
-
-class TestGenerateOutput:
-    def test_full_roundtrip(self, tmp_path):
-        data_file = tmp_path / "data.yaml"
-        out_file = tmp_path / "deadlines.json"
-        with open(data_file, "w") as f:
-            yaml.dump([VALID_ENTRY], f)
-
-        result = generate_output(data_file, out_file, fmt="json", now=NOW)
-
-        assert "generated_at" in result
-        assert len(result["conferences"]) == 1
-        assert result["conferences"][0]["name"] == "USENIX Security 2026"
-
-        # Verify file written
-        with open(out_file) as f:
-            from_disk = json.load(f)
-        assert from_disk == result
-
-    def test_invalid_entry_raises(self, tmp_path):
-        data_file = tmp_path / "data.yaml"
-        bad = {"name": "", "year": 2026, "link": "", "deadline": [], "area": ""}
-        with open(data_file, "w") as f:
-            yaml.dump([bad], f)
-
-        with pytest.raises(ValueError, match="Invalid entry"):
-            generate_output(data_file, tmp_path / "out.json", now=NOW)
-
-    def test_yaml_roundtrip(self, tmp_path):
-        data_file = tmp_path / "data.yaml"
-        out_file = tmp_path / "deadlines.yaml"
-        with open(data_file, "w") as f:
-            yaml.dump([VALID_ENTRY], f)
-
-        result = generate_output(data_file, out_file, fmt="yaml", now=NOW)
-
-        with open(out_file) as f:
-            from_disk = yaml.safe_load(f)
-        assert from_disk["generated_at"] == result["generated_at"]
-        assert len(from_disk["conferences"]) == 1
-        assert from_disk["conferences"][0]["name"] == "USENIX Security 2026"
-
-    def test_invalid_format_raises(self, tmp_path):
-        data_file = tmp_path / "data.yaml"
-        with open(data_file, "w") as f:
-            yaml.dump([VALID_ENTRY], f)
-
-        with pytest.raises(ValueError, match="Unsupported format"):
-            generate_output(data_file, tmp_path / "out.xml", fmt="xml", now=NOW)
-
-    def test_missing_file_raises(self, tmp_path):
-        with pytest.raises(FileNotFoundError):
-            generate_output(tmp_path / "nope.yaml", tmp_path / "out.json")
 
 
 class TestGenerateFromResults:

@@ -7,12 +7,12 @@ from urllib.parse import urljoin, urlparse
 import scrapy
 
 from crawler.config import load_conferences, resolve_conf_for_year, resolve_url
-from crawler.models import CrawlResult
 from crawler.extractors.regex import (
     _build_cycle_selectors,
     _check_date_year_sanity,
     _is_scaffolding,
     extract_deadlines_regex,
+    extract_hotcrp_urls,
     extract_main_fields,
     extract_main_fields_xpath,
 )
@@ -22,7 +22,7 @@ from deadline_crawler.items import ConferenceItem
 
 # CFP link discovery patterns — scored by relevance
 _CFP_HREF_PATTERNS = [
-    (r'\bcfp\b', 10),
+    (r'cfp(?:apers)?', 10),
     (r'call[-_]?for[-_]?papers?', 10),
     (r'call[-_]papers', 8),
     (r'important[-_]?dates?', 7),
@@ -318,12 +318,21 @@ class ConferencesSpider(scrapy.Spider):
         else:
             date, place = extract_main_fields(conf, year, cfp_url, cfp_html, main_html)
 
+        # Discover HotCRP submission URLs from CFP and main pages
+        hotcrp_urls = extract_hotcrp_urls(cfp_html)
+        if main_html:
+            seen = set(hotcrp_urls)
+            for url in extract_hotcrp_urls(main_html):
+                if url not in seen:
+                    seen.add(url)
+                    hotcrp_urls.append(url)
+
         no_specific = conf.get("_no_specific", False)
         conf_prefix = conf["name"].lower()
 
         cycles = conf.get("cycles")
         if cycles:
-            for cycle in cycles:
+            for i, cycle in enumerate(cycles):
                 selectors = _build_cycle_selectors(conf, cycle)
                 deadlines = self._extract_deadlines(strategy, selectors, cfp_html, year, no_specific, conf_prefix)
                 try:
@@ -334,7 +343,8 @@ class ConferencesSpider(scrapy.Spider):
                         label += f" ({cycle['name']})"
                     self.errors.append((label, "stale CFP (dates from wrong year)"))
                     continue
-                yield self._make_item(conf, year, cfp_url, deadlines, cycle.get("name"), date, place)
+                url_hotcrp = hotcrp_urls[i] if i < len(hotcrp_urls) else None
+                yield self._make_item(conf, year, cfp_url, deadlines, cycle.get("name"), date, place, url_hotcrp)
         else:
             selectors = conf.get("selectors", {})
             deadlines = self._extract_deadlines(strategy, selectors, cfp_html, year, no_specific, conf_prefix)
@@ -343,7 +353,8 @@ class ConferencesSpider(scrapy.Spider):
             except ValueError as e:
                 self.errors.append((f"{conf['name']} {year}", "stale CFP (dates from wrong year)"))
                 return
-            yield self._make_item(conf, year, cfp_url, deadlines, None, date, place)
+            url_hotcrp = hotcrp_urls[0] if hotcrp_urls else None
+            yield self._make_item(conf, year, cfp_url, deadlines, None, date, place, url_hotcrp)
 
     def _extract_deadlines(self, strategy, selectors, html, year, no_specific, conf_prefix):
         """Call the right extraction function based on strategy name."""
@@ -358,14 +369,15 @@ class ConferencesSpider(scrapy.Spider):
                 no_specific=no_specific, conf_prefix=conf_prefix,
             )
 
-    def _make_item(self, conf, year, url, deadlines, cycle, date, place):
+    def _make_item(self, conf, year, url, deadlines, cycle, date, place, url_hotcrp=None):
         """Build a ConferenceItem from extracted data."""
         item = ConferenceItem()
         item["name"] = conf["name"]
         item["year"] = year
         item["link"] = url
         item["deadlines"] = deadlines
-        item["tags"] = list(conf.get("tags", []))
+        item["area"] = conf.get("area", "")
+        item["rank"] = conf.get("rank", "unknown")
         if cycle:
             item["cycle"] = cycle
         if date:
@@ -374,4 +386,6 @@ class ConferencesSpider(scrapy.Spider):
             item["place"] = place
         if conf.get("description"):
             item["description"] = conf["description"]
+        if url_hotcrp:
+            item["url_hotcrp"] = url_hotcrp
         return item

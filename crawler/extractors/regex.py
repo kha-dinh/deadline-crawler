@@ -13,7 +13,6 @@ warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
 
 from crawler.config import resolve_url
 from crawler.labels import _match_label
-from crawler.models import CrawlResult
 
 
 # T25: implicit event_selectors defaults keyed by url_main domain pattern
@@ -487,6 +486,26 @@ def _check_date_year_sanity(deadlines: list[dict], year: int, name: str, url: st
             f"{name}: stale CFP detected — extracted dates are from {max(date_years)}"
             f" but target year is {year} (url: {url})"
         )
+
+
+_HOTCRP_RE = re.compile(r'https?://[a-z0-9-]+\.hotcrp\.com/?', re.IGNORECASE)
+# HotCRP subdomains that aren't paper submission sites
+_HOTCRP_EXCLUDE_RE = re.compile(r'(?:repro|posters?|artifacts?|(?<=[.-])ae)\.hotcrp', re.IGNORECASE)
+
+
+def extract_hotcrp_urls(html: str) -> list[str]:
+    """Find all unique HotCRP submission site URLs in HTML, preserving order.
+
+    Excludes non-submission sites (reproducibility, posters, artifacts).
+    """
+    seen: set[str] = set()
+    urls: list[str] = []
+    for m in _HOTCRP_RE.finditer(html):
+        url = m.group(0).rstrip("/")
+        if url not in seen and not _HOTCRP_EXCLUDE_RE.search(url):
+            seen.add(url)
+            urls.append(url)
+    return urls
 
 
 def _is_scaffolding(html: str) -> bool:

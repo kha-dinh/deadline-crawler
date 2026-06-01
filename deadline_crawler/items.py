@@ -14,6 +14,8 @@ class ConferenceItem(scrapy.Item):
     date = scrapy.Field()
     place = scrapy.Field()
     description = scrapy.Field()
-    tags = scrapy.Field()  # [area_code, core_rank]
+    area = scrapy.Field()  # area code string (e.g. SEC, SYS)
+    rank = scrapy.Field()  # CORE rank (A*, A, B, C, unknown)
     timezone = scrapy.Field()
     comment = scrapy.Field()
+    url_hotcrp = scrapy.Field()

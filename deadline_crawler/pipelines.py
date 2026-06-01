@@ -1,15 +1,14 @@
 """Scrapy pipelines for validation and output generation."""
 
-import json
 from datetime import datetime, timezone
 from pathlib import Path
 
-import yaml
 from rich.console import Console
 from scrapy.exceptions import DropItem
 
 from crawler.output.generate import (
     LABEL_ORDER,
+    WRITERS,
     _check_date_order,
     _check_v16,
     _check_v20,
@@ -29,7 +28,8 @@ def _item_to_entry(item) -> dict:
         "year": item["year"],
         "link": item["link"],
         "deadline": item.get("deadlines", []),
-        "tags": item.get("tags", []),
+        "area": item.get("area", ""),
+        "rank": item.get("rank", "unknown"),
     }
     if item.get("cycle"):
         entry["cycle"] = item["cycle"]
@@ -43,6 +43,8 @@ def _item_to_entry(item) -> dict:
         entry["timezone"] = item["timezone"]
     if item.get("comment"):
         entry["comment"] = item["comment"]
+    if item.get("url_hotcrp"):
+        entry["url_hotcrp"] = item["url_hotcrp"]
     return entry
 
 
@@ -185,6 +187,8 @@ class OutputPipeline:
             entry = _item_to_entry(item)
             conferences.append(transform_entry(entry, now))
 
+        conferences.sort(key=lambda c: c["name"].lower())
+
         result = {
             "generated_at": now.isoformat(),
             "conferences": conferences,
@@ -192,14 +196,7 @@ class OutputPipeline:
 
         output_path = self.output_path or f"output/deadlines.{self.fmt}"
         Path(output_path).parent.mkdir(parents=True, exist_ok=True)
-
-        if self.fmt == "yaml":
-            with open(output_path, "w") as f:
-                yaml.dump(result, f, default_flow_style=False, allow_unicode=True, sort_keys=False)
-        else:
-            with open(output_path, "w") as f:
-                json.dump(result, f, indent=2, ensure_ascii=False)
-                f.write("\n")
+        WRITERS[self.fmt](result, output_path)
 
         _stderr.print(f"Exported {len(conferences)} conference(s) → {output_path}")
 

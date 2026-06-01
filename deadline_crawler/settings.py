@@ -15,7 +15,7 @@ CONCURRENT_REQUESTS_PER_DOMAIN = 4
 
 # No delay by default (pages are lightweight); AutoThrottle handles spikes
 DOWNLOAD_DELAY = 0
-DOWNLOAD_TIMEOUT = 30
+DOWNLOAD_TIMEOUT = 10
 
 # Retry
 RETRY_ENABLED = True

@@ -1,7 +1,6 @@
-"""Integration tests using saved HTML fixtures instead of live HTTP.
+"""Integration tests using saved HTML fixtures.
 
-Patches crawler.compat._fetch to load from tests/fixtures/{slug}_{year}.html
-(and _main.html).
+Calls extractors directly with fixture HTML — same path as the Scrapy spider.
 """
 
 from __future__ import annotations
@@ -12,7 +11,14 @@ from pathlib import Path
 import pytest
 
 from crawler.config import load_conferences, resolve_conf_for_year, resolve_url
-from crawler.compat import crawl_conference
+from crawler.extractors.regex import (
+    _build_cycle_selectors,
+    _check_date_year_sanity,
+    _is_scaffolding,
+    extract_deadlines_regex,
+)
+from crawler.extractors.css import _extract_deadlines_css
+from crawler.extractors.xpath import _extract_deadlines_xpath
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -46,57 +52,53 @@ def _slug(name: str) -> str:
     return s.strip("-")
 
 
-def _build_url_map(conf: dict, year: int) -> dict[str, Path]:
-    """Map resolved URLs → fixture Path objects for this conf+year."""
+def _load_fixture(conf: dict, year: int) -> str:
+    """Load CFP fixture HTML for a conf+year."""
     slug = _slug(conf["name"])
-    url_map: dict[str, Path] = {}
-
-    resolved = resolve_conf_for_year(conf, year)
-    if resolved is None:
-        return url_map
-
-    cfp_url = resolve_url(resolved, year)
-    if cfp_url:
-        p = FIXTURES_DIR / f"{slug}_{year}.html"
-        if p.exists():
-            url_map[cfp_url] = p
-
-    url_main_tmpl = resolved.get("url_main")
-    if url_main_tmpl:
-        main_url = resolve_url({"url": url_main_tmpl}, year)
-        if main_url and main_url != cfp_url:
-            p = FIXTURES_DIR / f"{slug}_{year}_main.html"
-            if p.exists():
-                url_map[main_url] = p
-
-    return url_map
+    p = FIXTURES_DIR / f"{slug}_{year}.html"
+    return p.read_text(encoding="utf-8")
 
 
-def _make_fetch(url_map: dict[str, Path]):
-    """Return a _fetch function that reads from fixture files."""
-    def _fixture_fetch(url: str) -> str:
-        if url in url_map:
-            return url_map[url].read_text(encoding="utf-8")
-        raise FileNotFoundError(
-            f"No fixture for URL: {url}\n"
-            f"Known URLs: {list(url_map.keys())}"
+def _extract_deadlines(strategy: str, selectors: dict, html: str, year: int,
+                       no_specific: bool = False, conf_prefix: str = "") -> list[dict]:
+    """Dispatch to correct extractor based on strategy name."""
+    if strategy == "css":
+        return _extract_deadlines_css(selectors, html, year)
+    elif strategy == "xpath":
+        return _extract_deadlines_xpath(selectors, html, year)
+    else:
+        return extract_deadlines_regex(
+            selectors, html, year,
+            no_specific=no_specific, conf_prefix=conf_prefix,
         )
-    return _fixture_fetch
 
 
-def _install_fixture_fetch(monkeypatch, conf_name: str, year: int) -> None:
-    """Install fixture-backed _fetch into compat module."""
+def _crawl_fixture(conf_name: str, year: int) -> list[list[dict]]:
+    """Extract deadlines from fixtures, returning list of deadline lists (one per cycle)."""
     conf = _CONFS[conf_name]
-    url_map = _build_url_map(conf, year)
-    fn = _make_fetch(url_map)
-    monkeypatch.setattr("crawler.compat._fetch", fn)
+    resolved = resolve_conf_for_year(conf, year)
+    assert resolved is not None, f"{conf_name} {year}: no config"
 
+    html = _load_fixture(conf, year)
+    assert not _is_scaffolding(html), f"{conf_name} {year}: fixture is scaffolding"
 
-def _get_all_deadlines(conf_name: str, year: int) -> list[dict]:
-    """Return flat list of all deadline dicts across all results."""
-    conf = _CONFS[conf_name]
-    results = crawl_conference(conf, year)
-    return [dl for r in results for dl in r.deadlines]
+    strategy = resolved["strategy"]
+    conf_prefix = resolved["name"].lower()
+
+    cycles = resolved.get("cycles")
+    if cycles:
+        results = []
+        for cycle in cycles:
+            selectors = _build_cycle_selectors(resolved, cycle)
+            deadlines = _extract_deadlines(strategy, selectors, html, year,
+                                           conf_prefix=conf_prefix)
+            results.append(deadlines)
+        return results
+    else:
+        selectors = resolved.get("selectors", {})
+        deadlines = _extract_deadlines(strategy, selectors, html, year,
+                                       conf_prefix=conf_prefix)
+        return [deadlines]
 
 
 # ---------------------------------------------------------------------------
@@ -355,43 +357,37 @@ SUBMISSION_DATE_PARAMS = [
 # ---------------------------------------------------------------------------
 
 @pytest.mark.parametrize("conf_name,year", ALL_PAIRS_PARAMS)
-def test_deadline_format_valid(conf_name: str, year: int, monkeypatch):
+def test_deadline_format_valid(conf_name: str, year: int):
     """All extracted deadlines must have valid format and canonical labels."""
-    _install_fixture_fetch(monkeypatch, conf_name, year)
+    cycle_deadlines = _crawl_fixture(conf_name, year)
 
-    conf = _CONFS[conf_name]
-    results = crawl_conference(conf, year)
-
-    assert results, f"{conf_name} {year}: expected non-empty results"
+    assert cycle_deadlines, f"{conf_name} {year}: expected non-empty results"
 
     date_re = re.compile(r"^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$")
-    for result in results:
-        for dl in result.deadlines:
+    for i, deadlines in enumerate(cycle_deadlines):
+        for dl in deadlines:
             label = dl["label"]
             date = dl["date"]
             assert label in CANONICAL_LABELS, (
-                f"{conf_name} {year} (cycle={result.cycle!r}): "
+                f"{conf_name} {year} (cycle {i}): "
                 f"non-canonical label {label!r}"
             )
             assert date_re.match(date), (
-                f"{conf_name} {year} (cycle={result.cycle!r}): "
+                f"{conf_name} {year} (cycle {i}): "
                 f"label={label!r} date {date!r} does not match YYYY-MM-DD HH:MM"
             )
 
 
 @pytest.mark.parametrize("conf_name,year,required_labels", REQUIRED_LABELS_PARAMS)
 def test_required_labels_present(
-    conf_name: str, year: int, required_labels: frozenset[str], monkeypatch
+    conf_name: str, year: int, required_labels: frozenset[str]
 ):
     """Required labels must appear across all cycles for this conf+year."""
-    _install_fixture_fetch(monkeypatch, conf_name, year)
+    cycle_deadlines = _crawl_fixture(conf_name, year)
 
-    conf = _CONFS[conf_name]
-    results = crawl_conference(conf, year)
+    assert cycle_deadlines, f"{conf_name} {year}: expected non-empty results"
 
-    assert results, f"{conf_name} {year}: expected non-empty results"
-
-    found_labels = {dl["label"] for r in results for dl in r.deadlines}
+    found_labels = {dl["label"] for deadlines in cycle_deadlines for dl in deadlines}
     missing = required_labels - found_labels
     assert not missing, (
         f"{conf_name} {year}: missing required labels {missing!r}; "
@@ -401,20 +397,17 @@ def test_required_labels_present(
 
 @pytest.mark.parametrize("conf_name,year,expected_sub", SUBMISSION_DATE_PARAMS)
 def test_submission_date(
-    conf_name: str, year: int, expected_sub: str, monkeypatch
+    conf_name: str, year: int, expected_sub: str
 ):
-    """The expected submission date must appear in at least one result's deadlines."""
-    _install_fixture_fetch(monkeypatch, conf_name, year)
+    """The expected submission date must appear in at least one cycle's deadlines."""
+    cycle_deadlines = _crawl_fixture(conf_name, year)
 
-    conf = _CONFS[conf_name]
-    results = crawl_conference(conf, year)
-
-    assert results, f"{conf_name} {year}: expected non-empty results"
+    assert cycle_deadlines, f"{conf_name} {year}: expected non-empty results"
 
     all_dates = {
         dl["date"]
-        for r in results
-        for dl in r.deadlines
+        for deadlines in cycle_deadlines
+        for dl in deadlines
         if dl["label"] == "submission"
     }
     assert expected_sub in all_dates, (
